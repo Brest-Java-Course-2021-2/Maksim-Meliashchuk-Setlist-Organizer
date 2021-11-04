@@ -1,5 +1,7 @@
 package com.epam.brest.model;
 
+import java.time.LocalDate;
+
 public class Track {
 
     private Integer trackId;
@@ -15,6 +17,8 @@ public class Track {
     private String trackDetails;
 
     private String trackLink;
+
+    private LocalDate releaseDate;
 
     public Integer getTrackId() {
         return trackId;
@@ -70,5 +74,13 @@ public class Track {
 
     public void setTrackLink(String trackLink) {
         this.trackLink = trackLink;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }
