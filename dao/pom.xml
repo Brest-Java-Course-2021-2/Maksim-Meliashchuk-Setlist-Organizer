@@ -7,7 +7,7 @@
     <dependencies>
         <dependency>
             <groupId>com.epam.brest</groupId>
-            <artifactId>dao-api</artifactId>
+            <artifactId>dao</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
