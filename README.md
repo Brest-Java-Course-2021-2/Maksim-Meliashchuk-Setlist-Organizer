@@ -14,6 +14,7 @@
 - **Build System:** [Maven](https://maven.apache.org/)
 - **Control System:** [Git](https://git-scm.com/)
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+- **Code Style:** [Codacy](https://www.codacy.com/)
 
 ## Installation Information
 
