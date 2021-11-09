@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS department;
+CREATE TABLE band(
+    bandId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    bandName VARCHAR(100) NOT NULL UNIQUE,
+    bandDetails VARCHAR(1000),
+    bandActivity BOOLEAN;
+);
