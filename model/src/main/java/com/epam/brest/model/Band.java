@@ -8,7 +8,17 @@ public class Band {
 
     private String bandDetails;
 
-    private boolean bandActivity;
+    public Band() {
+    }
+
+    public Band(String bandName) {
+        this.bandName = bandName;
+    }
+
+    public Band(String bandName, String bandDetails) {
+        this.bandName = bandName;
+        this.bandDetails = bandDetails;
+    }
 
     public Integer getBandId() {
         return bandId;
@@ -34,11 +44,4 @@ public class Band {
         this.bandDetails = bandDetails;
     }
 
-    public boolean isBandActivity() {
-        return bandActivity;
-    }
-
-    public void setBandActivity(boolean bandActivity) {
-        this.bandActivity = bandActivity;
-    }
 }
