@@ -1,4 +1,4 @@
-package com.epam.brest.dao;
+package com.epam.brest.dao.exception;
 
 public class NotUniqueException extends IllegalArgumentException {
 

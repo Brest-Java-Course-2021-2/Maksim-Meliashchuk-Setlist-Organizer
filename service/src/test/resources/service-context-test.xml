@@ -8,11 +8,11 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="bandDtoDao" class="com.epam.brest.dao.DepartmentDtoDaoJdbc">
+    <bean id="bandDtoDao" class="com.epam.brest.dao.BandDtoDaoJdbc">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="bandDtoService" class="com.epam.brest.service.impl.DepartmentDtoServiceImpl">
+    <bean id="bandDtoService" class="com.epam.brest.service.impl.BandDtoServiceImpl">
         <constructor-arg name="bandDtoDao" ref="bandDtoDao"/>
     </bean>
 </beans>

@@ -1,5 +1,6 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
