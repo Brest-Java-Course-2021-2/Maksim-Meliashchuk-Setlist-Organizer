@@ -1,5 +1,7 @@
 package com.epam.brest.dao;
 import com.epam.brest.model.dto.BandDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -12,9 +14,11 @@ import java.util.List;
 @Component
 public class BandDtoDaoJdbc implements BandDtoDao{
 
+    private final Logger logger = LogManager.getLogger(BandDaoJDBCImpl.class);
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-   private String findAllWithCountTrackSql = "SELECT band_id AS bandId, band_name AS bandName, " +
+    private final String findAllWithCountTrackSql = "SELECT band_id AS bandId, band_name AS bandName, " +
                                             "count(track.track_band_id) AS CountTrack " +
                                             "FROM band LEFT JOIN track ON band.band_id=track.track_band_id " +
                                             "GROUP BY band_id, band_name";
@@ -25,6 +29,7 @@ public class BandDtoDaoJdbc implements BandDtoDao{
 
     @Override
     public List<BandDto> findAllWithCountTrack() {
+        logger.debug("Start: findAllWithCountTrack(");
         return namedParameterJdbcTemplate.query(findAllWithCountTrackSql,
                 BeanPropertyRowMapper.newInstance(BandDto.class));
     }

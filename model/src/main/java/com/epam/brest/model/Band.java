@@ -44,4 +44,11 @@ public class Band {
         this.bandDetails = bandDetails;
     }
 
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentId=" + bandId +
+                ", departmentName='" + bandName + '\'' +
+                '}';
+    }
 }

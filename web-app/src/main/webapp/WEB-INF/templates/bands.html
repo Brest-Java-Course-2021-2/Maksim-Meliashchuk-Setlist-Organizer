@@ -12,13 +12,17 @@
 </head>
 
 
-<header class="d-flex flex-wrap justify-content-left py-4 mb-1 border-bottom">
-    <a href="index.html" class="navbar-brand"><img th:src="@{resources/static/img/logo.svg}" height="70" width="70" alt="HR"></a>
-    <span class="fs-1">
-        <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
-        <p class="lead">An easy way to organize your repertoire!</p>
+    <header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
+        <a href="bands.html" class="navbar-brand">
+            <img src="../../resources/static/img/logo.svg"
+                 th:src="@{resources/static/img/logo.svg}" height="70" width="70" alt="Setlist Organizer">
+        </a>
+        <span class="fs-1">
+            <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
+            <p class="lead">An easy way to organize your repertoire!</p>
         </span>
-</header>
+    </header>
+
 
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #D0D3D4;">
     <div class="container-fluid">
@@ -34,22 +38,7 @@
                     <a href="bands.html" class="nav-link"><p class="text-uppercase">bands</p></a>
                 </li>
                 <li class="nav-item">
-                    <a href="events.html" class="nav-link" aria-current="page"><p class="text-uppercase">events</p></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="setlist.html"><p class="text-uppercase">repertorie</p></a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       REPORTS
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-macos mx-0 shadow" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Most popular tracks</a></li>
-                        <li><a class="dropdown-item" href="#">All events history</a></li>
-                    </ul>
+                    <a class="nav-link" href="repertoire.html"><p class="text-uppercase">repertorie</p></a>
                 </li>
             </ul>
         </div>
@@ -59,7 +48,6 @@
 <div class="container-fluid">
     <div class="d-grid justify-content-md-end">
         <div class="p-2">
-            <button type="button" class="btn btn-dark">Submit</button>
             <a href="band.html" th:href="@{/band/add}" class="btn btn-dark" role="button">Add</a>
         </div>
     </div>
@@ -67,20 +55,15 @@
 
 <div class="container-fluid">
     <div class="d-grid gap-3">
-        <div class="p-2 bg-light border">
+        <div class="p-2 bg-light border p-2">
             <div class="row align-items-center">
-                <div class="col-sm-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                </div>
                 <div class="col-sm-3">
                     <strong>
                         <p class="text-uppercase">my cover band</p>
                     </strong>
+                        14 songs
+                </div>
 
-                </div>
-                <div class="col-sm-1">
-                  14 songs
-                </div>
                 <div class="col-sm-5">
                     Alternative&metal
                 </div>
@@ -89,12 +72,12 @@
                         <a href="band.html"
                            class="btn-sm btn-outline-secondary"
                            title="Edit band">
-                            <img src="img/edit.svg" height="20" width="20" alt="HR">
+                            <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
                             <span class="d-none d-md-inline">Edit</span></a>
                         <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
                                     <a href="#" class="btn-sm btn-outline-secondary"
                                        title="Delete band">
-                                        <img src="img/delete.svg" height="20" width="20" alt="HR">
+                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="BAnd delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                                 </span>
@@ -104,14 +87,9 @@
         </div>
         <div class="p-2 bg-light border">
             <div class="row row align-items-center">
-                <div class="col-sm-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                </div>
                 <div class="col-sm-3">
                     <strong><p class="text-uppercase">muse</p></strong>
-                </div>
-                <div class="col-sm-1">
-                  4 songs
+                    4 songs
                 </div>
                 <div class="col-sm-5">
                     My best band
@@ -121,12 +99,12 @@
                         <a href="band.html"
                            class="btn-sm btn-outline-secondary"
                            title="Edit band">
-                            <img src="img/edit.svg" height="20" width="20" alt="HR">
+                            <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
                             <span class="d-none d-md-inline">Edit</span></a>
                         <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
                                     <a href="#" class="btn-sm btn-outline-secondary"
                                        title="Delete band">
-                                        <img src="img/delete.svg" height="20" width="20" alt="HR">
+                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="Band delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                                 </span>
@@ -137,16 +115,11 @@
 
         <div class="p-2 bg-light border">
             <div class="row row align-items-center">
-                <div class="col-sm-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                </div>
                 <div class="col-sm-3">
                     <strong>
                         <p class="text-uppercase">big band</p>
                     </strong>
-                </div>
-                <div class="col-sm-1">
-                   no songs
+                    no songs
                 </div>
                 <div class="col-sm-5">
 
@@ -156,12 +129,12 @@
                         <a href="band.html"
                            class="btn-sm btn-outline-secondary"
                            title="Edit band">
-                            <img src="img/edit.svg" height="20" width="20" alt="HR">
+                            <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
                             <span class="d-none d-md-inline">Edit</span></a>
                         <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
                                     <a href="#" class="btn-sm btn-outline-secondary"
                                        title="Delete band">
-                                        <img src="img/delete.svg" height="20" width="20" alt="HR">
+                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="Band delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                                 </span>
@@ -194,7 +167,6 @@
 </div>
 
 
-<hr>
 <span class="border-top"></span>
 <footer class="footer fixed-bottom mt-auto py-3 bg-light">
     <div class="text-center">

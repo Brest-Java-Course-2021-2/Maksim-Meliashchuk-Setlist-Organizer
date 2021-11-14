@@ -2,6 +2,8 @@ package com.epam.brest.dao;
 
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,6 +18,8 @@ import java.util.List;
 
 public class BandDaoJDBCImpl implements BandDao{
 
+    private final Logger logger = LogManager.getLogger(BandDaoJDBCImpl.class);
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final String SQL_ALL_BANDS = "SELECT * FROM band";
@@ -28,12 +32,13 @@ public class BandDaoJDBCImpl implements BandDao{
 
     @Override
     public List<Band> findAll() {
+        logger.debug("Start: findAll()");
         return namedParameterJdbcTemplate.query(SQL_ALL_BANDS, new BandRowMapper());
     }
 
     @Override
     public Integer create(Band band) {
-
+        logger.debug("Start: create({})", band);
         if (!isBandNameUnique(band)) {
             throw new NotUniqueException("Band already exists in DB");
         }
@@ -55,10 +60,12 @@ public class BandDaoJDBCImpl implements BandDao{
         return null;
     }
 
-    private static class BandRowMapper implements RowMapper<Band> {
+    private class BandRowMapper implements RowMapper<Band> {
+
 
         @Override
         public Band mapRow(ResultSet resultSet, int i) throws SQLException {
+            logger.debug("Start: mapRow");
             Band band = new Band();
             band.setBandId(resultSet.getInt("band_id"));
             band.setBandName(resultSet.getString("band_name"));
@@ -68,6 +75,7 @@ public class BandDaoJDBCImpl implements BandDao{
     }
 
     private boolean isBandNameUnique(Band band) {
+        logger.debug("Start: isBandNameUnique({})", band);
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase());
         return  namedParameterJdbcTemplate.query(SQL_CHECK_BAND, sqlParameterSource, new BandRowMapper()).isEmpty();
