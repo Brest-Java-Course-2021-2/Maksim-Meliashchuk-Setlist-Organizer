@@ -17,9 +17,14 @@ public class BandDto {
     private String bandName;
 
     /**
-     * Average track count of the Band.
+     * Track count of the Band.
      */
     private Integer countTrack;
+
+    /**
+     * Details of the Band.
+     */
+    private String bandDetails;
 
     /**
      * Constructor without arguments.
@@ -72,18 +77,27 @@ public class BandDto {
         this.bandName = bandName;
     }
 
+    public String getBandDetails() {
+        return bandDetails;
+    }
+
+    public void setBandDetails(String bandDetails) {
+        this.bandDetails = bandDetails;
+    }
+
     /**
      *Returns <code>Integer</code> representation of track count
      * for the Band.
      * @return countTrack track count
      */
 
+
     public Integer getCountTrack() {
         return countTrack;
     }
 
     /**
-     * Sets the band's average track count.
+     * Sets the band's track count.
      * @param countTrack track count
      */
 
@@ -99,6 +113,7 @@ public class BandDto {
         return "BandDto{"
                 + "bandId=" + bandId
                 + ", bandName='" + bandName + '\''
+                + ", bandDetails='" + bandDetails + '\''
                 + ", countTrack=" + countTrack
                 + '}';
     }

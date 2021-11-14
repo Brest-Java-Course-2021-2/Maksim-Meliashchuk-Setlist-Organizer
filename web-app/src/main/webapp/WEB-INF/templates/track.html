@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../resources/static/css/style.css"
+        th:href="@{resources/static/css/style.css}">
+  <title>Setlist Organizer</title>
+</head>
+
+
+<header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
+  <a href="bands.html" th:href="@{/bands}" class="navbar-brand">
+    <img src="../../resources/static/img/logo.svg"
+         th:src="@{resources/static/img/logo.svg}" height="55" width="55" alt="Setlist Organizer">
+  </a>
+  <span class="fs-1">
+            <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
+            <p class="lead">An easy way to organize your repertoire!</p>
+        </span>
+</header>
+
+
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #D0D3D4;">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+            aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
+        <li class="nav-item">
+          <a href="bands.html" th:href="@{/bands}" class="nav-link"><p class="text-uppercase">bands</p></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="repertoire.html" th:href="@{/repertoire/add}" ><p class="text-uppercase">repertorie</p></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="container-fluid">
+        <p class="fs-2 text-uppercase mb-4 mt-4">edit event</p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <form class="form-horizontal" method="post">
+            <div class="form-group form-group-lg">
+              <label class="fs-5 ml-5 p-1">*Select a band</label>
+
+              <div class="col-sm-10">
+                <select class="select form-control" id="select" name="select">
+                  <option value="First Choice">
+                    My cover band
+                  </option>
+                  <option value="Second Choice">
+                    Muse
+                  </option>
+                  <option value="Third Choice">
+                    Big band
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <label class="control-label col-sm-2" for="name">
+                <p class="fs-5 ml-5 p-1">*Title</p>
+              </label>
+              <div class="col-sm-10">
+                <input class="form-control" id="name" name="name" type="text"/>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <label class="control-label col-sm-2" for="message">
+                <p class="fs-5 ml-5 p-1">Details</p>
+              </label>
+              <div class="col-sm-10">
+                <textarea class="form-control" cols="40" id="message" name="message" rows="4"></textarea>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <p class="fs-5 ml-5 p-1">Event date</p>
+              <div class="col-sm-10">
+                <strong>
+                  <input type="date" id="inputStartDate" class="form-control">
+                </strong>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <p class="fs-5 ml-5 p-1">Additional time per track</p>
+              <div class="col-sm-10">
+                <input class="form-control" id="number" name="number" type="text"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-3 m-2">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="events.html" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
+                    <a href="events.html" class="btn btn-dark" role="button">Save</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<hr>
+<span class="border-top"></span>
+<footer class="footer fixed-bottom mt-auto py-3 bg-light">
+  <div class="text-center">
+    <span class="text-muted">&copy Maksim Meliashchuk 2021</span>
+  </div>
+</footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

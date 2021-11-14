@@ -46,9 +46,10 @@ public class Band {
 
     @Override
     public String toString() {
-        return "Department{" +
-                "departmentId=" + bandId +
-                ", departmentName='" + bandName + '\'' +
+        return "Band{" +
+                "bandId=" + bandId +
+                ", bandName='" + bandName + '\'' +
+                ", bandDetails='" + bandDetails + '\'' +
                 '}';
     }
 }

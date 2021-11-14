@@ -12,16 +12,16 @@
 </head>
 
 
-    <header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
-        <a href="bands.html" class="navbar-brand">
-            <img src="../../resources/static/img/logo.svg"
-                 th:src="@{resources/static/img/logo.svg}" height="70" width="70" alt="Setlist Organizer">
-        </a>
-        <span class="fs-1">
+<header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
+    <a href="bands.html" th:href="@{/bands}" class="navbar-brand">
+        <img src="../../resources/static/img/logo.svg"
+             th:src="@{resources/static/img/logo.svg}" height="55" width="55" alt="Setlist Organizer">
+    </a>
+    <span class="fs-1">
             <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
             <p class="lead">An easy way to organize your repertoire!</p>
         </span>
-    </header>
+</header>
 
 
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #D0D3D4;">
@@ -35,10 +35,10 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
                 <li class="nav-item">
-                    <a href="bands.html" class="nav-link"><p class="text-uppercase">bands</p></a>
+                    <a href="bands.html" th:href="@{/bands}" class="nav-link"><p class="text-uppercase">bands</p></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="repertoire.html"><p class="text-uppercase">repertorie</p></a>
+                    <a class="nav-link" href="repertoire.html" th:href="@{/repertoire}" ><p class="text-uppercase">repertorie</p></a>
                 </li>
             </ul>
         </div>
@@ -55,17 +55,17 @@
 
 <div class="container-fluid">
     <div class="d-grid gap-3">
-        <div class="p-2 bg-light border p-2">
+        <div class="p-2 bg-light border p-2" th:each="band: ${bands}">
             <div class="row align-items-center">
                 <div class="col-sm-3">
                     <strong>
-                        <p class="text-uppercase">my cover band</p>
+                        <p class="text-uppercase" > <p th:text="${band.bandName}">My cover band</p></p>
                     </strong>
-                        14 songs
+                    <p th:text="${band.countTrack} == '0' ? 'no tracks' : ${band.countTrack} + ' tracks'">14 songs</p>
                 </div>
 
                 <div class="col-sm-5">
-                    Alternative&metal
+                    <p th:text="${band.bandDetails}">Alternative&metal</p>
                 </div>
                 <div class="col">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -77,7 +77,7 @@
                         <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
                                     <a href="#" class="btn-sm btn-outline-secondary"
                                        title="Delete band">
-                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="BAnd delete">
+                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="Band delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                                 </span>
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-2 bg-light border">
+        <div class="p-2 bg-light border" th:remove="all">
             <div class="row row align-items-center">
                 <div class="col-sm-3">
                     <strong><p class="text-uppercase">muse</p></strong>
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-light border">
+        <div class="p-2 bg-light border" th:remove="all">
             <div class="row row align-items-center">
                 <div class="col-sm-3">
                     <strong>

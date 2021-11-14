@@ -18,10 +18,10 @@ public class BandDtoDaoJdbc implements BandDtoDao{
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final String findAllWithCountTrackSql = "SELECT band_id AS bandId, band_name AS bandName, " +
+    private final String findAllWithCountTrackSql = "SELECT band_id AS bandId, band_name AS bandName, band_details AS bandDetails, " +
                                             "count(track.track_band_id) AS CountTrack " +
                                             "FROM band LEFT JOIN track ON band.band_id=track.track_band_id " +
-                                            "GROUP BY band_id, band_name";
+                                            "GROUP BY band_id, band_name, band_details";
 
     public BandDtoDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

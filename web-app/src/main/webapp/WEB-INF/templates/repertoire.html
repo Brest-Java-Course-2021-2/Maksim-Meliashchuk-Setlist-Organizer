@@ -13,9 +13,9 @@
 
 
 <header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
-    <a href="bands.html" class="navbar-brand">
+    <a href="bands.html" th:href="@{/bands}" class="navbar-brand">
         <img src="../../resources/static/img/logo.svg"
-             th:src="@{resources/static/img/logo.svg}" height="70" width="70" alt="Setlist Organizer">
+             th:src="@{resources/static/img/logo.svg}" height="55" width="55" alt="Setlist Organizer">
     </a>
     <span class="fs-1">
             <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
@@ -35,20 +35,19 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
                 <li class="nav-item">
-                    <a href="bands.html" class="nav-link"><p class="text-uppercase">bands</p></a>
+                    <a href="bands.html" th:href="@{/bands}" class="nav-link"><p class="text-uppercase">bands</p></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="repertoire.html"><p class="text-uppercase">repertorie</p></a>
+                    <a class="nav-link" href="repertoire.html" th:href="@{/repertoire}" ><p class="text-uppercase">repertorie</p></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
 <div class="container-fluid">
     <div class="d-grid justify-content-md-end">
         <div class="p-2">
-            <a href="#" class="btn btn-dark" role="button">Add</a>
+            <a href="track.html" th:href="@{/repertorie/add}" class="btn btn-dark" role="button">Add</a>
         </div>
     </div>
 </div>
