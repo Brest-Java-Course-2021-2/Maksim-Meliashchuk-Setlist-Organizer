@@ -26,8 +26,13 @@ public class BandDaoJDBCImpl implements BandDao{
     private final String SQL_CREATE_BAND = "INSERT INTO band(band_name) values(:bandName)";
     private final String SQL_CHECK_BAND =" SELECT * FROM band WHERE band_name = :bandName";
 
+    @Deprecated
     public BandDaoJDBCImpl(DataSource dataSource) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    public BandDaoJDBCImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
@@ -40,6 +45,7 @@ public class BandDaoJDBCImpl implements BandDao{
     public Integer create(Band band) {
         logger.debug("Start: create({})", band);
         if (!isBandNameUnique(band)) {
+            logger.warn("Band {} already exists in DB!", band.getBandName());
             throw new NotUniqueException("Band already exists in DB");
         }
 
@@ -58,6 +64,13 @@ public class BandDaoJDBCImpl implements BandDao{
     @Override
     public Integer delete(Integer bandId) {
         return null;
+    }
+
+    @Override
+    public Integer count() {
+        logger.debug("count()");
+        return namedParameterJdbcTemplate
+                .queryForObject("select count(*) from band", new MapSqlParameterSource(), Integer.class);
     }
 
     private class BandRowMapper implements RowMapper<Band> {

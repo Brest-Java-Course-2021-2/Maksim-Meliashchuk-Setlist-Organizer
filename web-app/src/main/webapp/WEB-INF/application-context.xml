@@ -32,6 +32,14 @@
     <constructor-arg name="bandDtoDao" ref="bandDtoDao"/>
   </bean>
 
+  <bean id="bandDao" class="com.epam.brest.dao.BandDaoJDBCImpl">
+    <constructor-arg ref="namedParameterJdbcTemplate"/>
+  </bean>
+
+  <bean id="bandService" class="com.epam.brest.service.impl.BandServiceImpl">
+    <constructor-arg name="bandDao" ref="bandDao"/>
+  </bean>
+
   <!-- Thymeleaf Template Resolver -->
   <bean id="templateResolver"
         class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">

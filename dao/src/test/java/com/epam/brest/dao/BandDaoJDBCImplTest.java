@@ -37,22 +37,31 @@ class BandDaoJDBCImplTest {
     void create() {
         logger.debug("Execute test: create()");
         assertNotNull(bandDaoJDBC);
-        int bandsSizeBefore = bandDaoJDBC.findAll().size();
+        int bandsSizeBefore = bandDaoJDBC.count();
         Band band = new Band("Gods Tower");
         Integer newBandId = bandDaoJDBC.create(band);
         assertNotNull(newBandId);
-        assertEquals(bandsSizeBefore, bandDaoJDBC.findAll().size() - 1);
+        assertEquals(bandsSizeBefore, bandDaoJDBC.count() - 1);
     }
 
     @Test
     void tryToCreateBandNotUniqueException() {
         logger.debug("Execute test: tryToCreateBandNotUniqueException()");
         assertNotNull(bandDaoJDBC);
-        Band band = new Band("Vicious crusade");
+        Band band = new Band("Gods Tower");
         assertThrows(NotUniqueException.class, () -> {
             bandDaoJDBC.create(band);
             bandDaoJDBC.create(band);
         });
+    }
+
+    @Test
+    void shouldCount() {
+        assertNotNull(bandDaoJDBC);
+        Integer quantity = bandDaoJDBC.count();
+        assertNotNull(quantity);
+        assertTrue(quantity > 0);
+        assertEquals(Integer.valueOf(3), quantity);
     }
 
 }
