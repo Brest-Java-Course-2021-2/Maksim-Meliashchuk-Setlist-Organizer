@@ -38,7 +38,7 @@ class BandDaoJDBCImplTest {
         logger.debug("Execute test: create()");
         assertNotNull(bandDaoJDBC);
         int bandsSizeBefore = bandDaoJDBC.count();
-        Band band = new Band("Gods Tower");
+        Band band = new Band("Gods Tower", "Band of metal");
         Integer newBandId = bandDaoJDBC.create(band);
         assertNotNull(newBandId);
         assertEquals(bandsSizeBefore, bandDaoJDBC.count() - 1);

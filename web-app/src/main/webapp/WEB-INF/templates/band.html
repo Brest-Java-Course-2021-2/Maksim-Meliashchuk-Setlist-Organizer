@@ -48,22 +48,39 @@
 
 
 <div class="container-fluid">
-  <form>
+  <form id="band_form"
+        th:object="${band}"
+        action="bands.html"
+        th:action="@{${#httpServletRequest.servletPath}}"
+        th:method="@{post}">
     <div class="form-horizontal p-2 ms-5">
-      <p class="fs-2 text-uppercase mb-4 mt-4" th:text="'edit band ' + ${name}"> </p>
+      <p class="fs-2 text-uppercase mb-4 mt-4"
+         th:text="${isNew} ? 'New band' : 'Edit band'">Edit band</p>
+
+      <input id="band_departmentId"
+             type="hidden"
+             th:field="*{bandId}"/>
+
       <p class="fs-5 ml-5 p-1">*Title</p>
       <div class="col-sm-3 m-2">
-        <textarea class="form-control" rows="1" placeholder="Name of band" required></textarea>
+        <textarea id = "field_band_name" class="form-control" rows="1" placeholder="Name of band" required
+                  type="text"
+                  th:field="*{bandName}"></textarea>
       </div>
       <p class="fs-5 p-1">Details:</p>
       <div class="col-sm-3 m-2">
-        <textarea class="form-control" rows="4" placeholder="About band" required></textarea>
+        <textarea id = "field_band_details" class="form-control" rows="4" placeholder="About band" required
+                  type="text"
+                  th:field="*{bandDetails}"></textarea>
       </div>
       <div class="row">
         <div class="col-sm-3 m-2">
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a href="bands.html" th:href="@{/bands}" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
-            <a href="bands.html" th:href="@{/bands}" class="btn btn-dark" role="button">Save</a>
+            <a href="bands.html"
+               th:href="@{/bands}"
+               th:onclick="@{document.forms['band_form'].submit(); return false;}"
+               class="btn btn-dark" role="button">Save</a>
           </div>
         </div>
       </div>

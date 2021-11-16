@@ -34,16 +34,17 @@ public class BandController {
         return "bands";
     }
 
-    @GetMapping(value = "/band/add")
+    @GetMapping(value = "/band")
     public String band(Model model) {
         logger.debug("go to page add band");
+        model.addAttribute("isNew", true);
+        model.addAttribute("band", new Band());
         return "band";
     }
 
     @PostMapping(value = "/band")
-    public String addDepartment(Band band) {
-
-        logger.debug("addBand({}, {})", band);
+    public String addBand(Band band) {
+        logger.debug("addBand({})", band);
         this.bandService.create(band);
         return "redirect:/bands";
     }

@@ -23,7 +23,7 @@ public class BandDaoJDBCImpl implements BandDao{
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final String SQL_ALL_BANDS = "SELECT * FROM band";
-    private final String SQL_CREATE_BAND = "INSERT INTO band(band_name) values(:bandName)";
+    private final String SQL_CREATE_BAND = "INSERT INTO band(band_name, band_details) values(:bandName, :bandDetails)";
     private final String SQL_CHECK_BAND =" SELECT * FROM band WHERE band_name = :bandName";
 
     @Deprecated
@@ -50,7 +50,8 @@ public class BandDaoJDBCImpl implements BandDao{
         }
 
         SqlParameterSource sqlParameterSource =
-                new MapSqlParameterSource("bandName", band.getBandName().toUpperCase());
+                new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
+                        .addValue("bandDetails", band.getBandDetails());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_CREATE_BAND, sqlParameterSource, keyHolder);
         return (Integer) keyHolder.getKey();
