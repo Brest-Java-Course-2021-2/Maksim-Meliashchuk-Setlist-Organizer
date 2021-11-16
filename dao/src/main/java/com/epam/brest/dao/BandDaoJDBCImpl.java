@@ -46,7 +46,7 @@ public class BandDaoJDBCImpl implements BandDao{
         logger.debug("Start: create({})", band);
         if (!isBandNameUnique(band)) {
             logger.warn("Band {} already exists in DB!", band.getBandName());
-            throw new NotUniqueException("Band already exists in DB");
+            throw new NotUniqueException("Band '" + band.getBandName() +"' already exists in Data Base!");
         }
 
         SqlParameterSource sqlParameterSource =
