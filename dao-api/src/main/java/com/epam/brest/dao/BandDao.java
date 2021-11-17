@@ -8,6 +8,8 @@ public interface BandDao {
 
     List<Band> findAll();
 
+    Band getBandById(Integer bandId);
+
     Integer create(Band band);
 
     Integer update(Band band);

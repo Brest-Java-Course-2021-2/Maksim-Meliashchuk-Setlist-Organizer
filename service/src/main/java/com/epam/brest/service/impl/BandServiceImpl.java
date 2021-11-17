@@ -22,6 +22,13 @@ public class BandServiceImpl implements BandService {
 
     @Override
     @Transactional
+    public Band getBandById(Integer bandId) {
+        logger.debug("Get band by id = {}", bandId);
+        return this.bandDao.getBandById(bandId);
+    }
+
+    @Override
+    @Transactional
     public Integer create(Band band) {
         logger.debug("create({})", band);
         return this.bandDao.create(band);

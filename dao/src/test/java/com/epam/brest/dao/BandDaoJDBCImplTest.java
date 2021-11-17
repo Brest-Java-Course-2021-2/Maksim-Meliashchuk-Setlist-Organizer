@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -63,5 +65,42 @@ class BandDaoJDBCImplTest {
         assertTrue(quantity > 0);
         assertEquals(Integer.valueOf(3), quantity);
     }
+
+    @Test
+    void getBandById() {
+        List<Band> bands = bandDaoJDBC.findAll();
+        if (bands.size() == 0) {
+            bandDaoJDBC.create(new Band("5Diez"));
+            bands = bandDaoJDBC.findAll();
+        }
+
+        Band bandSrc = bands.get(0);
+        Band bandDst = bandDaoJDBC.getBandById(bandSrc.getBandId());
+        assertEquals(bandSrc.getBandName(), bandDst.getBandName());
+    }
+
+    @Test
+    void updateBand() {
+        List<Band> bands = bandDaoJDBC.findAll();
+        if (bands.size() == 0) {
+            bandDaoJDBC.create(new Band("5Diez"));
+            bands = bandDaoJDBC.findAll();
+        }
+        Band bandSrc = bands.get(0);
+        bandSrc.setBandName(bandSrc.getBandName() + "#");
+        bandDaoJDBC.update(bandSrc);
+        Band bandDst = bandDaoJDBC.getBandById(bandSrc.getBandId());
+        assertEquals(bandSrc.getBandName(), bandDst.getBandName());
+    }
+
+    @Test
+    void deleteBand() {
+        bandDaoJDBC.create(new Band("5Diez"));
+        List<Band> bands = bandDaoJDBC.findAll();
+
+        bandDaoJDBC.delete(bands.get(bands.size() - 1).getBandId());
+        assertEquals(bands.size() - 1, bandDaoJDBC.findAll().size());
+    }
+
 
 }

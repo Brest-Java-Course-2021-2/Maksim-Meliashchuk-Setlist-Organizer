@@ -22,9 +22,14 @@ public class BandDaoJDBCImpl implements BandDao{
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
+    public static final String SELECT_COUNT_FROM_BAND = "SELECT COUNT(*) FROM band";
     private final String SQL_ALL_BANDS = "SELECT * FROM band";
     private final String SQL_CREATE_BAND = "INSERT INTO band(band_name, band_details) values(:bandName, :bandDetails)";
     private final String SQL_CHECK_BAND =" SELECT * FROM band WHERE band_name = :bandName";
+    private final String SQL_BAND_BY_ID = "SELECT* FROM band WHERE band_id = :bandId";
+    private final String SQL_UPDATE_BAND_NAME = "UPDATE band set band_name = :bandName WHERE band_id = :bandId";
+    private final String SQL_DELETE_BAND_BY_ID = "DELETE FROM band WHERE band_id = :bandId";
 
     @Deprecated
     public BandDaoJDBCImpl(DataSource dataSource) {
@@ -33,6 +38,14 @@ public class BandDaoJDBCImpl implements BandDao{
 
     public BandDaoJDBCImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    @Override
+    public Band getBandById(Integer bandId) {
+        logger.debug("Get band by id = {}", bandId);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("bandId", bandId);
+        return namedParameterJdbcTemplate.queryForObject(SQL_BAND_BY_ID, sqlParameterSource, new BandRowMapper());
     }
 
     @Override
@@ -59,19 +72,26 @@ public class BandDaoJDBCImpl implements BandDao{
 
     @Override
     public Integer update(Band band) {
-        return null;
+        logger.debug("Update band: {}", band);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("bandName", band.getBandName())
+                        .addValue("bandId", band.getBandId());
+        return namedParameterJdbcTemplate.update(SQL_UPDATE_BAND_NAME, sqlParameterSource);
     }
 
     @Override
     public Integer delete(Integer bandId) {
-        return null;
+        logger.debug("Delete band: {}", bandId);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("bandId", bandId);
+        return namedParameterJdbcTemplate.update(SQL_DELETE_BAND_BY_ID, sqlParameterSource);
     }
 
     @Override
     public Integer count() {
         logger.debug("count()");
         return namedParameterJdbcTemplate
-                .queryForObject("select count(*) from band", new MapSqlParameterSource(), Integer.class);
+                .queryForObject(SELECT_COUNT_FROM_BAND, new MapSqlParameterSource(), Integer.class);
     }
 
     private class BandRowMapper implements RowMapper<Band> {
