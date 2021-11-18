@@ -2,6 +2,7 @@ package com.epam.brest.web_app;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -125,5 +126,21 @@ class BandControllerIT {
         Band band = bandService.getBandById(1);
         assertNotNull(band);
         assertEquals(testName, band.getBandName());
+    }
+
+    @Test
+    public void shouldDeleteBand() throws Exception {
+
+        Integer countBefore = bandService.count();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/band/3/delete")
+                ).andExpect(status().isFound())
+                .andExpect(view().name("redirect:/bands"))
+                .andExpect(redirectedUrl("/bands"));
+
+        // verify database size
+        Integer countAfter = bandService.count();
+        Assertions.assertEquals(countBefore - 1, countAfter);
     }
 }

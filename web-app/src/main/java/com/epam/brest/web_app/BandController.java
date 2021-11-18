@@ -65,5 +65,13 @@ public class BandController {
         return "redirect:/bands";
     }
 
+    @GetMapping(value = "/band/{id}/delete")
+    public final String deleteBandById(@PathVariable Integer id, Model model) {
+
+        logger.debug("delete({},{})", id, model);
+        bandService.delete(id);
+        return "redirect:/bands";
+    }
+
 
 }
