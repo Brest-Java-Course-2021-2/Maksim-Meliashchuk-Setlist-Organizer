@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -35,10 +36,18 @@ public class BandController {
     }
 
     @GetMapping(value = "/band")
-    public String band(Model model) {
-        logger.debug("go to page add band");
+    public String gotoAddBandPage(Model model) {
+        logger.debug("gotoAddBandPage({})", model);
         model.addAttribute("isNew", true);
         model.addAttribute("band", new Band());
+        return "band";
+    }
+
+    @GetMapping(value = "/band/{id}")
+    public final String gotoEditBandPage(@PathVariable Integer id, Model model) {
+        logger.debug("gotoEditBandPage(id:{},model:{})", id, model);
+        model.addAttribute("isNew", false);
+        model.addAttribute("band", bandService.getBandById(id));
         return "band";
     }
 
@@ -48,4 +57,13 @@ public class BandController {
         this.bandService.create(band);
         return "redirect:/bands";
     }
+
+    @PostMapping(value = "/band/{id}")
+    public String updateBand(Band band) {
+        logger.debug("updateBand({})", band);
+        this.bandService.update(band);
+        return "redirect:/bands";
+    }
+
+
 }

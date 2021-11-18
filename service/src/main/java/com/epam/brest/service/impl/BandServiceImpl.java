@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional
 public class BandServiceImpl implements BandService {
 
     private final Logger logger = LogManager.getLogger(BandServiceImpl.class);
@@ -21,17 +22,28 @@ public class BandServiceImpl implements BandService {
     }
 
     @Override
-    @Transactional
     public Band getBandById(Integer bandId) {
         logger.debug("Get band by id = {}", bandId);
         return this.bandDao.getBandById(bandId);
     }
 
     @Override
-    @Transactional
     public Integer create(Band band) {
         logger.debug("create({})", band);
         return this.bandDao.create(band);
+    }
+
+    @Override
+    public Integer update(Band band) {
+        logger.debug("update({})", band);
+        return this.bandDao.update(band);
+    }
+
+    @Override
+    public Integer delete(Integer bandId) {
+        logger.debug("delete({})", bandId);
+        logger.debug("delete band with id = {}", bandId);
+        return this.bandDao.delete(bandId);
     }
 
     @Override

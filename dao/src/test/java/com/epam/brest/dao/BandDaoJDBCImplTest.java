@@ -88,9 +88,11 @@ class BandDaoJDBCImplTest {
         }
         Band bandSrc = bands.get(0);
         bandSrc.setBandName(bandSrc.getBandName() + "#");
+        bandSrc.setBandDetails(bandSrc.getBandDetails() + "#");
         bandDaoJDBC.update(bandSrc);
         Band bandDst = bandDaoJDBC.getBandById(bandSrc.getBandId());
         assertEquals(bandSrc.getBandName(), bandDst.getBandName());
+        assertEquals(bandSrc.getBandDetails(), bandDst.getBandDetails());
     }
 
     @Test

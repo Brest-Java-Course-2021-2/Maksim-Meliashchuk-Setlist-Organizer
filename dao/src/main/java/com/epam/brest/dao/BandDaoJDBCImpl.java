@@ -27,8 +27,8 @@ public class BandDaoJDBCImpl implements BandDao{
     private final String SQL_ALL_BANDS = "SELECT * FROM band";
     private final String SQL_CREATE_BAND = "INSERT INTO band(band_name, band_details) values(:bandName, :bandDetails)";
     private final String SQL_CHECK_BAND =" SELECT * FROM band WHERE band_name = :bandName";
-    private final String SQL_BAND_BY_ID = "SELECT* FROM band WHERE band_id = :bandId";
-    private final String SQL_UPDATE_BAND_NAME = "UPDATE band set band_name = :bandName WHERE band_id = :bandId";
+    private final String SQL_BAND_BY_ID = "SELECT * FROM band WHERE band_id = :bandId";
+    private final String SQL_UPDATE_BAND_NAME = "UPDATE band set band_name = :bandName, band_details =:bandDetails WHERE band_id = :bandId";
     private final String SQL_DELETE_BAND_BY_ID = "DELETE FROM band WHERE band_id = :bandId";
 
     @Deprecated
@@ -58,8 +58,8 @@ public class BandDaoJDBCImpl implements BandDao{
     public Integer create(Band band) {
         logger.debug("Start: create({})", band);
         if (!isBandNameUnique(band)) {
-            logger.warn("Band {} already exists in DB!", band.getBandName());
-            throw new NotUniqueException("Band '" + band.getBandName() +"' already exists in Data Base!");
+            logger.warn("Band {} already exists in DB!", band.getBandName().toUpperCase());
+            throw new NotUniqueException("Band '" + band.getBandName().toUpperCase() +"' already exists in Data Base!");
         }
 
         SqlParameterSource sqlParameterSource =
@@ -75,7 +75,8 @@ public class BandDaoJDBCImpl implements BandDao{
         logger.debug("Update band: {}", band);
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName())
-                        .addValue("bandId", band.getBandId());
+                        .addValue("bandId", band.getBandId())
+                        .addValue("bandDetails", band.getBandDetails());
         return namedParameterJdbcTemplate.update(SQL_UPDATE_BAND_NAME, sqlParameterSource);
     }
 

@@ -8,6 +8,10 @@ public interface BandService {
 
     Integer create(Band band);
 
+    Integer update(Band band);
+
+    Integer delete(Integer bandId);
+
     Integer count();
 
 }

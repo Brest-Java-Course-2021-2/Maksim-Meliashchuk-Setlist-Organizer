@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -93,5 +94,36 @@ class BandControllerIT {
 
         // VERIFY
         assertEquals(bandsSizeBefore, bandService.count() - 1);
+    }
+
+    @Test
+    public void shouldOpenEditBandPageById() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/band/1")
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(view().name("band"))
+                .andExpect(model().attribute("isNew", is(false)))
+                .andExpect(model().attribute("band", hasProperty("bandId", is(1))))
+                .andExpect(model().attribute("band", hasProperty("bandName", is("MY COVER BAND"))));
+    }
+
+    @Test
+    public void shouldUpdateBandAfterEdit() throws Exception {
+
+        String testName = "test band";
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/band/1")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .param("bandId", "1")
+                                .param("bandName", testName)
+                ).andExpect(status().isFound())
+                .andExpect(view().name("redirect:/bands"))
+                .andExpect(redirectedUrl("/bands"));
+
+        Band band = bandService.getBandById(1);
+        assertNotNull(band);
+        assertEquals(testName, band.getBandName());
     }
 }
