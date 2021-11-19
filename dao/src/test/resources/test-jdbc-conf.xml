@@ -5,8 +5,20 @@
        https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="bandDao" class="com.epam.brest.dao.BandDaoJDBCImpl">
-        <constructor-arg name="dataSource" ref="dataSource"/>
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath*:test-db.properties</value>
+                <value>classpath*:sql-band.properties</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

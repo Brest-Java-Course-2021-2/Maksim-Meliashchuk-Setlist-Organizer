@@ -4,37 +4,40 @@ import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class BandDaoJDBCImpl implements BandDao{
 
     private final Logger logger = LogManager.getLogger(BandDaoJDBCImpl.class);
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-    public static final String SELECT_COUNT_FROM_BAND = "SELECT COUNT(*) FROM band";
-    private final String SQL_ALL_BANDS = "SELECT * FROM band";
-    private final String SQL_CREATE_BAND = "INSERT INTO band(band_name, band_details) values(:bandName, :bandDetails)";
-    private final String SQL_CHECK_BAND =" SELECT * FROM band WHERE band_name = :bandName";
-    private final String SQL_BAND_BY_ID = "SELECT * FROM band WHERE band_id = :bandId";
-    private final String SQL_UPDATE_BAND_NAME = "UPDATE band set band_name = :bandName, band_details =:bandDetails WHERE band_id = :bandId";
-    private final String SQL_DELETE_BAND_BY_ID = "DELETE FROM band WHERE band_id = :bandId";
-
-    @Deprecated
-    public BandDaoJDBCImpl(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
+    @Value("${SELECT_COUNT_FROM_BAND}")
+    private String selectCountFromBand;
+    @Value("${SQL_ALL_BANDS}")
+    private String sqlAllBands;
+    @Value("${SQL_CREATE_BAND}")
+    private String sqlCreateBand;
+    @Value("${SQL_CHECK_BAND}")
+    private String sqlCheckBand;
+    @Value("${SQL_BAND_BY_ID}")
+    private String sqlBandById;
+    @Value("${SQL_UPDATE_BAND_NAME}")
+    private String sqlUpdateBandName;
+    @Value("${SQL_DELETE_BAND_BY_ID}")
+    private String sqlDeleteBandById;
 
     public BandDaoJDBCImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -45,13 +48,13 @@ public class BandDaoJDBCImpl implements BandDao{
         logger.debug("Get band by id = {}", bandId);
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandId", bandId);
-        return namedParameterJdbcTemplate.queryForObject(SQL_BAND_BY_ID, sqlParameterSource, new BandRowMapper());
+        return namedParameterJdbcTemplate.queryForObject(sqlBandById, sqlParameterSource, new BandRowMapper());
     }
 
     @Override
     public List<Band> findAll() {
         logger.debug("Start: findAll()");
-        return namedParameterJdbcTemplate.query(SQL_ALL_BANDS, new BandRowMapper());
+        return namedParameterJdbcTemplate.query(sqlAllBands, new BandRowMapper());
     }
 
     @Override
@@ -66,7 +69,7 @@ public class BandDaoJDBCImpl implements BandDao{
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandDetails", band.getBandDetails());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(SQL_CREATE_BAND, sqlParameterSource, keyHolder);
+        namedParameterJdbcTemplate.update(sqlCreateBand, sqlParameterSource, keyHolder);
         return (Integer) keyHolder.getKey();
     }
 
@@ -77,7 +80,7 @@ public class BandDaoJDBCImpl implements BandDao{
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandId", band.getBandId())
                         .addValue("bandDetails", band.getBandDetails());
-        return namedParameterJdbcTemplate.update(SQL_UPDATE_BAND_NAME, sqlParameterSource);
+        return namedParameterJdbcTemplate.update(sqlUpdateBandName, sqlParameterSource);
     }
 
     @Override
@@ -85,14 +88,14 @@ public class BandDaoJDBCImpl implements BandDao{
         logger.debug("Delete band: {}", bandId);
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandId", bandId);
-        return namedParameterJdbcTemplate.update(SQL_DELETE_BAND_BY_ID, sqlParameterSource);
+        return namedParameterJdbcTemplate.update(sqlDeleteBandById, sqlParameterSource);
     }
 
     @Override
     public Integer count() {
         logger.debug("count()");
         return namedParameterJdbcTemplate
-                .queryForObject(SELECT_COUNT_FROM_BAND, new MapSqlParameterSource(), Integer.class);
+                .queryForObject(selectCountFromBand, new MapSqlParameterSource(), Integer.class);
     }
 
     private class BandRowMapper implements RowMapper<Band> {
@@ -113,7 +116,7 @@ public class BandDaoJDBCImpl implements BandDao{
         logger.debug("Start: isBandNameUnique({})", band);
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase());
-        return  namedParameterJdbcTemplate.query(SQL_CHECK_BAND, sqlParameterSource, new BandRowMapper()).isEmpty();
+        return  namedParameterJdbcTemplate.query(sqlCheckBand, sqlParameterSource, new BandRowMapper()).isEmpty();
 
     }
 

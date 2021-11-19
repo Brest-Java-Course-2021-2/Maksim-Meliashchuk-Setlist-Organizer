@@ -40,6 +40,16 @@
     <constructor-arg name="bandDao" ref="bandDao"/>
   </bean>
 
+  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath*:test-db.properties</value>
+        <value>classpath*:sql-band.properties</value>
+      </list>
+    </property>
+  </bean>
+
+
   <!-- Thymeleaf Template Resolver -->
   <bean id="templateResolver"
         class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
