@@ -74,7 +74,7 @@ public class BandDaoJDBCImpl implements BandDao{
     public Integer update(Band band) {
         logger.debug("Update band: {}", band);
         SqlParameterSource sqlParameterSource =
-                new MapSqlParameterSource("bandName", band.getBandName())
+                new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandId", band.getBandId())
                         .addValue("bandDetails", band.getBandDetails());
         return namedParameterJdbcTemplate.update(SQL_UPDATE_BAND_NAME, sqlParameterSource);

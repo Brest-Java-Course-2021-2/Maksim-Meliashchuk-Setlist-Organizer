@@ -48,10 +48,22 @@
 <section class="container-fluid">
     <div class="alert alert-danger" role="alert">
         <h2>Exception!</h2>
-        <div th:utext="${exception.getMessage()}" >Exception</div>
-            <script>
+
+        <p th:if="${isNotUniqueException}">
+            <span th:text="${exception.getMessage()}">Exception</span>
+        </p>
+
+        <p th:if="${timestamp}" id='created'>
+            <b>Occurred:</b> <span th:text="${timestamp}">Timestamp</span>
+        </p>
+
+        <p th:if="!${isNotUniqueException}">
+            <span>Application has encountered an error. Please contact support.</span>
+        </p>
+
+        <script>
                 document.write('<a href="' + document.referrer + '"> <div class="alert-link"> Go Back</div>');
-            </script>
+        </script>
     </div>
 </section>
 

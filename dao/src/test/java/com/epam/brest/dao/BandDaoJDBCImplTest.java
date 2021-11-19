@@ -76,7 +76,7 @@ class BandDaoJDBCImplTest {
 
         Band bandSrc = bands.get(0);
         Band bandDst = bandDaoJDBC.getBandById(bandSrc.getBandId());
-        assertEquals(bandSrc.getBandName(), bandDst.getBandName());
+        assertEquals(bandSrc.getBandName().toUpperCase(), bandDst.getBandName().toUpperCase());
     }
 
     @Test

@@ -125,7 +125,7 @@ class BandControllerIT {
 
         Band band = bandService.getBandById(1);
         assertNotNull(band);
-        assertEquals(testName, band.getBandName());
+        assertEquals(testName.toUpperCase(), band.getBandName().toUpperCase());
     }
 
     @Test
