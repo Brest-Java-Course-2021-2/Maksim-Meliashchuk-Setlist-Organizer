@@ -18,6 +18,7 @@
 - **Automated Testing:** [JUnit5](https://junit.org/junit5/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
 - **Database:** [H2](http://www.h2database.com/html/main.html)
+- **Template engine:** [Thymeleaf](https://www.thymeleaf.org/)
 
 ## Installation Information
 
