@@ -11,39 +11,8 @@
   <title>Setlist Organizer</title>
 </head>
 
-
-<header class="d-flex flex-wrap justify-content-left py-4" style="background-image: linear-gradient(to right, rgba(255,0,0,0), #D0D3D4)">
-  <a href="bands.html" th:href="@{/bands}" class="navbar-brand">
-    <img src="../../resources/static/img/logo.svg"
-         th:src="@{/resources/static/img/logo.svg}" height="55" width="55" alt="Setlist Organizer">
-  </a>
-  <span class="fs-1">
-            <h1><p class="text-uppercase" style="margin-bottom:-1rem">setlist organizer</p></h1>
-            <p class="lead">An easy way to organize your repertoire!</p>
-        </span>
-</header>
-
-
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #D0D3D4;">
-  <div class="container-fluid">
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
-            aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbar">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
-        <li class="nav-item">
-          <a href="bands.html" th:href="@{/bands}" class="nav-link"><p class="text-uppercase">bands</p></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="repertoire.html" th:href="@{/repertoire/add}" ><p class="text-uppercase">repertorie</p></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<div th:insert="layouts :: header"></div>
+<div th:insert="layouts :: navbar"></div>
 
 <div class="container-fluid">
   <div class="row">
@@ -118,14 +87,7 @@
 
 
 
-<hr>
-<span class="border-top"></span>
-<footer class="footer fixed-bottom mt-auto py-3 bg-light">
-  <div class="text-center">
-    <span class="text-muted">&copy Maksim Meliashchuk 2021</span>
-  </div>
-</footer>
-
+<div th:insert="layouts :: footer"></div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
