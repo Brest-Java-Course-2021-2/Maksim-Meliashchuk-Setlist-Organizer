@@ -15,7 +15,9 @@
 - **Control System:** [Git](https://git-scm.com/)
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 - **Code Style:** [Codacy](https://www.codacy.com/)
-- **Automated Testing:** [JUnit5](https://junit.org/junit5/)
+- **Automated Testing:** 
+    - [JUnit5](https://junit.org/junit5/)
+    - [Mockito](http://site.mockito.org/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
 - **Database:** [H2](http://www.h2database.com/html/main.html)
 - **Template engine:** [Thymeleaf](https://www.thymeleaf.org/)
