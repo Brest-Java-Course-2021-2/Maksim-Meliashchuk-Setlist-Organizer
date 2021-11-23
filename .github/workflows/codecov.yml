@@ -18,4 +18,4 @@ jobs:
       - name: Maven Verify
         run: mvn -B clean verify
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v1
