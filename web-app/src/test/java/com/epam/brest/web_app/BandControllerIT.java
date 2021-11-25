@@ -143,4 +143,25 @@ class BandControllerIT {
         Integer countAfter = bandService.count();
         Assertions.assertEquals(countBefore - 1, countAfter);
     }
+
+    @Test
+    void shouldFailAddBandOnEmptyName() throws Exception {
+        // WHEN
+        Band band = new Band("");
+
+        // THEN
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/band")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .param("bandName", band.getBandName())
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("band"))
+                .andExpect(
+                        model().attributeHasFieldErrors(
+                                "band", "bandName"
+                        )
+                );
+    }
+
 }

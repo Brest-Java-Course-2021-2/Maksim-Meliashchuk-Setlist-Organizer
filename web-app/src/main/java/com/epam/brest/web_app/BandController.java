@@ -3,10 +3,12 @@ package com.epam.brest.web_app;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
+import com.epam.brest.web_app.validator.BandValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +23,14 @@ public class BandController {
 
     private final BandService bandService;
 
+    private final BandValidator bandValidator;
+
     private final Logger logger = LogManager.getLogger(BandController.class);
 
-    public BandController(BandDtoService bandDtoService, BandService bandService) {
+    public BandController(BandDtoService bandDtoService, BandService bandService, BandValidator bandValidator) {
         this.bandDtoService = bandDtoService;
         this.bandService = bandService;
+        this.bandValidator = bandValidator;
     }
 
     @GetMapping(value = "/bands")
@@ -52,15 +57,23 @@ public class BandController {
     }
 
     @PostMapping(value = "/band")
-    public String addBand(Band band) {
+    public String addBand(Band band, BindingResult result) {
         logger.debug("addBand({})", band);
+        bandValidator.validate(band, result);
+        if (result.hasErrors()) {
+            return "band";
+        }
         this.bandService.create(band);
         return "redirect:/bands";
     }
 
     @PostMapping(value = "/band/{id}")
-    public String updateBand(Band band) {
+    public String updateBand(Band band, BindingResult result) {
         logger.debug("updateBand({})", band);
+        bandValidator.validate(band, result);
+        if (result.hasErrors()) {
+            return "band";
+        }
         this.bandService.update(band);
         return "redirect:/bands";
     }
