@@ -26,7 +26,7 @@ public class BandDtoServiceImplIT {
         List<BandDto> bands = bandDtoService.findAllWithCountTrack();
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
-        assertTrue(bands.get(0).getCountTrack() > 0);
+        assertTrue(bands.get(0).getBandCountTrack() > 0);
     }
 
 }

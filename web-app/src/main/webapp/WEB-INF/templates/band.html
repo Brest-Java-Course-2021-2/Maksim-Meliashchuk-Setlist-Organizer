@@ -21,6 +21,7 @@
            th:text="${isNew} ? 'New band' : 'Edit band'">Edit band
   </h3>
 
+
   <form id="band_form"
         th:object="${band}"
         action="bands.html"
@@ -33,6 +34,9 @@
 
     <div class="mb-3 mt-3">
 
+      <input id="band_bandId"
+             type="hidden"
+             th:field="*{bandId}"/>
 
       <p class="fs-5 ml-5 p-1">*Title</p>
       <textarea id = "field_band_name" class="form-control" rows="1" placeholder="Name of band" required

@@ -9,11 +9,11 @@ CREATE TABLE band(
 
 CREATE TABLE track (
     track_id int NOT NULL AUTO_INCREMENT,
-    track_name varchar(100) NOT NULL,
+    track_name VARCHAR(100) NOT NULL,
     track_tempo INT,
     track_duration INT,
-    track_details varchar(2000) NOT NULL,
-    track_link varchar(255) NOT NULL,
+    track_details VARCHAR(2000) NOT NULL,
+    track_link VARCHAR(255) NOT NULL,
     track_release_date DATE,
     track_band_id INT,
     CONSTRAINT track_pk PRIMARY KEY (track_id),

@@ -19,7 +19,12 @@ public class BandDto {
     /**
      * Track count of the Band.
      */
-    private Integer countTrack;
+    private Integer bandCountTrack;
+
+    /**
+     * Duration of the repertoire of the Band.
+     */
+    private Integer bandRepertoireDuration;
 
     /**
      * Details of the Band.
@@ -92,17 +97,32 @@ public class BandDto {
      */
 
 
-    public Integer getCountTrack() {
-        return countTrack;
+    public Integer getBandCountTrack() {
+        return bandCountTrack;
     }
 
     /**
      * Sets the band's track count.
-     * @param countTrack track count
+     * @param bandCountTrack track count
      */
 
-    public void setCountTrack(Integer countTrack) {
-        this.countTrack = countTrack;
+    public void setBandCountTrack(Integer bandCountTrack) {
+        this.bandCountTrack = bandCountTrack;
+    }
+
+    /**
+     *Returns <code>Integer</code> duration of the repertoire of the band
+     * for the Band.
+     * @return bandRepertoireDuration
+     */
+
+
+    public Integer getBandRepertoireDuration() {
+        return bandRepertoireDuration;
+    }
+
+    public void setBandRepertoireDuration(Integer bandRepertoireDuration) {
+        this.bandRepertoireDuration = bandRepertoireDuration;
     }
 
     /**
@@ -114,7 +134,8 @@ public class BandDto {
                 + "bandId=" + bandId
                 + ", bandName='" + bandName + '\''
                 + ", bandDetails='" + bandDetails + '\''
-                + ", countTrack=" + countTrack
+                + ", bandCountTrack=" + bandCountTrack
+                + ", bandRepertoireDuration=" + bandRepertoireDuration
                 + '}';
     }
 }

@@ -55,21 +55,21 @@ class BandControllerIT {
                 allOf(
                         hasProperty("bandId", is(1)),
                         hasProperty("bandName", is("MY COVER BAND")),
-                        hasProperty("countTrack", is(2))
+                        hasProperty("bandCountTrack", is(2))
                 )
         )))
                 .andExpect(model().attribute("bands", hasItem(
                         allOf(
                                 hasProperty("bandId", is(2)),
                                 hasProperty("bandName", is("MY BAND")),
-                                hasProperty("countTrack", is(1))
+                                hasProperty("bandCountTrack", is(1))
                         )
                 )))
                 .andExpect(model().attribute("bands", hasItem(
                         allOf(
                                 hasProperty("bandId", is(3)),
                                 hasProperty("bandName", is("MUSE")),
-                                hasProperty("countTrack", is(0))
+                                hasProperty("bandCountTrack", is(0))
                         )
                 )));
 
@@ -119,9 +119,21 @@ class BandControllerIT {
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .param("bandId", "1")
                                 .param("bandName", testName)
+                                .param("bandCountTrack", "2")
                 ).andExpect(status().isFound())
                 .andExpect(view().name("redirect:/bands"))
                 .andExpect(redirectedUrl("/bands"));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/bands")
+                ).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString(testName.toUpperCase())))
+                .andExpect(model().attribute("bands", hasItem(
+                        allOf(
+                                hasProperty("bandId", is(1)),
+                                hasProperty("bandName", is(testName.toUpperCase())),
+                                hasProperty("bandCountTrack", is(2))))));
+
 
         Band band = bandService.getBandById(1);
         assertNotNull(band);

@@ -62,7 +62,7 @@ a:hover {
 }
 
 .top-menu li a::after {
-    background-color: #111;
+    background-color: #6c757d;
     content: '';
     display: block;
     height: 2px;

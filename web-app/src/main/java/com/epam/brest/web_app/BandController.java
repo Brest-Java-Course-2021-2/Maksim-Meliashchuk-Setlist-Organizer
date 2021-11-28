@@ -40,6 +40,7 @@ public class BandController {
         return "bands";
     }
 
+
     @GetMapping(value = "/band")
     public String gotoAddBandPage(Model model) {
         logger.debug("gotoAddBandPage({})", model);
@@ -69,7 +70,7 @@ public class BandController {
 
     @PostMapping(value = "/band/{id}")
     public String updateBand(Band band, BindingResult result) {
-        logger.debug("updateBand({})", band);
+        logger.debug("updateBand({}, {})", band);
         bandValidator.validate(band, result);
         if (result.hasErrors()) {
             return "band";
