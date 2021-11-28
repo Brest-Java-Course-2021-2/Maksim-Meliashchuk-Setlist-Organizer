@@ -99,8 +99,6 @@ public class BandDaoJDBCImpl implements BandDao{
     }
 
     private class BandRowMapper implements RowMapper<Band> {
-
-
         @Override
         public Band mapRow(ResultSet resultSet, int i) throws SQLException {
             logger.debug("Start: mapRow");
