@@ -93,7 +93,7 @@ public class BandDaoJDBCImpl implements BandDao{
 
     @Override
     public Integer count() {
-        logger.debug("count()");
+        logger.debug("Band count()");
         return namedParameterJdbcTemplate
                 .queryForObject(selectCountFromBand, new MapSqlParameterSource(), Integer.class);
     }
@@ -101,7 +101,7 @@ public class BandDaoJDBCImpl implements BandDao{
     private class BandRowMapper implements RowMapper<Band> {
         @Override
         public Band mapRow(ResultSet resultSet, int i) throws SQLException {
-            logger.debug("Start: mapRow");
+            logger.debug("Start: band mapRow");
             Band band = new Band();
             band.setBandId(resultSet.getInt("band_id"));
             band.setBandName(resultSet.getString("band_name"));

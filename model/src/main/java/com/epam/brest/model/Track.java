@@ -20,6 +20,13 @@ public class Track {
 
     private LocalDate releaseDate;
 
+    public Track() {
+    }
+
+    public Track(String trackName) {
+        this.trackName = trackName;
+    }
+
     public Integer getTrackId() {
         return trackId;
     }

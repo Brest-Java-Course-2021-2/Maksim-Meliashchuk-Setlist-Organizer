@@ -1,5 +1,6 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-jdbc-conf.xml"})
@@ -26,7 +27,9 @@ public class TrackDaoJDBCImplIT {
 
     @Test
     void findAll() {
+        logger.debug("Track execute test: findAll()");
         assertNotNull(trackDaoJDBC);
+        assertNotNull(trackDaoJDBC.findAll());
     }
 
     @Test
@@ -35,6 +38,13 @@ public class TrackDaoJDBCImplIT {
 
     @Test
     void create() {
+        logger.debug("Track execute test: create()");
+        assertNotNull(trackDaoJDBC);
+        int tracksSizeBefore = trackDaoJDBC.count();
+        Track track = new Track("new track");
+        Integer newTrackId = trackDaoJDBC.create(track);
+        assertNotNull(newTrackId);
+        assertEquals(tracksSizeBefore, trackDaoJDBC.count() - 1);
     }
 
     @Test
@@ -46,6 +56,12 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void count() {
+    void shouldCount() {
+        logger.debug("Track execute test: shouldCount()");
+        assertNotNull(trackDaoJDBC);
+        Integer quantity = trackDaoJDBC.count();
+        assertNotNull(quantity);
+        assertTrue(quantity > 0);
+        assertEquals(Integer.valueOf(3), quantity);
     }
 }
