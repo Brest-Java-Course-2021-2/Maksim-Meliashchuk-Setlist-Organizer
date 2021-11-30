@@ -1,5 +1,6 @@
 package com.epam.brest.dao;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +11,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class TrackDaoJDBCImpl implements TrackDao{
@@ -21,9 +19,18 @@ public class TrackDaoJDBCImpl implements TrackDao{
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
+
     private String sqlAllTracks = "SELECT * FROM track";
 
     private String selectCountFromTrack = "SELECT COUNT(*) FROM track";
+
+    private String sqlDeleteTrackById = "DELETE FROM track WHERE track_id = :trackId";
+
+    private String sqlTrackById = "SELECT * FROM track WHERE track_id = :trackId";
+
+    private String sqlUpdateTrackById = "UPDATE track SET track_name=:trackName, track_details=:trackDetails, track_tempo=:trackTempo, " +
+            "track_duration=:trackDuration, track_link=:trackLink, track_release_date=:trackReleaseDate, track_band_id=:trackBandId WHERE track_id = :trackId";
 
     private String sqlCreateTrack = "INSERT INTO track(track_name, track_details, track_tempo, track_duration, " +
             "track_link, track_release_date, track_band_id) " +
@@ -35,12 +42,15 @@ public class TrackDaoJDBCImpl implements TrackDao{
 
     @Override
     public List<Track> findAll() {
-        return namedParameterJdbcTemplate.query(sqlAllTracks, new TrackDaoJDBCImpl.TrackRowMapper());
+        return namedParameterJdbcTemplate.query(sqlAllTracks, trackRowMapper);
     }
 
     @Override
     public Track getTrackById(Integer trackId) {
-        return null;
+        logger.debug("Get track by id = {}", trackId);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("trackId", trackId);
+        return namedParameterJdbcTemplate.queryForObject(sqlTrackById, sqlParameterSource, trackRowMapper);
     }
 
     @Override
@@ -52,8 +62,8 @@ public class TrackDaoJDBCImpl implements TrackDao{
                         .addValue("trackTempo", track.getTrackTempo())
                         .addValue("trackDuration", track.getTrackDuration())
                         .addValue("trackLink", track.getTrackLink())
-                        .addValue("trackReleaseDate", track.getReleaseDate())
-                        .addValue("trackBandId", track.getBandId());
+                        .addValue("trackReleaseDate", track.getTrackReleaseDate())
+                        .addValue("trackBandId", track.getTrackBandId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sqlCreateTrack, sqlParameterSource, keyHolder);
         return (Integer) keyHolder.getKey();
@@ -61,12 +71,25 @@ public class TrackDaoJDBCImpl implements TrackDao{
 
     @Override
     public Integer update(Track track) {
-        return null;
+        logger.debug("Update track: {}", track);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("trackName", track.getTrackName())
+                        .addValue("trackId", track.getTrackId())
+                        .addValue("trackDetails", track.getTrackDetails())
+                        .addValue("trackTempo", track.getTrackTempo())
+                        .addValue("trackDuration", track.getTrackDuration())
+                        .addValue("trackLink", track.getTrackLink())
+                        .addValue("trackReleaseDate", track.getTrackReleaseDate())
+                        .addValue("trackBandId", track.getTrackBandId());
+        return namedParameterJdbcTemplate.update(sqlUpdateTrackById, sqlParameterSource);
     }
 
     @Override
     public Integer delete(Integer trackId) {
-        return null;
+        logger.debug("Delete track: {}", trackId);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("trackId", trackId);
+        return namedParameterJdbcTemplate.update(sqlDeleteTrackById, sqlParameterSource);
     }
 
     @Override
@@ -74,23 +97,6 @@ public class TrackDaoJDBCImpl implements TrackDao{
         logger.debug("Track count()");
         return namedParameterJdbcTemplate
                 .queryForObject(selectCountFromTrack, new MapSqlParameterSource(), Integer.class);
-    }
-
-    private class TrackRowMapper implements RowMapper<Track> {
-        @Override
-        public Track mapRow(ResultSet resultSet, int i) throws SQLException {
-            logger.debug("Start: track mapRow");
-            Track track = new Track();
-            track.setTrackId(resultSet.getInt("track_id"));
-            track.setTrackName(resultSet.getString("track_name"));
-            track.setTrackTempo(resultSet.getInt("track_tempo"));
-            track.setTrackDuration(resultSet.getInt("track_duration"));
-            track.setTrackDetails(resultSet.getString("track_details"));
-            track.setTrackLink(resultSet.getString("track_link"));
-            track.setReleaseDate(LocalDate.parse(resultSet.getString("track_release_date")));
-            track.setBandId(resultSet.getInt("track_band_id"));
-            return track;
-        }
     }
 
 }

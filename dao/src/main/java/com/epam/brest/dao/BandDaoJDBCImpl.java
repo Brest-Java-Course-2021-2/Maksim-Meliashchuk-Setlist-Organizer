@@ -24,8 +24,8 @@ public class BandDaoJDBCImpl implements BandDao{
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Value("${SELECT_COUNT_FROM_BAND}")
-    private String selectCountFromBand;
+    @Value("${SQL_SELECT_COUNT_FROM_BAND}")
+    private String sqlSelectCountFromBand;
     @Value("${SQL_ALL_BANDS}")
     private String sqlAllBands;
     @Value("${SQL_CREATE_BAND}")
@@ -34,8 +34,8 @@ public class BandDaoJDBCImpl implements BandDao{
     private String sqlCheckBand;
     @Value("${SQL_BAND_BY_ID}")
     private String sqlBandById;
-    @Value("${SQL_UPDATE_BAND_NAME}")
-    private String sqlUpdateBandName;
+    @Value("${SQL_UPDATE_BAND_BY_ID}")
+    private String sqlUpdateBandById;
     @Value("${SQL_DELETE_BAND_BY_ID}")
     private String sqlDeleteBandById;
 
@@ -80,7 +80,7 @@ public class BandDaoJDBCImpl implements BandDao{
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandId", band.getBandId())
                         .addValue("bandDetails", band.getBandDetails());
-        return namedParameterJdbcTemplate.update(sqlUpdateBandName, sqlParameterSource);
+        return namedParameterJdbcTemplate.update(sqlUpdateBandById, sqlParameterSource);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class BandDaoJDBCImpl implements BandDao{
     public Integer count() {
         logger.debug("Band count()");
         return namedParameterJdbcTemplate
-                .queryForObject(selectCountFromBand, new MapSqlParameterSource(), Integer.class);
+                .queryForObject(sqlSelectCountFromBand, new MapSqlParameterSource(), Integer.class);
     }
 
     private class BandRowMapper implements RowMapper<Band> {

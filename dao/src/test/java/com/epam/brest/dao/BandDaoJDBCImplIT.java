@@ -103,7 +103,6 @@ class BandDaoJDBCImplIT {
         logger.debug("Band execute test: deleteBand()");
         bandDaoJDBC.create(new Band("5Diez"));
         List<Band> bands = bandDaoJDBC.findAll();
-
         bandDaoJDBC.delete(bands.get(bands.size() - 1).getBandId());
         assertEquals(bands.size() - 1, bandDaoJDBC.findAll().size());
     }

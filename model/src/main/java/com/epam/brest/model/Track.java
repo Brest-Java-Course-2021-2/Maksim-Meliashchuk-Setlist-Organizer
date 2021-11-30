@@ -8,7 +8,7 @@ public class Track {
 
     private String trackName;
 
-    private Integer bandId;
+    private Integer trackBandId;
 
     private Integer trackTempo;
 
@@ -18,7 +18,7 @@ public class Track {
 
     private String trackLink;
 
-    private LocalDate releaseDate;
+    private LocalDate trackReleaseDate;
 
     public Track() {
     }
@@ -43,12 +43,12 @@ public class Track {
         this.trackName = trackName;
     }
 
-    public Integer getBandId() {
-        return bandId;
+    public Integer getTrackBandId() {
+        return trackBandId;
     }
 
-    public void setBandId(Integer bandId) {
-        this.bandId = bandId;
+    public void setTrackBandId(Integer trackBandId) {
+        this.trackBandId = trackBandId;
     }
 
     public Integer getTrackTempo() {
@@ -83,11 +83,11 @@ public class Track {
         this.trackLink = trackLink;
     }
 
-    public LocalDate getReleaseDate() {
-        return releaseDate;
+    public LocalDate getTrackReleaseDate() {
+        return trackReleaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setTrackReleaseDate(LocalDate trackReleaseDate) {
+        this.trackReleaseDate = trackReleaseDate;
     }
 }
