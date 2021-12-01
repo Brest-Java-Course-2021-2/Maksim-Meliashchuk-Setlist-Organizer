@@ -24,11 +24,20 @@
         <constructor-arg name="bandDao" ref="bandDao"/>
     </bean>
 
+    <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJDBCImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="trackService" class="com.epam.brest.service.impl.TrackServiceImpl">
+        <constructor-arg name="trackDao" ref="trackDao"/>
+    </bean>
+
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath*:test-db.properties</value>
                 <value>classpath*:sql-band.properties</value>
+                <value>classpath*:sql-track.properties</value>
             </list>
         </property>
     </bean>

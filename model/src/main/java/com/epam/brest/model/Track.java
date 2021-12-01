@@ -90,4 +90,17 @@ public class Track {
     public void setTrackReleaseDate(LocalDate trackReleaseDate) {
         this.trackReleaseDate = trackReleaseDate;
     }
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "trackId=" + trackId +
+                ", trackName='" + trackName + '\'' +
+                ", trackBandId='" + trackBandId + '\'' +
+                ", trackTempo='" + trackTempo + '\'' +
+                ", trackDetails='" + trackDetails + '\'' +
+                ", trackLink='" + trackLink + '\'' +
+                ", trackReleaseDate='" + trackReleaseDate + '\'' +
+                '}';
+    }
 }

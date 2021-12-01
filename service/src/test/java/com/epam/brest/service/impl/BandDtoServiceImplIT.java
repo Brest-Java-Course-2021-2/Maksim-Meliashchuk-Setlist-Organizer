@@ -2,6 +2,8 @@ package com.epam.brest.service.impl;
 
 import com.epam.brest.model.dto.BandDto;
 import com.epam.brest.service.BandDtoService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:service-context-test.xml"})
 @Transactional
 public class BandDtoServiceImplIT {
+
+    private final Logger logger = LogManager.getLogger(BandDtoServiceImplIT.class);
+
     @Autowired
     BandDtoService bandDtoService;
 
     @Test
-    public void shouldFindAllWithCountTrack() {
+    public void testShouldFindAllWithCountTrack() {
+        logger.debug("BandDtoService execute test: testShouldFindAllWithCountTrack()");
         List<BandDto> bands = bandDtoService.findAllWithCountTrack();
         assertNotNull(bands);
         assertTrue(bands.size() > 0);

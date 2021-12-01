@@ -29,7 +29,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void findAll() {
+    void testFindAll() {
         logger.debug("Track execute test: findAll()");
         assertNotNull(trackDaoJDBC);
         assertNotNull(trackDaoJDBC.findAll());
@@ -39,7 +39,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void getTrackById() {
+    void testGetTrackById() {
         logger.debug("Track execute test: getById()");
         List<Track> tracks = trackDaoJDBC.findAll();
         if (tracks.size() == 0) {
@@ -53,7 +53,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void create() {
+    void testCreate() {
         logger.debug("Track execute test: create()");
         assertNotNull(trackDaoJDBC);
         int tracksSizeBefore = trackDaoJDBC.count();
@@ -66,7 +66,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void update() {
+    void testUpdate() {
         logger.debug("Track execute test: update()");
         assertNotNull(trackDaoJDBC);
         List<Track> tracks = trackDaoJDBC.findAll();
@@ -95,7 +95,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void delete() {
+    void testDelete() {
         logger.debug("Track execute test: delete()");
         Track track = new Track("new track");
         trackDaoJDBC.create(track);
@@ -107,7 +107,7 @@ public class TrackDaoJDBCImplIT {
     }
 
     @Test
-    void shouldCount() {
+    void testShouldCount() {
         logger.debug("Track execute test: shouldCount()");
         assertNotNull(trackDaoJDBC);
         Integer quantity = trackDaoJDBC.count();

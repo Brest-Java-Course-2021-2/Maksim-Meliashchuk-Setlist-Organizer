@@ -2,7 +2,10 @@ package com.epam.brest.service.impl;
 
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
+import com.epam.brest.model.Track;
 import com.epam.brest.service.BandService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 class BandServiceImplIT {
 
+    private final Logger logger = LogManager.getLogger(BandServiceImplIT.class);
+
     @Autowired
     BandService bandService;
 
@@ -31,7 +36,33 @@ class BandServiceImplIT {
     }
 
     @Test
-    void shouldCount() {
+    void testGetBandById () {
+        logger.debug("Band service execute test: testGetBandById()");
+        assertNotNull(bandService);
+        Band band = new Band("Test band");
+        Integer bandId = bandService.create(band);
+        Band bandExtracted = bandService.getBandById(bandId);
+        assertEquals(band.getBandName().toUpperCase(), bandExtracted.getBandName());
+        assertEquals(band.getBandDetails(), bandExtracted.getBandDetails());
+    }
+
+    @Test
+    void testUpdate () {
+        logger.debug("Band service execute test: testUpdate()");
+        assertNotNull(bandService);
+        Integer bandId = 1;
+        Band bandSrc = bandService.getBandById(bandId);
+        bandSrc.setBandName(bandSrc.getBandName() + "#");
+        bandSrc.setBandDetails(bandSrc.getBandDetails() + "#");
+        bandService.update(bandSrc);
+        Band bandDst = bandService.getBandById(bandSrc.getBandId());
+        assertEquals(bandSrc.getBandName(), bandDst.getBandName());
+        assertEquals(bandSrc.getBandDetails(), bandDst.getBandDetails());
+    }
+
+    @Test
+    void testShouldCount() {
+        logger.debug("Band service execute test: testShouldCount()");
         assertNotNull(bandService);
         Integer quantity = bandService.count();
         assertNotNull(quantity);
@@ -40,7 +71,8 @@ class BandServiceImplIT {
     }
 
     @Test
-    void create() {
+    void testCreate() {
+        logger.debug("Band service execute test: testCreate()");
         assertNotNull(bandService);
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);
@@ -51,7 +83,19 @@ class BandServiceImplIT {
     }
 
     @Test
-    void tryToCreateEqualsBands() {
+    void testDelete() {
+        logger.debug("Band service execute test: testDelete()");
+        Integer bandId = 3;
+        assertNotNull(bandService);
+        Integer bandsSizeBefore = bandService.count();
+        assertNotNull(bandsSizeBefore);
+        bandService.delete(bandId);
+        assertEquals(bandsSizeBefore, bandService.count() + 1);
+    }
+
+    @Test
+    void testTryToCreateEqualsBands() {
+        logger.debug("Band service execute test: testTryToCreateEqualsBands()");
         assertNotNull(bandService);
         Band band = new Band("Offspring");
         assertThrows(NotUniqueException.class, () -> {
