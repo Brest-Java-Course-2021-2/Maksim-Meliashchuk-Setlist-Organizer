@@ -46,6 +46,7 @@
       <list>
         <value>classpath*:test-db.properties</value>
         <value>classpath*:sql-band.properties</value>
+        <value>classpath*:sql-track.properties</value>
       </list>
     </property>
   </bean>

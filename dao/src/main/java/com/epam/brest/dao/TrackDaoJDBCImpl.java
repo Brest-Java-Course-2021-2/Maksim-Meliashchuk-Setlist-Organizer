@@ -1,5 +1,6 @@
 package com.epam.brest.dao;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import com.epam.brest.model.Track;
@@ -21,17 +22,22 @@ public class TrackDaoJDBCImpl implements TrackDao{
 
     private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
 
-    private String sqlAllTracks = "SELECT * FROM track";
+    @Value("${SQL_ALL_TRACKS}")
+    private String sqlAllTracks;
 
-    private String selectCountFromTrack = "SELECT COUNT(*) FROM track";
+    @Value("${SQL_SELECT_COUNT_FROM_TRACK}")
+    private String selectCountFromTrack;
 
-    private String sqlDeleteTrackById = "DELETE FROM track WHERE track_id = :trackId";
+    @Value("${SQL_DELETE_TRACK_BY_ID}")
+    private String sqlDeleteTrackById;
 
+    @Value("${SQL_TRACK_BY_ID}")
     private String sqlTrackById = "SELECT * FROM track WHERE track_id = :trackId";
 
-    private String sqlUpdateTrackById = "UPDATE track SET track_name=:trackName, track_details=:trackDetails, track_tempo=:trackTempo, " +
-            "track_duration=:trackDuration, track_link=:trackLink, track_release_date=:trackReleaseDate, track_band_id=:trackBandId WHERE track_id = :trackId";
+    @Value("${SQL_UPDATE_TRACK_BY_ID}")
+    private String sqlUpdateTrackById;
 
+    @Value("${SQL_CREATE_TRACK}")
     private String sqlCreateTrack = "INSERT INTO track(track_name, track_details, track_tempo, track_duration, " +
             "track_link, track_release_date, track_band_id) " +
             "values(:trackName, :trackDetails, :trackTempo, :trackDuration, :trackLink, :trackReleaseDate, :trackBandId)";

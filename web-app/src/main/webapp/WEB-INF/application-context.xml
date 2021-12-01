@@ -43,10 +43,11 @@
 
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
-            <list>
-                <value>classpath*:test-db.properties</value>
-                <value>classpath*:sql-band.properties</value>
-            </list>
+          <list>
+            <value>classpath*:test-db.properties</value>
+            <value>classpath*:sql-band.properties</value>
+            <value>classpath*:sql-track.properties</value>
+          </list>
         </property>
     </bean>
 
