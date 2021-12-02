@@ -5,8 +5,8 @@ function secondsToTime() {
             var h = Math.floor(e / 3600).toString().padStart(2,'0'),
                 m = Math.floor(e % 3600 / 60).toString().padStart(2,'0'),
                 s = Math.floor(e % 60).toString().padStart(2,'0');
-            var time =  h + ':' + m + ':' + s;
-            time == '00:00:00' ? timeDuration.innerText = '' : timeDuration.innerText = time;
+            var time;
+            h == '00' ? time = m + ':' + s : time = h + ':' + m + ':' + s;
+            time == '00:00:00' || time == '00:00' ? timeDuration.innerText = '' : timeDuration.innerText = time;
     })
-
 }

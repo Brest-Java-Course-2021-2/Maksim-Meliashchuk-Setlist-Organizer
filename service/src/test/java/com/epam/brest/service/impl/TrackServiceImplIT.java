@@ -35,6 +35,16 @@ class TrackServiceImplIT {
     }
 
     @Test
+    void testFindAllTracks() {
+        logger.debug("Track execute test: testFindAllTracks()");
+        assertNotNull(trackService);
+        assertNotNull(trackService.findAllTracks());
+        List<Track> tracks = trackService.findAllTracks();
+        assertNotNull(tracks);
+        assertTrue(tracks.size() > 0);
+    }
+
+    @Test
     void testGetTrackById() {
         logger.debug("TrackService execute test: testGetTrackById()");
         assertNotNull(trackService);

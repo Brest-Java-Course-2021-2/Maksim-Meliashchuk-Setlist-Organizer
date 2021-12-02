@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class TrackServiceImpl implements TrackService {
@@ -50,5 +52,11 @@ public class TrackServiceImpl implements TrackService {
     public Integer count() {
         logger.debug("TrackService count()");
         return this.trackDao.count();
+    }
+
+    @Override
+    public List<Track> findAllTracks() {
+        logger.debug("TrackService findAllTracks()");
+        return this.trackDao.findAll();
     }
 }

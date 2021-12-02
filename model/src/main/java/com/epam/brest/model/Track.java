@@ -98,6 +98,7 @@ public class Track {
                 ", trackName='" + trackName + '\'' +
                 ", trackBandId='" + trackBandId + '\'' +
                 ", trackTempo='" + trackTempo + '\'' +
+                ", trackDuration='" + trackDuration + '\'' +
                 ", trackDetails='" + trackDetails + '\'' +
                 ", trackLink='" + trackLink + '\'' +
                 ", trackReleaseDate='" + trackReleaseDate + '\'' +

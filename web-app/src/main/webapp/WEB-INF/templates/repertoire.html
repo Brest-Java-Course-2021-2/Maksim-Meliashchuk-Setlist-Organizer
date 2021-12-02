@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <script type="text/javascript" th:src="@{/resources/static/js/scripts.js}"></script>
     <link rel="stylesheet" href="../../resources/static/css/style.css"
           th:href="@{/resources/static/css/style.css}">
     <title>Setlist Organizer</title>
@@ -15,93 +17,73 @@
 <div th:insert="layouts :: navbar"></div>
 
 <div class="container-fluid">
-    <div class="d-grid justify-content-md-end">
+    <div class="d-grid justify-content-end">
         <div class="p-2">
-            <a href="track.html" th:href="@{/repertorie/add}" class="btn btn-dark" role="button">Add</a>
+            <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
         </div>
     </div>
 </div>
 
-<hr>
 
 <div class="container-fluid">
-    <table class="table table-hover">
+    <div class="d-grid gap-3">
+        <div class="p-2 bg-light border p-2" th:each="track: ${tracks}">
+            <div class="row align-items-center">
 
-        <tbody>
-        <tr>
-            <th scope="row "><img src="../../resources/static/img/music.svg" height="25" width="25" alt="music"></th>
-            <td>Uprising</td>
-            <td>2:15 - 129 bpm</td>
-            <td>https://open.spotify.com/39bldfgKJwDgvju</td>
-            <td>2021-03-12</td>
-            <td>
-                <a href="#"
-                   class="btn-sm btn-outline-secondary"
-                   title="Edit">
-                    <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="HR">
-                    <span class="d-none d-md-inline">Edit</span>
-                </a>
-                <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
-                                    <a href="#" class="btn-sm btn-outline-secondary"
-                                       title="Delete">
-                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="HR">
+                <div class="col-sm">
+                    <img src="../../resources/static/img/music.svg" height="25" width="25" alt="music">
+                </div>
+                <div class="col">
+                    <strong>
+                        <p class="text-uppercase">
+                        <p th:text="${track.trackName}">My cover band</p></p>
+                    </strong>
+                </div>
+
+                <div class="col">
+                    <p th:text="${track.trackDetails}">super track1</p>
+                </div>
+
+                <div class="col">
+                    <p name="timeDuration" th:text="${track.trackDuration}">00:15:15</p>
+                    <p th:text="${track.trackTempo} + ' bpm'">129</p>
+                </div>
+
+                <div class="col-sm">
+                    <p th:text="${track.trackLink}">super track1</p>
+                </div>
+
+
+                <div class="col">
+                    <p th:text="${track.trackReleaseDate}">2020-03-2021</p>
+                </div>
+
+
+                <div class="d-flex justify-content-end">
+
+                    <a href="track.html"
+                       th:href="@{|/track/${track.trackId}|}"
+                       class="btn-sm btn-outline-secondary"
+                       title="Edit track">
+                        <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
+                        <span class="d-none d-md-inline">Edit</span></a>
+
+                    <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
+                          th:attr="data-id=${track.trackId},data-name=${track.trackName}">
+                                    <a href="#" class="btn-sm btn-outline-secondary" title="Delete band">
+                                        <img src="../../resources/static/img/delete.svg" height="20" width="20"
+                                             alt="Band delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
-                                </span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><img src="../../resources/static/img/music.svg" height="25" width="25" alt="music"></th>
-            <td>Absolution</td>
-            <td>3:20 - 90 bpm </td>
-            <td>https://open.spotify.com/39blffKJwDgvju</td>
-            <td>2000-03-12</td>
-            <td>
-                <a href="#"
-                   class="btn-sm btn-outline-secondary"
-                   title="Edit">
-                    <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="HR">
-                    <span class="d-none d-md-inline">Edit</span>
-                </a>
-                <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
-                                    <a href="#" class="btn-sm btn-outline-secondary"
-                                       title="Delete">
-                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="HR">
-                                        <span class="d-none d-md-inline">Delete</span>
-                                    </a>
-                                </span>
-
-
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><img src="../../resources/static/img/music.svg" height="25" width="25" alt="music"></th>
-            <td>Time Is Running Out</td>
-            <td>4:09 - 104 bpm </td>
-            <td>https://open.spotify.com/569blKefsJwDgvju</td>
-            <td>2008-12-08</td>
-            <td>
-                <a href="#"
-                   class="btn-sm btn-outline-secondary"
-                   title="Edit">
-                    <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="HR">
-                    <span class="d-none d-md-inline">Edit</span>
-                </a>
-                <span data-bs-toggle="modal" data-bs-target="#deleteDialog">
-                                    <a href="#" class="btn-sm btn-outline-secondary"
-                                       title="Delete">
-                                        <img src="../../resources/static/img/delete.svg" height="20" width="20" alt="HR">
-                                        <span class="d-none d-md-inline">Delete</span>
-                                    </a>
-                                </span>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    </div>
 </div>
+
 
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -115,8 +97,9 @@
                 Are you sure you want to delete track?
             </div>
             <div class="modal-footer">
-                <a href="repertoire.html" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button></a>
-                <a href="repertoire.html" type="button" class="btn btn-dark" >Delete</a>
+                <a href="repertoire.html" type="button" class="btn btn-secondary"
+                   data-dismiss="modal">Cancel</button></a>
+                <a href="repertoire.html" type="button" class="btn btn-dark">Delete</a>
             </div>
         </div>
     </div>
@@ -125,11 +108,16 @@
 
 <div th:insert="layouts :: footer"></div>
 
+<script>
+    window.onload = secondsToTime();
+
+</script>
+
 <script src="js/reorder_rows.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
-
-
 
 
 </html>
