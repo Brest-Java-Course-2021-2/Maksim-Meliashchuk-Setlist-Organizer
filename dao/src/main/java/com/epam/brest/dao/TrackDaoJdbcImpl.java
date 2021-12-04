@@ -14,9 +14,9 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import java.util.List;
 
-public class TrackDaoJDBCImpl implements TrackDao{
+public class TrackDaoJdbcImpl implements TrackDao{
 
-    private final Logger logger = LogManager.getLogger(TrackDaoJDBCImpl.class);
+    private final Logger logger = LogManager.getLogger(TrackDaoJdbcImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -42,7 +42,7 @@ public class TrackDaoJDBCImpl implements TrackDao{
             "track_link, track_release_date, track_band_id) " +
             "values(:trackName, :trackDetails, :trackTempo, :trackDuration, :trackLink, :trackReleaseDate, :trackBandId)";
 
-    public TrackDaoJDBCImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public TrackDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 

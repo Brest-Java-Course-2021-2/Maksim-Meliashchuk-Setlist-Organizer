@@ -8,7 +8,7 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="bandDtoDao" class="com.epam.brest.dao.BandDtoDaoJdbc">
+    <bean id="bandDtoDao" class="com.epam.brest.dao.BandDtoDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
@@ -16,7 +16,7 @@
         <constructor-arg name="bandDtoDao" ref="bandDtoDao"/>
     </bean>
 
-    <bean id="bandDao" class="com.epam.brest.dao.BandDaoJDBCImpl">
+    <bean id="bandDao" class="com.epam.brest.dao.BandDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
@@ -24,7 +24,17 @@
         <constructor-arg name="bandDao" ref="bandDao"/>
     </bean>
 
-    <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJDBCImpl">
+
+
+    <bean name="trackDtoDao" class="com.epam.brest.dao.TrackDtoDaoJdbcImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="trackDtoService" class="com.epam.brest.service.impl.TrackDtoServiceImpl">
+        <constructor-arg name="trackDtoDao" ref="trackDtoDao"/>
+    </bean>
+
+    <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 

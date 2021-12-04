@@ -121,6 +121,12 @@ public class BandDto {
         return bandRepertoireDuration;
     }
 
+    /**
+     *Sets <code>Integer</code> duration of the repertoire of the band
+     * for the Band.
+     * @param  bandRepertoireDuration
+     */
+
     public void setBandRepertoireDuration(Integer bandRepertoireDuration) {
         this.bandRepertoireDuration = bandRepertoireDuration;
     }

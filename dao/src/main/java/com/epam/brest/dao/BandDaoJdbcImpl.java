@@ -18,9 +18,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-public class BandDaoJDBCImpl implements BandDao{
+public class BandDaoJdbcImpl implements BandDao{
 
-    private final Logger logger = LogManager.getLogger(BandDaoJDBCImpl.class);
+    private final Logger logger = LogManager.getLogger(BandDaoJdbcImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -39,7 +39,7 @@ public class BandDaoJDBCImpl implements BandDao{
     @Value("${SQL_DELETE_BAND_BY_ID}")
     private String sqlDeleteBandById;
 
-    public BandDaoJDBCImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public BandDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 

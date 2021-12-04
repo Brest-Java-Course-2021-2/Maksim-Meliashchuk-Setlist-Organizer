@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -51,5 +53,11 @@ public class BandServiceImpl implements BandService {
     public Integer count() {
         logger.debug("count()");
         return this.bandDao.count();
+    }
+
+    @Override
+    public List<Band> findAllBands() {
+        logger.debug("findAll()");
+        return this.bandDao.findAll();
     }
 }

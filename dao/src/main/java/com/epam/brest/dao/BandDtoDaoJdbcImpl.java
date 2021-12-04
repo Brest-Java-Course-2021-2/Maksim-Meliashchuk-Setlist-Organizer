@@ -13,23 +13,23 @@ import java.util.List;
  *  Band DTO DAO implementation.
  */
 @Component
-public class BandDtoDaoJdbc implements BandDtoDao{
+public class BandDtoDaoJdbcImpl implements BandDtoDao{
 
-    private final Logger logger = LogManager.getLogger(BandDtoDaoJdbc.class);
+    private final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Value("${findAllWithCountTrackSql}")
-    private String findAllWithCountTrackSql;
+    @Value("${SQL_FIND_ALL_WITH_COUNT_TRACK}")
+    private String sqlFindAllWithCountTrack;
 
-    public BandDtoDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public BandDtoDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
     public List<BandDto> findAllWithCountTrack() {
         logger.debug("Start: findAllWithCountTrack(");
-        return namedParameterJdbcTemplate.query(findAllWithCountTrackSql,
+        return namedParameterJdbcTemplate.query(sqlFindAllWithCountTrack,
                 BeanPropertyRowMapper.newInstance(BandDto.class));
     }
 

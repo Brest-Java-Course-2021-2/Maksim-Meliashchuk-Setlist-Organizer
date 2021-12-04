@@ -30,14 +30,18 @@
         <div class="p-2 bg-light border p-2" th:each="track: ${tracks}">
             <div class="row align-items-center">
 
-                <div class="col-sm">
-                    <img src="../../resources/static/img/music.svg" height="25" width="25" alt="music">
-                </div>
                 <div class="col">
-                    <strong>
-                        <p class="text-uppercase">
-                        <p th:text="${track.trackName}">My cover band</p></p>
-                    </strong>
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="../../resources/static/img/music.svg" height="25" width="25" alt="music">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <strong>
+                                <p th:text="${track.trackName}">My track</p>
+                            </strong>
+                                <p th:text="${track.trackBandName}">My band</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col">
@@ -50,7 +54,9 @@
                 </div>
 
                 <div class="col-sm">
-                    <p th:text="${track.trackLink}">super track1</p>
+                    <a th:href="${track.trackLink}" class="link-primary">
+                        <p th:text="${track.trackLink}"></p>
+                    </a>
                 </div>
 
 

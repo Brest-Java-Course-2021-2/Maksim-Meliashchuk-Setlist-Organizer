@@ -18,14 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-jdbc-conf.xml"})
 @Transactional
-public class TrackDaoJDBCImplIT {
+public class TrackDaoJdbcImplIT {
 
-    private final Logger logger = LogManager.getLogger(TrackDaoJDBCImplIT.class);
+    private final Logger logger = LogManager.getLogger(TrackDaoJdbcImplIT.class);
 
-    private final TrackDaoJDBCImpl trackDaoJDBC;
+    private final TrackDaoJdbcImpl trackDaoJDBC;
 
-    public TrackDaoJDBCImplIT(@Autowired TrackDao trackDaoJDBC) {
-        this.trackDaoJDBC = (TrackDaoJDBCImpl) trackDaoJDBC;
+    public TrackDaoJdbcImplIT(@Autowired TrackDao trackDaoJDBC) {
+        this.trackDaoJDBC = (TrackDaoJdbcImpl) trackDaoJDBC;
     }
 
     @Test

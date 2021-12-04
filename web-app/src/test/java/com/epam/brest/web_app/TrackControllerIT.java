@@ -51,13 +51,14 @@ public class TrackControllerIT {
                         allOf(
                                 hasProperty("trackId", is(1)),
                                 hasProperty("trackName", is("Track1")),
-                                hasProperty("trackBandId", is(1)),
+                                hasProperty("trackBandName", is("MY COVER BAND")),
                                 hasProperty("trackTempo", is(120)),
                                 hasProperty("trackDuration", is(135)),
                                 hasProperty("trackDetails", is("super track1")),
                                 hasProperty("trackLink", is("http://spotify.com/sdfc7436w&d"))
                         )
                 )));
+
 
     }
 }

@@ -22,11 +22,11 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BandDaoJDBCImplTest {
-    private final Logger logger = LogManager.getLogger(BandDaoJDBCImplTest.class);
+public class BandDaoJdbcImplTest {
+    private final Logger logger = LogManager.getLogger(BandDaoJdbcImplTest.class);
 
     @InjectMocks
-    private BandDaoJDBCImpl bandDaoJDBC;
+    private BandDaoJdbcImpl bandDaoJDBC;
 
     @Mock
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

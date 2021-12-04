@@ -18,14 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-jdbc-conf.xml"})
 @Transactional
-class BandDaoJDBCImplIT {
+class BandDaoJdbcImplIT {
 
-    private final Logger logger = LogManager.getLogger(BandDaoJDBCImplIT.class);
+    private final Logger logger = LogManager.getLogger(BandDaoJdbcImplIT.class);
 
-    private final BandDaoJDBCImpl bandDaoJDBC;
+    private final BandDaoJdbcImpl bandDaoJDBC;
 
-    public BandDaoJDBCImplIT(@Autowired BandDao bandDaoJDBC) {
-        this.bandDaoJDBC = (BandDaoJDBCImpl) bandDaoJDBC;
+    public BandDaoJdbcImplIT(@Autowired BandDao bandDaoJDBC) {
+        this.bandDaoJDBC = (BandDaoJdbcImpl) bandDaoJDBC;
     }
 
     @Test

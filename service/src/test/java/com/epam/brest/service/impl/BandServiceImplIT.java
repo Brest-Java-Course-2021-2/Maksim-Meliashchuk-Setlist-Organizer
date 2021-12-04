@@ -2,7 +2,6 @@ package com.epam.brest.service.impl;
 
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
-import com.epam.brest.model.Track;
 import com.epam.brest.service.BandService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,6 +90,16 @@ class BandServiceImplIT {
         assertNotNull(bandsSizeBefore);
         bandService.delete(bandId);
         assertEquals(bandsSizeBefore, bandService.count() + 1);
+    }
+
+    @Test
+    void testFindAll() {
+        logger.debug("Band service execute test: testFindAll()");
+        assertNotNull(bandService);
+        assertNotNull(bandService.findAllBands());
+        List<Band> bands = bandService.findAllBands();
+        assertNotNull(bands);
+        assertTrue(bands.size() > 0);
     }
 
     @Test
