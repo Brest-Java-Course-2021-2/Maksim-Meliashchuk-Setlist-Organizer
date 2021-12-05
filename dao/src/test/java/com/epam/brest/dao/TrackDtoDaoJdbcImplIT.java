@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,5 +36,26 @@ class TrackDtoDaoJdbcImplIT {
         List<TrackDto> tracks = trackDtoDaoJdbc.findAllTracksWithBandName();
         assertNotNull(tracks);
         assertTrue(tracks.size() > 0);
+    }
+
+    @Test
+    void testFindAllTracksWithReleaseDateFilter() {
+        logger.debug("Track execute test: testFindAllTracksWithReleaseDateFilter()");
+        assertNotNull(trackDtoDaoJdbc);
+        LocalDate fromDate = LocalDate.parse("2012-03-12");
+        LocalDate toDate =  LocalDate.parse("2020-01-01");
+        assertNotNull(trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, toDate));
+        List<TrackDto> tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, toDate);
+        assertEquals(1, tracks.size());
+        tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, null);
+        assertEquals(1,tracks.size());
+        tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(null, toDate);
+        assertEquals(0,tracks.size());
+        tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, fromDate);
+        assertEquals(1,tracks.size());
+        tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(toDate, toDate);
+        assertEquals(0,tracks.size());
+        tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(null, null);
+        assertEquals(3,tracks.size());
     }
 }

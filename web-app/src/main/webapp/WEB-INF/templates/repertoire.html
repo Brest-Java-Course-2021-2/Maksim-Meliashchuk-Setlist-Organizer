@@ -17,14 +17,26 @@
 <div th:insert="layouts :: header"></div>
 <div th:insert="layouts :: navbar"></div>
 
-<div class="container-fluid">
-    <div class="d-grid justify-content-end">
-        <div class="p-2">
-            <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
+<form class="form-group">
+    <div class="container-fluid">
+        <div class="mb-3 mt-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <p class="fs-5 ml-5 p-1">Release date from:</p>
+                <strong>
+                    <input type="date" class="form-control"
+                           id="fromDate" name="fromDate">
+                </strong>
+                <p class="fs-5 ml-5 p-1">to:</p>
+                <strong>
+                    <input type="date" class="form-control"
+                           id="toDate" name="toDate">
+                </strong>
+                <button class="btn btn-dark">Submit</button>
+                <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
+            </div>
         </div>
     </div>
-</div>
-
+</form>
 
 <div class="container-fluid">
     <div class="d-grid gap-3">
@@ -46,15 +58,16 @@
                 </div>
 
                 <div class="col">
-                    <p th:text="${track.trackDetails}">super track1</p>
-                </div>
-
-                <div class="col">
                     <p name="timeDuration" th:text="${track.trackDuration}">00:15:15</p>
                     <p th:text="${track.trackTempo} + ' bpm'">129</p>
                 </div>
 
-                <div class="col-sm">
+                <div class="col">
+                    <p th:text="${track.trackDetails}">super track1</p>
+                </div>
+
+
+                <div class="col">
                     <a th:href="${track.trackLink}" class="link-primary">
                         <p th:text="${track.trackLink}"></p>
                     </a>
@@ -65,25 +78,26 @@
                     <p th:text="${track.trackReleaseDate}">2020-03-2021</p>
                 </div>
 
+                <div class="col">
+                    <div class="d-flex justify-content-end">
 
-                <div class="d-flex justify-content-end">
+                        <a href="track.html"
+                           th:href="@{|/track/${track.trackId}|}"
+                           class="btn-sm btn-outline-secondary"
+                           title="Edit track">
+                            <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
+                            <span class="d-none d-md-inline">Edit</span></a>
 
-                    <a href="track.html"
-                       th:href="@{|/track/${track.trackId}|}"
-                       class="btn-sm btn-outline-secondary"
-                       title="Edit track">
-                        <img src="../../resources/static/img/edit.svg" height="20" width="20" alt="Band edit">
-                        <span class="d-none d-md-inline">Edit</span></a>
-
-                    <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
-                          th:attr="data-id=${track.trackId},data-name=${track.trackName}">
+                        <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
+                              th:attr="data-id=${track.trackId},data-name=${track.trackName}">
                                     <a href="#" class="btn-sm btn-outline-secondary" title="Delete track">
                                         <img src="../../resources/static/img/delete.svg" height="20" width="20"
                                              alt="Track delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                         </span>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

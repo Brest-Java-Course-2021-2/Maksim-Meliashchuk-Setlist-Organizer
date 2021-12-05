@@ -6,6 +6,7 @@ import com.epam.brest.service.TrackDtoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,5 +22,10 @@ public class TrackDtoServiceImpl implements TrackDtoService {
     @Override
     public List<TrackDto> findAllTracksWithBandName() {
         return trackDtoDao.findAllTracksWithBandName();
+    }
+
+    @Override
+    public List<TrackDto> findAllTracksWithReleaseDateFilter(LocalDate fromDate, LocalDate toDate) {
+        return trackDtoDao.findAllTracksWithReleaseDateFilter(fromDate, toDate);
     }
 }
