@@ -1,5 +1,5 @@
 package com.epam.brest.model;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 public class Track {
@@ -18,6 +18,7 @@ public class Track {
 
     private String trackLink;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 
     public Track() {

@@ -81,6 +81,12 @@
   <!-- Thymeleaf Template Engine (Spring5-specific version) -->
   <bean id="templateEngine"
         class="org.thymeleaf.spring5.SpringTemplateEngine">
+    <property name="dialects">
+      <list>
+        <bean class="org.thymeleaf.spring5.dialect.SpringStandardDialect" />
+        <bean class="org.thymeleaf.extras.java8time.dialect.Java8TimeDialect" />
+      </list>
+    </property>
     <property name="templateResolvers">
       <set>
         <ref bean="templateResolver" />

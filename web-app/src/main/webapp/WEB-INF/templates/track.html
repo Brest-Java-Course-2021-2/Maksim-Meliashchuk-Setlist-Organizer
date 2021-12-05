@@ -15,6 +15,7 @@
 <div th:insert="layouts :: navbar"></div>
 
 
+
 <div class="container mt-3">
 
   <h3 class="text-uppercase"
@@ -22,80 +23,94 @@
   </h3>
 
 
-  <div class="row">
-    <div class="col">
-      <div class="container-fluid">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-          <form class="form-horizontal" method="post">
-            <div class="form-group form-group-lg">
-              <label class="fs-5 ml-5 p-1">*Select a band</label>
+  <form id="track_form"
+        th:object="${track}"
+        action="track.html"
+        th:action="@{${#httpServletRequest.servletPath}}"
+        th:method="@{post}">
 
-              <div class="col-sm-10">
-                <select class="select form-control" id="select" name="select">
-                  <option value="First Choice">
-                    My cover band
-                  </option>
-                  <option value="Second Choice">
-                    Muse
-                  </option>
-                  <option value="Third Choice">
-                    Big band
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group form-group-lg">
-              <label class="control-label col-sm-2" for="name">
-                <p class="fs-5 ml-5 p-1">*Title</p>
-              </label>
-              <div class="col-sm-10">
-                <input class="form-control" id="name" name="name" type="text"/>
-              </div>
-            </div>
-            <div class="form-group form-group-lg">
-              <label class="control-label col-sm-2" for="message">
-                <p class="fs-5 ml-5 p-1">Details</p>
-              </label>
-              <div class="col-sm-10">
-                <textarea class="form-control" cols="40" id="message" name="message" rows="4"></textarea>
-              </div>
-            </div>
-            <div class="form-group form-group-lg">
-              <p class="fs-5 ml-5 p-1">Event date</p>
-              <div class="col-sm-10">
-                <strong>
-                  <input type="date" id="inputStartDate" class="form-control">
-                </strong>
-              </div>
-            </div>
-            <div class="form-group form-group-lg">
-              <p class="fs-5 ml-5 p-1">Additional time per track</p>
-              <div class="col-sm-10">
-                <input class="form-control" id="number" name="number" type="text"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-sm-3 m-2">
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="events.html" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
-                    <a href="events.html" class="btn btn-dark" role="button">Save</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+
+    <div class="mb-3 mt-3">
+      <input id="track_trackId"
+             type="hidden"
+             th:field="*{trackId}"/>
+
+      <p class="fs-5 ml-5 p-1">*Title</p>
+      <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" required
+                type="text"
+                th:field="*{trackName}"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <p class="fs-5 p-1">Band:</p>
+      <select th:field="*{trackBandId}" class="select form-control" id="select" name="select">
+        <option th:each="band : ${bands}"
+                th:value="${band.bandId}"
+                th:text="${band.bandName}"/>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <p class="fs-5 p-1">Tempo:</p>
+      <textarea id="field_track_tempo" class="form-control" rows="1" placeholder="Bpm" required
+                type="text"
+                th:field="*{trackTempo}"></textarea>
+    </div>
+
+
+    <div class="mb-3">
+      <p class="fs-5 p-1">Duration:</p>
+      <div class="row">
+        <div class="col">
+          <textarea id="field_track_duration" class="form-control" rows="1" placeholder="Minutes" required
+                    type="text"
+                    th:field="*{trackDuration}"></textarea>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Seconds">
         </div>
       </div>
     </div>
-  </div>
-</div>
 
+    <div class="mb-3">
+      <p class="fs-5 p-1">Details:</p>
+      <textarea id="field_track_details" class="form-control" rows="8" placeholder="About track" required
+                type="text"
+                th:field="*{trackDetails}"></textarea>
+    </div>
+
+
+    <div class="mb-3">
+      <p class="fs-5 p-1">Link:</p>
+      <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
+                type="text"
+                th:field="*{trackLink}"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-group form-group-lg">
+        <p class="fs-5 ml-5 p-1">Release date:</p>
+        <strong>
+          <input type="date" id="inputReleaseDate" class="form-control"
+                 th:field="*{trackReleaseDate}">
+        </strong>
+      </div>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
+        <a href="repertoire.html"
+           th:href="@{/repertoire}"
+           th:onclick="@{document.forms['track_form'].submit(); return false;}"
+           class="btn btn-dark" role="button">Save</a>
+      </div>
+    </div>
+  </form>
+</div>
 
 
 <div th:insert="layouts :: footer"></div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</body>
 </html>
