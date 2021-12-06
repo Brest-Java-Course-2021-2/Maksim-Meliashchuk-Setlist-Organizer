@@ -25,6 +25,14 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
     @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_FILTER}")
     private String sqlFindAllTracksWithReleaseDateFilter;
 
+    @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_FROM}")
+    private String sqlFindAllTracksWithReleaseDateFrom;
+
+    @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_TO}")
+    private String sqlFindAllTracksWithReleaseDateTo;
+
+
+
     public TrackDtoDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -45,11 +53,13 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
                     BeanPropertyRowMapper.newInstance(TrackDto.class));
         }
         if (fromDate == null){
-            sqlParameterSource.addValue("fromDate", toDate);
             sqlParameterSource.addValue("toDate", toDate);
+            return namedParameterJdbcTemplate.query(sqlFindAllTracksWithReleaseDateTo, sqlParameterSource,
+                    BeanPropertyRowMapper.newInstance(TrackDto.class));
         }else if (toDate == null){
             sqlParameterSource.addValue("fromDate", fromDate);
-            sqlParameterSource.addValue("toDate", fromDate);
+            return namedParameterJdbcTemplate.query(sqlFindAllTracksWithReleaseDateFrom, sqlParameterSource,
+                    BeanPropertyRowMapper.newInstance(TrackDto.class));
         }else {
             sqlParameterSource.addValue("fromDate", fromDate);
             sqlParameterSource.addValue("toDate", toDate);

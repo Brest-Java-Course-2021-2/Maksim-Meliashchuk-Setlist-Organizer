@@ -83,6 +83,8 @@ public class TrackController {
                                                  Model model) {
         logger.debug("filterTrackByReleaseDate({},{})", fromDate, toDate);
         model.addAttribute("tracks", trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate));
+        model.addAttribute("fromDate", fromDate);
+        model.addAttribute("toDate", toDate);
         return "repertoire";
     }
 

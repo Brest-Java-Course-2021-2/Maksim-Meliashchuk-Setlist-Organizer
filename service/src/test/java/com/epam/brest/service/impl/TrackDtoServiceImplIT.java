@@ -44,9 +44,9 @@ class TrackDtoServiceImplIT {
         List<TrackDto> tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate);
         assertEquals(1, tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, null);
-        assertEquals(1,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(null, toDate);
-        assertEquals(0,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, fromDate);
         assertEquals(1,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(toDate, toDate);

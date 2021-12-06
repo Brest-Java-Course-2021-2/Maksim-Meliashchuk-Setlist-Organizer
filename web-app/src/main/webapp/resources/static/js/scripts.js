@@ -10,3 +10,20 @@ function secondsToTime() {
             time == '00:00:00' || time == '00:00' ? timeDuration.innerText = '' : timeDuration.innerText = time;
     })
 }
+
+function durationToMinutesAndSeconds() {
+    var e = document.getElementById("field_track_duration").value,
+        m = Math.floor(e % 3600 / 60),
+        s = Math.floor(e % 60);
+    document.getElementById("track_duration_minutes").value = m;
+    document.getElementById("track_duration_seconds").value = s;
+}
+
+function durationToSeconds() {
+    var m = document.getElementById("track_duration_minutes").value;
+    var s = document.getElementById("track_duration_seconds").value;
+    var e = +m * 60 + +s;
+    document.getElementById("field_track_duration").value = e
+}
+
+

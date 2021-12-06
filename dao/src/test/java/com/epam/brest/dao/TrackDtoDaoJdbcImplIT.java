@@ -48,9 +48,9 @@ class TrackDtoDaoJdbcImplIT {
         List<TrackDto> tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, toDate);
         assertEquals(1, tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, null);
-        assertEquals(1,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(null, toDate);
-        assertEquals(0,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, fromDate);
         assertEquals(1,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(toDate, toDate);
