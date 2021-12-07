@@ -1,19 +1,19 @@
 package com.epam.brest.web_app;
 
 import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.web_app.validator.TrackValidator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * MVC controller.
@@ -27,12 +27,16 @@ public class TrackController {
 
     private final TrackDtoService trackDtoService;
 
+    private final TrackValidator trackValidator;
+
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
-    public TrackController(TrackService trackService, BandService bandService, TrackDtoService trackDtoService) {
+    public TrackController(TrackService trackService, BandService bandService, TrackDtoService trackDtoService,
+                           TrackValidator trackValidator) {
         this.trackService = trackService;
         this.bandService = bandService;
         this.trackDtoService = trackDtoService;
+        this.trackValidator = trackValidator;
     }
 
     @GetMapping(value = "/track")
@@ -55,15 +59,20 @@ public class TrackController {
     }
 
     @PostMapping(value = "/track")
-    public String addTrack(Track track) {
+    public String addTrack(Track track, BindingResult result) {
         logger.debug("addTrack({})", track);
+        trackValidator.validate(track, result);
         this.trackService.create(track);
         return "redirect:/repertoire";
     }
 
     @PostMapping(value = "/track/{id}")
-    public String updateBand(Track track) {
+    public String updateBand(Track track, BindingResult result) {
         logger.debug("updateTrack({}, {})", track);
+        trackValidator.validate(track, result);
+        if (result.hasErrors()) {
+            return "track";
+        }
         this.trackService.update(track);
         return "redirect:/repertoire";
     }

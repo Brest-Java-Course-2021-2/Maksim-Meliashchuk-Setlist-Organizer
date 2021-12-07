@@ -29,6 +29,9 @@
         th:action="@{${#httpServletRequest.servletPath}}"
         th:method="@{post}">
 
+    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+      <p>Please fix errors below:</p>
+    </div>
 
     <div class="mb-3 mt-3">
       <input id="track_trackId"
@@ -40,6 +43,10 @@
                 type="text"
                 th:field="*{trackName}"></textarea>
     </div>
+
+    <div th:if="${#fields.hasErrors('trackName')}"
+         class="text-danger"
+         th:errors="*{trackName}">[errors]</div>
 
     <div class="mb-3">
       <p class="fs-5 p-1">Band:</p>
@@ -79,6 +86,10 @@
                 th:field="*{trackDetails}"></textarea>
     </div>
 
+    <div th:if="${#fields.hasErrors('trackDetails')}"
+         class="text-danger"
+         th:errors="*{trackDetails}">[errors]</div>
+
 
     <div class="mb-3">
       <p class="fs-5 p-1">Link:</p>
@@ -86,6 +97,10 @@
                 type="text"
                 th:field="*{trackLink}"></textarea>
     </div>
+
+    <div th:if="${#fields.hasErrors('trackLink')}"
+         class="text-danger"
+         th:errors="*{trackLink}">[errors]</div>
 
     <div class="mb-3">
       <div class="form-group form-group-lg">
@@ -109,8 +124,6 @@
     </div>
   </form>
 </div>
-
-<button onclick="durationToSeconds()">Copy Text</button>
 
 <div th:insert="layouts :: footer"></div>
 
