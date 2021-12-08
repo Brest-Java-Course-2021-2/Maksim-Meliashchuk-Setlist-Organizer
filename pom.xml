@@ -36,6 +36,7 @@
         <hamcrest.version>1.3</hamcrest.version>
         <mockito.version>4.1.0</mockito.version>
         <jacocoPlugin.version>0.8.7</jacocoPlugin.version>
+        <jackson.version>2.13.0</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -67,6 +68,12 @@
             <dependency>
                 <groupId>com.epam.brest</groupId>
                 <artifactId>service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
+                <artifactId>rest-app</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -146,6 +153,12 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
