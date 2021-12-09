@@ -1,15 +1,14 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * REST controller.
@@ -25,6 +24,12 @@ public class BandController {
         this.bandService = bandService;
     }
 
+    @GetMapping(value = "/bands")
+    public final Collection<Band> bands() {
+        logger.debug("bands()");
+        return bandService.findAllBands();
+    }
+
     @GetMapping(value = "/bands/{id}")
     public final Band getBandById(@PathVariable Integer id) {
         logger.debug("band()");
@@ -33,7 +38,6 @@ public class BandController {
 
     @PostMapping(path = "/bands", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Integer> createBand(@RequestBody Band band) {
-
         logger.debug("createBand({})", band);
         Integer id = bandService.create(band);
         return new ResponseEntity<>(id, HttpStatus.OK);
@@ -41,7 +45,6 @@ public class BandController {
 
     @PutMapping(value = "/bands", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<Integer> updateBand(@RequestBody Band band) {
-
         logger.debug("updateBand({})", band);
         int result = bandService.update(band);
         return new ResponseEntity(result, HttpStatus.OK);

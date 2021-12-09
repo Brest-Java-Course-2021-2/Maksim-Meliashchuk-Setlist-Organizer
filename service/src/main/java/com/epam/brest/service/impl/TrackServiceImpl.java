@@ -23,24 +23,28 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Track getTrackById(Integer trackId) {
         logger.debug("Get track by id = {}", trackId);
         return this.trackDao.getTrackById(trackId);
     }
 
     @Override
+    @Transactional
     public Integer create(Track track) {
         logger.debug("Track create({})", track);
         return this.trackDao.create(track);
     }
 
     @Override
+    @Transactional
     public Integer update(Track track) {
         logger.debug("Track update({})", track);
         return this.trackDao.update(track);
     }
 
     @Override
+    @Transactional
     public Integer delete(Integer trackId) {
         logger.debug("Track delete({})", trackId);
         logger.debug("Delete track with id = {}", trackId);
@@ -55,6 +59,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Track> findAllTracks() {
         logger.debug("TrackService findAllTracks()");
         return this.trackDao.findAll();

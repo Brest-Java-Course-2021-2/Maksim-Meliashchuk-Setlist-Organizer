@@ -1,5 +1,7 @@
 package com.epam.brest.rest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(MockitoExtension.class)
 class VersionControllerTest {
 
+    private final Logger logger = LogManager.getLogger(VersionControllerTest.class);
+
     private VersionController controller = new VersionController();
 
     private MockMvc mockMvc;
@@ -26,6 +30,7 @@ class VersionControllerTest {
 
     @Test
     public void version() throws Exception {
+        logger.debug("VersionControllerTest version()");
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/version")
                 ).andDo(MockMvcResultHandlers.print())

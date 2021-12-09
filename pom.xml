@@ -37,6 +37,9 @@
         <mockito.version>4.1.0</mockito.version>
         <jacocoPlugin.version>0.8.7</jacocoPlugin.version>
         <jackson.version>2.13.0</jackson.version>
+        <json-path.version>2.0.0</json-path.version>
+        <h2database.version>1.4.200</h2database.version>
+        <javax-servlet.version>4.0.0</javax-servlet.version>
     </properties>
 
     <dependencyManagement>
@@ -140,7 +143,7 @@
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
-                <version>4.0.0</version>
+                <version>${javax-servlet.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -164,7 +167,7 @@
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
-                <version>1.4.200</version>
+                <version>${h2database.version}</version>
             </dependency>
 
             <!--tests-->
@@ -184,6 +187,12 @@
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-all</artifactId>
                 <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${json-path.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

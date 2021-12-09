@@ -6,7 +6,6 @@ import com.epam.brest.service.BandDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -23,9 +22,9 @@ public class BandDtoController {
         this.bandDtoService = bandDtoService;
     }
 
-    @GetMapping(value = "/bands_dto")
-    public final Collection<BandDto> getBandById(@PathVariable Integer id) {
-        logger.debug("band()");
+    @GetMapping(value = "/band_dtos")
+    public final Collection<BandDto> bandDtos() {
+        logger.debug("bandDto()");
         return bandDtoService.findAllWithCountTrack();
     }
 }

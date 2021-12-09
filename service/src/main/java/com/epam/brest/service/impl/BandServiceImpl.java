@@ -3,8 +3,10 @@ package com.epam.brest.service.impl;
 import com.epam.brest.dao.BandDao;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.exception.BandNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,24 +26,32 @@ public class BandServiceImpl implements BandService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Band getBandById(Integer bandId) {
         logger.debug("Get band by id = {}", bandId);
-        return this.bandDao.getBandById(bandId);
+        try {
+            return this.bandDao.getBandById(bandId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new BandNotFoundException(bandId);
+        }
     }
 
     @Override
+    @Transactional
     public Integer create(Band band) {
         logger.debug("create({})", band);
         return this.bandDao.create(band);
     }
 
     @Override
+    @Transactional
     public Integer update(Band band) {
         logger.debug("update({})", band);
         return this.bandDao.update(band);
     }
 
     @Override
+    @Transactional
     public Integer delete(Integer bandId) {
         logger.debug("delete({})", bandId);
         logger.debug("delete band with id = {}", bandId);
@@ -56,6 +66,7 @@ public class BandServiceImpl implements BandService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Band> findAllBands() {
         logger.debug("findAll()");
         return this.bandDao.findAll();
