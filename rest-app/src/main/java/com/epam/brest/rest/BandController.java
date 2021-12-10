@@ -32,7 +32,7 @@ public class BandController {
 
     @GetMapping(value = "/bands/{id}")
     public final Band getBandById(@PathVariable Integer id) {
-        logger.debug("band()");
+        logger.debug("getBandById()");
         return bandService.getBandById(id);
     }
 

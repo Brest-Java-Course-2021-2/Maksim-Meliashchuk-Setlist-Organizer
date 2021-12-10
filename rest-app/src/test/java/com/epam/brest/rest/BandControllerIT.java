@@ -31,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//TODO add all fields
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 public class BandControllerIT {

@@ -1,75 +1,66 @@
-package com.epam.brest.web_app;
+package com.epam.brest.rest;
 
+import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.web_app.validator.TrackValidator;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 /**
- * MVC controller.
+ * REST controller.
  */
-@Controller
+@RestController
 public class TrackController {
-
     private final TrackService trackService;
-
-    private final BandService bandService;
-
-    private final TrackDtoService trackDtoService;
-
-    private final TrackValidator trackValidator;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
-    public TrackController(TrackService trackService, BandService bandService, TrackDtoService trackDtoService,
-                           TrackValidator trackValidator) {
+    public TrackController(TrackService trackService) {
         this.trackService = trackService;
-        this.bandService = bandService;
-        this.trackDtoService = trackDtoService;
-        this.trackValidator = trackValidator;
     }
 
-    @GetMapping(value = "/track")
-    public String gotoAddTrackPage(Model model) {
-        logger.debug("gotoAddTrackPage({})", model);
-        model.addAttribute("isNew", true);
-        model.addAttribute("track", new Track());
-        model.addAttribute("bands", bandService.findAllBands());
-        model.addAttribute("localDate", LocalDate.now());
-        return "track";
+    @PostMapping(path = "/repertoire", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Integer> createTrack(@RequestBody Track track) {
+        logger.debug("createTrack({})", track);
+        Integer id = trackService.create(track);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/track/{id}")
-    public final String gotoEditTrackPage(@PathVariable Integer id, Model model) {
-        logger.debug("gotoEditTrackPage(id:{},model:{})", id, model);
-        model.addAttribute("isNew", false);
-        model.addAttribute("track", trackService.getTrackById(id));
-        model.addAttribute("bands", bandService.findAllBands());
-        return "track";
+    @PutMapping(value = "/repertoire", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<Integer> updateTrack(@RequestBody Track track) {
+        logger.debug("updateTrack({})", track);
+        int result = trackService.update(track);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/repertoire/{id}")
+    public final Track getTrackById(@PathVariable Integer id) {
+        logger.debug("getTrackById()");
+        return trackService.getTrackById(id);
+    }
+
+    //TODO INPLEMENTATION Metods
 
     @PostMapping(value = "/track")
     public String addTrack(Track track, BindingResult result) {
         logger.debug("addTrack({})", track);
-        trackValidator.validate(track, result);
         this.trackService.create(track);
         return "redirect:/repertoire";
     }
 
     @PostMapping(value = "/track/{id}")
-    public String updateTrack(Track track, BindingResult result) {
+    public String updateBand(Track track, BindingResult result) {
         logger.debug("updateTrack({}, {})", track);
-        trackValidator.validate(track, result);
         if (result.hasErrors()) {
             return "track";
         }
@@ -84,14 +75,13 @@ public class TrackController {
         return "redirect:/repertoire";
     }
 
-   @GetMapping(value = "/repertoire")
+    @GetMapping(value = "/repertoire")
     public final String filterTrackByReleaseDate(@RequestParam(value = "fromDate", required = false)
                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                                                  @RequestParam(value = "toDate", required = false)
                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                                                  Model model) {
         logger.debug("filterTrackByReleaseDate({},{})", fromDate, toDate);
-        model.addAttribute("tracks", trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate));
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
         return "repertoire";
