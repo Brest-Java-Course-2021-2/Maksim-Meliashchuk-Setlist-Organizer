@@ -22,8 +22,8 @@ public class BandDtoController {
         this.bandDtoService = bandDtoService;
     }
 
-    @GetMapping(value = "/band_dtos")
-    public final Collection<BandDto> bandDtos() {
+    @GetMapping(value = "/bands_dto")
+    public final Collection<BandDto> bandsDto() {
         logger.debug("bandDto()");
         return bandDtoService.findAllWithCountTrack();
     }

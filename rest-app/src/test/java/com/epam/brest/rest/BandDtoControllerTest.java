@@ -23,8 +23,8 @@ import java.util.Arrays;
 
 @ExtendWith(MockitoExtension.class)
 public class BandDtoControllerTest {
-    private final Logger logger = LogManager.getLogger(BandDtoControllerTest.class);
 
+    private final Logger logger = LogManager.getLogger(BandDtoControllerTest.class);
 
     @InjectMocks
     private BandDtoController bandDtoController;
@@ -52,7 +52,7 @@ public class BandDtoControllerTest {
         Mockito.when(bandDtoService.findAllWithCountTrack()).thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/band_dtos")
+                        MockMvcRequestBuilders.get("/bands_dto")
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -65,12 +65,11 @@ public class BandDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandName", Matchers.is("band1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandCountTrack", Matchers.is(101)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandDetails", Matchers.is("band1details1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)))
-
-        ;
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)));
 
         Mockito.verify(bandDtoService).findAllWithCountTrack();
     }
+
     private BandDto create(int index) {
         BandDto bandDto = new BandDto();
         bandDto.setBandId(index);

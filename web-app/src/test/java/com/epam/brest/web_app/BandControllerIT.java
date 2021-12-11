@@ -2,6 +2,8 @@ package com.epam.brest.web_app;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class BandControllerIT {
 
+    private final Logger logger = LogManager.getLogger(BandControllerIT.class);
+
+
     @Autowired
     private WebApplicationContext wac;
 
@@ -45,6 +50,7 @@ class BandControllerIT {
 
     @Test
     void shouldReturnBandsPage() throws Exception {
+        logger.debug("shouldReturnBandsPage()");
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/bands")
         ).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk())
@@ -77,6 +83,7 @@ class BandControllerIT {
 
     @Test
     void shouldAddBand() throws Exception {
+        logger.debug("shouldAddBand()");
         // WHEN
         assertNotNull(bandService);
         Integer bandsSizeBefore = bandService.count();
@@ -99,6 +106,7 @@ class BandControllerIT {
 
     @Test
     public void shouldOpenEditBandPageById() throws Exception {
+        logger.debug("shouldOpenEditBandPageById()");
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/band/1")
                 ).andDo(MockMvcResultHandlers.print())
@@ -112,7 +120,7 @@ class BandControllerIT {
 
     @Test
     public void shouldUpdateBandAfterEdit() throws Exception {
-
+        logger.debug("shouldUpdateBandAfterEdit()");
         String testName = "test band";
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/band/1")
@@ -142,7 +150,7 @@ class BandControllerIT {
 
     @Test
     public void shouldDeleteBand() throws Exception {
-
+        logger.debug("shouldDeleteBand()");
         Integer countBefore = bandService.count();
 
         mockMvc.perform(
@@ -158,6 +166,7 @@ class BandControllerIT {
 
     @Test
     void shouldFailAddBandOnEmptyName() throws Exception {
+        logger.debug("shouldFailAddBandOnEmptyName()");
         // WHEN
         Band band = new Band("");
 

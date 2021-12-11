@@ -2,6 +2,8 @@ package com.epam.brest.web_app;
 
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ import java.time.LocalDate;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
@@ -33,6 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 @Transactional
 public class TrackControllerIT {
+
+    private final Logger logger = LogManager.getLogger(BandControllerIT.class);
 
     @Autowired
     private WebApplicationContext wac;
@@ -49,8 +54,9 @@ public class TrackControllerIT {
 
     @Test
     void shouldReturnRepertoirePage() throws Exception {
+        logger.debug("shouldReturnRepertoirePage()");
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/repertoire")
+                        get("/repertoire")
                 ).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(containsString("An easy way to organize your repertoire!")))
@@ -69,7 +75,32 @@ public class TrackControllerIT {
     }
 
     @Test
+    void shouldFindAllTracksWithReleaseDateFilter() throws Exception {
+        logger.debug("shouldFindAllTracksWithReleaseDateFilter()");
+        mockMvc.perform(get("/repertoire")
+                        .param("fromDate", String.valueOf(LocalDate.parse("2000-10-10")))
+                        .param("toDate", String.valueOf(LocalDate.parse("2021-10-10"))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("repertoire"));
+
+        mockMvc.perform(get("/repertoire")
+                        .param("fromDate", String.valueOf(LocalDate.parse("2000-10-10"))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("repertoire"));
+
+        mockMvc.perform(get("/repertoire")
+                        .param("toDate", String.valueOf(LocalDate.parse("2000-10-10"))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("repertoire"));
+
+        mockMvc.perform(get("/repertoire"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("repertoire"));
+    }
+
+    @Test
     void shouldAddTrack() throws Exception {
+        logger.debug("shouldAddTrack()");
         // WHEN
         assertNotNull(trackService);
         Integer trackSizeBefore = trackService.count();
@@ -91,9 +122,10 @@ public class TrackControllerIT {
     }
 
     @Test
-    public void shouldOpenEditBTrackPageById() throws Exception {
+    public void shouldOpenEditTrackPageById() throws Exception {
+        logger.debug("shouldOpenEditTrackPageById()");
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/track/1")
+                        get("/track/1")
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
@@ -116,11 +148,11 @@ public class TrackControllerIT {
 
     @Test
     public void shouldDeleteTrack() throws Exception {
-
+        logger.debug("shouldDeleteTrack()");
         Integer countBefore = trackService.count();
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/track/3/delete")
+                        get("/track/3/delete")
                 ).andExpect(status().isFound())
                 .andExpect(view().name("redirect:/repertoire"))
                 .andExpect(redirectedUrl("/repertoire"));
