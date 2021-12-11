@@ -31,8 +31,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//TODO add all fields
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 public class BandControllerIT {
@@ -121,6 +119,8 @@ public class BandControllerIT {
 
         bandOptional.get().
                 setBandName("Test band#");
+        bandOptional.get().setBandDetails("Test band name#");
+
 
         // when
         int result = bandService.update(bandOptional.get());
@@ -132,6 +132,7 @@ public class BandControllerIT {
         assertTrue(updatedBandOptional.isPresent());
         assertEquals(updatedBandOptional.get().getBandId(), id);
         assertEquals(updatedBandOptional.get().getBandName(),bandOptional.get().getBandName().toUpperCase());
+        assertEquals(updatedBandOptional.get().getBandDetails(),bandOptional.get().getBandDetails());
 
     }
 

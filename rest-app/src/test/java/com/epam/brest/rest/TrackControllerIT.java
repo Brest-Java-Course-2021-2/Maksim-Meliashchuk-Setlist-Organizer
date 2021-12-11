@@ -1,7 +1,10 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Track;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,18 +17,18 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-//TODO add all fields
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
@@ -38,7 +41,9 @@ public class TrackControllerIT {
     @Autowired
     private TrackController trackController;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = JsonMapper.builder()
+            .addModule(new JavaTimeModule())
+            .build();
 
     private MockMvc mockMvc;
 
@@ -50,6 +55,23 @@ public class TrackControllerIT {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build();
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllTracks() throws Exception {
+        logger.debug("shouldFindAllTracks()");
+
+        // given
+        Track track = new Track("Test track");
+        Integer id = trackService.create(track);
+
+        // when
+        List<Track> tracks = trackService.findAll();
+
+        // then
+        assertNotNull(tracks);
+        assertTrue(tracks.size() > 0);
     }
 
     @Test
@@ -85,29 +107,81 @@ public class TrackControllerIT {
     public void shouldUpdateTrack() throws Exception {
         logger.debug("shouldUpdateTrack()");
         // given
-        Track track = new Track("Test track");
-        Integer id = trackService.create(track);
+        List<Track> tracks = trackService.findAll();
+        Track trackSrc = tracks.get(0);
+        Integer id = trackService.create(trackSrc);
         assertNotNull(id);
 
-        Optional<Track> trackOptional = trackService.findById(id);
-        assertTrue(trackOptional.isPresent());
+        Optional<Track> trackOptionalSrc = trackService.findById(id);
+        assertTrue(trackOptionalSrc.isPresent());
 
-        trackOptional.get().setTrackName("Test track#");
+        trackOptionalSrc.get().setTrackName("Test track#");
+        trackOptionalSrc.get().setTrackName(trackSrc.getTrackName() + "#");
+        trackOptionalSrc.get().setTrackDetails(trackSrc.getTrackDetails() + "#");
+        trackOptionalSrc.get().setTrackTempo(trackSrc.getTrackTempo() + 1);
+        trackOptionalSrc.get().setTrackLink(trackSrc.getTrackLink() + "#");
+        trackOptionalSrc.get().setTrackDuration(trackSrc.getTrackDuration() + 1);
+        trackOptionalSrc.get().setTrackReleaseDate(trackSrc.getTrackReleaseDate().plusMonths(1));
+        trackOptionalSrc.get().setTrackBandId(trackSrc.getTrackBandId() + 1);
 
         // when
-        int result = trackService.update(trackOptional.get());
+        int result = trackService.update(trackOptionalSrc.get());
+        trackService.update(trackSrc);
+        Optional<Track> trackOptionalDst = trackService.findById(trackSrc.getTrackId());
+        assertEquals(trackSrc.getTrackName(), trackOptionalDst.get().getTrackName());
+        assertEquals(trackSrc.getTrackDetails(), trackOptionalDst.get().getTrackDetails());
+        assertEquals(trackSrc.getTrackTempo(), trackOptionalDst.get().getTrackTempo());
+        assertEquals(trackSrc.getTrackLink(), trackOptionalDst.get().getTrackLink());
+        assertEquals(trackSrc.getTrackDuration(), trackOptionalDst.get().getTrackDuration());
+        assertEquals(trackSrc.getTrackReleaseDate(), trackOptionalDst.get().getTrackReleaseDate());
+        assertEquals(trackSrc.getTrackBandId(), trackOptionalDst.get().getTrackBandId());
 
         // then
         assertTrue(1 == result);
 
         Optional<Track> updatedTrackOptional = trackService.findById(id);
         assertTrue(updatedTrackOptional.isPresent());
-        assertEquals(updatedTrackOptional.get().getTrackName(), id);
-        assertEquals(updatedTrackOptional.get().getTrackName(),trackOptional.get().getTrackName());
-
+        assertEquals(updatedTrackOptional.get().getTrackId(), id);
+        assertEquals(updatedTrackOptional.get().getTrackName(),trackOptionalSrc.get().getTrackName());
     }
 
+    @Test
+    @Transactional
+    public void shouldDeleteTrack() throws Exception {
+        logger.debug("shouldDeleteTrack()");
+        // given
+        Track track = new Track("Test track");
+        Integer id = trackService.create(track);
+
+        List<Track> tracks = trackService.findAll();
+        assertNotNull(tracks);
+
+        // when
+        int result = trackService.delete(id);
+
+        // then
+        assertTrue(1 == result);
+
+        List<Track> currentTrack = trackService.findAll();
+        assertNotNull(currentTrack);
+
+        assertTrue(tracks.size()-1 == currentTrack.size());
+    }
+
+
     class MockMvcTrackService {
+
+        public List<Track> findAll() throws Exception {
+            logger.debug("findAll()");
+            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT)
+                            .accept(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            assertNotNull(response);
+
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            });
+        }
 
         public Optional<Track> findById(Integer id) throws Exception {
 
@@ -142,6 +216,19 @@ public class TrackControllerIT {
                                     .accept(MediaType.APPLICATION_JSON)
                             ).andExpect(status().isOk())
                             .andReturn().getResponse();
+            return objectMapper.readValue(response.getContentAsString(), Integer.class);
+        }
+
+        private int delete(Integer trackId) throws Exception {
+
+            logger.debug("delete(id:{})", trackId);
+            MockHttpServletResponse response = mockMvc.perform(
+                            MockMvcRequestBuilders.delete(new StringBuilder(REPERTOIRE_ENDPOINT).append("/")
+                                            .append(trackId).toString())
+                                    .accept(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
 
