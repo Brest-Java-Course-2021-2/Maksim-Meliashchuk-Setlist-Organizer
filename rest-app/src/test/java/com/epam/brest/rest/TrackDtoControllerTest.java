@@ -2,9 +2,6 @@ package com.epam.brest.rest;
 
 import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.TrackDtoService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
@@ -90,7 +87,7 @@ public class TrackDtoControllerTest {
 
         try {
             mockMvc.perform(
-                            MockMvcRequestBuilders.get("/repertoire_filter")
+                            MockMvcRequestBuilders.get("/repertoire/filter")
                     ).andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -114,7 +111,6 @@ public class TrackDtoControllerTest {
 
 
         Mockito.verify(trackDtoService).findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture());
-
 
     }
 

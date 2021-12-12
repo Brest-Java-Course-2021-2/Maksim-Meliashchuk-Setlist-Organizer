@@ -36,6 +36,6 @@ class VersionControllerTest {
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("0.0.1")));
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("1.0.0")));
     }
 }

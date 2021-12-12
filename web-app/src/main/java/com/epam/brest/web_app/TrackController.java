@@ -84,7 +84,14 @@ public class TrackController {
         return "redirect:/repertoire";
     }
 
-   @GetMapping(value = "/repertoire")
+    @GetMapping(value = "/repertoire")
+    public final String findAllTracksWithBandName(Model model) {
+        logger.debug("findAllTracksWithBandName()");
+        model.addAttribute("tracks", trackDtoService.findAllTracksWithBandName());
+        return "repertoire";
+    }
+
+    @GetMapping(value = "/repertoire/filter")
     public final String filterTrackByReleaseDate(@RequestParam(value = "fromDate", required = false)
                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                                                  @RequestParam(value = "toDate", required = false)

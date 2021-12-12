@@ -77,23 +77,23 @@ public class TrackControllerIT {
     @Test
     void shouldFindAllTracksWithReleaseDateFilter() throws Exception {
         logger.debug("shouldFindAllTracksWithReleaseDateFilter()");
-        mockMvc.perform(get("/repertoire")
+        mockMvc.perform(get("/repertoire/filter")
                         .param("fromDate", String.valueOf(LocalDate.parse("2000-10-10")))
                         .param("toDate", String.valueOf(LocalDate.parse("2021-10-10"))))
                 .andExpect(status().isOk())
                 .andExpect(view().name("repertoire"));
 
-        mockMvc.perform(get("/repertoire")
+        mockMvc.perform(get("/repertoire/filter")
                         .param("fromDate", String.valueOf(LocalDate.parse("2000-10-10"))))
                 .andExpect(status().isOk())
                 .andExpect(view().name("repertoire"));
 
-        mockMvc.perform(get("/repertoire")
+        mockMvc.perform(get("/repertoire/filter")
                         .param("toDate", String.valueOf(LocalDate.parse("2000-10-10"))))
                 .andExpect(status().isOk())
                 .andExpect(view().name("repertoire"));
 
-        mockMvc.perform(get("/repertoire"))
+        mockMvc.perform(get("/repertoire/filter"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("repertoire"));
     }
