@@ -17,6 +17,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     public static final String BAND_NOT_FOUND = "band.not_found";
     public static final String VALIDATION_ERROR = "validation_error";
+    public static final String NOT_UNIQUE_ERROR = "not_unique_error";
 
     @ExceptionHandler(BandNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException (BandNotFoundException ex, WebRequest request) {
@@ -26,11 +27,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {IllegalArgumentException.class, NotUniqueException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(Exception ex, WebRequest request) {
 
         return new ResponseEntity<>(
                 new ErrorResponse(VALIDATION_ERROR, ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(value = {NotUniqueException.class})
+    public ResponseEntity<ErrorResponse> handleNotUniqueException(Exception ex, WebRequest request) {
+
+        return new ResponseEntity<>(
+                new ErrorResponse(NOT_UNIQUE_ERROR, ex),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

@@ -19,55 +19,43 @@
   <!-- Component scan for @Controller, @Service... annotations -->
   <context:component-scan base-package="com.epam.brest*"/>
 
-  <import resource="classpath*:test-db.xml"/>
-
-  <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-    <constructor-arg ref="dataSource"/>
+  <bean id="bandService" class="com.epam.brest.service.rest.BandServiceRest">
+    <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.bands}"/>
+    <constructor-arg index="1" ref="restTemplate"/>
   </bean>
 
-  <bean id="bandDtoDao" class="com.epam.brest.dao.BandDtoDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
+  <bean id="bandDtoService" class="com.epam.brest.service.rest.BandDtoServiceRest">
+    <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.bands_dto}"/>
+    <constructor-arg index="1" ref="restTemplate"/>
   </bean>
 
-  <bean id="bandDtoService" class="com.epam.brest.service.impl.BandDtoServiceImpl">
-    <constructor-arg name="bandDtoDao" ref="bandDtoDao"/>
+  <bean id="trackService" class="com.epam.brest.service.rest.TrackServiceRest">
+    <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.repertoire}"/>
+    <constructor-arg index="1" ref="restTemplate"/>
   </bean>
 
-  <bean id="bandDao" class="com.epam.brest.dao.BandDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
+  <bean id="trackDtoService" class="com.epam.brest.service.rest.TrackDtoServiceRest">
+    <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.tracks_dto}"/>
+    <constructor-arg index="1" ref="restTemplate"/>
   </bean>
 
-  <bean id="bandService" class="com.epam.brest.service.impl.BandServiceImpl">
-    <constructor-arg name="bandDao" ref="bandDao"/>
-  </bean>
-
-  <bean name="trackDtoDao" class="com.epam.brest.dao.TrackDtoDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackDtoService" class="com.epam.brest.service.impl.TrackDtoServiceImpl">
-    <constructor-arg name="trackDtoDao" ref="trackDtoDao"/>
-  </bean>
-
-  <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackService" class="com.epam.brest.service.impl.TrackServiceImpl">
-    <constructor-arg name="trackDao" ref="trackDao"/>
+  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+    <property name="messageConverters">
+      <list>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+      </list>
+    </property>
   </bean>
 
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
           <list>
-            <value>classpath*:test-db.properties</value>
-            <value>classpath*:sql-band.properties</value>
-            <value>classpath*:sql-track.properties</value>
-          </list>
-        </property>
-    </bean>
+            <value>classpath:application.properties</value>
+ </list>
+</property>
+</bean>
 
-  <!-- Thymeleaf Template Resolver -->
+<!-- Thymeleaf Template Resolver -->
   <bean id="templateResolver"
         class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
     <property name="prefix" value="/WEB-INF/templates/" />

@@ -47,7 +47,7 @@ public class TrackControllerIT {
 
     private MockMvc mockMvc;
 
-    MockMvcTrackService trackService = new MockMvcTrackService();
+    private MockMvcTrackService trackService = new MockMvcTrackService();
 
     @BeforeEach
     public void before() {

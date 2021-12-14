@@ -24,24 +24,27 @@ public class Band {
         return bandId;
     }
 
-    public void setBandId(Integer bandId) {
+    public Band setBandId(Integer bandId) {
         this.bandId = bandId;
+        return this;
     }
 
     public String getBandName() {
         return bandName;
     }
 
-    public void setBandName(String bandName) {
+    public Band setBandName(String bandName) {
         this.bandName = bandName;
+        return this;
     }
 
     public String getBandDetails() {
         return bandDetails;
     }
 
-    public void setBandDetails(String bandDetails) {
+    public Band setBandDetails(String bandDetails) {
         this.bandDetails = bandDetails;
+        return this;
     }
 
     @Override

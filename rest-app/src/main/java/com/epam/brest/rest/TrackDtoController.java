@@ -2,7 +2,6 @@ package com.epam.brest.rest;
 
 import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.TrackDtoService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,13 +27,13 @@ public class TrackDtoController {
     }
 
     @GetMapping(value = "/tracks_dto")
-    public final Collection<TrackDto> tracksDto() {
+    public final Collection<TrackDto> findAllTracksWithBandName() {
         logger.debug("trackDto()");
         return trackDtoService.findAllTracksWithBandName();
     }
 
-    @GetMapping(value = "/repertoire_filter")
-    public final Collection<TrackDto> tracksDto(@RequestParam(value = "fromDate", required = false)
+    @GetMapping(value = "/repertoire/filter")
+    public final Collection<TrackDto> findAllTracksWithReleaseDateFilter(@RequestParam(value = "fromDate", required = false)
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                                                 @RequestParam(value = "toDate", required = false)
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {

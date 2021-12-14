@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.brest.rest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
-import static com.epam.brest.rest.exception.CustomExceptionHandler.VALIDATION_ERROR;
+import static com.epam.brest.rest.exception.CustomExceptionHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,11 +44,11 @@ public class BandControllerIT {
     @Autowired
     private CustomExceptionHandler customExceptionHandler;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     private MockMvc mockMvc;
 
-    MockMvcBandService bandService = new MockMvcBandService();
+    private MockMvcBandService bandService = new MockMvcBandService();
 
     @BeforeEach
     public void before() {
@@ -195,7 +194,7 @@ public class BandControllerIT {
         assertNotNull(response);
         ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
         assertNotNull(errorResponse);
-        assertEquals(errorResponse.getMessage(), VALIDATION_ERROR);
+        assertEquals(errorResponse.getMessage(), NOT_UNIQUE_ERROR);
     }
 
 

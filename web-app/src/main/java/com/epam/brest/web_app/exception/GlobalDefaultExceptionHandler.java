@@ -1,6 +1,5 @@
 package com.epam.brest.web_app.exception;
 
-import com.epam.brest.dao.exception.NotUniqueException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @ControllerAdvice
@@ -24,19 +23,7 @@ public class GlobalDefaultExceptionHandler {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("url", req.getRequestURL());
-        mav.addObject("timestamp", new Date());
-        mav.setViewName(DEFAULT_ERROR_VIEW);
-        return mav;
-    }
-
-    @ExceptionHandler(NotUniqueException.class)
-    public ModelAndView
-    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        logger.error("Request: " + req.getRequestURL() + " raised " + e);
-        ModelAndView mav = new ModelAndView();
-        System.out.println(e.getClass());
-        mav.addObject("exception", e);
-        mav.addObject("isNotUniqueException", true);
+        mav.addObject("timestamp", LocalDate.now());
         mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
     }

@@ -1,6 +1,7 @@
 package com.epam.brest.service.impl;
 
 import com.epam.brest.dao.BandDao;
+import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.exception.BandNotFoundException;
