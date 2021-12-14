@@ -19,62 +19,6 @@
   <!-- Component scan for @Controller, @Service... annotations -->
   <context:component-scan base-package="com.epam.brest*"/>
 
-  <!--
-  <import resource="classpath*:test-db.xml"/>
-
-  <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-    <constructor-arg ref="dataSource"/>
-  </bean>
-
-  <bean id="bandDtoDao" class="com.epam.brest.dao.BandDtoDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="bandDtoService" class="com.epam.brest.service.impl.BandDtoServiceImpl">
-    <constructor-arg name="bandDtoDao" ref="bandDtoDao"/>
-  </bean>
-
-  <bean id="bandDao" class="com.epam.brest.dao.BandDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="bandService" class="com.epam.brest.service.impl.BandServiceImpl">
-    <constructor-arg name="bandDao" ref="bandDao"/>
-  </bean>
-
-  <bean name="trackDtoDao" class="com.epam.brest.dao.TrackDtoDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackDtoService" class="com.epam.brest.service.impl.TrackDtoServiceImpl">
-    <constructor-arg name="trackDtoDao" ref="trackDtoDao"/>
-  </bean>
-
-  <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackService" class="com.epam.brest.service.impl.TrackServiceImpl">
-    <constructor-arg name="trackDao" ref="trackDao"/>
-  </bean>
-
-
-  <bean name="trackDtoDao" class="com.epam.brest.dao.TrackDtoDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackDtoService" class="com.epam.brest.service.impl.TrackDtoServiceImpl">
-    <constructor-arg name="trackDtoDao" ref="trackDtoDao"/>
-  </bean>
-
-  <bean id="trackDao" class="com.epam.brest.dao.TrackDaoJdbcImpl">
-    <constructor-arg ref="namedParameterJdbcTemplate"/>
-  </bean>
-
-  <bean id="trackService" class="com.epam.brest.service.impl.TrackServiceImpl">
-    <constructor-arg name="trackDao" ref="trackDao"/>
-  </bean>
-  -->
   <bean id="bandService" class="com.epam.brest.service.rest.BandServiceRest">
     <constructor-arg index="0" value="${protocol}://${host}:${port}/${point.bands}"/>
     <constructor-arg index="1" ref="restTemplate"/>
@@ -107,9 +51,6 @@
         <property name="locations">
           <list>
             <value>classpath:application.properties</value>
-  <!-- <value>classpath*:test-db.properties</value>
-   <value>classpath*:sql-band.properties</value>
-   <value>classpath*:sql-track.properties</value>-->
  </list>
 </property>
 </bean>
