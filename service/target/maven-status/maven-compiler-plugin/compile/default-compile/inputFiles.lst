@@ -1,0 +1,5 @@
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/main/java/com/epam/brest/service/impl/TrackServiceImpl.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/main/java/com/epam/brest/service/exception/BandNotFoundException.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/main/java/com/epam/brest/service/impl/BandDtoServiceImpl.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/main/java/com/epam/brest/service/impl/TrackDtoServiceImpl.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/main/java/com/epam/brest/service/impl/BandServiceImpl.java

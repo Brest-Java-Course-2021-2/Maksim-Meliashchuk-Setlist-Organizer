@@ -14,6 +14,7 @@ import java.util.Collection;
  * REST controller.
  */
 @RestController
+@CrossOrigin
 public class TrackController {
     private final TrackService trackService;
 

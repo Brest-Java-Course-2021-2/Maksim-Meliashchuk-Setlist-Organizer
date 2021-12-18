@@ -1,8 +1,8 @@
 package com.epam.brest.rest;
 
+import com.epam.brest.exception.CustomExceptionHandler;
+import com.epam.brest.exception.ErrorResponse;
 import com.epam.brest.model.Band;
-import com.epam.brest.rest.exception.CustomExceptionHandler;
-import com.epam.brest.rest.exception.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -25,13 +27,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.brest.rest.exception.CustomExceptionHandler.*;
+import static com.epam.brest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
+import static com.epam.brest.exception.CustomExceptionHandler.NOT_UNIQUE_ERROR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:application-context-test.xml"})
+@AutoConfigureMockMvc
+@Transactional
 public class BandControllerIT {
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);

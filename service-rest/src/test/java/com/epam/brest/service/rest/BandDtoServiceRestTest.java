@@ -1,6 +1,8 @@
 package com.epam.brest.service.rest;
 
 import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.service.BandDtoServiceRest;
+import com.epam.brest.service.config.ServiceRestTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +31,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:application-context-test.xml"})
+@Import({ServiceRestTestConfig.class})
 class BandDtoServiceRestTest {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceRestTest.class);

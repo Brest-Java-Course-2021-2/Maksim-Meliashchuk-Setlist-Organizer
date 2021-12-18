@@ -1,0 +1,5 @@
+com/epam/brest/service/impl/BandServiceImplIT.class
+com/epam/brest/service/impl/BandDtoServiceImplIT.class
+com/epam/brest/service/impl/TrackServiceImplIT.class
+com/epam/brest/service/config/ServiceTestConfig.class
+com/epam/brest/service/impl/TrackDtoServiceImplIT.class

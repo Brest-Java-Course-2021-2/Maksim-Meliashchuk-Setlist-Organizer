@@ -4,14 +4,17 @@ import com.epam.brest.model.Track;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.web_app.validator.TrackValidator;
+import com.epam.brest.web_app.validators.TrackValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -68,7 +71,7 @@ public class TrackController {
 
     @PostMapping(value = "/track/{id}")
     public String updateTrack(Track track, BindingResult result) {
-        logger.debug("updateTrack({}, {})", track);
+        logger.debug("updateTrack({})", track);
         trackValidator.validate(track, result);
         if (result.hasErrors()) {
             return "track";

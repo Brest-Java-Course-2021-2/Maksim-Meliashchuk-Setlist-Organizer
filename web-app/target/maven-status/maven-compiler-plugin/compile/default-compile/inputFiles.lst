@@ -1,0 +1,8 @@
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/TrackController.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/HomeController.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/validators/BandValidator.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/SetlistOrganizerApplication.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/validators/TrackValidator.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/exception/GlobalDefaultExceptionHandler.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/config/ApplicationConfig.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/web-app/src/main/java/com/epam/brest/web_app/BandController.java

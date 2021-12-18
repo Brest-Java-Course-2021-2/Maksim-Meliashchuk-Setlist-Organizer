@@ -1,0 +1,5 @@
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/test/java/com/epam/brest/service/impl/BandServiceImplIT.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/test/java/com/epam/brest/service/config/ServiceTestConfig.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/test/java/com/epam/brest/service/impl/BandDtoServiceImplIT.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/test/java/com/epam/brest/service/impl/TrackDtoServiceImplIT.java
+/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/service/src/test/java/com/epam/brest/service/impl/TrackServiceImplIT.java

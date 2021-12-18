@@ -1,13 +1,17 @@
 package com.epam.brest.dao;
 
 import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.SpringJdbcConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -15,18 +19,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-jdbc-conf.xml"})
+
+@DataJdbcTest
+@Import({TrackDtoDaoJdbcImpl.class})
+@PropertySource({"classpath:sql-track.properties"})
+@ContextConfiguration(classes = SpringJdbcConfig.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
+@Rollback
 class TrackDtoDaoJdbcImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackDtoDaoJdbcImplIT.class);
 
-    private final TrackDtoDaoJdbcImpl trackDtoDaoJdbc;
-
-    TrackDtoDaoJdbcImplIT(@Autowired TrackDtoDao trackDtoDaoJdbc) {
-        this.trackDtoDaoJdbc = (TrackDtoDaoJdbcImpl) trackDtoDaoJdbc;
-    }
+    @Autowired
+    private TrackDtoDaoJdbcImpl trackDtoDaoJdbc;
 
     @Test
     void testFindAllTracksWithBandName() {

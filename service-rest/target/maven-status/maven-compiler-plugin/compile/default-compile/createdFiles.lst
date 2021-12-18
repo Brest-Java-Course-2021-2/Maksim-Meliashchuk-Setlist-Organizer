@@ -1,0 +1,4 @@
+com/epam/brest/service/BandServiceRest.class
+com/epam/brest/service/TrackServiceRest.class
+com/epam/brest/service/BandDtoServiceRest.class
+com/epam/brest/service/TrackDtoServiceRest.class

@@ -1,0 +1,76 @@
+html {
+    font-size:16px;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+#main_header {
+    background-image: linear-gradient(to right, #FFF, #D0D3D4);
+}
+
+#main_app_name {
+    margin-bottom:-0.8rem;
+}
+
+#main_navbar {
+    background-color: #D0D3D4;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #111;
+    font-size:24px;
+    font-weight:500;
+    padding-right: 2rem;
+    padding-left: 0.5rem;
+}
+
+.navbar-nav .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.lead {
+    line-height: 1;
+}
+
+textarea {
+    resize:none;
+}
+
+p {
+    margin-bottom: 0rem;
+    margin-top: 0rem;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+section {
+    padding: 50px 0;
+}
+
+a {
+    color: #111;
+}
+
+a:hover {
+    color: #555;
+}
+
+.top-menu li a::after {
+    background-color: #6c757d;
+    content: '';
+    display: block;
+    height: 2px;
+    transition: all 0.5s;
+    transform: scale(0);
+    width: 100%;
+}
+
+.top-menu li a:hover::after {
+    transform: scale(1);
+}

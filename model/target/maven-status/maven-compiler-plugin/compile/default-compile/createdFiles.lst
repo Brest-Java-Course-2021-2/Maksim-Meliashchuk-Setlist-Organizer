@@ -1,0 +1,6 @@
+com/epam/brest/model/constant/BandConstant.class
+com/epam/brest/model/dto/BandDto.class
+com/epam/brest/model/dto/TrackDto.class
+com/epam/brest/model/Band.class
+com/epam/brest/model/constant/TrackConstant.class
+com/epam/brest/model/Track.class

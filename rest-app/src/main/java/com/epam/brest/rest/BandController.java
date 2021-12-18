@@ -2,10 +2,10 @@ package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -14,6 +14,7 @@ import java.util.Collection;
  * REST controller.
  */
 @RestController
+@CrossOrigin
 public class BandController {
 
     private final BandService bandService;

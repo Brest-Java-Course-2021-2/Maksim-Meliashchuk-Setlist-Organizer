@@ -1,0 +1,5 @@
+com/epam/brest/service/rest/BandServiceRestTest.class
+com/epam/brest/service/config/ServiceRestTestConfig.class
+com/epam/brest/service/rest/TrackServiceRestTest.class
+com/epam/brest/service/rest/BandDtoServiceRestTest.class
+com/epam/brest/service/rest/TrackDtoServiceRestTest.class
