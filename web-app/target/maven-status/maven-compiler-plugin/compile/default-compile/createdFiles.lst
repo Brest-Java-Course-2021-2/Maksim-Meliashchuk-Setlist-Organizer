@@ -1,8 +1,0 @@
-com/epam/brest/web_app/validators/TrackValidator.class
-com/epam/brest/web_app/config/ApplicationConfig.class
-com/epam/brest/web_app/validators/BandValidator.class
-com/epam/brest/web_app/TrackController.class
-com/epam/brest/web_app/exception/GlobalDefaultExceptionHandler.class
-com/epam/brest/web_app/SetlistOrganizerApplication.class
-com/epam/brest/web_app/HomeController.class
-com/epam/brest/web_app/BandController.class

@@ -1,8 +1,0 @@
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/rest/TrackDtoController.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/rest/TrackController.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/exception/ErrorResponse.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/rest/VersionController.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/rest/BandController.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/rest/BandDtoController.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/exception/CustomExceptionHandler.java
-/home/max/development/Maksim-Meliashchuk-Setlist-Organizer/rest-app/src/main/java/com/epam/brest/RestApplication.java
