@@ -1,6 +1,8 @@
 package com.epam.brest.service.rest;
 
 import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.service.TrackDtoServiceRest;
+import com.epam.brest.service.config.ServiceRestTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +35,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:application-context-test.xml"})
+@Import({ServiceRestTestConfig.class})
 class TrackDtoServiceRestTest {
 
     private final Logger logger = LogManager.getLogger(TrackDtoServiceRestTest.class);

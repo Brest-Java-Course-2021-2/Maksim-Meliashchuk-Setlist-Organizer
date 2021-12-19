@@ -1,5 +1,7 @@
 package com.epam.brest.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,13 +13,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TrackDaoJdbcImpl implements TrackDao{
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImpl.class);
 
+    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
@@ -41,6 +46,9 @@ public class TrackDaoJdbcImpl implements TrackDao{
     private String sqlCreateTrack = "INSERT INTO track(track_name, track_details, track_tempo, track_duration, " +
             "track_link, track_release_date, track_band_id) " +
             "values(:trackName, :trackDetails, :trackTempo, :trackDuration, :trackLink, :trackReleaseDate, :trackBandId)";
+
+    public TrackDaoJdbcImpl() {
+    }
 
     public TrackDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

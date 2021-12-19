@@ -3,11 +3,11 @@ package com.epam.brest.web_app;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
-import com.epam.brest.web_app.validator.BandValidator;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import com.epam.brest.web_app.validators.BandValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +26,8 @@ public class BandController {
     private final BandValidator bandValidator;
 
     private final Logger logger = LogManager.getLogger(BandController.class);
+
+
 
     public BandController(BandDtoService bandDtoService, BandService bandService, BandValidator bandValidator) {
         this.bandDtoService = bandDtoService;

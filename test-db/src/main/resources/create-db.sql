@@ -1,13 +1,13 @@
-DROP TABLE IF EXISTS band;
-DROP TABLE IF EXISTS track;
-CREATE TABLE band(
+DROP TABLE IF EXISTS band cascade;
+DROP TABLE IF EXISTS track cascade;
+CREATE TABLE IF NOT EXISTS band(
     band_id INT NOT NULL AUTO_INCREMENT,
     band_name VARCHAR(100) NOT NULL UNIQUE,
     band_details VARCHAR(1000),
     PRIMARY KEY (band_id)
 );
 
-CREATE TABLE track (
+CREATE TABLE IF NOT EXISTS track (
     track_id int NOT NULL AUTO_INCREMENT,
     track_name VARCHAR(100) NOT NULL,
     track_tempo INT,

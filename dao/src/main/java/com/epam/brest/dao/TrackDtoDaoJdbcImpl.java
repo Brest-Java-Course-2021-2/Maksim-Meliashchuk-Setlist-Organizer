@@ -3,6 +3,7 @@ package com.epam.brest.dao;
 import com.epam.brest.model.dto.TrackDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,6 +18,7 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
 
     private final Logger logger = LogManager.getLogger(TrackDtoDaoJdbcImpl.class);
 
+    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${SQL_FIND_ALL_TRACKS_WITH_BAND_NAME}")
@@ -31,7 +33,8 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
     @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_TO}")
     private String sqlFindAllTracksWithReleaseDateTo;
 
-
+    public TrackDtoDaoJdbcImpl() {
+    }
 
     public TrackDtoDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

@@ -1,5 +1,7 @@
 package com.epam.brest.model.dto;
 
+import java.util.Objects;
+
 /**
  * POJO Band for model.
  */
@@ -144,4 +146,5 @@ public class BandDto {
                 + ", bandRepertoireDuration=" + bandRepertoireDuration
                 + '}';
     }
+
 }

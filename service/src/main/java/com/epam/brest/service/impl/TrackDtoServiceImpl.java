@@ -3,6 +3,7 @@ package com.epam.brest.service.impl;
 import com.epam.brest.dao.TrackDtoDao;
 import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.TrackDtoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Transactional
 public class TrackDtoServiceImpl implements TrackDtoService {
 
-    private final TrackDtoDao trackDtoDao;
+    private TrackDtoDao trackDtoDao;
 
     public TrackDtoServiceImpl(TrackDtoDao trackDtoDao) {
         this.trackDtoDao = trackDtoDao;

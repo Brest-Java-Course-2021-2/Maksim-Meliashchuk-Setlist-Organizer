@@ -14,6 +14,7 @@ import java.util.Collection;
  * REST controller.
  */
 @RestController
+@CrossOrigin
 public class TrackController {
     private final TrackService trackService;
 
@@ -52,7 +53,7 @@ public class TrackController {
 
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteBand(@PathVariable Integer id) {
-        logger.debug("delete({},{})", id);
+        logger.debug("delete({})", id);
         int result =  trackService.delete(id);
         return new ResponseEntity(result, HttpStatus.OK);
     }
