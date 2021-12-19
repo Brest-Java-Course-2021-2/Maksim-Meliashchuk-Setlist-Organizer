@@ -3,17 +3,15 @@ package com.epam.brest.service.impl;
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
-import com.epam.brest.service.config.ServiceTestConfig;
+import com.epam.brest.service.config.BandServiceTestConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@Import({ServiceTestConfig.class})
+@Import({BandServiceTestConfig.class})
 @PropertySource({"classpath:sql-band.properties"})
 @Transactional
 @Rollback

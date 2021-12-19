@@ -3,6 +3,8 @@ package com.epam.brest.service;
 import com.epam.brest.model.dto.TrackDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,8 +30,10 @@ public class TrackDtoServiceRest implements TrackDtoService {
     @Override
     public List<TrackDto> findAllTracksWithBandName() {
         logger.debug("findAllTracksWithBandName()");
-        ResponseEntity responseEntity = restTemplate.getForEntity(url, List.class);
-        return (List<TrackDto>) responseEntity.getBody();
+        ParameterizedTypeReference<List<TrackDto>> typeReference = new ParameterizedTypeReference<>(){};
+        ResponseEntity<List<TrackDto>> responseEntity =
+                                            restTemplate.exchange(url, HttpMethod.GET,null, typeReference);
+        return responseEntity.getBody();
     }
 
     @Override
@@ -38,7 +42,9 @@ public class TrackDtoServiceRest implements TrackDtoService {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("fromDate", fromDate)
                 .queryParam("toDate", toDate);
-        ResponseEntity responseEntity = restTemplate.getForEntity(uriComponentsBuilder.toUriString(), List.class);
-        return (List<TrackDto>) responseEntity.getBody();
+        ParameterizedTypeReference<List<TrackDto>> typeReference = new ParameterizedTypeReference<>(){};
+        ResponseEntity<List<TrackDto>> responseEntity =
+                restTemplate.exchange(uriComponentsBuilder.toUriString(), HttpMethod.GET,null, typeReference);
+        return responseEntity.getBody();
     }
 }

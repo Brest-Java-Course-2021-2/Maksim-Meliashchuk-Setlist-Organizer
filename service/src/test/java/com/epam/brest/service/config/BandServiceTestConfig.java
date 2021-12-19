@@ -1,20 +1,19 @@
 package com.epam.brest.service.config;
 
 import com.epam.brest.SpringJdbcConfig;
-import com.epam.brest.dao.*;
+import com.epam.brest.dao.BandDao;
+import com.epam.brest.dao.BandDaoJdbcImpl;
+import com.epam.brest.dao.BandDtoDao;
+import com.epam.brest.dao.BandDtoDaoJdbcImpl;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
-import com.epam.brest.service.TrackDtoService;
-import com.epam.brest.service.TrackService;
 import com.epam.brest.service.impl.BandDtoServiceImpl;
 import com.epam.brest.service.impl.BandServiceImpl;
-import com.epam.brest.service.impl.TrackDtoServiceImpl;
-import com.epam.brest.service.impl.TrackServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
-public class ServiceTestConfig extends SpringJdbcConfig {
+public class BandServiceTestConfig extends SpringJdbcConfig {
 
     @Bean
     BandDtoDao bandDtoDao() {
@@ -36,23 +35,4 @@ public class ServiceTestConfig extends SpringJdbcConfig {
         return new BandServiceImpl(bandDao());
     }
 
-    @Bean
-    TrackDtoDao trackDtoDao() {
-        return new TrackDtoDaoJdbcImpl(namedParameterJdbcTemplate());
-    }
-
-    @Bean
-    TrackDtoService trackDtoService() {
-        return new TrackDtoServiceImpl(trackDtoDao());
-    }
-
-    @Bean
-    TrackDao trackDao() {
-        return new TrackDaoJdbcImpl(namedParameterJdbcTemplate());
-    }
-
-    @Bean
-    TrackService trackService() {
-        return new TrackServiceImpl(trackDao());
-    }
 }

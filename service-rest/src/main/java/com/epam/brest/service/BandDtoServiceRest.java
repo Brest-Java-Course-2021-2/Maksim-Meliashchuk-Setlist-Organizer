@@ -3,6 +3,8 @@ package com.epam.brest.service;
 import com.epam.brest.model.dto.BandDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +28,8 @@ public class BandDtoServiceRest implements BandDtoService {
     @Override
     public List<BandDto> findAllWithCountTrack() {
         logger.debug("findAllWithCountTrack()");
-        ResponseEntity responseEntity = restTemplate.getForEntity(url, List.class);
-        return (List<BandDto>) responseEntity.getBody();
+        ParameterizedTypeReference<List<BandDto>> typeReference = new ParameterizedTypeReference<>(){};
+        ResponseEntity<List<BandDto>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null, typeReference);
+        return responseEntity.getBody();
     }
 }
