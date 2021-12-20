@@ -19,9 +19,8 @@
 <div th:insert="layouts :: navbar"></div>
 
 
-
 <form class="form-group" th:action="@{/repertoire/filter}">
-    <div class="container-fluid">
+    <div class="container">
         <div class="mb-3 mt-3">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <p class="fs-5 ml-5 p-1">Release date from:</p>
@@ -41,7 +40,7 @@
     </div>
 </form>
 
-<div class="container-fluid">
+<div class="container">
     <div class="d-grid gap-3">
         <div class="p-2 bg-light border p-2" th:each="track: ${tracks}">
             <div class="row align-items-center">
@@ -118,7 +117,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the track?
+                Are you sure you want to delete the track ?
             </div>
             <div class="modal-footer">
                 <a href="repertoire.html" th:href="@{/repertoire}" button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button></a>
@@ -134,7 +133,7 @@
 <script>
     $('#deleteDialog').on('show.bs.modal', function (event) {
         var target = $(event.relatedTarget)
-        $(this).find('.modal-body').text('Please confirm delete track: "' + target.data('name') + '"')
+        $(this).find('.modal-body').text('Are you sure you want to delete the track "' + target.data('name') + '"?"')
         document.getElementById('deleteUrl').href = '/track/' + target.data('id') + '/delete';
     })
 </script>

@@ -18,7 +18,7 @@
 <div th:insert="layouts :: header"></div>
 <div th:insert="layouts :: navbar"></div>
 
-<div class="container-fluid">
+<div class="container">
     <div class="d-grid justify-content-end">
         <div class="p-2">
             <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">Add</a>
@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container">
     <div class="d-grid gap-3">
         <div class="p-2 bg-light border p-2" th:each="band: ${bands}">
             <div class="row align-items-center">
@@ -93,7 +93,7 @@
 <script>
     $('#deleteDialog').on('show.bs.modal', function (event) {
         var target = $(event.relatedTarget)
-        $(this).find('.modal-body').text('Please confirm delete band: "' + target.data('name') + '"')
+        $(this).find('.modal-body').text('Are you sure you want to delete the band "' + target.data('name') + '"?"')
         document.getElementById('deleteUrl').href = '/band/' + target.data('id') + '/delete';
     })
 
