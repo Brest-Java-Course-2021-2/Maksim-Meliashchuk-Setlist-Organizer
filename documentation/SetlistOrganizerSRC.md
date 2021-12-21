@@ -3,12 +3,12 @@
 
 * [Purpose](#purpose)
 * [Functions](#functions)
-- [1.   Bands](#1---bands)
-    * [1.1.    Viewing the list of music bands](#11----viewing-the-list-of-music-bands)
+- [1. Bands](#1-bands)
+    * [1.1. Viewing the list of music bands](#11-viewing-the-list-of-music-bands)
     * [1.2. Adding the band](#12-adding-the-band)
     * [1.3. Editing the band](#13-editing-the-band)
     * [1.4. Deleting the band](#14-deleting-the-band)
-- [2.   Repertoire](#2---repertoire)
+- [2. Repertoire](#2-repertoire)
     * [2.1. Viewing the repertoire](#21-viewing-the-repertoire)
     * [2.2. Filtering the repertoire](#22-filtering-the-repertoire)
     * [2.3. Adding a track](#23-adding-a-track)
@@ -26,8 +26,8 @@ A web application is needed to manage band repertoires and help musicians create
 - Create, view and edit track information
 - Getting a report on the tracks released by bands for the selected period
 
-## 1.	Bands
-### 1.1.	Viewing the list of music bands
+## 1. Bands
+### 1.1. Viewing the list of music bands
 
 The mode is intended for viewing the list of created music bands and adding new bands.
 The main scenario:
@@ -112,7 +112,7 @@ Cancellation scenario:
 ![DeleteBand](img/DeleteBand.jpg)
 <center> Confirmation of deleting the band </center>
 
-## 2.	Repertoire
+## 2. Repertoire
 
 ### 2.1. Viewing the repertoire
 
