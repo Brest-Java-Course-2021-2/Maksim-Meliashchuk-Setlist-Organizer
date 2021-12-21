@@ -29,6 +29,34 @@
 ## Installation Information
 
 ```bash
-  git clone https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer.git
-  mvn clean install
+  $ git clone https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer.git
+  $ cd Maksim-Meliashchuk-Setlist-Organizer
+  $ mvn clean install
 ```
+
+## Run Local Tests (H2 in memory) 
+
+In the root directory of the project:
+```bash
+$ java -jar rest-app/target/rest-app-1.0-SNAPSHOT.jar
+```
+The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
+```bash
+$ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar 
+```
+The web application will be accessible at [http://localhost:8080](http://localhost:8080).
+
+## Run with docker-compose
+In the root directory of the project start up the rest-app and web-app in one go:
+```bash
+$ sudo docker-compose up --build
+```
+The web application will be accessible at [http://localhost:8080](http://localhost:8080).
+The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
+
+To stop the containers:
+```bash
+$ sudo docker-compose down
+```
+
+

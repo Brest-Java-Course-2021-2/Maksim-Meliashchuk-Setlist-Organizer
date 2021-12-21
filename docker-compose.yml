@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  rest-app:
+    build: ./rest-app
+    image: docker-rest-app
+    container_name: rest-app
+    ports:
+      - "8088:8088"
+
+  web-app:
+    build: ./web-app
+    image: docker-web-app
+    container_name: web-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rest-app
+
+    network_mode: host
