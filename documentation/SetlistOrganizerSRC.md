@@ -1,7 +1,21 @@
 # Software requirements specification
 ## SetList Organizer Application
 
-### Purpose
+* [Purpose](#purpose)
+* [Functions](#functions)
+- [1.   Bands](#1---bands)
+    * [1.1.    Viewing the list of music bands](#11----viewing-the-list-of-music-bands)
+    * [1.2. Adding the band](#12-adding-the-band)
+    * [1.3. Editing the band](#13-editing-the-band)
+    * [1.4. Deleting the band](#14-deleting-the-band)
+- [2.   Repertoire](#2---repertoire)
+    * [2.1. Viewing the repertoire](#21-viewing-the-repertoire)
+    * [2.2. Filtering the repertoire](#22-filtering-the-repertoire)
+    * [2.3. Adding a track](#23-adding-a-track)
+    * [2.4 Editing a track](#24-editing-a-track)
+    * [2.5. Deleting a track](#25-deleting-a-track)
+
+### Purpose 
 
 A web application is needed to manage band repertoires and help musicians create setlists for concerts and rehearsals.
 
@@ -13,7 +27,7 @@ A web application is needed to manage band repertoires and help musicians create
 - Getting a report on the tracks released by bands for the selected period
 
 ## 1.	Bands
-## 1.1.	Viewing the list of music bands
+### 1.1.	Viewing the list of music bands
 
 The mode is intended for viewing the list of created music bands and adding new bands.
 The main scenario:
@@ -29,7 +43,7 @@ The following fields are displayed:
 ![ListOfBands](img/ListOfBands.jpg)
 <center> Viewing the list of bands </center>
 
-## 1.2. Adding the band
+### 1.2. Adding the band
 
 The main scenario:
 - The user, being in the mode of viewing the bands, clicks the “Add” button
@@ -51,7 +65,7 @@ When adding the band, the following values are entered:
 ![AddBAnd](img/AddBand.jpg)
 <center> Adding the band </center>
 
-## 1.3. Editing the band
+### 1.3. Editing the band
 
 Basic scenario:
 - The user, being in the bands viewing mode, presses the “Edit” button in the line of the required band.
@@ -79,7 +93,7 @@ Constraints for data validation:
 ![EditBand](img/EditBand.jpg)
 <center> Editing the band </center>
 
-## 1.4. Deleting the band
+### 1.4. Deleting the band
 
 Basic scenario:
 - The user, being in the bands viewing mode, presses the “Delete” button in the line of the required band.
@@ -100,7 +114,7 @@ Cancellation scenario:
 
 ## 2.	Repertoire
 
-## 2.1. Viewing the repertoire
+### 2.1. Viewing the repertoire
 
 The mode is intended for viewing the repertoire of the bands.
 Basic scenario:
@@ -119,7 +133,7 @@ The following fields are displayed in the list:
 ![Repertoire](img/Repertoire.jpg)
 <center> Viewing the repertoire </center>
 
-## 2.2. Filtering the repertoire
+### 2.2. Filtering the repertoire
 
 Filtering is designed to get a list of tracks, the release date of which falls within the selected period.
 Basic scenario:
@@ -134,7 +148,7 @@ Constraints for data validation:
 - If no end date is entered, then filtering is carried out only by the start date
 - By default, the filter with dates is not set - the entire list of tracks is shown
 
-## 2.3. Adding a track
+### 2.3. Adding a track
 
 Main scenario:
 - The user, being in the repertoire viewing mode, presses the “Add” button
@@ -161,7 +175,7 @@ When adding the track, the following values are entered:
 - `duration` - duration of the track play in minutes and seconds
 - `link` - the link to the track if it is posted on the web
 
-## 2.4 Editing a track
+### 2.4 Editing a track
 
 Main scenario:
 - The user, being in the repertoire viewing mode, presses the "Edit" button
@@ -196,7 +210,8 @@ Constraints for data validation:
 ![EditTrack](img/EditTrack.jpg)
 <center> Editing the track </center>
 
-## 2.5. Deleting a track
+
+### 2.5. Deleting a track
 
 Main scenario:
 - The user, being in the track viewing mode, presses the "Delete" button in the line of the desired track
@@ -211,7 +226,7 @@ Undo scenario:
 - A confirmation dialog box for deletion is displayed. "Are you sure you want to delete the track <track name>?"
 - The user clicks the "No" button
 - A form for viewing tracks with updated data opens
-- 
+
 ![DeleteTrack](img/DeleteTrack.jpg)
 <center> Deleting the track </center>
 
