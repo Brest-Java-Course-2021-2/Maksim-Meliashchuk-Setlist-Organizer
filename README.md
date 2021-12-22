@@ -8,11 +8,12 @@
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
-[Software requirements specification](documentation/SetlistOrganizerSRC.md)
+- [Software requirements specification](documentation/SetlistOrganizerSRC.md)
+- [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 
 ## Technology Stack
 
-- **Programming Language:** [Java & JDK 11](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
+- **Programming Language:** [Java](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring Boot](https://spring.io/projects/spring-boot) <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
 - **Build System:** [Maven](https://maven.apache.org/)
 - **Control System:** [Git](https://git-scm.com/)
@@ -26,6 +27,14 @@
 - **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/)
 - **CSS Framework:** [Bootstrap](https://getbootstrap.com/) <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
 
+## Requirements
+
+* JDK 11
+* Apache Maven
+* Docker 20.10.12
+* Docker-compose 1.29.2
+
+
 ## Installation Information
 
 ```bash
@@ -34,7 +43,7 @@
   $ mvn clean install
 ```
 
-## Run Local Tests (H2 in memory) 
+## Run local tests (H2 in memory) 
 
 In the root directory of the project:
 ```bash
