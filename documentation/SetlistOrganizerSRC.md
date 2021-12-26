@@ -12,7 +12,7 @@
     * [2.1. Viewing the repertoire](#21-viewing-the-repertoire)
     * [2.2. Filtering the repertoire](#22-filtering-the-repertoire)
     * [2.3. Adding a track](#23-adding-a-track)
-    * [2.4 Editing a track](#24-editing-a-track)
+    * [2.4. Editing a track](#24-editing-a-track)
     * [2.5. Deleting a track](#25-deleting-a-track)
 
 ### Purpose 
@@ -175,7 +175,7 @@ When adding the track, the following values are entered:
 - `duration` - duration of the track play in minutes and seconds
 - `link` - the link to the track if it is posted on the web
 
-### 2.4 Editing a track
+### 2.4. Editing a track
 
 Main scenario:
 - The user, being in the repertoire viewing mode, presses the "Edit" button

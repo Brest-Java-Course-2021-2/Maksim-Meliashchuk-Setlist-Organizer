@@ -11,6 +11,16 @@
 - [Software requirements specification](documentation/SetlistOrganizerSRC.md)
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 
+## Applications Demo on [Heroku](https://heroku.com") <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>
+
+The web application will be accessible at:
+
+[https://setlist-organizer-web.herokuapp.com/](https://setlist-organizer-web.herokuapp.com/).
+
+The rest application will be accessible at:
+
+[https://setlist-organizer-rest.herokuapp.com/](https://setlist-organizer-rest.herokuapp.com/bands).
+
 ## Technology Stack
 
 - **Programming Language:** [Java](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
@@ -29,11 +39,14 @@
 
 ## Requirements
 
-* JDK 11
-* Apache Maven
-* Docker 20.10.12
-* Docker-compose 1.29.2
+The following software is required for the complete workflow (from git clone to the running Docker Container). 
+The specified versions are the tested ones. 
 
+* JDK 11+
+* Git 2.25.1+
+* Apache Maven 3.6.3+
+* Docker 20.10.12+
+* Docker-compose 1.29.2+
 
 ## Installation Information
 

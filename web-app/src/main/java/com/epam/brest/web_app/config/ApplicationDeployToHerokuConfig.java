@@ -8,16 +8,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @ComponentScan
-@Profile("dev")
-@PropertySource("classpath:application-dev.properties")
-public class ApplicationConfig {
+@Profile("heroku")
+@PropertySource("classpath:application-heroku.properties")
+public class ApplicationDeployToHerokuConfig {
 
     @Value("${rest.server.protocol}")
     private String protocol;
     @Value("${rest.server.host}")
     private String host;
-    @Value("${rest.server.port}")
-    private Integer port;
+
 
     @Bean
     RestTemplate restTemplate() {
@@ -26,25 +25,25 @@ public class ApplicationConfig {
 
     @Bean
     BandDtoService bandDtoService() {
-        String url = String.format("%s://%s:%d/bands_dto", protocol, host, port);
+        String url = String.format("%s://%s/bands_dto", protocol, host);
         return new BandDtoServiceRest(url, restTemplate());
     }
 
     @Bean
     BandService bandService() {
-        String url = String.format("%s://%s:%d/bands", protocol, host, port);
+        String url = String.format("%s://%s/bands", protocol, host);
         return new BandServiceRest(url, restTemplate());
     }
 
     @Bean
     TrackService trackDtoService() {
-        String url = String.format("%s://%s:%d/repertoire", protocol, host, port);
+        String url = String.format("%s://%s/repertoire", protocol, host);
         return new TrackServiceRest(url, restTemplate());
     }
 
     @Bean
     TrackDtoService trackService() {
-        String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
+        String url = String.format("%s://%s/repertoire/filter", protocol, host);
         return new TrackDtoServiceRest(url, restTemplate());
     }
 }
