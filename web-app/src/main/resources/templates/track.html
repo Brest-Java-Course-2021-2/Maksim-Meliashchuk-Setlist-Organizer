@@ -16,7 +16,7 @@
 <div th:insert="layouts :: header"></div>
 <div th:insert="layouts :: navbar"></div>
 
-<div class="container mt-3">
+<div class="container mt-2">
 
   <h3 class="text-uppercase"
       th:text="${isNew} ? 'New track' : 'Edit track'">Edit band
@@ -25,7 +25,7 @@
 
   <form id="track_form"
         th:object="${track}"
-        action="track.html"
+        action="repertoire.html"
         th:action="@{${#httpServletRequest.servletPath}}"
         th:method="@{post}">
 
@@ -38,7 +38,7 @@
              type="hidden"
              th:field="*{trackId}"/>
 
-      <p class="fs-5 ml-5 p-1">*Title</p>
+      <p class="fs-5 ml-5 p-1">*Title:</p>
       <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" required
                 type="text"
                 th:field="*{trackName}"></textarea>
@@ -57,31 +57,44 @@
       </select>
     </div>
 
-    <div class="mb-3">
-      <p class="fs-5 p-1">Tempo:</p>
-      <input id="field_track_tempo" class="form-control" placeholder="Bpm" required
-                type="number"
-                th:field="*{trackTempo}">
-    </div>
-
     <input type="hidden" th:field= "*{trackDuration}" id="field_track_duration">
 
-    <div class="mb-3">
-      <p class="fs-5 p-1">Duration:</p>
-      <div class="row">
-        <div class="col">
-          <input type="number" id="track_duration_minutes"  class="form-control" placeholder="Minutes" min="0">
+    <div class="form-inline">
 
-        </div>
+      <div class="row">
+
         <div class="col">
-          <input type="number" id="track_duration_seconds" class="form-control" placeholder="Seconds"  min="0" max="100">
+          <p class="fs-5 p-1">Duration (mm:ss):</p>
+          <div class="d-flex align-items-center">
+            <div class="p-1 ms-auto">
+              <img src="../static/img/duration.svg" th:src="@{/img/duration.svg}" height="30" width="30"
+                   alt="duration">
+            </div>
+            <input id="track_duration_minutes" class="form-control" placeholder="Minutes" required type="number" min="0" max="100">
+            <p class="fs-5 p-1">:</p>
+            <input id="track_duration_seconds" class="form-control" placeholder="Seconds" required type="number" min="0" max="100">
+          </div>
         </div>
+
+        <div class="col">
+          <p class="fs-5 p-1">Tempo:</p>
+          <div class="d-flex align-items-center">
+            <div class="p-1 ms-auto">
+              <img src="../static/img/tempo.svg" th:src="@{/img/tempo.svg}" height="30" width="30" alt="tempo">
+            </div>
+            <input id="field_track_tempo" class="form-control" placeholder="Bpm" required type="number" min="0" max="100"
+                   th:field="*{trackTempo}">
+          </div>
+        </div>
+
       </div>
+
+
     </div>
 
     <div class="mb-3">
       <p class="fs-5 p-1">Details:</p>
-      <textarea id="field_track_details" class="form-control" rows="8" placeholder="About track" required
+      <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
                 type="text"
                 th:field="*{trackDetails}"></textarea>
     </div>

@@ -84,7 +84,7 @@ class BandServiceImplIT {
     @Test
     void testDelete() {
         logger.debug("Band service execute test: testDelete()");
-        Integer bandId = 3;
+        Integer bandId = 2;
         assertNotNull(bandService);
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);

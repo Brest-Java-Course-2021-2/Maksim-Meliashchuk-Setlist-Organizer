@@ -205,7 +205,8 @@ Constraints for data validation:
 - `tempo` - value in bpm (integer number)
 - `details` - character field no more than 2000 characters
 - `duration` - integer number of minutes and integer number of seconds
-- `link` - a symbolic field, the URL of the track, if it is posted on the web. The character field is no more than 255 characters
+- `link` - a symbolic field, the URL of the track, if it is posted on the web. The character field is no more than 255 characters.
+  Contains protocol `http://` or `https://`
 
 ![EditTrack](img/EditTrack.jpg)
 <center> Editing the track </center>

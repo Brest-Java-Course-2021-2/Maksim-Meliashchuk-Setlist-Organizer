@@ -48,17 +48,17 @@ class TrackDtoServiceImplIT {
         LocalDate toDate =  LocalDate.parse("2020-01-01");
         assertNotNull(trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate));
         List<TrackDto> tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate);
-        assertEquals(1, tracks.size());
+        assertEquals(2, tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, null);
-        assertEquals(2,tracks.size());
+        assertEquals(3,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(null, toDate);
-        assertEquals(2,tracks.size());
+        assertEquals(3,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, fromDate);
-        assertEquals(1,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(toDate, toDate);
         assertEquals(0,tracks.size());
         tracks = trackDtoService.findAllTracksWithReleaseDateFilter(null, null);
-        assertEquals(3,tracks.size());
+        assertEquals(4,tracks.size());
     }
 
 

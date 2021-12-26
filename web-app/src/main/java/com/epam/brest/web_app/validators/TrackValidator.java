@@ -2,6 +2,7 @@ package com.epam.brest.web_app.validators;
 
 
 import com.epam.brest.model.Track;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -21,6 +22,9 @@ public class TrackValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
+        String[] schemes = {"http","https"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+
         ValidationUtils.rejectIfEmpty(errors, "trackName", "trackName.empty");
         Track track = (Track) target;
 
@@ -37,6 +41,14 @@ public class TrackValidator implements Validator {
                 && track.getTrackLink().length() > TRACK_LINK_MAX_SIZE) {
             errors.rejectValue("trackLink", "trackLink.maxSize");
         }
+
+        if (StringUtils.hasLength(track.getTrackLink())
+                && !urlValidator.isValid(track.getTrackLink())) {
+            errors.rejectValue("trackLink", "trackLink.notValid");
+        }
+
+
+
     }
 
 

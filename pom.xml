@@ -36,6 +36,7 @@
 		<log4j2.version>2.15</log4j2.version>
 		<spring-boot-maven-plugin.version>2.5.0</spring-boot-maven-plugin.version>
 		<thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
+		<commons-validator.version>1.7</commons-validator.version>
 		<thymeleaf-extras-java8time.version>3.0.4.RELEASE</thymeleaf-extras-java8time.version>
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
@@ -121,6 +122,12 @@
 				<groupId>com.epam.brest</groupId>
 				<artifactId>web-app</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${commons-validator.version}</version>
 			</dependency>
 
 			<dependency>

@@ -48,52 +48,53 @@
                 <div class="col">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="../static/img/music.svg" th:src="@{/img/music.svg}" height="25" width="25" alt="music">
+                            <img src="../static/img/music.svg" th:src="@{/img/music.svg}" height="25" width="25"
+                                 alt="music">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <strong>
                                 <p th:text="${track.trackName}">My track</p>
                             </strong>
-                                <p th:text="${track.trackBandName}">My band</p>
+                            <p th:text="${track.trackBandName}">My band</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col">
                     <p name="timeDuration" th:text="${track.trackDuration}">00:15:15</p>
-                    <p th:text="${track.trackTempo} + ' bpm'">129</p>
+                    <p th:text="${track.trackTempo} != null ? ${track.trackTempo} + ' bpm'">120 bpm</p>
                 </div>
 
-                <div class="col">
+                <div class="col-sm">
+                    <p th:text="${track.trackReleaseDate}">2020-03-2021</p>
+                </div>
+
+                <div class="col-sm">
                     <p th:text="${track.trackDetails}">super track1</p>
                 </div>
 
-
-                <div class="col">
+                <div class="col-sm">
                     <a th:href="${track.trackLink}" class="link-primary">
                         <p th:text="${track.trackLink}"></p>
                     </a>
                 </div>
 
-
-                <div class="col">
-                    <p th:text="${track.trackReleaseDate}">2020-03-2021</p>
-                </div>
-
-                <div class="col">
+                <div class="col-sm">
                     <div class="d-flex justify-content-end">
 
                         <a href="track.html"
                            th:href="@{|/track/${track.trackId}|}"
                            class="btn-sm btn-outline-secondary"
                            title="Edit track">
-                            <img src="../static/img/edit.svg" th:src="@{/img/edit.svg}" height="20" width="20" alt="Band edit">
+                            <img src="../static/img/edit.svg" th:src="@{/img/edit.svg}" height="20" width="20"
+                                 alt="Band edit">
                             <span class="d-none d-md-inline">Edit</span></a>
 
                         <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
                               th:attr="data-id=${track.trackId},data-name=${track.trackName}">
                                     <a href="#" class="btn-sm btn-outline-secondary" title="Delete track">
-                                        <img src="../static/img/delete.svg" th:src="@{/img/delete.svg}" height="20" width="20"
+                                        <img src="../static/img/delete.svg" th:src="@{/img/delete.svg}" height="20"
+                                             width="20"
                                              alt="Track delete">
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
@@ -120,7 +121,8 @@
                 Are you sure you want to delete the track ?
             </div>
             <div class="modal-footer">
-                <a href="repertoire.html" th:href="@{/repertoire}" button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button></a>
+                <a href="repertoire.html" th:href="@{/repertoire}" button type="button" class="btn btn-secondary"
+                   data-dismiss="modal">Cancel</button></a>
                 <a id="deleteUrl" href="#" class="btn btn-dark">Delete</a>
             </div>
         </div>
@@ -136,10 +138,12 @@
         $(this).find('.modal-body').text('Are you sure you want to delete the track "' + target.data('name') + '"?"')
         document.getElementById('deleteUrl').href = '/track/' + target.data('id') + '/delete';
     })
+
 </script>
 
 <script>
     window.onload = secondsToTime();
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

@@ -80,7 +80,7 @@ class TrackServiceImplIT {
         trackSrc.setTrackLink(trackSrc.getTrackLink() + "#");
         trackSrc.setTrackDuration(trackSrc.getTrackDuration() + 1);
         trackSrc.setTrackReleaseDate(trackSrc.getTrackReleaseDate().plusMonths(1));
-        trackSrc.setTrackBandId(trackSrc.getTrackBandId() + 1);
+        trackSrc.setTrackBandId(trackSrc.getTrackBandId() - 1);
         trackService.update(trackSrc);
         Track trackDst = trackService.getTrackById(trackSrc.getTrackId());
         assertEquals(trackSrc.getTrackName(), trackDst.getTrackName());
@@ -109,6 +109,6 @@ class TrackServiceImplIT {
         Integer quantity = trackService.count();
         assertNotNull(quantity);
         assertTrue(quantity > 0);
-        assertEquals(Integer.valueOf(3), quantity);
+        assertEquals(Integer.valueOf(4), quantity);
     }
 }

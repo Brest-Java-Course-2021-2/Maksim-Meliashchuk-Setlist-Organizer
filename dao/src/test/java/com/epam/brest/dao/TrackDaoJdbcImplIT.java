@@ -87,7 +87,7 @@ public class TrackDaoJdbcImplIT {
         trackSrc.setTrackLink(trackSrc.getTrackLink() + "#");
         trackSrc.setTrackDuration(trackSrc.getTrackDuration() + 1);
         trackSrc.setTrackReleaseDate(trackSrc.getTrackReleaseDate().plusMonths(1));
-        trackSrc.setTrackBandId(trackSrc.getTrackBandId() + 1);
+        trackSrc.setTrackBandId(trackSrc.getTrackBandId() - 1);
         trackDaoJDBC.update(trackSrc);
         Track trackDst = trackDaoJDBC.getTrackById(trackSrc.getTrackId());
         assertEquals(trackSrc.getTrackName(), trackDst.getTrackName());
@@ -118,6 +118,6 @@ public class TrackDaoJdbcImplIT {
         Integer quantity = trackDaoJDBC.count();
         assertNotNull(quantity);
         assertTrue(quantity > 0);
-        assertEquals(Integer.valueOf(3), quantity);
+        assertEquals(Integer.valueOf(4), quantity);
     }
 }

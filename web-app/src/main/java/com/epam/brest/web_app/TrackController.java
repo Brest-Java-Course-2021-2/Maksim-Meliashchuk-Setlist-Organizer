@@ -66,6 +66,9 @@ public class TrackController {
         logger.debug("addTrack({})", track);
         trackValidator.validate(track, result);
         this.trackService.create(track);
+        if (result.hasErrors()) {
+            return "track";
+        }
         return "redirect:/repertoire";
     }
 
