@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../static/css/style.css"
-        th:href="@{/css/style.css}">
-  <title>Setlist Organizer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../static/css/style.css"
+          th:href="@{/css/style.css}">
+    <title>Setlist Organizer</title>
 </head>
 
 <div th:insert="layouts :: header"></div>
@@ -17,62 +18,65 @@
 
 <div class="container mt-2">
 
-  <h3 class="text-uppercase"
-           th:text="${isNew} ? 'New band' : 'Edit band'">Edit band
-  </h3>
+    <h3 class="text-uppercase"
+        th:text="${isNew} ? 'New band' : 'Edit band'">Edit band
+    </h3>
 
 
-  <form id="band_form"
-        th:object="${band}"
-        action="bands.html"
-        th:action="@{${#httpServletRequest.servletPath}}"
-        th:method="@{post}">
+    <form id="band_form"
+          th:object="${band}"
+          action="bands.html"
+          th:action="@{${#httpServletRequest.servletPath}}"
+          th:method="@{post}">
 
-    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-      <p>Please fix errors below:</p>
-    </div>
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <p>Please fix errors below:</p>
+        </div>
 
-    <div class="mb-3 mt-3">
+        <div class="mb-3 mt-3">
 
-      <input id="band_bandId"
-             type="hidden"
-             th:field="*{bandId}"/>
+            <input id="band_bandId"
+                   type="hidden"
+                   th:field="*{bandId}"/>
 
-      <p class="fs-5 ml-5 p-1">*Title</p>
-      <textarea id = "field_band_name" class="form-control" rows="1" placeholder="Name of band" required
-                type="text"
-                th:field="*{bandName}"></textarea>
-      <div th:if="${#fields.hasErrors('bandName')}"
-           class="text-danger"
-           th:errors="*{bandName}">[errors]</div>
+            <p class="fs-5 ml-5 p-1">*Title</p>
+            <textarea id="field_band_name" class="form-control" rows="1" placeholder="Name of band" required
+                      type="text"
+                      th:field="*{bandName}"></textarea>
+            <div th:if="${#fields.hasErrors('bandName')}"
+                 class="text-danger"
+                 th:errors="*{bandName}">[errors]
+            </div>
 
-    </div>
-    <div class="mb-3">
-      <p class="fs-5 p-1">Details:</p>
-      <textarea id = "field_band_details" class="form-control" rows="4" placeholder="About band" required
-                type="text"
-                th:field="*{bandDetails}"></textarea>
-      <div th:if="${#fields.hasErrors('bandDetails')}"
-           class="text-danger"
-           th:errors="*{bandDetails}">[errors]</div>
-    </div>
+        </div>
+        <div class="mb-3">
+            <p class="fs-5 p-1">Details:</p>
+            <textarea id="field_band_details" class="form-control" rows="4" placeholder="About band" required
+                      type="text"
+                      th:field="*{bandDetails}"></textarea>
+            <div th:if="${#fields.hasErrors('bandDetails')}"
+                 class="text-danger"
+                 th:errors="*{bandDetails}">[errors]
+            </div>
+        </div>
 
-    <div class="mb-3 mt-3">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a href="bands.html" th:href="@{/bands}" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
-        <a href="bands.html"
-           th:href="@{/bands}"
-           th:onclick="@{document.forms['band_form'].submit(); return false;}"
-           class="btn btn-dark" role="button">Save</a>
-      </div>
-    </div>
-  </form>
+        <div class="mb-3 mt-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="bands.html" th:href="@{/bands}" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
+                <a href="bands.html"
+                   th:href="@{/bands}"
+                   th:onclick="@{document.forms['band_form'].submit(); return false;}"
+                   class="btn btn-dark" role="button">Save</a>
+            </div>
+        </div>
+    </form>
 </div>
 
 
 <div th:insert="layouts :: footer"></div>
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </html>

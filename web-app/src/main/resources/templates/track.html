@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
-  <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
-  <link rel="stylesheet" href="../static/css/style.css"
-        th:href="@{/css/style.css}">
-  <title>Setlist Organizer</title>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" href="../static/css/style.css"
+          th:href="@{/css/style.css}">
+    <title>Setlist Organizer</title>
 </head>
 
 <div th:insert="layouts :: header"></div>
@@ -18,131 +19,143 @@
 
 <div class="container mt-2">
 
-  <h3 class="text-uppercase"
-      th:text="${isNew} ? 'New track' : 'Edit track'">Edit band
-  </h3>
+    <h3 class="text-uppercase"
+        th:text="${isNew} ? 'New track' : 'Edit track'">Edit band
+    </h3>
 
 
-  <form id="track_form"
-        th:object="${track}"
-        action="repertoire.html"
-        th:action="@{${#httpServletRequest.servletPath}}"
-        th:method="@{post}">
+    <form id="track_form"
+          th:object="${track}"
+          action="repertoire.html"
+          th:action="@{${#httpServletRequest.servletPath}}"
+          th:method="@{post}">
 
-    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-      <p>Please fix errors below:</p>
-    </div>
 
-    <div class="mb-3 mt-3">
-      <input id="track_trackId"
-             type="hidden"
-             th:field="*{trackId}"/>
-
-      <p class="fs-5 ml-5 p-1">*Title:</p>
-      <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" required
-                type="text"
-                th:field="*{trackName}"></textarea>
-    </div>
-
-    <div th:if="${#fields.hasErrors('trackName')}"
-         class="text-danger"
-         th:errors="*{trackName}">[errors]</div>
-
-    <div class="mb-3">
-      <p class="fs-5 p-1">Band:</p>
-      <select th:field="*{trackBandId}" class="select form-control" id="select" name="select">
-        <option th:each="band : ${bands}"
-                th:value="${band.bandId}"
-                th:text="${band.bandName}"/>
-      </select>
-    </div>
-
-    <input type="hidden" th:field= "*{trackDuration}" id="field_track_duration">
-
-    <div class="form-inline">
-
-      <div class="row">
-
-        <div class="col">
-          <p class="fs-5 p-1">Duration (mm:ss):</p>
-          <div class="d-flex align-items-center">
-            <div class="p-1 ms-auto">
-              <img src="../static/img/duration.svg" th:src="@{/img/duration.svg}" height="30" width="30"
-                   alt="duration">
-            </div>
-            <input id="track_duration_minutes" class="form-control" placeholder="Minutes" required type="number" min="0" max="100">
-            <p class="fs-5 p-1">:</p>
-            <input id="track_duration_seconds" class="form-control" placeholder="Seconds" required type="number" min="0" max="100">
-          </div>
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <p>Please fix errors below:</p>
         </div>
 
-        <div class="col">
-          <p class="fs-5 p-1">Tempo:</p>
-          <div class="d-flex align-items-center">
-            <div class="p-1 ms-auto">
-              <img src="../static/img/tempo.svg" th:src="@{/img/tempo.svg}" height="30" width="30" alt="tempo">
-            </div>
-            <input id="field_track_tempo" class="form-control" placeholder="Bpm" required type="number" min="0" max="100"
-                   th:field="*{trackTempo}">
-          </div>
+        <div class="mb-3 mt-3">
+            <input id="track_trackId"
+                   type="hidden"
+                   th:field="*{trackId}"/>
+
+            <p class="fs-5 ml-5 p-1">*Title:</p>
+            <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" required
+                      type="text"
+                      th:field="*{trackName}"></textarea>
         </div>
 
-      </div>
+        <div th:if="${#fields.hasErrors('trackName')}"
+             class="text-danger"
+             th:errors="*{trackName}">[errors]
+        </div>
+
+        <div class="mb-3">
+            <p class="fs-5 p-1">Band:</p>
+            <select th:field="*{trackBandId}" class="select form-control" id="select" name="select">
+                <option th:each="band : ${bands}"
+                        th:value="${band.bandId}"
+                        th:text="${band.bandName}"/>
+            </select>
+        </div>
+
+        <input type="hidden" th:field="*{trackDuration}" id="field_track_duration">
+
+        <div class="form-inline">
+
+            <div class="row">
+
+                <div class="col">
+                    <p class="fs-5 p-1">Duration (mm:ss):</p>
+                    <div class="d-flex align-items-center">
+                        <div class="p-1 ms-auto">
+                            <img src="../static/img/duration.svg" th:src="@{/img/duration.svg}" height="30" width="30"
+                                 alt="duration">
+                        </div>
+                        <input id="track_duration_minutes" class="form-control" placeholder="Minutes" required
+                               type="number" min="0" max="100">
+                        <p class="fs-5 p-1">:</p>
+                        <input id="track_duration_seconds" class="form-control" placeholder="Seconds" required
+                               type="number" min="0" max="100">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <p class="fs-5 p-1">Tempo:</p>
+                    <div class="d-flex align-items-center">
+                        <div class="p-1 ms-auto">
+                            <img src="../static/img/tempo.svg" th:src="@{/img/tempo.svg}" height="30" width="30"
+                                 alt="tempo">
+                        </div>
+                        <input id="field_track_tempo" class="form-control" placeholder="Bpm" required type="number"
+                               min="0" max="100"
+                               th:field="*{trackTempo}">
+                    </div>
+                </div>
+
+            </div>
 
 
-    </div>
+        </div>
 
-    <div class="mb-3">
-      <p class="fs-5 p-1">Details:</p>
-      <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
-                type="text"
-                th:field="*{trackDetails}"></textarea>
-    </div>
+        <div class="mb-3">
+            <p class="fs-5 p-1">Details:</p>
+            <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
+                      type="text"
+                      th:field="*{trackDetails}"></textarea>
+        </div>
 
-    <div th:if="${#fields.hasErrors('trackDetails')}"
-         class="text-danger"
-         th:errors="*{trackDetails}">[errors]</div>
+        <div th:if="${#fields.hasErrors('trackDetails')}"
+             class="text-danger"
+             th:errors="*{trackDetails}">[errors]
+        </div>
 
 
-    <div class="mb-3">
-      <p class="fs-5 p-1">Link:</p>
-      <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
-                type="text"
-                th:field="*{trackLink}"></textarea>
-    </div>
+        <div class="mb-3">
+            <p class="fs-5 p-1">Link:</p>
+            <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
+                      type="text"
+                      th:field="*{trackLink}"></textarea>
+        </div>
 
-    <div th:if="${#fields.hasErrors('trackLink')}"
-         class="text-danger"
-         th:errors="*{trackLink}">[errors]</div>
+        <div th:if="${#fields.hasErrors('trackLink')}"
+             class="text-danger"
+             th:errors="*{trackLink}">[errors]
+        </div>
 
-    <div class="mb-3">
-      <div class="form-group form-group-lg">
-        <p class="fs-5 ml-5 p-1">Release date:</p>
-        <strong>
-          <input type="date" id="inputReleaseDate" class="form-control"
-                 th:field="*{trackReleaseDate}">
-        </strong>
-      </div>
-    </div>
+        <div class="mb-3">
+            <div class="form-group form-group-lg">
+                <p class="fs-5 ml-5 p-1">Release date:</p>
+                <strong>
+                    <input type="date" id="inputReleaseDate" class="form-control"
+                           th:field="*{trackReleaseDate}">
+                </strong>
+            </div>
+        </div>
 
-    <div class="mb-3 mt-3">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn btn-secondary me-md-2"
-           role="button">Cancel</a>
-        <a href="repertoire.html"
-           th:href="@{/repertoire}"
-           th:onclick="{durationToSeconds(); document.forms['track_form'].submit(); return false;}"
-           id="save_button" class="btn btn-dark" role="button">Save</a>
-      </div>
-    </div>
-  </form>
+        <div class="mb-3 mt-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn btn-secondary me-md-2"
+                   role="button">Cancel</a>
+                <a href="repertoire.html"
+                   th:href="@{/repertoire}"
+                   th:onclick="{durationToSeconds(); document.forms['track_form'].submit(); return false;}"
+                   id="save_button" class="btn btn-dark" role="button">Save</a>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div th:insert="layouts :: footer"></div>
 
 <script>
     window.onload = durationToMinutesAndSeconds();
+
+
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </html>

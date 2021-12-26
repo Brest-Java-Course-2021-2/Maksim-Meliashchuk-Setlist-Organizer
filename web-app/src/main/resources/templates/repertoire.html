@@ -45,7 +45,7 @@
         <div class="p-2 bg-light border p-2" th:each="track: ${tracks}">
             <div class="row align-items-center">
 
-                <div class="col">
+                <div class="col-2">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
                             <img src="../static/img/music.svg" th:src="@{/img/music.svg}" height="25" width="25"
@@ -53,33 +53,33 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <strong>
-                                <p th:text="${track.trackName}">My track</p>
+                                <p class="text-break" th:text="${track.trackName}">My track</p>
                             </strong>
-                            <p th:text="${track.trackBandName}">My band</p>
+                            <p class="text-break" th:text="${track.trackBandName}">My band</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col-2">
                     <p name="timeDuration" th:text="${track.trackDuration}">00:15:15</p>
                     <p th:text="${track.trackTempo} != null ? ${track.trackTempo} + ' bpm'">120 bpm</p>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-sm-2">
                     <p th:text="${track.trackReleaseDate}">2020-03-2021</p>
                 </div>
 
-                <div class="col-sm">
-                    <p th:text="${track.trackDetails}">super track1</p>
+                <div class="col-sm-2">
+                    <p class="text-break" th:text="${track.trackDetails}">super track1</p>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-sm-2">
                     <a th:href="${track.trackLink}" class="link-primary">
-                        <p th:text="${track.trackLink}"></p>
+                        <p class="text-break" th:text="${track.trackLink}"></p>
                     </a>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-sm-2">
                     <div class="d-flex justify-content-end">
 
                         <a href="track.html"
@@ -139,10 +139,14 @@
         document.getElementById('deleteUrl').href = '/track/' + target.data('id') + '/delete';
     })
 
+
+
 </script>
 
 <script>
     window.onload = secondsToTime();
+
+
 
 </script>
 

@@ -65,10 +65,10 @@ public class TrackController {
     public String addTrack(Track track, BindingResult result) {
         logger.debug("addTrack({})", track);
         trackValidator.validate(track, result);
-        this.trackService.create(track);
         if (result.hasErrors()) {
             return "track";
         }
+        this.trackService.create(track);
         return "redirect:/repertoire";
     }
 

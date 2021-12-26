@@ -35,10 +35,6 @@ body {
     line-height: 1;
 }
 
-textarea {
-    resize:none;
-}
-
 p {
     margin-bottom: 0rem;
     margin-top: 0rem;
