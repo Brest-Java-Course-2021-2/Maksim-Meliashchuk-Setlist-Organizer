@@ -29,22 +29,22 @@
 
 <div class="container">
     <div class="d-grid gap-3">
-        <div class="p-2 bg-light border p-2" th:each="band: ${bands}">
+        <div id = "card" class="p-2 bg-light border p-2" th:each="band: ${bands}">
             <div class="row align-items-center">
-                <div class="col-sm-3">
+                <div class="col-6 col-sm-4">
                     <strong>
                         <p class="text-uppercase">
                         <p class="text-break" th:text="${band.bandName}">My cover band</p></p>
                     </strong>
                     <p th:text="${band.bandCountTrack} == '0' ? 'no tracks' : ${band.bandCountTrack} + ' tracks'">14
                         songs</p>
-                    <p th:text="${band.bandCountTrack} == '0' ? '' : 'Duration of the repertoire:'">00:15:15</p>
+                    <p th:text="${band.bandCountTrack} == '0' ? '' : 'Duration of the repertoire:'">Duration of the repertoire:</p>
                     <p name="timeDuration"
                        th:text="${band.bandCountTrack} == '0' ? '' : ${band.bandRepertoireDuration}">00:15:15</p>
 
                 </div>
 
-                <div class="col-sm-5">
+                <div class="col-6 col-sm-4">
                     <p class="text-break" th:text="${band.bandDetails}">Alternative&metal</p>
                 </div>
 

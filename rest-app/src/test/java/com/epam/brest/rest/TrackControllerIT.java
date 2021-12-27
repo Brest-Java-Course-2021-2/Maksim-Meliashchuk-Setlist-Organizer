@@ -125,7 +125,7 @@ public class TrackControllerIT {
         trackOptionalSrc.get().setTrackLink(trackSrc.getTrackLink() + "#");
         trackOptionalSrc.get().setTrackDuration(trackSrc.getTrackDuration() + 1);
         trackOptionalSrc.get().setTrackReleaseDate(trackSrc.getTrackReleaseDate().plusMonths(1));
-        trackOptionalSrc.get().setTrackBandId(trackSrc.getTrackBandId() + 1);
+        trackOptionalSrc.get().setTrackBandId(trackSrc.getTrackBandId() - 1);
 
         // when
         int result = trackService.update(trackOptionalSrc.get());
