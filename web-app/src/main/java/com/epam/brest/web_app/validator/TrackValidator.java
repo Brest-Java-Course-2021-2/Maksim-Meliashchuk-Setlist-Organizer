@@ -1,4 +1,4 @@
-package com.epam.brest.web_app.validators;
+package com.epam.brest.web_app.validator;
 
 
 import com.epam.brest.model.Track;
@@ -47,7 +47,9 @@ public class TrackValidator implements Validator {
             errors.rejectValue("trackLink", "trackLink.notValid");
         }
 
-
+        if (track.getTrackTempo() !=null && track.getTrackTempo() < 0) {
+            errors.rejectValue("trackTempo", "trackTempo.notValid");
+        }
 
     }
 

@@ -21,7 +21,7 @@
 
 <div class="container">
     <div class="d-grid justify-content-end">
-        <div class="p-2">
+        <div class="p-3">
             <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">Add</a>
         </div>
     </div>
@@ -36,12 +36,13 @@
                         <p class="text-uppercase">
                         <p class="text-break" th:text="${band.bandName}">My cover band</p></p>
                     </strong>
-                    <p th:text="${band.bandCountTrack} == '0' ? 'no tracks' : ${band.bandCountTrack} + ' tracks'">14
-                        songs</p>
-                    <p th:text="${band.bandCountTrack} == '0' ? '' : 'Duration of the repertoire:'">Duration of the repertoire:</p>
-                    <p name="timeDuration"
-                       th:text="${band.bandCountTrack} == '0' ? '' : ${band.bandRepertoireDuration}">00:15:15</p>
-
+                    <small>
+                    <span th:text="${band.bandCountTrack} == '0' ? 'no tracks' : ${band.bandCountTrack} + ' tracks'">14
+                        tracks</span>
+                        <span th:text="${band.bandCountTrack} == '0' ? '' : ' &#8901; duration:'"> &#8901; Duration :</span>
+                        <span name="timeDuration"
+                              th:text="${band.bandCountTrack} == '0' ? '' : ${band.bandRepertoireDuration}">00:15:15</span>
+                    </small>
                 </div>
 
                 <div class="col-6 col-sm-4">
@@ -104,15 +105,10 @@
         document.getElementById('deleteUrl').href = '/band/' + target.data('id') + '/delete';
     })
 
-
-
-</script>
-
-<script>
     window.onload = secondsToTime();
 
-
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

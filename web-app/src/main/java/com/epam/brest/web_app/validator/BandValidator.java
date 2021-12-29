@@ -1,4 +1,4 @@
-package com.epam.brest.web_app.validators;
+package com.epam.brest.web_app.validator;
 
 
 import com.epam.brest.model.Band;

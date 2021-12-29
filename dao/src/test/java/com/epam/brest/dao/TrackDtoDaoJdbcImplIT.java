@@ -52,13 +52,13 @@ class TrackDtoDaoJdbcImplIT {
         LocalDate toDate =  LocalDate.parse("2020-01-01");
         assertNotNull(trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, toDate));
         List<TrackDto> tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, toDate);
-        assertEquals(2, tracks.size());
+        assertEquals(1, tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, null);
-        assertEquals(3,tracks.size());
+        assertEquals(2,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(null, toDate);
         assertEquals(3,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(fromDate, fromDate);
-        assertEquals(2,tracks.size());
+        assertEquals(0,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(toDate, toDate);
         assertEquals(0,tracks.size());
         tracks = trackDtoDaoJdbc.findAllTracksWithReleaseDateFilter(null, null);

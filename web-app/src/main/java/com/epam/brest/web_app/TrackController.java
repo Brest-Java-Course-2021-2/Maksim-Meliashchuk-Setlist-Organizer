@@ -4,7 +4,7 @@ import com.epam.brest.model.Track;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.web_app.validators.TrackValidator;
+import com.epam.brest.web_app.validator.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;

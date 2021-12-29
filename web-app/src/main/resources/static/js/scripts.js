@@ -1,7 +1,7 @@
 function secondsToTime() {
     var array = document.getElementsByName("timeDuration");
     array.forEach(function(timeDuration) {
-            var e = timeDuration.innerText;
+            var e = Math.floor(timeDuration.innerText / 1000);
             var h = Math.floor(e / 3600).toString().padStart(2,'0'),
                 m = Math.floor(e % 3600 / 60).toString().padStart(2,'0'),
                 s = Math.floor(e % 60).toString().padStart(2,'0');
@@ -12,18 +12,36 @@ function secondsToTime() {
 }
 
 function durationToMinutesAndSeconds() {
-    var e = document.getElementById("field_track_duration").value,
+    var e = Math.floor(document.getElementById("field_track_duration").value / 1000),
         m = Math.floor(e % 3600 / 60),
         s = Math.floor(e % 60);
-    document.getElementById("track_duration_minutes").value = m;
-    document.getElementById("track_duration_seconds").value = s;
+    if (m > 0) {
+        document.getElementById("track_duration_minutes").value = m;
+    }
+    if (s > 0) {
+       document.getElementById("track_duration_seconds").value = s;
+    }
 }
 
 function durationToSeconds() {
-    var m = document.getElementById("track_duration_minutes").value;
-    var s = document.getElementById("track_duration_seconds").value;
-    var e = +m * 60 + +s;
+    var m = Math.abs(document.getElementById("track_duration_minutes").value);
+    var s = Math.abs(document.getElementById("track_duration_seconds").value);
+    var e = (+m * 60 + +s) * 1000;
     document.getElementById("field_track_duration").value = e
+}
+
+function dateFormat() {
+    var options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        };
+    var array = document.getElementsByName("releaseDate");
+    array.forEach(function(releaseDate) {
+    if (releaseDate.innerText != '') {
+        releaseDate.innerText = new Date(releaseDate.innerText).toLocaleString("en", options);
+    }
+    })
 }
 
 

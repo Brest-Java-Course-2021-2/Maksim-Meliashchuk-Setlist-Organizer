@@ -15,11 +15,11 @@
 
 The web application will be accessible at:
 
-[https://setlist-organizer-web.herokuapp.com/](https://setlist-organizer-web.herokuapp.com/).
+[https://setlist-organizer-web.herokuapp.com/](https://setlist-organizer-web.herokuapp.com/)
 
 The rest application will be accessible at:
 
-[https://setlist-organizer-rest.herokuapp.com/](https://setlist-organizer-rest.herokuapp.com/bands).
+[https://setlist-organizer-rest.herokuapp.com/](https://setlist-organizer-rest.herokuapp.com/bands)
 
 ## Technology Stack
 

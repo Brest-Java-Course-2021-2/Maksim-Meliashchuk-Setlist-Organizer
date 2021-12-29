@@ -74,7 +74,7 @@
                                  alt="duration">
                         </div>
                         <input id="track_duration_minutes" class="form-control" placeholder="Minutes" required
-                               type="number" min="0" max="100">
+                               type="number" min="0" max="100" style="text-align:right;">
                         <p class="fs-5 p-1">:</p>
                         <input id="track_duration_seconds" class="form-control" placeholder="Seconds" required
                                type="number" min="0" max="100">
@@ -92,56 +92,60 @@
                                min="0" max="100"
                                th:field="*{trackTempo}">
                     </div>
+                    <div th:if="${#fields.hasErrors('trackTempo')}"
+                         class="text-danger"
+                         th:errors="*{trackTempo}">[errors]
+                    </div>
                 </div>
 
             </div>
 
 
             <div class="mb-3">
-            <p class="fs-5 p-1">Details:</p>
-            <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
-                      type="text"
-                      th:field="*{trackDetails}"></textarea>
-        </div>
-
-        <div th:if="${#fields.hasErrors('trackDetails')}"
-             class="text-danger"
-             th:errors="*{trackDetails}">[errors]
-        </div>
-
-
-        <div class="mb-3">
-            <p class="fs-5 p-1">Link:</p>
-            <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
-                      type="text"
-                      th:field="*{trackLink}"></textarea>
-        </div>
-
-        <div th:if="${#fields.hasErrors('trackLink')}"
-             class="text-danger"
-             th:errors="*{trackLink}">[errors]
-        </div>
-
-        <div class="mb-3">
-            <div class="form-group form-group-lg">
-                <p class="fs-5 ml-5 p-1">Release date:</p>
-                <strong>
-                    <input type="date" id="inputReleaseDate" class="form-control"
-                           th:field="*{trackReleaseDate}">
-                </strong>
+                <p class="fs-5 p-1">Details:</p>
+                <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
+                          type="text"
+                          th:field="*{trackDetails}"></textarea>
             </div>
-        </div>
 
-        <div class="mb-3 mt-3">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn btn-secondary me-md-2"
-                   role="button">Cancel</a>
-                <a href="repertoire.html"
-                   th:href="@{/repertoire}"
-                   th:onclick="{durationToSeconds(); document.forms['track_form'].submit(); return false;}"
-                   id="save_button" class="btn btn-dark" role="button">Save</a>
+            <div th:if="${#fields.hasErrors('trackDetails')}"
+                 class="text-danger"
+                 th:errors="*{trackDetails}">[errors]
             </div>
-        </div>
+
+
+            <div class="mb-3">
+                <p class="fs-5 p-1">Link:</p>
+                <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
+                          type="text"
+                          th:field="*{trackLink}"></textarea>
+            </div>
+
+            <div th:if="${#fields.hasErrors('trackLink')}"
+                 class="text-danger"
+                 th:errors="*{trackLink}">[errors]
+            </div>
+
+            <div class="mb-3">
+                <div class="form-group form-group-lg">
+                    <p class="fs-5 ml-5 p-1">Release date:</p>
+                    <strong>
+                        <input type="date" id="inputReleaseDate" class="form-control"
+                               th:field="*{trackReleaseDate}">
+                    </strong>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn-secondary me-md-2"
+                       role="button">Cancel</a>
+                    <a href="repertoire.html"
+                       th:href="@{/repertoire}"
+                       th:onclick="{durationToSeconds(); document.forms['track_form'].submit(); return false;}"
+                       id="save_button" class="btn btn-dark" role="button">Save</a>
+                </div>
+            </div>
     </form>
 </div>
 
@@ -149,6 +153,7 @@
 
 <script>
     window.onload = durationToMinutesAndSeconds();
+
 
 
 </script>
