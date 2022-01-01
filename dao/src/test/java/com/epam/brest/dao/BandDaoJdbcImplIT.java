@@ -114,6 +114,4 @@ class BandDaoJdbcImplIT {
         assertEquals(bands.size() - 1, bandDaoJDBC.findAll().size());
     }
 
-
-
 }

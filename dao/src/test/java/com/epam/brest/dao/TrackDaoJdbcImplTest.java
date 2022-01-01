@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.model.Band;
+import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
@@ -22,23 +21,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
-public class BandDaoJdbcImplTest {
-    private final Logger logger = LogManager.getLogger(BandDaoJdbcImplTest.class);
+public class TrackDaoJdbcImplTest {
+    private final Logger logger = LogManager.getLogger(TrackDaoJdbcImplTest.class);
 
     @InjectMocks
-    private BandDaoJdbcImpl bandDaoJdbc;
+    private TrackDaoJdbcImpl trackDaoJdbc;
 
     @Mock
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Captor
-    private ArgumentCaptor<RowMapper<Band>> captorMapper;
+    private ArgumentCaptor<RowMapper<Track>> captorMapper;
 
     @Captor
     private ArgumentCaptor<SqlParameterSource> captorSource;
-
-    @Captor
-    private ArgumentCaptor<KeyHolder> captorKeyHolder;
 
     @AfterEach
     public void check() {
@@ -46,66 +42,66 @@ public class BandDaoJdbcImplTest {
     }
 
     @Test
-    public void testFindAllBands() {
-        logger.debug("Execute mock test: testFindAllBands()");
+    public void testFindAllTracks() {
+        logger.debug("Execute mock test: testFindAllTracks()");
         String sql = "select";
-        ReflectionTestUtils.setField(bandDaoJdbc, "sqlAllBands", sql);
-        Band band = new Band();
-        List<Band> list = Collections.singletonList(band);
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlAllTracks", sql);
+        Track track = new Track();
+        List<Track> list = Collections.singletonList(track);
 
         Mockito.when(namedParameterJdbcTemplate.query(any(),
-                ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(list);
+                ArgumentMatchers.<RowMapper<Track>>any())).thenReturn(list);
 
-        List<Band> result = bandDaoJdbc.findAll();
+        List<Track> result = trackDaoJdbc.findAll();
 
         Mockito.verify(namedParameterJdbcTemplate).query(eq(sql), captorMapper.capture());
 
-        RowMapper<Band> mapper = captorMapper.getValue();
+        RowMapper<Track> mapper = captorMapper.getValue();
         Assertions.assertNotNull(mapper);
 
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
-        Assertions.assertSame(band, result.get(0));
+        Assertions.assertSame(track, result.get(0));
     }
 
     @Test
-    public void testGetBandById() {
-        logger.debug("Execute mock test: getBandById()");
+    public void testGetTrackById() {
+        logger.debug("Execute mock test: testGetTrackById()");
         String sql = "get";
-        ReflectionTestUtils.setField(bandDaoJdbc, "sqlBandById", sql);
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlTrackById", sql);
         int id = 0;
-        Band band = new Band();
+        Track track = new Track();
 
         Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
-                ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(band);
+                ArgumentMatchers.<RowMapper<Track>>any())).thenReturn(track);
 
-        Band result = bandDaoJdbc.getBandById(id);
+        Track result = trackDaoJdbc.getTrackById(id);
 
         Mockito.verify(namedParameterJdbcTemplate)
                 .queryForObject(eq(sql), captorSource.capture(), captorMapper.capture());
 
         SqlParameterSource source = captorSource.getValue();
-        RowMapper<Band> mapper = captorMapper.getValue();
+        RowMapper<Track> mapper = captorMapper.getValue();
 
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(mapper);
 
         Assertions.assertNotNull(result);
-        Assertions.assertSame(band, result);
+        Assertions.assertSame(track, result);
     }
 
     @Test
-    public void testUpdateBand() {
-        logger.debug("Execute mock test: testUpdateBand()");
+    public void testUpdateTrack() {
+        logger.debug("Execute mock test: testUpdateTrack()");
         String sql = "update";
-        ReflectionTestUtils.setField(bandDaoJdbc, "sqlUpdateBandById", sql);
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlUpdateTrackById", sql);
         int id = 0;
-        Band band = new Band("Gods Tower", "Band of metal").setBandId(id);
+        Track track = new Track("new track").setTrackId(id);
 
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
 
-        int resultId = bandDaoJdbc.update(band);
+        int resultId = trackDaoJdbc.update(track);
 
         Mockito.verify(namedParameterJdbcTemplate)
                 .update(eq(sql), captorSource.capture());
@@ -114,9 +110,8 @@ public class BandDaoJdbcImplTest {
 
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(resultId);
-        Assertions.assertSame(band.getBandId(), resultId);
+        Assertions.assertSame(track.getTrackId(), resultId);
 
     }
-
 
 }
