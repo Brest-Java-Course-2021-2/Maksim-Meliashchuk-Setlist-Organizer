@@ -12,10 +12,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -35,6 +39,9 @@ public class TrackDaoJdbcImplTest {
 
     @Captor
     private ArgumentCaptor<SqlParameterSource> captorSource;
+
+    @Captor
+    private ArgumentCaptor<GeneratedKeyHolder> captorKeyHolder;
 
     @AfterEach
     public void check() {
@@ -70,7 +77,7 @@ public class TrackDaoJdbcImplTest {
         String sql = "get";
         ReflectionTestUtils.setField(trackDaoJdbc, "sqlTrackById", sql);
         int id = 0;
-        Track track = new Track();
+        Track track = new Track("new track").setTrackId(id);
 
         Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<RowMapper<Track>>any())).thenReturn(track);
@@ -91,6 +98,36 @@ public class TrackDaoJdbcImplTest {
     }
 
     @Test
+    public void testCreateTrack() {
+        logger.debug("Execute mock test: testCreateTrack()");
+        String sql = "create";
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlCreateTrack", sql);
+        int id = 0;
+        int count = 1;
+        Track track = new Track("new track").setTrackId(id);
+
+        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                ArgumentMatchers.<KeyHolder>any())).thenAnswer(invocation ->  {
+            Object[] args = invocation.getArguments();
+            Map<String, Object> keyMap = new HashMap<>();
+            keyMap.put("", id);
+            ((KeyHolder)args[2]).getKeyList().add(keyMap);
+            return count;
+        });
+
+        Integer result = trackDaoJdbc.create(track);
+
+        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture());
+
+        SqlParameterSource source = captorSource.getValue();
+        KeyHolder keyHolder = captorKeyHolder.getValue();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(keyHolder);
+    }
+
+    @Test
     public void testUpdateTrack() {
         logger.debug("Execute mock test: testUpdateTrack()");
         String sql = "update";
@@ -101,7 +138,7 @@ public class TrackDaoJdbcImplTest {
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
 
-        int resultId = trackDaoJdbc.update(track);
+        Integer resultId = trackDaoJdbc.update(track);
 
         Mockito.verify(namedParameterJdbcTemplate)
                 .update(eq(sql), captorSource.capture());
@@ -112,6 +149,41 @@ public class TrackDaoJdbcImplTest {
         Assertions.assertNotNull(resultId);
         Assertions.assertSame(track.getTrackId(), resultId);
 
+    }
+
+    @Test
+    public void testDeleteTrack() {
+        String sql = "delete";
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlDeleteTrackById", sql);
+        int id = 0;
+        Mockito.when(namedParameterJdbcTemplate.update(any(),ArgumentMatchers.<SqlParameterSource>any()))
+                .thenReturn(id);
+
+        Integer result = trackDaoJdbc.delete(id);
+
+        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture());
+
+        SqlParameterSource source = captorSource.getValue();
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testCountTrack() {
+        logger.debug("Execute mock test: testCountTrack()");
+        String sql = "count";
+        ReflectionTestUtils.setField(trackDaoJdbc, "selectCountFromTrack", sql);
+        int count = 1;
+        Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                eq(Integer.class))).thenReturn(count);
+
+        Integer result = trackDaoJdbc.count();
+
+        Mockito.verify(namedParameterJdbcTemplate).queryForObject(eq(sql), captorSource.capture(), eq(Integer.class));
+
+        SqlParameterSource source = captorSource.getValue();
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(result);
     }
 
 }

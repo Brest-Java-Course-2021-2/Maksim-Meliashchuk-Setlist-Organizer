@@ -16,7 +16,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -105,7 +107,7 @@ public class BandDaoJdbcImplTest {
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
 
-        int resultId = bandDaoJdbc.update(band);
+        Integer resultId = bandDaoJdbc.update(band);
 
         Mockito.verify(namedParameterJdbcTemplate)
                 .update(eq(sql), captorSource.capture());
@@ -118,5 +120,72 @@ public class BandDaoJdbcImplTest {
 
     }
 
+    @Test
+    public void testCreateBand() {
+        logger.debug("Execute mock test: testCreateBand()");
+        String sql = "create";
+        ReflectionTestUtils.setField(bandDaoJdbc, "sqlCreateBand", sql);
+        int id = 0;
+        int count = 1;
+        Band band = new Band("Gods Tower", "Band of metal").setBandId(id);
+
+        Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(Collections.EMPTY_LIST);
+
+        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                ArgumentMatchers.<KeyHolder>any())).thenAnswer(invocation ->  {
+            Object[] args = invocation.getArguments();
+            Map<String, Object> keyMap = new HashMap<>();
+            keyMap.put("", id);
+            ((KeyHolder)args[2]).getKeyList().add(keyMap);
+            return count;
+        });
+
+        Integer result = bandDaoJdbc.create(band);
+
+        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture());
+
+        SqlParameterSource source = captorSource.getValue();
+        KeyHolder keyHolder = captorKeyHolder.getValue();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(keyHolder);
+    }
+
+    @Test
+    public void testDeleteBand() {
+        String sql = "delete";
+        ReflectionTestUtils.setField(bandDaoJdbc, "sqlDeleteBandById", sql);
+        int id = 0;
+        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
+                .thenReturn(id);
+
+        Integer result = bandDaoJdbc.delete(id);
+
+        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture());
+
+        SqlParameterSource source = captorSource.getValue();
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testCountBand() {
+        logger.debug("Execute mock test: testCountBand()");
+        String sql = "count";
+        ReflectionTestUtils.setField(bandDaoJdbc, "sqlSelectCountFromBand", sql);
+        int count = 1;
+        Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                eq(Integer.class))).thenReturn(count);
+
+        Integer result = bandDaoJdbc.count();
+
+        Mockito.verify(namedParameterJdbcTemplate).queryForObject(eq(sql), captorSource.capture(), eq(Integer.class));
+
+        SqlParameterSource source = captorSource.getValue();
+        Assertions.assertNotNull(source);
+        Assertions.assertNotNull(result);
+    }
 
 }
