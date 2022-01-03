@@ -35,16 +35,16 @@ class BandDaoJdbcImplIT {
     private BandDaoJdbcImpl bandDaoJDBC;
 
    @Test
-    void testFindAll() {
-        logger.debug("Band execute test: findAll()");
+    void testFindAllBands() {
+        logger.debug("Band execute test: testFindAllBands()");
         assertNotNull(1);
         assertNotNull(bandDaoJDBC);
         assertNotNull(bandDaoJDBC.findAll());
     }
 
  @Test
-    void testCreate() {
-        logger.debug("Band execute test: create()");
+    void testCreateBand() {
+        logger.debug("Band execute test: testCreateBand()");
         assertNotNull(bandDaoJDBC);
         int bandsSizeBefore = bandDaoJDBC.count();
         Band band = new Band("Gods Tower", "Band of metal");
@@ -65,8 +65,8 @@ class BandDaoJdbcImplIT {
     }
 
     @Test
-    void testShouldCount() {
-        logger.debug("Band execute test: shouldCount()");
+    void testShouldCountBands() {
+        logger.debug("Band execute test: testShouldCountBands()");
         assertNotNull(bandDaoJDBC);
         Integer quantity = bandDaoJDBC.count();
         assertNotNull(quantity);
@@ -90,7 +90,7 @@ class BandDaoJdbcImplIT {
 
     @Test
     void testUpdateBand() {
-        logger.debug("Band execute test: updateBand()");
+        logger.debug("Band execute test: testUpdateBand()");
         List<Band> bands = bandDaoJDBC.findAll();
         if (bands.size() == 0) {
             bandDaoJDBC.create(new Band("5Diez"));
@@ -107,7 +107,7 @@ class BandDaoJdbcImplIT {
 
     @Test
     void testDeleteBand() {
-        logger.debug("Band execute test: deleteBand()");
+        logger.debug("Band execute test: testDeleteBand()");
         bandDaoJDBC.create(new Band("5Diez"));
         List<Band> bands = bandDaoJDBC.findAll();
         bandDaoJDBC.delete(bands.get(bands.size() - 1).getBandId());

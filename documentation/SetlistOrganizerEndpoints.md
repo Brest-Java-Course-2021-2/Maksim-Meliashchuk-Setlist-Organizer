@@ -71,6 +71,7 @@ curl --request POST \
 "bandName": "New band"
 }'
 ```
+
 #### Update a band
 
 Request sample cURL:
@@ -89,7 +90,7 @@ curl --request PUT \
 Request sample cURL:
 ```bash
 curl --request DELETE \
---url http://localhost:8088/bands/3 \
+--url http://localhost:8088/bands/1 \
 --header 'Content-Type: application/json'
 ```
 

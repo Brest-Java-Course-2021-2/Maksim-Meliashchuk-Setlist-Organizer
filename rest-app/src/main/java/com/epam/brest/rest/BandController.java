@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 /**
@@ -38,14 +39,14 @@ public class BandController {
     }
 
     @PostMapping(path = "/bands", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Integer> createBand(@RequestBody Band band) {
+    public ResponseEntity<Integer> createBand(@Valid @RequestBody Band band) {
         logger.debug("createBand({})", band);
         Integer id = bandService.create(band);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PutMapping(value = "/bands", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<Integer> updateBand(@RequestBody Band band) {
+    public ResponseEntity<Integer> updateBand(@Valid @RequestBody Band band) {
         logger.debug("updateBand({})", band);
         int result = bandService.update(band);
         return new ResponseEntity(result, HttpStatus.OK);

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 /**
@@ -37,19 +38,18 @@ public class TrackController {
     }
 
     @PostMapping(path = "/repertoire", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Integer> createTrack(@RequestBody Track track) {
+    public ResponseEntity<Integer> createTrack(@Valid @RequestBody Track track) {
         logger.debug("createTrack({})", track);
         Integer id = trackService.create(track);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PutMapping(value = "/repertoire", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<Integer> updateTrack(@RequestBody Track track) {
+    public ResponseEntity<Integer> updateTrack(@Valid @RequestBody Track track) {
         logger.debug("updateTrack({})", track);
         int result = trackService.update(track);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteBand(@PathVariable Integer id) {

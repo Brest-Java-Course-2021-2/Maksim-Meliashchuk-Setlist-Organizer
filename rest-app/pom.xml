@@ -13,7 +13,6 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>com.epam.brest</groupId>
             <artifactId>service</artifactId>
@@ -32,6 +31,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
 
         <dependency>
