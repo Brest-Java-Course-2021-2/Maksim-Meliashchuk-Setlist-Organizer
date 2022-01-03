@@ -1,21 +1,18 @@
 package com.epam.brest.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Track {
 
     private Integer trackId;
 
-    @NotBlank(message = "Please provide track name!")
-    @Size(min=1, max=100, message = "Track name size have to be <= {max} symbols!")
+    @NotEmpty(message = "Please provide track name!")
+    @Size(max=100, message = "Track name size have to be <= {max} symbols!")
     private String trackName;
 
     @Positive(message = "Band id should be positive")
@@ -24,14 +21,14 @@ public class Track {
     @Positive(message = "Track tempo cannot be less than zero!")
     private Integer trackTempo;
 
-    @Positive(message = "Track duration should be positive")
+    @Positive(message = "Track duration cannot be less than zero!")
     private Integer trackDuration;
 
     @Size(max=2000, message = "Track details size have to be <= {max} symbols!")
     private String trackDetails;
 
     @Size(max=255, message = "Track link size have to be <= {max} symbols!")
-    @Pattern(regexp = "^(http|https).*", message = "Track link is not valid. The link must contain \"http\" or \"https\"!")
+    @URL(message = "Track link is not valid. The link must contain \"http\" or \"https\"!")
     private String trackLink;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

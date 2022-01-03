@@ -8,10 +8,10 @@ public class Band {
     private Integer bandId;
 
     @NotEmpty(message = "Please provide band name!")
-    @Size(min=2, max=100, message = "Band name size have to be <= {max} symbols!")
+    @Size(max=100, message = "Band name size have to be <= {max} symbols!")
     private String bandName;
 
-    @Size(max=1000, message = "Band name size have to be <= {max} symbols!")
+    @Size(max=1000, message = "Band details size have to be <= {max} symbols!")
     private String bandDetails;
 
     public Band() {
