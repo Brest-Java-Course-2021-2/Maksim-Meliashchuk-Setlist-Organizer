@@ -54,7 +54,7 @@ public class TrackTest {
     @Test
     public void testTrackNameInvalidSize() {
         logger.debug("testTrackNameInvalidSize()");
-        Track track = new Track(RandomStringUtils.randomAlphabetic(TRACK_NAME_MAX_SIZE) + 1);
+        Track track = new Track(RandomStringUtils.randomAlphabetic(TRACK_NAME_MAX_SIZE + 1));
 
         Set<ConstraintViolation<Track>> constraintViolations = validator.validate(track);
 
@@ -68,7 +68,7 @@ public class TrackTest {
     public void testTrackDetailsInvalidSize() {
         logger.debug("testTrackDetailsInvalidSize()");
         Track track = new Track(RandomStringUtils.randomAlphabetic(TRACK_NAME_MAX_SIZE));
-        track.setTrackDetails( RandomStringUtils.randomAlphabetic(TRACK_DETAILS_MAX_SIZE) + 1);
+        track.setTrackDetails( RandomStringUtils.randomAlphabetic(TRACK_DETAILS_MAX_SIZE + 1));
 
         Set<ConstraintViolation<Track>> constraintViolations = validator.validate(track);
 
@@ -129,7 +129,7 @@ public class TrackTest {
         Set<ConstraintViolation<Track>> constraintViolations = validator.validate(track);
 
         assertEquals(1, constraintViolations.size());
-        assertEquals("Track link is not valid. The link must contain \"http\" or \"https\"!",
+        assertEquals("Track link is not valid. The link must contain http or https!",
                 constraintViolations.iterator().next().getMessage());
 
     }

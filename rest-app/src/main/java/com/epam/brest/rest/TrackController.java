@@ -37,7 +37,7 @@ public class TrackController {
         return trackService.getTrackById(id);
     }
 
-    @PostMapping(path = "/repertoire", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/repertoire", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<Integer> createTrack(@Valid @RequestBody Track track) {
         logger.debug("createTrack({})", track);
         Integer id = trackService.create(track);

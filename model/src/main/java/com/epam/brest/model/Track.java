@@ -28,7 +28,7 @@ public class Track {
     private String trackDetails;
 
     @Size(max=255, message = "Track link size have to be <= {max} symbols!")
-    @URL(message = "Track link is not valid. The link must contain \"http\" or \"https\"!")
+    @URL(message = "Track link is not valid. The link must contain http or https!")
     private String trackLink;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

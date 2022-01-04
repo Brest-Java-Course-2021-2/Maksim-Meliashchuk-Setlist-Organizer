@@ -54,7 +54,7 @@ public class BandTest {
     @Test
     public void testBandNameInvalidSize() {
         logger.debug("testBandNameInvalidSize()");
-        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE) + 1);
+        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1));
 
         Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
 
@@ -68,7 +68,7 @@ public class BandTest {
     public void testBandDetailsInvalidSize() {
         logger.debug("testBandDetailsInvalidSize()");
         Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE),
-                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE) + 1);
+                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1));
 
         Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
 

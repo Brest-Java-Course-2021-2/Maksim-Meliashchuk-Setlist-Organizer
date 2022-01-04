@@ -98,8 +98,14 @@ public class BandDaoJdbcImplTest {
         logger.debug("Execute mock test: testUpdateBand()");
         String sql = "update";
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlUpdateBandById", sql);
+        String sqlCheck = "check";
+        ReflectionTestUtils.setField(bandDaoJdbc, "sqlCheckBand", sqlCheck);
         int id = 0;
         Band band = new Band("Gods Tower", "Band of metal").setBandId(id);
+        List<Band> bandList = new ArrayList<>();
+
+        Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
+                ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(bandList);
 
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
@@ -108,6 +114,8 @@ public class BandDaoJdbcImplTest {
 
         Mockito.verify(namedParameterJdbcTemplate)
                 .update(eq(sql), captorSource.capture());
+
+        Mockito.verify(namedParameterJdbcTemplate).query(eq(sqlCheck), captorSource.capture(), captorMapper.capture());
 
         SqlParameterSource source = captorSource.getValue();
 

@@ -38,7 +38,7 @@ public class BandController {
         return bandService.getBandById(id);
     }
 
-    @PostMapping(path = "/bands", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/bands", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<Integer> createBand(@Valid @RequestBody Band band) {
         logger.debug("createBand({})", band);
         Integer id = bandService.create(band);

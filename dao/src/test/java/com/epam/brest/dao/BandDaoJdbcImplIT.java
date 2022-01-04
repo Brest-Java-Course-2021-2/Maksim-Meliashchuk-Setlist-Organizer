@@ -106,6 +106,23 @@ class BandDaoJdbcImplIT {
     }
 
     @Test
+    void testUpdateBandNotUnique() {
+        logger.debug("Band execute test: testUpdateBandNotUnique()");
+        List<Band> bands = bandDaoJDBC.findAll();
+        if (bands.size() == 0) {
+            bandDaoJDBC.create(new Band("5Diez"));
+            bands = bandDaoJDBC.findAll();
+        }
+        Band bandSrc = bands.get(0);
+        bandSrc.setBandName(bandSrc.getBandName());
+        bandSrc.setBandDetails(bandSrc.getBandDetails() + "#");
+        assertThrows(NotUniqueException.class, () -> {
+            bandDaoJDBC.update(bandSrc);
+        });
+
+    }
+
+    @Test
     void testDeleteBand() {
         logger.debug("Band execute test: testDeleteBand()");
         bandDaoJDBC.create(new Band("5Diez"));

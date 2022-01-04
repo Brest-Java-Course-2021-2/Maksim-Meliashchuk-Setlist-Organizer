@@ -1,10 +1,12 @@
 package com.epam.brest.rest;
 
+import com.epam.brest.exception.CustomExceptionHandler;
 import com.epam.brest.model.Track;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.epam.brest.model.constant.TrackConstant.TRACK_DETAILS_MAX_SIZE;
+import static com.epam.brest.model.constant.TrackConstant.TRACK_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +47,9 @@ public class TrackControllerIT {
     @Autowired
     private TrackController trackController;
 
+    @Autowired
+    private CustomExceptionHandler customExceptionHandler;
+
     ObjectMapper objectMapper = JsonMapper.builder()
             .addModule(new JavaTimeModule())
             .build();
@@ -56,6 +62,7 @@ public class TrackControllerIT {
     public void before() {
         mockMvc = MockMvcBuilders.standaloneSetup(trackController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
+                .setControllerAdvice(customExceptionHandler)
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build();
     }
@@ -105,6 +112,51 @@ public class TrackControllerIT {
         assertNotNull(id);
     }
 
+    @Test
+    @Transactional
+    public void shouldCreateNotValidTrack() throws Exception {
+        logger.debug("shouldCreateNotValidTrack()");
+        Track track = new Track(RandomStringUtils.randomAlphabetic(TRACK_NAME_MAX_SIZE + 1));
+        track.setTrackDetails(RandomStringUtils.randomAlphabetic(TRACK_DETAILS_MAX_SIZE + 1));
+        track.setTrackDuration(-1);
+        track.setTrackTempo(-1);
+        track.setTrackBandId(-1);
+        track.setTrackLink("test");
+        MockHttpServletResponse response =
+                mockMvc.perform(post(REPERTOIRE_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(track))
+                                .contentType(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isBadRequest())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertTrue(response.getContentAsString().contains("Track name size have to be <= 100 symbols!"));
+        assertTrue(response.getContentAsString().contains("Track details size have to be <= 2000 symbols!"));
+        assertTrue(response.getContentAsString().contains("Band id should be positive"));
+        assertTrue(response.getContentAsString().contains("Track tempo cannot be less than zero!"));
+        assertTrue(response.getContentAsString().contains("Track duration cannot be less than zero!"));
+        assertTrue(response.getContentAsString()
+                .contains("Track link is not valid. The link must contain http or https!"));
+    }
+
+
+    @Test
+    @Transactional
+    public void shouldCreateNotValidEmptyNameTrack() throws Exception {
+        logger.debug("shouldCreateNotValidEmptyNameTrack()");
+        Track track = new Track("");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(post(REPERTOIRE_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(track))
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isBadRequest())
+                        .andReturn().getResponse();
+
+        assertNotNull(response);
+        assertTrue(response.getContentAsString().contains("Please provide track name!"));
+    }
     @Test
     @Transactional
     public void shouldUpdateTrack() throws Exception {
@@ -163,12 +215,12 @@ public class TrackControllerIT {
         int result = trackService.delete(id);
 
         // then
-        assertTrue(1 == result);
+        assertEquals(1, result);
 
         List<Track> currentTrack = trackService.findAll();
         assertNotNull(currentTrack);
 
-        assertTrue(tracks.size()-1 == currentTrack.size());
+        assertEquals(tracks.size() - 1, currentTrack.size());
     }
 
 
@@ -226,8 +278,8 @@ public class TrackControllerIT {
 
             logger.debug("delete(id:{})", trackId);
             MockHttpServletResponse response = mockMvc.perform(
-                            MockMvcRequestBuilders.delete(new StringBuilder(REPERTOIRE_ENDPOINT).append("/")
-                                            .append(trackId).toString())
+                            MockMvcRequestBuilders.delete(REPERTOIRE_ENDPOINT + "/" +
+                                            trackId)
                                     .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
