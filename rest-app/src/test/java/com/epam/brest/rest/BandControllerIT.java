@@ -5,6 +5,7 @@ import com.epam.brest.exception.ErrorResponse;
 import com.epam.brest.model.Band;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,7 +28,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
-import static com.epam.brest.exception.CustomExceptionHandler.NOT_UNIQUE_ERROR;
+import static com.epam.brest.exception.CustomExceptionHandler.DATA_BASE_ERROR;
+import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
+import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -92,6 +94,47 @@ public class BandControllerIT {
 
     @Test
     @Transactional
+    public void shouldCreateNotValidBand() throws Exception {
+        logger.debug("shouldCreateNotValidBand()");
+        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1),
+                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1));
+
+        MockHttpServletResponse response =
+                mockMvc.perform(post(BANDS_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(band))
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isBadRequest())
+                        .andReturn().getResponse();
+
+        assertNotNull(response);
+        assertTrue(response.getContentAsString()
+                .contains(String.format("Band name size have to be <= %d symbols!", BAND_NAME_MAX_SIZE)));
+        assertTrue(response.getContentAsString()
+                .contains(String.format("Band details size have to be <= %d symbols!", BAND_DETAILS_MAX_SIZE)));
+
+    }
+
+    @Test
+    @Transactional
+    public void shouldCreateNotValidEmptyNameBand() throws Exception {
+        logger.debug("shouldCreateNotValidEmptyNameBand()");
+        Band band = new Band("");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(post(BANDS_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(band))
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isBadRequest())
+                        .andReturn().getResponse();
+
+        assertNotNull(response);
+        assertTrue(response.getContentAsString().contains("Please provide band name!"));
+    }
+
+    @Test
+    @Transactional
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
@@ -123,7 +166,7 @@ public class BandControllerIT {
 
         bandOptional.get().
                 setBandName("Test band#");
-        bandOptional.get().setBandDetails("Test band name#");
+        bandOptional.get().setBandDetails("Test band details#");
 
 
         // when
@@ -135,8 +178,8 @@ public class BandControllerIT {
         Optional<Band> updatedBandOptional = bandService.findById(id);
         assertTrue(updatedBandOptional.isPresent());
         assertEquals(updatedBandOptional.get().getBandId(), id);
-        assertEquals(updatedBandOptional.get().getBandName(),bandOptional.get().getBandName().toUpperCase());
-        assertEquals(updatedBandOptional.get().getBandDetails(),bandOptional.get().getBandDetails());
+        assertEquals(updatedBandOptional.get().getBandName(), bandOptional.get().getBandName().toUpperCase());
+        assertEquals(updatedBandOptional.get().getBandDetails(), bandOptional.get().getBandDetails());
 
     }
 
@@ -160,7 +203,7 @@ public class BandControllerIT {
         List<Band> currentBand = bandService.findAll();
         assertNotNull(currentBand);
 
-        assertTrue(bands.size()-1 == currentBand.size());
+        assertTrue(bands.size() - 1 == currentBand.size());
     }
 
     @Test
@@ -182,16 +225,14 @@ public class BandControllerIT {
     @Transactional
     public void shouldFailOnCreateBandWithDuplicateName() throws Exception {
         logger.debug("shouldFailOnCreateBandWithDuplicateName()");
-        Band band1 = new Band("Test band1");
-        Integer id = bandService.create(band1);
+        Band band = new Band("Test band");
+        Integer id = bandService.create(band);
         assertNotNull(id);
-
-        Band band2 = new Band("Test band2");
 
         MockHttpServletResponse response =
                 mockMvc.perform(post(BANDS_ENDPOINT)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(band1.getBandName()))
+                                .content(objectMapper.writeValueAsString(band.getBandName()))
                                 .accept(MediaType.APPLICATION_JSON)
                         ).andExpect(status().isUnprocessableEntity())
                         .andReturn().getResponse();
@@ -199,7 +240,7 @@ public class BandControllerIT {
         assertNotNull(response);
         ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
         assertNotNull(errorResponse);
-        assertEquals(errorResponse.getMessage(), NOT_UNIQUE_ERROR);
+        assertEquals(errorResponse.getMessage(), DATA_BASE_ERROR);
     }
 
 
@@ -258,8 +299,8 @@ public class BandControllerIT {
 
             logger.debug("delete(id:{})", bandId);
             MockHttpServletResponse response = mockMvc.perform(
-                            MockMvcRequestBuilders.delete(new StringBuilder(BANDS_ENDPOINT).append("/")
-                                            .append(bandId).toString())
+                            MockMvcRequestBuilders.delete(BANDS_ENDPOINT + "/" +
+                                            bandId)
                                     .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -268,7 +309,6 @@ public class BandControllerIT {
         }
 
     }
-
 
 
 }

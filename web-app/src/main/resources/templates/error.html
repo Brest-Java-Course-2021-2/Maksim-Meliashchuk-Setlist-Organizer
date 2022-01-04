@@ -15,7 +15,7 @@
 <div th:insert="layouts :: header"></div>
 <div th:insert="layouts :: navbar"></div>
 
-<section class="container-fluid">
+<section class="container">
     <div class="alert alert-danger" role="alert">
         <h2>Exception!</h2>
 
@@ -30,6 +30,7 @@
         <p th:if="!${isNotUniqueException}">
             <span>Application has encountered an error. Please contact support.</span>
         </p>
+        <div th:utext="'Exception: ' + ${exception.getMessage()}" >Something wrong</div>
         <script>
                 document.write('<a href="' + document.referrer + '"> <div class="alert-link"> Go Back</div>');
 

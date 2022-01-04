@@ -25,11 +25,12 @@ The rest application will be accessible at:
 
 - **Programming Language:** [Java](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring Boot](https://spring.io/projects/spring-boot) <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+- **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/)
 - **Build System:** [Maven](https://maven.apache.org/)
 - **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 - **Code Style:** [Codacy](https://www.codacy.com/)
-- **Automated Testing:** 
+- **Automated Testing:**
     - [JUnit5](https://junit.org/junit5/)
     - [Mockito](http://site.mockito.org/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)

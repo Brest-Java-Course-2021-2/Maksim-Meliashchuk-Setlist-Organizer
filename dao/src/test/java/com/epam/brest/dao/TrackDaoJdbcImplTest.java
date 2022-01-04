@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -41,7 +40,7 @@ public class TrackDaoJdbcImplTest {
     private ArgumentCaptor<SqlParameterSource> captorSource;
 
     @Captor
-    private ArgumentCaptor<GeneratedKeyHolder> captorKeyHolder;
+    private ArgumentCaptor<KeyHolder> captorKeyHolder;
 
     @AfterEach
     public void check() {
@@ -125,6 +124,7 @@ public class TrackDaoJdbcImplTest {
         Assertions.assertNotNull(result);
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(keyHolder);
+        Assertions.assertSame(track.getTrackId(), result);
     }
 
     @Test
@@ -166,6 +166,7 @@ public class TrackDaoJdbcImplTest {
         SqlParameterSource source = captorSource.getValue();
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(result);
+        Assertions.assertSame(result, id);
     }
 
     @Test
@@ -184,6 +185,8 @@ public class TrackDaoJdbcImplTest {
         SqlParameterSource source = captorSource.getValue();
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(result);
+        Assertions.assertSame(result, count);
+
     }
 
 }

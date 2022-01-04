@@ -3,9 +3,10 @@ package com.epam.brest.service.impl;
 import com.epam.brest.dao.TrackDao;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.service.exception.TrackNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,11 @@ public class TrackServiceImpl implements TrackService {
     @Transactional(readOnly = true)
     public Track getTrackById(Integer trackId) {
         logger.debug("Get track by id = {}", trackId);
-        return this.trackDao.getTrackById(trackId);
+        try {
+            return this.trackDao.getTrackById(trackId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new TrackNotFoundException(trackId);
+        }
     }
 
     @Override
@@ -42,15 +47,24 @@ public class TrackServiceImpl implements TrackService {
     @Transactional
     public Integer update(Track track) {
         logger.debug("Track update({})", track);
-        return this.trackDao.update(track);
+        try {
+            trackDao.getTrackById(track.getTrackId());
+            return this.trackDao.update(track);
+        } catch (EmptyResultDataAccessException e) {
+            throw new TrackNotFoundException(track.getTrackId());
+        }
     }
 
     @Override
     @Transactional
     public Integer delete(Integer trackId) {
-        logger.debug("Track delete({})", trackId);
         logger.debug("Delete track with id = {}", trackId);
-        return this.trackDao.delete(trackId);
+        try {
+            trackDao.getTrackById(trackId);
+            return this.trackDao.delete(trackId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new TrackNotFoundException(trackId);
+        }
     }
 
     @Override

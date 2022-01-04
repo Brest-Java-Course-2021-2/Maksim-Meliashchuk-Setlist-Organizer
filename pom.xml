@@ -37,6 +37,7 @@
         <spring-boot-maven-plugin.version>2.5.0</spring-boot-maven-plugin.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <commons-validator.version>1.7</commons-validator.version>
+        <hiberbate-validator.version>6.2.1.Final</hiberbate-validator.version>
         <thymeleaf-extras-java8time.version>3.0.4.RELEASE</thymeleaf-extras-java8time.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
@@ -131,6 +132,29 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hiberbate-validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>2.2.4</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
@@ -145,6 +169,11 @@
                 <groupId>org.thymeleaf.extras</groupId>
                 <artifactId>thymeleaf-extras-java8time</artifactId>
                 <version>${thymeleaf-extras-java8time.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
             </dependency>
 
             <dependency>

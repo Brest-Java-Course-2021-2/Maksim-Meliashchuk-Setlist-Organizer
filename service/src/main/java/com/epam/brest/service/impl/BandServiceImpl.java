@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 @Transactional
 public class BandServiceImpl implements BandService {
@@ -47,15 +46,24 @@ public class BandServiceImpl implements BandService {
     @Transactional
     public Integer update(Band band) {
         logger.debug("update({})", band);
-        return this.bandDao.update(band);
+        try {
+            bandDao.getBandById(band.getBandId());
+            return this.bandDao.update(band);
+        } catch (EmptyResultDataAccessException e) {
+            throw new BandNotFoundException(band.getBandId());
+        }
     }
 
     @Override
     @Transactional
     public Integer delete(Integer bandId) {
-        logger.debug("delete({})", bandId);
         logger.debug("delete band with id = {}", bandId);
-        return this.bandDao.delete(bandId);
+        try {
+            bandDao.getBandById(bandId);
+            return this.bandDao.delete(bandId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new BandNotFoundException(bandId);
+        }
     }
 
     @Override
