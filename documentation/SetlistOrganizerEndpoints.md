@@ -31,7 +31,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A version
 
 ```bash
 1.0.0
@@ -53,7 +55,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A set of bands
 
 ```bash
 [
@@ -94,7 +98,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A set of bands
 
 ```bash
 [
@@ -129,13 +135,31 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A band
 
 ```bash
 {
     "bandId": 1,
     "bandName": "MY COVER BAND",
     "bandDetails": "Alternative&Metal"
+}
+```
+
+</details>
+
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to get a non-existent band
+
+```bash
+{
+    "message": "band.not_found",
+    "details": [
+        "Band not found for id: 12"
+    ]
 }
 ```
 
@@ -156,10 +180,46 @@ curl --request POST \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Band have been created. Returns the ID of the new band.
 
 ```bash
 4
+```
+
+</details>
+
+<details>
+  <summary>400 Response Example</summary>
+
+An attempt to create band with invalid fields
+
+```bash
+{
+    "timestamp": "2022-01-04T17:08:56.492101",
+    "status": 400,
+    "errors": [
+        "Band name size have to be <= 100 symbols!",
+        "Band details size have to be <= 1000 symbols!"
+    ]
+}
+```
+
+</details>
+
+<details>
+  <summary>422 Response Example</summary>
+
+An attempt to create a non-unique band
+
+```bash
+{
+    "message": "data_base_error",
+    "details": [
+        "NotUniqueException: Band 'MUSE' already exists in Data Base!"
+    ]
+}
 ```
 
 </details>
@@ -179,10 +239,28 @@ curl --request PUT \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Band(s) have been updated. Returns the number of bands affected.
 
 ```bash
 1
+```
+
+</details>
+
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to update a non-existent band
+
+```bash
+{
+    "message": "band.not_found",
+    "details": [
+        "Band not found for id: 12"
+    ]
+}
 ```
 
 </details>
@@ -197,7 +275,9 @@ curl --request DELETE \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Band(s) have been removed. Returns the number of bands affected.
 
 ```bash
 1
@@ -205,6 +285,37 @@ curl --request DELETE \
 
 </details>
 
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to delete a non-existent band
+
+```bash
+{
+    "message": "band.not_found",
+    "details": [
+        "Band not found for id: 12"
+    ]
+}
+```
+
+</details>
+
+<details>
+  <summary>422 Response Example</summary>
+
+Attempting to delete a band with linked tracks
+
+```bash
+{
+    "message": "data_base_error",
+    "details": [
+        "JdbcSQLIntegrityConstraintViolationException: Referential integrity constraint violation: \"TRACK_BAND_FK: PUBLIC.TRACK FOREIGN KEY(TRACK_BAND_ID) REFERENCES PUBLIC.BAND(BAND_ID) (1)\"; SQL statement:\nDELETE FROM band WHERE band_id = ? [23503-200]"
+    ]
+}
+```
+
+</details>
 
 ### Tracks
 
@@ -219,7 +330,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A set of tracks
 
 ```bash
 [
@@ -279,7 +392,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A set of tracks
 
 ```bash
 [
@@ -319,7 +434,9 @@ curl --request GET \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A set of tracks
 
 ```bash
 [
@@ -380,7 +497,9 @@ curl --request GET \
 
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+A track
 
 ```bash
 {
@@ -392,6 +511,22 @@ curl --request GET \
     "trackDetails": "Tuning:EADGBe",
     "trackLink": "https://www.youtube.com/watch?v=rvX7lgrx47M&ab_channel=Muse-Topic",
     "trackReleaseDate": "2000-01-12"
+}
+```
+
+</details>
+
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to get a non-existent track
+
+```bash
+{
+    "message": "track.not_found",
+    "details": [
+        "Track not found for id: 12"
+    ]
 }
 ```
 
@@ -417,10 +552,34 @@ curl --request POST \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Track have been created. Returns the ID of the new track.
 
 ```bash
 5
+```
+
+</details>
+
+<details>
+  <summary>400 Response Example</summary>
+
+An attempt to create track with invalid fields.
+
+```bash
+{
+    "timestamp": "2022-01-04T17:25:33.252092",
+    "status": 400,
+    "errors": [
+        "Track tempo cannot be less than zero!",
+        "Track duration cannot be less than zero!",
+        "Track details size have to be <= 2000 symbols!",
+        "Track link is not valid. The link must contain http or https!",
+        "Band id should be positive",
+        "Please provide track name!"
+    ]
+}
 ```
 
 </details>
@@ -445,13 +604,54 @@ curl --request PUT \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Track(s) have been updated. Returns the number of tracks affected.
 
 ```bash
 1
 ```
 
 </details>
+
+<details>
+  <summary>400 Response Example</summary>
+
+Trying to update track with invalid fields
+
+```bash
+{
+    "timestamp": "2022-01-04T17:25:33.252092",
+    "status": 400,
+    "errors": [
+        "Track tempo cannot be less than zero!",
+        "Track duration cannot be less than zero!",
+        "Track details size have to be <= 2000 symbols!",
+        "Track link is not valid. The link must contain http or https!",
+        "Band id should be positive",
+        "Please provide track name!"
+    ]
+}
+```
+
+</details>
+
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to update a non-existent track
+
+```bash
+{
+    "message": "track.not_found",
+    "details": [
+        "Track not found for id: 12"
+    ]
+}
+```
+
+</details>
+
 
 #### Delete a track
 
@@ -463,10 +663,28 @@ curl --request DELETE \
 ```
 
 <details>
-  <summary>Response Example</summary>
+  <summary>200 Response Example</summary>
+
+Track(s) have been removed. Returns the number of tracks affected.
 
 ```bash
 1
+```
+
+</details>
+
+<details>
+  <summary>404 Response Example</summary>
+
+Trying to delete a non-existent track
+
+```bash
+{
+    "message": "track.not_found",
+    "details": [
+        "Track not found for id: 12"
+    ]
+}
 ```
 
 </details>
