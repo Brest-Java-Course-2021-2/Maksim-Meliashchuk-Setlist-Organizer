@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -42,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ActiveProfiles("dev")
+@EnableWebMvc
 public class TrackControllerIT {
 
     private static final String TRACKS_DTO_URL = "http://localhost:8088/repertoire/filter";
@@ -73,6 +76,7 @@ public class TrackControllerIT {
                 .build();
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
+
     @Test
     void shouldReturnRepertoirePage() throws Exception {
         logger.debug("shouldReturnRepertoirePage()");
@@ -130,10 +134,9 @@ public class TrackControllerIT {
     void shouldFindAllTracksWithBandNameByBandId() throws Exception {
         logger.debug("shouldFindAllTracksWithBandNameByBandId()");
         int id = 1;
-        TrackDto trackDto1 = createTrackDto(0);
-        TrackDto trackDto2 = createTrackDto(1);
+        TrackDto trackDto = createTrackDto(0);
 
-        List<TrackDto> trackDtoList = Arrays.asList(trackDto1, trackDto2);
+        List<TrackDto> trackDtoList = Arrays.asList(trackDto);
 
         //WHEN
         mockServer.expect(once(), requestTo(new URI(TRACKS_DTO_BY_BAND_ID + "/" + id)))
@@ -144,11 +147,13 @@ public class TrackControllerIT {
 
                 );
         // THEN
-        mockMvc.perform(MockMvcRequestBuilders.get("/repertoire/filter/band/{id}", id)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+        mockMvc.perform(get("/repertoire/filter/band/{id}", id)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bandtracks"))
-               /* .andExpect(model().attribute("tracks", hasItem(
+                .andExpect(model().attribute("tracksCount", is(1)))
+                .andExpect(model().attribute("tracksDuration", is(10000)))
+                .andExpect(model().attribute("tracks", hasItem(
                         allOf(
                                 hasProperty("trackId", is(0)),
                                 hasProperty("trackName", is("track0")),
@@ -159,19 +164,7 @@ public class TrackControllerIT {
                                 hasProperty("trackReleaseDate", is(LocalDate.parse("2012-03-12"))),
                                 hasProperty("trackLink", is("link0"))
                         )
-                )))
-                .andExpect(model().attribute("tracks", hasItem(
-                        allOf(
-                                hasProperty("trackId", is(1)),
-                                hasProperty("trackName", is("track1")),
-                                hasProperty("trackBandName", is("band1")),
-                                hasProperty("trackTempo", is(101)),
-                                hasProperty("trackDuration", is(10001)),
-                                hasProperty("trackDetails", is("track1details1")),
-                                hasProperty("trackReleaseDate", is(LocalDate.parse("2013-03-12"))),
-                                hasProperty("trackLink", is("link1"))
-                        )
-                )))*/;
+                )));
 
         // VERIFY
         mockServer.verify();

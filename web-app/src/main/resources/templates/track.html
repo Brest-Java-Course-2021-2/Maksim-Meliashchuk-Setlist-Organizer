@@ -61,12 +61,10 @@
 
         <input type="hidden" th:field="*{trackDuration}" id="field_track_duration">
 
-        <div class="form-inline">
-
             <div class="row">
 
                 <div class="col">
-                    <p class="fs-5 p-1">Duration (mm:ss):</p>
+                    <p class="fs-5 p-1">Duration:</p>
                     <div class="d-flex align-items-center">
                         <div class="p-1 ms-auto">
                             <img src="../static/img/duration.svg" th:src="@{/img/duration.svg}" height="30" width="30"
@@ -102,7 +100,7 @@
 
             <div class="mb-3">
                 <p class="fs-5 p-1">Details:</p>
-                <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track"
+                <textarea id="field_track_details" class="form-control" placeholder="About track"
                           type="text"
                           th:field="*{trackDetails}"></textarea>
             </div>
@@ -115,7 +113,7 @@
 
             <div class="mb-3">
                 <p class="fs-5 p-1">Link:</p>
-                <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://"
+                <textarea id="field_track_link" class="form-control" placeholder="https://"
                           type="text"
                           th:field="*{trackLink}"></textarea>
             </div>

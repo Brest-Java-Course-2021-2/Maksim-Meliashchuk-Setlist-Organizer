@@ -9,16 +9,14 @@ import com.epam.brest.web_app.validator.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * MVC controller.
@@ -102,12 +100,11 @@ public class TrackController {
     @GetMapping(value = "/repertoire/filter/band/{id}")
     public final String gotoBandTracksPage(@PathVariable Integer id, Model model) {
         logger.debug("gotoBandTracksPage(id:{},model:{})", id, model);
-        model.addAttribute("tracksCount",
-              trackDtoService.findAllTracksWithBandNameByBandId(id).stream().count());
+        List<TrackDto> trackDtoList = trackDtoService.findAllTracksWithBandNameByBandId(id);
         model.addAttribute("tracksDuration",
-                trackDtoService.findAllTracksWithBandNameByBandId(id).stream()
-                        .mapToInt(TrackDto::getTrackDuration).sum());
-        model.addAttribute("tracks", trackDtoService.findAllTracksWithBandNameByBandId(id));
+                trackDtoList.stream().mapToInt(TrackDto::getTrackDuration).sum());
+        model.addAttribute("tracks", trackDtoList);
+        model.addAttribute("tracksCount", trackDtoList.size());
         return "bandtracks";
     }
 
