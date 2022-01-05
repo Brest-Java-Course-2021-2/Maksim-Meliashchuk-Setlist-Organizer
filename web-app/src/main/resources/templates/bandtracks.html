@@ -18,12 +18,21 @@
 <div th:insert="layouts :: header"></div>
 <div th:insert="layouts :: navbar"></div>
 
-
 <form class="form-group" th:action="@{/repertoire/band}">
     <div class="container">
         <div class="row mb-3 mt-3">
-            <div class="row gap-6 d-flex justify-content-end">
-                <div class="col col-md-auto px-1 d-flex justify-content-end">
+            <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
+
+                <div class="col-auto px-1">
+                    <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
+                </div>
+
+                <div class="col-auto px-1">
+                    <span class="fs-6">Total duration:</span>
+                    <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
+                </div>
+
+                <div class="col-auto px-1 d-flex justify-content-end">
                     <div class="d-flex align-content-end flex-wrap">
                         <strong>
                             <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>

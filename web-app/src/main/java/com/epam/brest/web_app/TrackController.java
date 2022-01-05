@@ -1,6 +1,7 @@
 package com.epam.brest.web_app;
 
 import com.epam.brest.model.Track;
+import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
 /**
  * MVC controller.
@@ -100,6 +102,11 @@ public class TrackController {
     @GetMapping(value = "/repertoire/filter/band/{id}")
     public final String gotoBandTracksPage(@PathVariable Integer id, Model model) {
         logger.debug("gotoBandTracksPage(id:{},model:{})", id, model);
+        model.addAttribute("tracksCount",
+              trackDtoService.findAllTracksWithBandNameByBandId(id).stream().count());
+        model.addAttribute("tracksDuration",
+                trackDtoService.findAllTracksWithBandNameByBandId(id).stream()
+                        .mapToInt(TrackDto::getTrackDuration).sum());
         model.addAttribute("tracks", trackDtoService.findAllTracksWithBandNameByBandId(id));
         return "bandtracks";
     }

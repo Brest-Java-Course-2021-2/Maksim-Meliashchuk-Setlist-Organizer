@@ -36,13 +36,13 @@ public class ApplicationDeployToHerokuConfig {
     }
 
     @Bean
-    TrackService trackDtoService() {
+    TrackService trackService() {
         String url = String.format("%s://%s/repertoire", protocol, host);
         return new TrackServiceRest(url, restTemplate());
     }
 
     @Bean
-    TrackDtoService trackService() {
+    TrackDtoService trackDtoService() {
         String url = String.format("%s://%s/repertoire/filter", protocol, host);
         return new TrackDtoServiceRest(url, restTemplate());
     }
