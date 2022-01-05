@@ -27,8 +27,6 @@ public class BandController {
 
     private final Logger logger = LogManager.getLogger(BandController.class);
 
-
-
     public BandController(BandDtoService bandDtoService, BandService bandService, BandValidator bandValidator) {
         this.bandDtoService = bandDtoService;
         this.bandService = bandService;

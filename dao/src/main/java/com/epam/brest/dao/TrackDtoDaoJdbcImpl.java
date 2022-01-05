@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -23,6 +24,9 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
 
     @Value("${SQL_FIND_ALL_TRACKS_WITH_BAND_NAME}")
     private String sqlFindAllTracksWithBandName;
+
+    @Value("${SQL_FIND_ALL_TRACKS_WITH_BAND_NAME_BY_BAND_ID}")
+    private String sqlFindAllTracksWithBandNameByBandId;
 
     @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_FILTER}")
     private String sqlFindAllTracksWithReleaseDateFilter;
@@ -44,6 +48,15 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
     public List<TrackDto> findAllTracksWithBandName() {
         logger.debug("Start: findAllTracksWithBandName()");
         return namedParameterJdbcTemplate.query(sqlFindAllTracksWithBandName,
+                BeanPropertyRowMapper.newInstance(TrackDto.class));
+    }
+
+    @Override
+    public List<TrackDto> findAllTracksWithBandNameByBandId(Integer bandId) {
+        logger.debug("Start: findAllTracksWithBandNameByBandId {}()", bandId);
+        SqlParameterSource sqlParameterSource =
+                new MapSqlParameterSource("bandId", bandId);
+        return namedParameterJdbcTemplate.query(sqlFindAllTracksWithBandNameByBandId, sqlParameterSource,
                 BeanPropertyRowMapper.newInstance(TrackDto.class));
     }
 

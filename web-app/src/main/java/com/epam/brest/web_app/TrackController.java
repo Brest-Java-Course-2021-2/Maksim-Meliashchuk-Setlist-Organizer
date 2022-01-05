@@ -97,6 +97,13 @@ public class TrackController {
         return "repertoire";
     }
 
+    @GetMapping(value = "/repertoire/filter/band/{id}")
+    public final String gotoBandTracksPage(@PathVariable Integer id, Model model) {
+        logger.debug("gotoBandTracksPage(id:{},model:{})", id, model);
+        model.addAttribute("tracks", trackDtoService.findAllTracksWithBandNameByBandId(id));
+        return "bandtracks";
+    }
+
     @GetMapping(value = "/repertoire/filter")
     public final String filterTrackByReleaseDate(@RequestParam(value = "fromDate", required = false)
                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,

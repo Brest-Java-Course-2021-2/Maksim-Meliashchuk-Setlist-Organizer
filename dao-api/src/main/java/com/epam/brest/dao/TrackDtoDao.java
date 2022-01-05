@@ -9,6 +9,8 @@ public interface TrackDtoDao {
 
     List<TrackDto> findAllTracksWithBandName();
 
+    List<TrackDto> findAllTracksWithBandNameByBandId(Integer bandId);
+
     List<TrackDto> findAllTracksWithReleaseDateFilter(LocalDate fromDate, LocalDate toDate);
 
 }

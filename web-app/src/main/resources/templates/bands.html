@@ -33,8 +33,10 @@
             <div class="row align-items-center">
                 <div class="col-6 col-sm-4">
                     <strong>
-                        <p class="text-uppercase">
-                        <p class="text-break" th:text="${band.bandName}">My cover band</p></p>
+                        <p class="text-uppercase" style="transform: rotate(0);">
+                        <a href="bandtracks.html" th:href="@{|/repertoire/filter/band/${band.bandId}|}"
+                           class="text-break stretched-link" style="text-decoration: none"
+                           th:text="${band.bandName}">My cover band</a></p>
                     </strong>
                     <small>
                     <span th:text="${band.bandCountTrack} == '0' ? 'no tracks' : ${band.bandCountTrack} + ' tracks'">14

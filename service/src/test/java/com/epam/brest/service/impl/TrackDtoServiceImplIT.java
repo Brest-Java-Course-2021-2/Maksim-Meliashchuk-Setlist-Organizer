@@ -42,6 +42,16 @@ class TrackDtoServiceImplIT {
     }
 
     @Test
+    void testFindAllTracksWithBandNameByBandId() {
+        logger.debug("TrackDtoService execute test: testFindAllTracksWithBandNameByBandId()");
+        int id = 3;
+        List<TrackDto> tracks = trackDtoService.findAllTracksWithBandNameByBandId(id);
+        assertNotNull(tracks);
+        assertTrue(tracks.size() > 0);
+        assertTrue(tracks.get(0).getTrackBandName().length() > 0);
+    }
+
+    @Test
     void testFindAllTracksWithReleaseDateFilter() {
         logger.debug("TrackDtoService execute test: testFindAllTracksWithReleaseDateFilter");
         LocalDate fromDate = LocalDate.parse("2012-03-12");

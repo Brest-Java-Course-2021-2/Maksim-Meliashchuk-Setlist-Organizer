@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -41,6 +42,8 @@ class TrackDtoServiceRestTest {
     private final Logger logger = LogManager.getLogger(TrackDtoServiceRestTest.class);
 
     public static final String URL = "http://localhost:8088/repertoire";
+
+    public static final String URL_BAND_TRACKS = "http://localhost:8088/repertoire/band/3";
 
     public static final String URL_SEARCH = "http://localhost:8088/repertoire?fromDate=2010-01-01&toDate=2012-01-01";
 
@@ -80,6 +83,26 @@ class TrackDtoServiceRestTest {
 
         // when
         List<TrackDto> list = trackDtoServiceRest.findAllTracksWithBandName();
+
+        // then
+        mockServer.verify();
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+    }
+
+    @Test
+    void shouldFindAllTracksWithBandNameByBandId() throws Exception {
+        logger.debug("shouldFindAllTracksWithBandNameByBandId()");
+        int id = 3;
+        // given
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL_BAND_TRACKS)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(Arrays.asList(create(0), create(1)))));
+
+        // when
+        List<TrackDto> list = trackDtoServiceRest.findAllTracksWithBandNameByBandId(id);
 
         // then
         mockServer.verify();
