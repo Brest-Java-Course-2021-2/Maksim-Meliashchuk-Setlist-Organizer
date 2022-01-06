@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -76,6 +77,30 @@ public class TrackDtoControllerTest {
 
 
         Mockito.verify(trackDtoService).findAllTracksWithBandName();
+    }
+
+    @Test
+    public void shouldFindAllTracksWithBandNameByBandId() throws Exception {
+        logger.debug("shouldFindAllTracksWithBandNameByBandId()");
+        int id = 1;
+        Mockito.when(trackDtoService.findAllTracksWithBandNameByBandId(id))
+                .thenReturn(Arrays.asList(create(id)));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get(String.format("/repertoire/filter/band/%d", id))
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackName", Matchers.is("track1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDetails", Matchers.is("track1details1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDuration", Matchers.is(10001)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackBandName", Matchers.is("band1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackLink", Matchers.is("link1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate", Matchers.is("2013-03-12")));
+
+
+        Mockito.verify(trackDtoService).findAllTracksWithBandNameByBandId(id);
     }
 
     @Test

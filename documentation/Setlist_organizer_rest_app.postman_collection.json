@@ -1,0 +1,718 @@
+{
+	"info": {
+		"_postman_id": "2eae966d-2b48-4890-91ff-a0d7f181caa6",
+		"name": "Setlist_organizer_rest_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all bands DTO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands_dto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands_dto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all bands",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a band",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a non-existent band",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new band",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"bandName\": \"New band\",\n\"bandDetails\": \"New style\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a non-unique band",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bandName\": \"Muse\",\n    \"bandDetails\": \"Jazz\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create band with invalid fields",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"bandName\": \"OohpDFExaxIMNtfdYFsYjaSXSyBwqYIWUffIKrTxJPSgVakxADrjUybYrWodEsLlHfMELHLKYAKAeVsZvcyyJAxLwSvmIgCdUEPPC\",\n   \"bandDetails\": \"eeTnaeorSsIsEAGqtkditySedWaiqAPBqzYRncqKQNOeUQUgzMLvAqyFXTDKFoKMSFGrxrXSRgumZUyUhpUuiCqISOPTvDNIstZorzxivEaUNWnFhpYuSbNKLKwbqqPiAEDrqxnrrRyKTZcjRtUVAAyHcBBZLeQUkznDqGlaPMKIKeaUVqyYicFISDujFxsfgtuLeVYFboykpBtQjemSdzHjjgmJiFWLIkArEpgLivepVgiNuqoLbXJuwYwNdzOjeldxtmIjISYPNkKNkROdKoyQuEqJQaffWgvnqmbCVTguCZvOZHZnJpQIYVTABLpblapDrylaLsINDIJyfDEfUxJWvBRXYyyDnxvvQankAvLOoKfjcbYbIxECHlZFbdvhUCycNylYijpxlJjYounitdDdJBCYHrzoXaOwNZuFAWniIraFMeGMIWXdIbTEpIidUrntvYJgzkltjzfFSfZQMXdFszRjSMpjtDayrNpPIZkHQhYBEgyHwzLJVjKMyLCKDnsJnwttKgtrYsSHyBjuuislRRxICpMCfvnVakBxwtZwFppydEzXFBOOlKYdsQEsOmxmMSLhzueWQqvlcrYeDpbphOrqNtxviWCqWVrZhmYJibBNkROHbuvSdNlTkdbvoIafVKTrKEmmMqdjtwbfdXrzUmJxxrDpTZTywdcBmrkOhgyzmDcjXBIgjnoiomNbrZkWdKFupfOcMFnYKcBNocTHwnAAFQjnQUjHIRAZWGxFtikEcnqHgALiHlpqmvhldIbPSpnsaIdQLimXJYPWItzzDzNvFqogzoPCYmmRigmjKTVrGoxnLOLWZpahceIpgwIMyqBsrTRZSszEZUWIbJnPXuKkHYlihwuMOXpXmEbKzLAemOddvNagqaNpGxFYQCnUiMMrMnBuHYhbggMlpQzzefXttqNXOsbkfZHqqSgwUxSzUbvmhTvxVbcHGybZgCzbbALhMnVJEBVMxoysTcQqwZLWOEhAITGYjmjdl\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a band",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"bandId\": 1,\n   \"bandName\": \"Old band\",\n   \"bandDetails\": \"Old style\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a non-existent band",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"bandId\": \"12\",\n   \"bandName\": \"Old band\",\n   \"bandDetails\": \"Old style\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update band with invalid fields",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"bandId\": \"1\",\n   \"bandName\": \"OohpDFExaxIMNtfdYFsYjaSXSyBwqYIWUffIKrTxJPSgVakxADrjUybYrWodEsLlHfMELHLKYAKAeVsZvcyyJAxLwSvmIgCdUEPPC\",\n   \"bandDetails\": \"eeTnaeorSsIsEAGqtkditySedWaiqAPBqzYRncqKQNOeUQUgzMLvAqyFXTDKFoKMSFGrxrXSRgumZUyUhpUuiCqISOPTvDNIstZorzxivEaUNWnFhpYuSbNKLKwbqqPiAEDrqxnrrRyKTZcjRtUVAAyHcBBZLeQUkznDqGlaPMKIKeaUVqyYicFISDujFxsfgtuLeVYFboykpBtQjemSdzHjjgmJiFWLIkArEpgLivepVgiNuqoLbXJuwYwNdzOjeldxtmIjISYPNkKNkROdKoyQuEqJQaffWgvnqmbCVTguCZvOZHZnJpQIYVTABLpblapDrylaLsINDIJyfDEfUxJWvBRXYyyDnxvvQankAvLOoKfjcbYbIxECHlZFbdvhUCycNylYijpxlJjYounitdDdJBCYHrzoXaOwNZuFAWniIraFMeGMIWXdIbTEpIidUrntvYJgzkltjzfFSfZQMXdFszRjSMpjtDayrNpPIZkHQhYBEgyHwzLJVjKMyLCKDnsJnwttKgtrYsSHyBjuuislRRxICpMCfvnVakBxwtZwFppydEzXFBOOlKYdsQEsOmxmMSLhzueWQqvlcrYeDpbphOrqNtxviWCqWVrZhmYJibBNkROHbuvSdNlTkdbvoIafVKTrKEmmMqdjtwbfdXrzUmJxxrDpTZTywdcBmrkOhgyzmDcjXBIgjnoiomNbrZkWdKFupfOcMFnYKcBNocTHwnAAFQjnQUjHIRAZWGxFtikEcnqHgALiHlpqmvhldIbPSpnsaIdQLimXJYPWItzzDzNvFqogzoPCYmmRigmjKTVrGoxnLOLWZpahceIpgwIMyqBsrTRZSszEZUWIbJnPXuKkHYlihwuMOXpXmEbKzLAemOddvNagqaNpGxFYQCnUiMMrMnBuHYhbggMlpQzzefXttqNXOsbkfZHqqSgwUxSzUbvmhTvxVbcHGybZgCzbbALhMnVJEBVMxoysTcQqwZLWOEhAITGYjmjdl\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/bands",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a band",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a non-existent track",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a band with tracks",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/bands/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"bands",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tracks DTO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/tracks_dto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"tracks_dto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get several tracks DTO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/filter?fromDate=2007-12-14&toDate=2020-12-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "fromDate",
+							"value": "2007-12-14"
+						},
+						{
+							"key": "toDate",
+							"value": "2020-12-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tracks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get band's tracks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/filter/band/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"filter",
+						"band",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a track",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a non-existent track",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new track",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackName\": \"New Track\",\n\"trackDetails\": \"new trackDetails\",\n\"trackBandId\": \"-1\",\n\"trackDuration\": \"303000\",\n\"trackTempo\": \"86\",\n\"trackLink\": \"https://www.youtube.com/watch?v=Q0oIoR9mLwc&ab_channel=RedHotChiliPeppers\",\n\"trackReleaseDate\": \"2016-06-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create track with invalid fields",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackName\": \"\",\n\"trackDetails\": \"RxaveUQVUNtXziczmBWSnpbfdbKGxjOKKgROCXRTKGdRNrFFWnLTLXPGcUWGVqNQBIYDWvFLqfFmHsysLDUOjXPAQGjDodGjMCLnmrWiCahUAwjkssvmOegUesYWaACOeLqcqkWTKgVnrPWJGRiiJINPLooMSEYHitFTEGNTebrwaypxJaepRpbmwQDgHwEzOsVqQhWrOpxfilMKnScKSZRXpiozBxdOdzoPAGZGvueHEsroIvDWgVdZdUIVbYjwlOyIIzHGeFZIBTVpYvmzxoUIUEthrisxrtEBcDxLSjEHRywyRwSyMzDYCqrTTyrTbFCDVrhNtrhwchdXXWmtLAmiSiYIhgtDMQQMqwqpisovjqdsJFfOcqagSZBhSjLgxFMyBdGGxbJNOHtLhGXeZFCbZxTulkvPnWdBJIZvrYKSVkYmOWsgNkIOannczJOaLTscEiSPJCAknKFRJNAlUOjSpVRViWVqeNNzEKxWWIhMutuoEhhHBaDhAHyZxDtHnejyiHRemJmQXzjmXUtCgIEPWGXWYWoczoVMHKCCzjDGwAubfjNZYyvfFULFcCjFqrYLTDSPllajguteQaCCJboiKYBzWSfDulSfNLmWJJaioVsXxOaPWvQioFjyRkHRbeGuAmIVZRMDkqXdMatNubmCNFvwBdMbPozoBIdRJnmpJJqYAmEWBEYOyebNKNMbrmgKZSFozQQeXSzKoaRkYiQvSwTKWlhNDQgdbSTUdggwHgpWWNujgIzYHLWMGkzbvCLIRSXjTmwMnkJBizeNtgiXkNizKRRVkwldakVdqsIiipiaqrXEoCmdPprjMFeMwfdPNtnViKOBgMWgymWThAqMWDzUMEfvaePOQIqmoRjOXUfeLoosptgUfgYCaQxywNfbAJKFrdtBkIcVfhuaGhQAnKlhXokVQSVXkGdgGnbkbHkitLCgMsBIuSpoxLvRYsqERIrcSPfUXSAdnbwYNcPGqyXCUOceOjgoeillvgmeyjJIcCMuEHFbNPZIeKMBMdEsdTzxvdiXveMoQanIuVPajDstKjqHwxiOMJNeyvrJsjQySQWvawndszUyjCFyFXruWrtZqGHnFUhfawxnvUQKUAJElefVEwQkSpSvmHYuKXvJwHSpYefIdKggVWaAsMScGUwHctNxvfimTsReoSVdpEzvZPdMJILSFCCWhhJNDXHRaxBLfTxoLFobvRZSTJcZFrvwKGuikxLeNnOIlXSCApyIgiYIXSAPxYARddkCUTehUGAqziBbAvvdsmLxbmiaEaKEexZSXGktgZdGulcJIaMFusQMkHzHTLabRaFIvICTIHUUWVNipjQIjxTrTTGgcSmXKALnqJvZYjKcVxCdRoVjiOIWGlsVFMvbYYqJynqGYxNXPeoBhNFKDkDCBtlFvQGksQLVXPmKcAkXWLoHRvJCFOTxdWDYDULGvooqdFzkPvToPfHpswcDELTDTIPYzDynUDlrqtsDdYjgcNBQIAQNcSxDscfdOfACIDJcUhhNtzajiDjkjQoNTZBamdLMRDVzOFzeCEOJFVZobPLkcOCdQPstvSmJozcNZsxSTGlGgdISzWAybRALvVYgDaPjwdPdCyySNletZBzdoFhLTlnHRfNhDjBRenrmqmhikAOrOBHTyTRPXPcPwQsxTDPHOOFoEdlbqWVHsKkyfkuutMGyrxJVOVUlaJxooAXwLrtRYVsyprSQbUXRAPPPHVbkXtUvsEixvJpMDldYLegVawZoTtJHUugmlWEQUJwkDMFsaHqDWQXXyGlYIuPHXgerdzOlkORTSYgdMmpHzeffTKNbaQVGECImGsNEwKDuhgVdNCPwFUSxxONmQftgOTyptKDkzcBTWeCErxQMZdqvUXELDUYrqHjqCySDyjiyUKJVKPBtXmKklBrQOWPQHKixHZJoFqXwpNrmSPhQgfrRsKvIbmPbDVQEJKgYUNDoSkACKZhVDBEUQEHFDXKUnVXNrjloqMjSfMGnq\",\n\"trackBandId\": \"-23\",\n\"trackDuration\": \"-303000\",\n\"trackTempo\": \"-1\",\n\"trackLink\":\"test\",\n\"trackReleaseDate\": \"2016-06-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create track with invalid JSON",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackName\": \"x\",\n\"trackDetails\": \"new trackDetails\",\n\"trackBandId\": \"x\",\n\"trackDuration\": \"-303000\",\n\"trackTempo\": \"-1\",\n\"trackReleaseDate\": \"2016-06-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a track",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trackId\": 1,\n    \"trackName\": \"Edited track\",\n    \"trackDetails\": \"Edited trackDetails\",\n    \"trackBandId\": \"-2\",\n    \"trackDuration\": \"-304000\",\n    \"trackTempo\": \"-90\",\n    \"trackLink\": \"tube.com/watch?v=Q0oIoR9mLwc&ab_channel=RedHotChiliPeppers\",\n    \"trackReleaseDate\": \"2016-07-17\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a non-existent track",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackId\": 12,\n\"trackName\": \"Edited track\",\n\"trackDetails\": \"Edited trackDetails\",\n\"trackBandId\": \"2\",\n\"trackDuration\": \"304000\",\n\"trackTempo\": \"90\",\n\"trackLink\": \"https://www.youtube.com/watch?v=Q0oIoR9mLwc&ab_channel=RedHotChiliPeppers\",\n\"trackReleaseDate\": \"2016-07-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update track with invalid fields",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackId\": 1,\n\"trackName\": \"Edited track\",\n\"trackDetails\": \"Edited trackDetails\",\n\"trackBandId\": \"-1\",\n\"trackDuration\": \"-304000\",\n\"trackTempo\": \"-90\",\n\"trackLink\": \"yoatch?v=Q0oIoR9mLwc&ab_channel=RedHotChiliPeppers\",\n\"trackReleaseDate\": \"2016-07-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update track with invalid JSON",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"trackId\": 1,\n\"trackName\": \"Edited track\",\n\"trackDetails\": \"Edited trackDetails\",\n\"trackBandId\": \"2x\",\n\"trackDuration\": \"x\",\n\"trackTempo\": \"90\",\n\"trackLink\": \"https://www.youtube.com/watch?v=Q0oIoR9mLwc&ab_channel=RedHotChiliPeppers\",\n\"trackReleaseDate\": \"2016-07-17\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/repertoire",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a track",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a not existing track",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

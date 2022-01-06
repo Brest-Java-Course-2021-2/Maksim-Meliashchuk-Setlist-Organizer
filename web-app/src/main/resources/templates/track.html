@@ -41,8 +41,7 @@
                    th:field="*{trackId}"/>
 
             <p class="fs-5 ml-5 p-1">*Title:</p>
-            <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" required
-                      type="text"
+            <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" type="text"
                       th:field="*{trackName}"></textarea>
         </div>
 
@@ -62,21 +61,19 @@
 
         <input type="hidden" th:field="*{trackDuration}" id="field_track_duration">
 
-        <div class="form-inline">
-
             <div class="row">
 
                 <div class="col">
-                    <p class="fs-5 p-1">Duration (mm:ss):</p>
+                    <p class="fs-5 p-1">Duration:</p>
                     <div class="d-flex align-items-center">
                         <div class="p-1 ms-auto">
                             <img src="../static/img/duration.svg" th:src="@{/img/duration.svg}" height="30" width="30"
                                  alt="duration">
                         </div>
-                        <input id="track_duration_minutes" class="form-control" placeholder="Minutes" required
+                        <input id="track_duration_minutes" class="form-control" placeholder="Minutes"
                                type="number" min="0" max="100" style="text-align:right;">
                         <p class="fs-5 p-1">:</p>
-                        <input id="track_duration_seconds" class="form-control" placeholder="Seconds" required
+                        <input id="track_duration_seconds" class="form-control" placeholder="Seconds"
                                type="number" min="0" max="100">
                     </div>
                 </div>
@@ -88,7 +85,7 @@
                             <img src="../static/img/tempo.svg" th:src="@{/img/tempo.svg}" height="30" width="30"
                                  alt="tempo">
                         </div>
-                        <input id="field_track_tempo" class="form-control" placeholder="Bpm" required type="number"
+                        <input id="field_track_tempo" class="form-control" placeholder="Bpm" type="number"
                                min="0" max="100"
                                th:field="*{trackTempo}">
                     </div>
@@ -103,7 +100,7 @@
 
             <div class="mb-3">
                 <p class="fs-5 p-1">Details:</p>
-                <textarea id="field_track_details" class="form-control" rows="2" placeholder="About track" required
+                <textarea id="field_track_details" class="form-control" placeholder="About track"
                           type="text"
                           th:field="*{trackDetails}"></textarea>
             </div>
@@ -116,7 +113,7 @@
 
             <div class="mb-3">
                 <p class="fs-5 p-1">Link:</p>
-                <textarea id="field_track_link" class="form-control" rows="1" placeholder="https://" required
+                <textarea id="field_track_link" class="form-control" placeholder="https://"
                           type="text"
                           th:field="*{trackLink}"></textarea>
             </div>
@@ -136,10 +133,12 @@
                 </div>
             </div>
 
+
             <div class="mb-3 mt-3">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="repertoire.html" th:href="@{/repertoire}" class="btn btn-secondary me-md-2"
-                       role="button">Cancel</a>
+                    <script>
+                        document.write('<a href="' + document.referrer + '" class="btn btn-secondary me-md-2 back">Cancel</a>');
+                    </script>
                     <a href="repertoire.html"
                        th:href="@{/repertoire}"
                        th:onclick="{durationToSeconds(); document.forms['track_form'].submit(); return false;}"
@@ -149,12 +148,11 @@
     </form>
 </div>
 
+
 <div th:insert="layouts :: footer"></div>
 
 <script>
     window.onload = durationToMinutesAndSeconds();
-
-
 
 </script>
 

@@ -54,6 +54,7 @@ a {
 
 textarea {
   resize: none;
+  width: auto;
 }
 
 #card {

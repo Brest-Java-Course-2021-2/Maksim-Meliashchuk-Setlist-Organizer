@@ -45,6 +45,17 @@ class TrackDtoDaoJdbcImplIT {
     }
 
     @Test
+    void testFindAllTracksWithBandNameByBandId() {
+        logger.debug("Track execute test: testFindAllTracksWithBandNameByBandId()");
+        int id = 3;
+        assertNotNull(trackDtoDaoJdbc);
+        assertNotNull(trackDtoDaoJdbc.findAllTracksWithBandNameByBandId(id));
+        List<TrackDto> tracks = trackDtoDaoJdbc.findAllTracksWithBandNameByBandId(id);
+        assertNotNull(tracks);
+        assertTrue(tracks.size() > 0);
+    }
+
+    @Test
     void testFindAllTracksWithReleaseDateFilter() {
         logger.debug("Track execute test: testFindAllTracksWithReleaseDateFilter()");
         assertNotNull(trackDtoDaoJdbc);

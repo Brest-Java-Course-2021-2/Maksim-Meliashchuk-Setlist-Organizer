@@ -37,13 +37,13 @@ public class ApplicationConfig {
     }
 
     @Bean
-    TrackService trackDtoService() {
+    TrackService trackService() {
         String url = String.format("%s://%s:%d/repertoire", protocol, host, port);
         return new TrackServiceRest(url, restTemplate());
     }
 
     @Bean
-    TrackDtoService trackService() {
+    TrackDtoService trackDtoService() {
         String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
         return new TrackDtoServiceRest(url, restTemplate());
     }

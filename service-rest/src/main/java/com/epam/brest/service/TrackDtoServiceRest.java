@@ -37,6 +37,16 @@ public class TrackDtoServiceRest implements TrackDtoService {
     }
 
     @Override
+    public List<TrackDto> findAllTracksWithBandNameByBandId(Integer bandId) {
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
+                .path(String.format("/band/%d", bandId));
+        ParameterizedTypeReference<List<TrackDto>> typeReference = new ParameterizedTypeReference<>(){};
+        ResponseEntity<List<TrackDto>> responseEntity =
+                restTemplate.exchange(uriComponentsBuilder.toUriString(), HttpMethod.GET,null, typeReference);
+        return responseEntity.getBody();
+    }
+
+    @Override
     public List<TrackDto> findAllTracksWithReleaseDateFilter(LocalDate fromDate, LocalDate toDate) {
         logger.debug("findAllTracksWithReleaseDateFilter()");
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)

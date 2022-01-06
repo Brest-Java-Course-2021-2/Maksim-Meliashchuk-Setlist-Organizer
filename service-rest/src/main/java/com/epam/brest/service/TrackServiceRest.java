@@ -7,7 +7,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -15,9 +14,9 @@ public class TrackServiceRest implements TrackService {
 
     private final Logger logger = LogManager.getLogger(TrackServiceRest.class);
 
-    private String url;
+    private final String url;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public TrackServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
@@ -36,15 +35,15 @@ public class TrackServiceRest implements TrackService {
     @Override
     public Integer create(Track track) {
         logger.debug("create({})", track);
-        ResponseEntity responseEntity = restTemplate.postForEntity(url, track, Integer.class);
-        return (Integer) responseEntity.getBody();
+        ResponseEntity<Integer> responseEntity = restTemplate.postForEntity(url, track, Integer.class);
+        return responseEntity.getBody();
     }
 
     @Override
     public Integer update(Track track) {
         logger.debug("update({})", track);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Track> entity = new HttpEntity<>(track, headers);
         ResponseEntity<Integer> result = restTemplate.exchange(url, HttpMethod.PUT, entity, Integer.class);
         return result.getBody();
@@ -54,7 +53,7 @@ public class TrackServiceRest implements TrackService {
     public Integer delete(Integer trackId) {
         logger.debug("delete({})", trackId);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Track> entity = new HttpEntity<>(headers);
         ResponseEntity<Integer> result =
                 restTemplate.exchange(url + "/" + trackId, HttpMethod.DELETE, entity, Integer.class);

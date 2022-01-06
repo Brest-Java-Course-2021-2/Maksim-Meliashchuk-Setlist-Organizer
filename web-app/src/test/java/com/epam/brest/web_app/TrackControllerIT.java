@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TrackControllerIT {
 
     private static final String TRACKS_DTO_URL = "http://localhost:8088/repertoire/filter";
+    private static final String TRACKS_DTO_BY_BAND_ID = "http://localhost:8088/repertoire/filter/band";
     private static final String TRACKS_URL = "http://localhost:8088/repertoire";
     private static final String BANDS_URL = "http://localhost:8088/bands";
 
@@ -72,6 +72,7 @@ public class TrackControllerIT {
                 .build();
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
+
     @Test
     void shouldReturnRepertoirePage() throws Exception {
         logger.debug("shouldReturnRepertoirePage()");
@@ -117,6 +118,46 @@ public class TrackControllerIT {
                                 hasProperty("trackDetails", is("track1details1")),
                                 hasProperty("trackReleaseDate", is(LocalDate.parse("2013-03-12"))),
                                 hasProperty("trackLink", is("link1"))
+                        )
+                )));
+
+        // VERIFY
+        mockServer.verify();
+    }
+
+    @Test
+    void shouldFindAllTracksWithBandNameByBandId() throws Exception {
+        logger.debug("shouldFindAllTracksWithBandNameByBandId()");
+        int id = 1;
+        TrackDto trackDto = createTrackDto(0);
+
+        List<TrackDto> trackDtoList = Arrays.asList(trackDto);
+
+        //WHEN
+        mockServer.expect(once(), requestTo(new URI(TRACKS_DTO_BY_BAND_ID + "/" + id)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(trackDtoList))
+
+                );
+        // THEN
+        mockMvc.perform(get("/repertoire/filter/band/{id}", id)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("bandtracks"))
+                .andExpect(model().attribute("tracksCount", is(1)))
+                .andExpect(model().attribute("tracksDuration", is(10000)))
+                .andExpect(model().attribute("tracks", hasItem(
+                        allOf(
+                                hasProperty("trackId", is(0)),
+                                hasProperty("trackName", is("track0")),
+                                hasProperty("trackBandName", is("band0")),
+                                hasProperty("trackTempo", is(100)),
+                                hasProperty("trackDuration", is(10000)),
+                                hasProperty("trackDetails", is("track0details0")),
+                                hasProperty("trackReleaseDate", is(LocalDate.parse("2012-03-12"))),
+                                hasProperty("trackLink", is("link0"))
                         )
                 )));
 

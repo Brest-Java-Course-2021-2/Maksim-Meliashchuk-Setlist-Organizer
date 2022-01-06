@@ -5,10 +5,7 @@ import com.epam.brest.service.TrackDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -30,8 +27,14 @@ public class TrackDtoController {
 
     @GetMapping(value = "/tracks_dto")
     public final Collection<TrackDto> findAllTracksWithBandName() {
-        logger.debug("trackDto()");
+        logger.debug("findAllTracksWithBandName()");
         return trackDtoService.findAllTracksWithBandName();
+    }
+
+    @GetMapping(value = "/repertoire/filter/band/{bandId}")
+    public final Collection<TrackDto> findAllTracksWithBandNameByBandId(@PathVariable Integer bandId) {
+        logger.debug("findAllTracksWithBandNameByBandId()");
+        return trackDtoService.findAllTracksWithBandNameByBandId(bandId);
     }
 
     @GetMapping(value = "/repertoire/filter")

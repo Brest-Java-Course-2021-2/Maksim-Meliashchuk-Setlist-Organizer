@@ -41,7 +41,9 @@ The following fields are displayed:
 - Duration of the repertoire of the band
 
 ![ListOfBands](img/ListOfBands.jpg)
-<center> Viewing the list of bands </center>
+<p align="center">
+  Viewing the list of bands
+</p>
 
 ### 1.2. Adding the band
 
@@ -63,7 +65,9 @@ When adding the band, the following values are entered:
 - `details` - additional optional information about the band
 
 ![AddBAnd](img/AddBand.jpg)
-<center> Adding the band </center>
+<p align="center">
+  Adding the band
+</p>
 
 ### 1.3. Editing the band
 
@@ -91,7 +95,9 @@ Constraints for data validation:
 - `details` - no more than 1000 characters. This field is optional
 
 ![EditBand](img/EditBand.jpg)
-<center> Editing the band </center>
+<p align="center">
+  Editing the band
+</p>
 
 ### 1.4. Deleting the band
 
@@ -110,7 +116,9 @@ Cancellation scenario:
 - A form for viewing bands with updated data opens.
 
 ![DeleteBand](img/DeleteBand.jpg)
-<center> Confirmation of deleting the band </center>
+<p align="center">
+  Confirmation of deleting the band
+</p>
 
 ## 2. Repertoire
 
@@ -131,7 +139,24 @@ The following fields are displayed in the list:
 - Link to track
 
 ![Repertoire](img/Repertoire.jpg)
-<center> Viewing the repertoire </center>
+<p align="center">
+  Viewing the repertoire
+</p>
+
+Second scenario:
+- The user clicks on the band's name in the bands view
+- The repertoire of select band is displayed
+
+The following fields are displayed in the list:
+- Tracks count
+- Total duration of the repertoire in minutes and seconds
+- Track name
+- Band name of the track
+- Track duration in minutes and seconds
+- Track details
+- The tempo of the track in bpm
+- Release date of the track. If the release date of the track is not specified, an empty field is displayed
+- Link to track
 
 ### 2.2. Filtering the repertoire
 
@@ -164,7 +189,9 @@ Undo scenario:
 - Information about the track is not saved to the database, a form for viewing the repertoire with updated data opens
 
 ![AddTrack](img/AddTrack.jpg)
-<center> Adding the track </center>
+<p align="center">
+  Adding the track
+</p>
 
 When adding the track, the following values are entered:
 - `name` - required name of the track
@@ -209,8 +236,9 @@ Constraints for data validation:
   Contains protocol `http://` or `https://`
 
 ![EditTrack](img/EditTrack.jpg)
-<center> Editing the track </center>
-
+<p align="center">
+  Editing the track
+</p>
 
 ### 2.5. Deleting a track
 
@@ -229,6 +257,8 @@ Undo scenario:
 - A form for viewing tracks with updated data opens
 
 ![DeleteTrack](img/DeleteTrack.jpg)
-<center> Deleting the track </center>
+<p align="center">
+  Deleting the track
+</p>
 
 

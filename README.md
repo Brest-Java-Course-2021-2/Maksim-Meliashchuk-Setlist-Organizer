@@ -8,6 +8,13 @@
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
+<details>
+<summary>Mind Map</summary>
+  <p align="center">
+    <img src="documentation/setlist_organizer_mind_map.png" alt="Mind map" width="1400"/>
+  </p>
+</details>
+
 - [Software requirements specification](documentation/SetlistOrganizerSRC.md)
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 

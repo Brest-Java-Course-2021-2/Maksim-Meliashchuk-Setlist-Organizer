@@ -26,6 +26,11 @@ public class TrackDtoServiceImpl implements TrackDtoService {
     }
 
     @Override
+    public List<TrackDto> findAllTracksWithBandNameByBandId(Integer bandId) {
+        return trackDtoDao.findAllTracksWithBandNameByBandId(bandId);
+    }
+
+    @Override
     public List<TrackDto> findAllTracksWithReleaseDateFilter(LocalDate fromDate, LocalDate toDate) {
         return trackDtoDao.findAllTracksWithReleaseDateFilter(fromDate, toDate);
     }

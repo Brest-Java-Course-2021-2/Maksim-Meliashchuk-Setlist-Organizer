@@ -4,20 +4,21 @@
 
 - [Version](#version)
 - [Bands](#bands)
-    * [Get all bands DTO](#get-all-bands-dto)
-    * [Get all bands](#get-all-bands)
-    * [Get a band](#get-a-band)
-    * [Create a new band](#create-a-new-band)
-    * [Update a band](#update-a-band)
-    * [Delete a band](#delete-a-band)
+  * [Get all bands DTO](#get-all-bands-dto)
+  * [Get all bands](#get-all-bands)
+  * [Get a band](#get-a-band)
+  * [Create a new band](#create-a-new-band)
+  * [Update a band](#update-a-band)
+  * [Delete a band](#delete-a-band)
 - [Tracks](#tracks)
-    * [Get all tracks DTO](#get-all-tracks-dto)
-    * [Get several tracks DTO](#get-several-tracks-dto)
-    * [Get all tracks](#get-all-tracks)
-    * [Get a track](#get-a-track)
-    * [Create a new track](#create-a-new-track)
-    * [Update a track](#update-a-track)
-    * [Delete a track](#delete-a-track)
+  * [Get all tracks DTO](#get-all-tracks-dto)
+  * [Get several tracks DTO](#get-several-tracks-dto)
+  * [Get all tracks](#get-all-tracks)
+  * [Get band's tracks](#get-band-s-tracks)
+  * [Get a track](#get-a-track)
+  * [Create a new track](#create-a-new-track)
+  * [Update a track](#update-a-track)
+  * [Delete a track](#delete-a-track)
 
 ### Version
 
@@ -479,6 +480,59 @@ A set of tracks
         "trackDetails": "with chords as replacement or the distorted guitar",
         "trackLink": "https://www.youtube.com/watch?v=O2IuJPh6h_A&ab_channel=Muse",
         "trackReleaseDate": "2012-07-12"
+    }
+]
+```
+
+</details>
+
+#### Get band's tracks
+
+Get information about band's tracks.
+
+Request sample cURL:
+```bash
+curl --request GET \
+--url http://localhost:8088/repertoire/filter/band/1 \
+--header 'Content-Type: application/json'
+```
+
+<details>
+  <summary>200 Response Example</summary>
+
+A set of tracks
+
+```bash
+[
+    {
+        "trackId": 1,
+        "trackName": "Drones",
+        "trackBandName": "MUSE",
+        "trackTempo": 104,
+        "trackDuration": 135000,
+        "trackDetails": "Tuning:EADGBe",
+        "trackLink": "https://www.youtube.com/watch?v=rvX7lgrx47M&ab_channel=Muse-Topic",
+        "trackReleaseDate": "2000-01-12"
+    },
+    {
+        "trackId": 2,
+        "trackName": "Uprising",
+        "trackBandName": "MUSE",
+        "trackTempo": 129,
+        "trackDuration": 200000,
+        "trackDetails": "[SYNTH BASS]",
+        "trackLink": "https://www.youtube.com/watch?v=w8KQmps-Sog&ab_channel=Muse",
+        "trackReleaseDate": "2021-03-12"
+    },
+    {
+        "trackId": 3,
+        "trackName": "Absolution",
+        "trackBandName": "MUSE",
+        "trackTempo": 90,
+        "trackDuration": 117000,
+        "trackDetails": "[Preset 51]",
+        "trackLink": "https://www.youtube.com/watch?v=Mp6W0IzLlW8&ab_channel=TheMuse",
+        "trackReleaseDate": "2012-02-12"
     }
 ]
 ```
