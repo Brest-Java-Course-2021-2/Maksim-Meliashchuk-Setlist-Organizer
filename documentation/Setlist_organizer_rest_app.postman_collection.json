@@ -405,6 +405,28 @@
 			"response": []
 		},
 		{
+			"name": "Get band's tracks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/repertoire/filter/band/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"repertoire",
+						"filter",
+						"band",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get a track",
 			"request": {
 				"method": "GET",
