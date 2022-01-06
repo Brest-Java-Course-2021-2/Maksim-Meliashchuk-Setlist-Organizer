@@ -8,8 +8,14 @@
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
+<details>
+<summary>Mind Map</summary>
+  <p align="center">
+    <img src="documentation/setlist_organizer_mind_map.png" alt="Mind map" width="1000"/>
+  </p>
+</details>
+
 - [Software requirements specification](documentation/SetlistOrganizerSRC.md)
-- [Mind map](documentation/setlist_organizer_mind_map.png)
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 
 ## Applications Demo on [Heroku](https://heroku.com") <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>
