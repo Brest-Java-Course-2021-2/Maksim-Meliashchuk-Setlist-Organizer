@@ -11,7 +11,7 @@
 <details>
 <summary>Mind Map</summary>
   <p align="center">
-    <img src="documentation/setlist_organizer_mind_map.png" alt="Mind map"/>
+    <img src="documentation/setlist_organizer_mind_map.svg" alt="Mind map"/>
   </p>
 </details>
 
