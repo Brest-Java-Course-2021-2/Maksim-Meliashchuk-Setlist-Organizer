@@ -14,7 +14,7 @@
   * [Get all tracks DTO](#get-all-tracks-dto)
   * [Get several tracks DTO](#get-several-tracks-dto)
   * [Get all tracks](#get-all-tracks)
-  * [Get band's tracks](#get-band-s-tracks)
+  * [Get bands tracks](#get-bands-tracks)
   * [Get a track](#get-a-track)
   * [Create a new track](#create-a-new-track)
   * [Update a track](#update-a-track)
@@ -486,7 +486,7 @@ A set of tracks
 
 </details>
 
-#### Get band's tracks
+#### Get bands tracks
 
 Get information about band's tracks.
 
