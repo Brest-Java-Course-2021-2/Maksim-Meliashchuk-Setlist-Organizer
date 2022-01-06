@@ -8,10 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -44,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ActiveProfiles("dev")
-@EnableWebMvc
 public class TrackControllerIT {
 
     private static final String TRACKS_DTO_URL = "http://localhost:8088/repertoire/filter";
@@ -130,7 +126,6 @@ public class TrackControllerIT {
     }
 
     @Test
-    @Disabled
     void shouldFindAllTracksWithBandNameByBandId() throws Exception {
         logger.debug("shouldFindAllTracksWithBandNameByBandId()");
         int id = 1;
