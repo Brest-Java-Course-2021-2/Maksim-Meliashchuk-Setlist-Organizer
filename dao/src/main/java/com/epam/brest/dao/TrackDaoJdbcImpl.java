@@ -37,15 +37,13 @@ public class TrackDaoJdbcImpl implements TrackDao{
     private String sqlDeleteTrackById;
 
     @Value("${SQL_TRACK_BY_ID}")
-    private String sqlTrackById = "SELECT * FROM track WHERE track_id = :trackId";
+    private String sqlTrackById;
 
     @Value("${SQL_UPDATE_TRACK_BY_ID}")
     private String sqlUpdateTrackById;
 
     @Value("${SQL_CREATE_TRACK}")
-    private String sqlCreateTrack = "INSERT INTO track(track_name, track_details, track_tempo, track_duration, " +
-            "track_link, track_release_date, track_band_id) " +
-            "values(:trackName, :trackDetails, :trackTempo, :trackDuration, :trackLink, :trackReleaseDate, :trackBandId)";
+    private String sqlCreateTrack;
 
     public TrackDaoJdbcImpl() {
     }

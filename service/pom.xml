@@ -11,22 +11,8 @@
 
     <artifactId>service</artifactId>
 
-<!--
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
--->
-
     <dependencies>
-        <dependency>
-            <groupId>com.epam.brest</groupId>
-            <artifactId>model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.epam.brest</groupId>
-            <artifactId>dao-api</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.epam.brest</groupId>
             <artifactId>dao</artifactId>
@@ -34,10 +20,6 @@
         <dependency>
             <groupId>com.epam.brest</groupId>
             <artifactId>service-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.epam.brest</groupId>
-            <artifactId>test-db</artifactId>
         </dependency>
 
         <dependency>
@@ -59,9 +41,5 @@
             <artifactId>junit-jupiter-engine</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
     </dependencies>
 </project>
