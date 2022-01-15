@@ -1,9 +1,5 @@
 package com.epam.brest.model.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 
 public class TrackDto {
@@ -22,8 +18,6 @@ public class TrackDto {
 
     private String trackLink;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 
     public TrackDto() {

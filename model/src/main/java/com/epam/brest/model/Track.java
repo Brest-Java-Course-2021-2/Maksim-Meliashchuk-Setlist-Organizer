@@ -1,10 +1,11 @@
 package com.epam.brest.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class Track {
@@ -21,7 +22,7 @@ public class Track {
     @Positive(message = "Track tempo cannot be less than zero!")
     private Integer trackTempo;
 
-    @Positive(message = "Track duration cannot be less than zero!")
+    @Min(value = 0, message = "Track duration cannot be less than zero!")
     private Integer trackDuration;
 
     @Size(max=2000, message = "Track details size have to be <= {max} symbols!")
@@ -31,8 +32,6 @@ public class Track {
     @URL(message = "Track link is not valid. The link must contain http or https!")
     private String trackLink;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 
     public Track() {

@@ -66,14 +66,24 @@ public class TrackDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDuration", Matchers.is(10000)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackBandName", Matchers.is("band0")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackLink", Matchers.is("link0")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate", Matchers.is("2012-03-12")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[0]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[1]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getMonthValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[2]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getDayOfMonth())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackId", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackName", Matchers.is("track1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDetails", Matchers.is("track1details1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDuration", Matchers.is(10001)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackBandName", Matchers.is("band1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackLink", Matchers.is("link1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate", Matchers.is("2013-03-12")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[0]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[1]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getMonthValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[2]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
         Mockito.verify(trackDtoService).findAllTracksWithBandName();
@@ -97,7 +107,12 @@ public class TrackDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDuration", Matchers.is(10001)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackBandName", Matchers.is("band1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackLink", Matchers.is("link1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate", Matchers.is("2013-03-12")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[0]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[1]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getMonthValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[2]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
         Mockito.verify(trackDtoService).findAllTracksWithBandNameByBandId(id);
@@ -122,14 +137,24 @@ public class TrackDtoControllerTest {
                     .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDuration", Matchers.is(10000)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackBandName", Matchers.is("band0")))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackLink", Matchers.is("link0")))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate", Matchers.is("2012-03-12")))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[0]",
+                            Matchers.is(LocalDate.parse("2012-03-12").getYear())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[1]",
+                            Matchers.is(LocalDate.parse("2012-03-12").getMonthValue())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[2]",
+                            Matchers.is(LocalDate.parse("2012-03-12").getDayOfMonth())))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackId", Matchers.is(1)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackName", Matchers.is("track1")))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDetails", Matchers.is("track1details1")))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDuration", Matchers.is(10001)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackBandName", Matchers.is("band1")))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackLink", Matchers.is("link1")))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate", Matchers.is("2013-03-12")));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[0]",
+                            Matchers.is(LocalDate.parse("2013-03-12").getYear())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[1]",
+                            Matchers.is(LocalDate.parse("2013-03-12").getMonthValue())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[2]",
+                            Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
         } catch (Exception e) {
             e.printStackTrace();
         }
