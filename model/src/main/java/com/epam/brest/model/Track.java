@@ -1,6 +1,7 @@
 package com.epam.brest.model;
 
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -32,6 +33,7 @@ public class Track {
     @URL(message = "Track link is not valid. The link must contain http or https!")
     private String trackLink;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 
     public Track() {

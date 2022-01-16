@@ -1,4 +1,5 @@
-import com.epam.brest.model.Band;
+package com.epam.brest.model;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
