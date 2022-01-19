@@ -15,6 +15,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -35,6 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger logger = LogManager.getLogger(CustomExceptionHandler.class);
 
     @ExceptionHandler(BandNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException (BandNotFoundException ex,
                                                                             WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -44,6 +46,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TrackNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public final ResponseEntity<ErrorResponse> handleHttpMessageNotReadable (TrackNotFoundException ex,
                                                                              WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -53,6 +56,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class, NotUniqueException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(Exception ex, WebRequest request) {
 
         List<String> details = new ArrayList<>();
@@ -62,6 +66,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
@@ -79,6 +84,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {

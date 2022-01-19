@@ -2,7 +2,6 @@ package com.epam.brest.web_app.config;
 
 import com.epam.brest.service.*;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -19,7 +18,6 @@ import java.util.List;
 @Configuration
 @ComponentScan
 @Profile("dev")
-@PropertySource("classpath:application-dev.properties")
 @PropertySource("classpath:application-dev.properties")
 public class ApplicationConfig {
 
