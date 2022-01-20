@@ -106,14 +106,12 @@ To test the REST API, you can use the Postman collection to access the API endpo
 
 See the Postman [online documentation](https://learning.postman.com/docs/getting-started/installation-and-updates/).
 
-## Documenting a Spring REST API
+## Documenting a REST API
 
 Using OpenAPI 3.0
 
 The OpenAPI descriptions in JSON format will be available at the path: 
-
 [http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
 
 API documentation with Swagger UI: 
-
 [http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)
