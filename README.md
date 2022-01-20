@@ -28,6 +28,10 @@ The rest application will be accessible at:
 
 [https://setlist-organizer-rest.herokuapp.com/](https://setlist-organizer-rest.herokuapp.com/bands)
 
+API documentation with Swagger UI:
+
+[https://setlist-organizer-rest.herokuapp.com/swagger-ui/index.html](https://setlist-organizer-rest.herokuapp.com/swagger-ui/index.html)
+
 ## Technology Stack
 
 - **Programming Language:** [Java](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
@@ -42,6 +46,10 @@ The rest application will be accessible at:
     - [Mockito](http://site.mockito.org/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
 - **Database:** [H2](http://www.h2database.com/html/main.html)
+- **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
+- **API documentation generation:**
+  - [Springdoc-openapi](https://springdoc.org/)
+  - [Swagger UI](https://swagger.io/tools/swagger-ui/)
 - **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/)
 - **CSS Framework:** [Bootstrap](https://getbootstrap.com/) <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
 - **App containerization:** [Docker](https://www.docker.com/) <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="20" height="20"/> </a>
@@ -90,4 +98,22 @@ To stop the containers:
 $ sudo docker-compose down
 ```
 
+## Local tests with Postman
 
+To test the REST API, you can use the Postman collection to access the API endpoints:
+
+[postman_collection.json](./documentation/Setlist_organizer_rest_app.postman_collection.json)
+
+See the Postman [online documentation](https://learning.postman.com/docs/getting-started/installation-and-updates/).
+
+## Documenting a Spring REST API
+
+Using OpenAPI 3.0
+
+The OpenAPI descriptions in JSON format will be available at the path: 
+
+[http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
+
+API documentation with Swagger UI: 
+
+[http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)

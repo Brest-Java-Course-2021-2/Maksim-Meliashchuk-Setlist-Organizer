@@ -34,7 +34,6 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <spring.version>5.3.13</spring.version>
         <log4j2.version>2.15</log4j2.version>
-        <spring-boot-maven-plugin.version>2.5.0</spring-boot-maven-plugin.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <commons-validator.version>1.7</commons-validator.version>
         <hiberbate-validator.version>6.2.1.Final</hiberbate-validator.version>
