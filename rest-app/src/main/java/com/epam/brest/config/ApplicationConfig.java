@@ -20,4 +20,5 @@ public class ApplicationConfig {
             builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(dateFormat)));
         };
     }
+
 }
