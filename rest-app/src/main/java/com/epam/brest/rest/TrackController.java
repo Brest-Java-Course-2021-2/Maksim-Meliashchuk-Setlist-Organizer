@@ -63,7 +63,7 @@ public class TrackController {
             @ApiResponse(responseCode = "200",
                     description = "Track have been created. Returns the ID of the new track",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Track.class)) }),
+                            schema = @Schema(implementation = Integer.class)) }),
             @ApiResponse(responseCode = "400", description = "An attempt to create track with invalid fields",
                     content = @Content)})
     @PostMapping(path = "/repertoire", consumes = {"application/json"}, produces = {"application/json"})
@@ -78,7 +78,7 @@ public class TrackController {
             @ApiResponse(responseCode = "200",
                     description = "Track(s) have been updated. Returns the number of tracks affected",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Track.class)) }),
+                            schema = @Schema(implementation = Integer.class)) }),
             @ApiResponse(responseCode = "400", description = "Trying to update track with invalid fields",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Trying to update a non-existent track",
@@ -95,7 +95,7 @@ public class TrackController {
             @ApiResponse(responseCode = "200",
                     description = "Track(s) have been removed. Returns the number of tracks affected",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Track.class)) }),
+                            schema = @Schema(implementation = Integer.class)) }),
             @ApiResponse(responseCode = "404", description = "Trying to delete a non-existent track",
                     content = @Content)})
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})

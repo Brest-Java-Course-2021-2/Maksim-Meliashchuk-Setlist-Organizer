@@ -21,7 +21,7 @@ public class VersionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A version",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TrackDto.class)) })
+                            schema = @Schema(implementation = String.class)) })
     })
     @GetMapping(value = "/version")
     public String version() {
