@@ -1,7 +1,15 @@
 package com.epam.brest.model.dto;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
+/**
+ * POJO Track for model.
+ * There is a no args constructor, getters and setters for fields, override equals, hashcode and toString methods.
+ */
+
+@Data
 public class TrackDto {
 
     private Integer trackId;
@@ -20,88 +28,4 @@ public class TrackDto {
 
     private LocalDate trackReleaseDate;
 
-    public TrackDto() {
-    }
-
-    public TrackDto(String trackName) {
-        this.trackName = trackName;
-    }
-
-    public Integer getTrackId() {
-        return trackId;
-    }
-
-    public void setTrackId(Integer trackId) {
-        this.trackId = trackId;
-    }
-
-    public String getTrackName() {
-        return trackName;
-    }
-
-    public void setTrackName(String trackName) {
-        this.trackName = trackName;
-    }
-
-    public String getTrackBandName() {
-        return trackBandName;
-    }
-
-    public void setTrackBandName(String trackBandId) {
-        this.trackBandName = trackBandId;
-    }
-
-    public Integer getTrackTempo() {
-        return trackTempo;
-    }
-
-    public void setTrackTempo(Integer trackTempo) {
-        this.trackTempo = trackTempo;
-    }
-
-    public Integer getTrackDuration() {
-        return trackDuration;
-    }
-
-    public void setTrackDuration(Integer trackDuration) {
-        this.trackDuration = trackDuration;
-    }
-
-    public String getTrackDetails() {
-        return trackDetails;
-    }
-
-    public void setTrackDetails(String trackDetails) {
-        this.trackDetails = trackDetails;
-    }
-
-    public String getTrackLink() {
-        return trackLink;
-    }
-
-    public void setTrackLink(String trackLink) {
-        this.trackLink = trackLink;
-    }
-
-    public LocalDate getTrackReleaseDate() {
-        return trackReleaseDate;
-    }
-
-    public void setTrackReleaseDate(LocalDate trackReleaseDate) {
-        this.trackReleaseDate = trackReleaseDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Track{" +
-                "trackId=" + trackId +
-                ", trackName='" + trackName + '\'' +
-                ", trackBandName='" + trackBandName + '\'' +
-                ", trackTempo='" + trackTempo + '\'' +
-                ", trackDuration='" + trackDuration + '\'' +
-                ", trackDetails='" + trackDetails + '\'' +
-                ", trackLink='" + trackLink + '\'' +
-                ", trackReleaseDate='" + trackReleaseDate + '\'' +
-                '}';
-    }
 }

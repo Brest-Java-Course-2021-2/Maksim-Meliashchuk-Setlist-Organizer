@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -64,15 +63,18 @@ class TrackServiceRestTest {
         logger.debug("shouldGetTrackById()");
         // given
         Integer id = 1;
-        Track track = new Track()
-                .setTrackId(id)
-                .setTrackName("Test track")
-                .setTrackDetails("")
-                .setTrackTempo(120)
-                .setTrackLink("link")
-                .setTrackDuration(1500)
-                .setTrackBandId(1)
-                .setTrackReleaseDate(LocalDate.parse("2020-12-12"));
+
+        Track track =Track.builder()
+                .trackId(id)
+                .trackName("Test track")
+                .trackDetails("")
+                .trackTempo(120)
+                .trackLink("link")
+                .trackDuration(1500)
+                .trackBandId(1)
+                .trackReleaseDate(LocalDate.parse("2020-12-12"))
+                .build();
+
 
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(TRACKS_URL + "/" + id)))
                 .andExpect(method(HttpMethod.GET))
@@ -121,15 +123,17 @@ class TrackServiceRestTest {
         logger.debug("shouldUpdate()");
         // given
         Integer id = 1;
-        Track track = new Track()
-                .setTrackId(id)
-                .setTrackName("Test track")
-                .setTrackDetails("")
-                .setTrackTempo(120)
-                .setTrackLink("link")
-                .setTrackDuration(1500)
-                .setTrackBandId(1)
-                .setTrackReleaseDate(LocalDate.parse("2020-12-12"));
+
+        Track track =Track.builder()
+                .trackId(id)
+                .trackName("Test track")
+                .trackDetails("")
+                .trackTempo(120)
+                .trackLink("link")
+                .trackDuration(1500)
+                .trackBandId(1)
+                .trackReleaseDate(LocalDate.parse("2020-12-12"))
+                .build();
 
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(TRACKS_URL)))
                 .andExpect(method(HttpMethod.PUT))

@@ -56,10 +56,11 @@ class BandServiceRestTest {
     void getBandById() throws Exception {
         // given
         Integer id = 1;
-        Band band = new Band()
-                    .setBandId(id)
-                    .setBandName("Test band")
-                    .setBandDetails("test band details");
+        Band band = Band.builder()
+                .bandId(id)
+                .bandName("Test band")
+                .bandDetails("test band details")
+                .build();
 
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(BANDS_URL + "/" + id)))
                 .andExpect(method(HttpMethod.GET))

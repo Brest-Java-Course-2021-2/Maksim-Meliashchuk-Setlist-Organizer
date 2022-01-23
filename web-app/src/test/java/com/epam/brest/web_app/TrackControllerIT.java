@@ -246,7 +246,13 @@ public class TrackControllerIT {
     public void shouldOpenEditTrackPageById() throws Exception {
         logger.debug("shouldOpenEditTrackPageById()");
 
-        Track track = new Track("Test track").setTrackId(1).setTrackBandId(1);
+        //Track track = new Track("Test track").setTrackId(1).setTrackBandId(1);
+        Track track = Track.builder()
+                .trackId(1)
+                .trackBandId(1)
+                .trackName("Test track")
+                .build();
+
         Band band1 = createBand(1);
         Band band2 = createBand(2);
         List<Band> bandList = Arrays.asList(band1, band2);

@@ -101,7 +101,11 @@ public class BandDaoJdbcImplTest {
         String sqlCheck = "check";
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlCheckBand", sqlCheck);
         int id = 0;
-        Band band = new Band("Gods Tower", "Band of metal").setBandId(id);
+        Band band = Band.builder()
+                .bandId(id)
+                .bandName("Gods Tower")
+                .bandDetails("Band of metal")
+                .build();
         List<Band> bandList = new ArrayList<>();
 
         Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
@@ -134,7 +138,11 @@ public class BandDaoJdbcImplTest {
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlCheckBand", sqlCheck);
         int id = 0;
         int count = 1;
-        Band band = new Band("Gods Tower", "Band of metal").setBandId(id);
+        Band band = Band.builder()
+                .bandId(id)
+                .bandName("Gods Tower")
+                .bandDetails("Band of metal")
+                .build();
         List<Band> bandList = new ArrayList<>();
 
         Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),

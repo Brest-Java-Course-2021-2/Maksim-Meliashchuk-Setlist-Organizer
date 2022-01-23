@@ -1,9 +1,13 @@
 # Maksim-Meliashchuk-Setlist-Organizer
 
+<div align="center">
+
 [![Java CI with Maven](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml)
 [![Codacy Security Scan](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 <img src="https://validator.swagger.io/validator?url=https://setlist-organizer-rest.herokuapp.com/v3/api-docs">
+</div>
 
 ## Project Information
 
@@ -48,6 +52,7 @@ API documentation with Swagger UI:
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
 - **Database:** [H2](http://www.h2database.com/html/main.html)
 - **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
+- **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/)
   - [Swagger UI](https://swagger.io/tools/swagger-ui/)
