@@ -29,18 +29,6 @@ public class TrackTest {
     }
 
     @Test
-    public void testTrackNameIsNull() {
-        logger.debug("testTrackNameIsNull()");
-        Track track = new Track(null);
-
-        Set<ConstraintViolation<Track>> constraintViolations = validator.validate(track);
-
-        assertEquals(1, constraintViolations.size());
-        assertEquals("Please provide track name!", constraintViolations.iterator().next().getMessage());
-
-    }
-
-    @Test
     public void testTrackNameIsEmpty() {
         logger.debug("testTrackNameIsEmpty()");
         Track track = new Track("");

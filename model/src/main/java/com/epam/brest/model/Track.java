@@ -20,10 +20,12 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class Track {
 
     private Integer trackId;
 
+    @NonNull
     @Schema(name = "Name", description = "name of track", example = "New song")
     @NotEmpty(message = "Please provide track name!")
     @Size(max=100, message = "Track name size have to be <= {max} symbols!")
@@ -53,9 +55,5 @@ public class Track {
     @Schema(name = "Details", description = "track release date", example = "2020-12-01")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
-
-    public Track(String trackName) {
-        this.trackName = trackName;
-    }
 
 }

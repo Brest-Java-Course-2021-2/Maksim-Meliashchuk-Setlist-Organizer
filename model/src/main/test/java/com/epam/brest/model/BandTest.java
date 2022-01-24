@@ -29,21 +29,9 @@ public class BandTest {
     }
 
     @Test
-    public void testBandNameIsNull() {
-        logger.debug("testBandNameIsNull()");
-        Band band = new Band(null);
-
-        Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
-
-        assertEquals( 1, constraintViolations.size());
-        assertEquals( "Please provide band name!", constraintViolations.iterator().next().getMessage());
-
-    }
-
-    @Test
     public void testBandNameIsEmpty() {
         logger.debug("testBandNameIsEmpty()");
-        Band band = new Band("");
+        Band band = Band.builder().bandName("").build();
 
         Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
 
@@ -55,7 +43,9 @@ public class BandTest {
     @Test
     public void testBandNameInvalidSize() {
         logger.debug("testBandNameInvalidSize()");
-        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1));
+        Band band = Band.builder()
+                .bandName(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1))
+                .build();
 
         Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
 
@@ -68,8 +58,10 @@ public class BandTest {
     @Test
     public void testBandDetailsInvalidSize() {
         logger.debug("testBandDetailsInvalidSize()");
-        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE),
-                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1));
+        Band band = Band.builder()
+                .bandName(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE))
+                .bandDetails(RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1))
+                .build();
 
         Set<ConstraintViolation<Band>> constraintViolations = validator.validate(band);
 
@@ -83,8 +75,10 @@ public class BandTest {
     public void testBandDetailsIsValid() {
         logger.debug("testBandDetailsIsValid()");
 
-        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE),
-                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE));
+        Band band = Band.builder()
+                .bandName(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE))
+                .bandDetails(RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE))
+                .build();
 
         Set<ConstraintViolation<Band>> constraintViolations =
                 validator.validate(band);
