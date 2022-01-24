@@ -72,7 +72,10 @@ public class BandControllerIT {
         logger.debug("shouldFindAllBands()");
 
         // given
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
+
         Integer id = bandService.create(band);
 
         // when
@@ -87,7 +90,9 @@ public class BandControllerIT {
     @Transactional
     public void shouldCreateBand() throws Exception {
         logger.debug("shouldCreateBand()");
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
         Integer id = bandService.create(band);
         assertNotNull(id);
     }
@@ -96,8 +101,10 @@ public class BandControllerIT {
     @Transactional
     public void shouldCreateNotValidBand() throws Exception {
         logger.debug("shouldCreateNotValidBand()");
-        Band band = new Band(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1),
-                RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1));
+        Band band = Band.builder()
+                .bandDetails(RandomStringUtils.randomAlphabetic(BAND_DETAILS_MAX_SIZE + 1))
+                .bandName(RandomStringUtils.randomAlphabetic(BAND_NAME_MAX_SIZE + 1))
+                .build();
 
         MockHttpServletResponse response =
                 mockMvc.perform(post(BANDS_ENDPOINT)
@@ -119,7 +126,9 @@ public class BandControllerIT {
     @Transactional
     public void shouldCreateNotValidEmptyNameBand() throws Exception {
         logger.debug("shouldCreateNotValidEmptyNameBand()");
-        Band band = new Band("");
+        Band band = Band.builder()
+                .bandName("")
+                .build();
 
         MockHttpServletResponse response =
                 mockMvc.perform(post(BANDS_ENDPOINT)
@@ -138,7 +147,10 @@ public class BandControllerIT {
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
+
         Integer id = bandService.create(band);
 
         assertNotNull(id);
@@ -157,7 +169,9 @@ public class BandControllerIT {
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
         Integer id = bandService.create(band);
         assertNotNull(id);
 
@@ -188,7 +202,9 @@ public class BandControllerIT {
     public void shouldDeleteBand() throws Exception {
         logger.debug("shouldDeleteBand()");
         // given
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
         Integer id = bandService.create(band);
 
         List<Band> bands = bandService.findAll();

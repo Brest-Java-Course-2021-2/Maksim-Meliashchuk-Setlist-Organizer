@@ -1,6 +1,7 @@
 package com.epam.brest.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,10 +11,21 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+/**
+ * Track entity.
+ * There is a no args constructor, getters and setters for fields, override equals, hashcode and toString methods.
+ */
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Track {
 
     private Integer trackId;
 
+    @NonNull
     @Schema(name = "Name", description = "name of track", example = "New song")
     @NotEmpty(message = "Please provide track name!")
     @Size(max=100, message = "Track name size have to be <= {max} symbols!")
@@ -44,96 +56,4 @@ public class Track {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 
-    public Track() {
-    }
-
-    public Track(String trackName) {
-        this.trackName = trackName;
-    }
-
-    public Integer getTrackId() {
-        return trackId;
-    }
-
-    public Track setTrackId(Integer trackId) {
-        this.trackId = trackId;
-        return this;
-    }
-
-    public String getTrackName() {
-        return trackName;
-    }
-
-    public Track setTrackName(String trackName) {
-        this.trackName = trackName;
-        return this;
-    }
-
-    public Integer getTrackBandId() {
-        return trackBandId;
-    }
-
-    public Track setTrackBandId(Integer trackBandId) {
-        this.trackBandId = trackBandId;
-        return this;
-    }
-
-    public Integer getTrackTempo() {
-        return trackTempo;
-    }
-
-    public Track setTrackTempo(Integer trackTempo) {
-        this.trackTempo = trackTempo;
-        return this;
-    }
-
-    public Integer getTrackDuration() {
-        return trackDuration;
-    }
-
-    public Track setTrackDuration(Integer trackDuration) {
-        this.trackDuration = trackDuration;
-        return this;
-    }
-
-    public String getTrackDetails() {
-        return trackDetails;
-    }
-
-    public Track setTrackDetails(String trackDetails) {
-        this.trackDetails = trackDetails;
-        return this;
-    }
-
-    public String getTrackLink() {
-        return trackLink;
-    }
-
-    public Track setTrackLink(String trackLink) {
-        this.trackLink = trackLink;
-        return this;
-    }
-
-    public LocalDate getTrackReleaseDate() {
-        return trackReleaseDate;
-    }
-
-    public Track setTrackReleaseDate(LocalDate trackReleaseDate) {
-        this.trackReleaseDate = trackReleaseDate;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Track{" +
-                "trackId=" + trackId +
-                ", trackName='" + trackName + '\'' +
-                ", trackBandId='" + trackBandId + '\'' +
-                ", trackTempo='" + trackTempo + '\'' +
-                ", trackDuration='" + trackDuration + '\'' +
-                ", trackDetails='" + trackDetails + '\'' +
-                ", trackLink='" + trackLink + '\'' +
-                ", trackReleaseDate='" + trackReleaseDate + '\'' +
-                '}';
-    }
 }

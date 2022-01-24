@@ -1,5 +1,6 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,7 +77,10 @@ public class TrackDaoJdbcImplTest {
         String sql = "get";
         ReflectionTestUtils.setField(trackDaoJdbc, "sqlTrackById", sql);
         int id = 0;
-        Track track = new Track("new track").setTrackId(id);
+        Track track = Track.builder()
+                .trackId(id)
+                .trackName("new track")
+                .build();
 
         Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<RowMapper<Track>>any())).thenReturn(track);
@@ -103,7 +107,10 @@ public class TrackDaoJdbcImplTest {
         ReflectionTestUtils.setField(trackDaoJdbc, "sqlCreateTrack", sql);
         int id = 0;
         int count = 1;
-        Track track = new Track("new track").setTrackId(id);
+        Track track = Track.builder()
+                .trackId(id)
+                .trackName("new track")
+                .build();
 
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<KeyHolder>any())).thenAnswer(invocation ->  {
@@ -133,7 +140,10 @@ public class TrackDaoJdbcImplTest {
         String sql = "update";
         ReflectionTestUtils.setField(trackDaoJdbc, "sqlUpdateTrackById", sql);
         int id = 0;
-        Track track = new Track("new track").setTrackId(id);
+        Track track = Track.builder()
+                .trackId(id)
+                .trackName("new track")
+                .build();
 
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);

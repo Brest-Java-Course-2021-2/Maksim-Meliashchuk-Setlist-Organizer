@@ -38,7 +38,9 @@ class BandServiceImplIT {
     void testGetBandById () {
         logger.debug("Band service execute test: testGetBandById()");
         assertNotNull(bandService);
-        Band band = new Band("Test band");
+        Band band = Band.builder()
+                .bandName("Test band")
+                .build();
         Integer bandId = bandService.create(band);
         Band bandExtracted = bandService.getBandById(bandId);
         assertEquals(band.getBandName().toUpperCase(), bandExtracted.getBandName());
@@ -75,7 +77,9 @@ class BandServiceImplIT {
         assertNotNull(bandService);
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);
-        Band band = new Band("P.O.D.");
+        Band band = Band.builder()
+                .bandName("P.O.D.")
+                .build();
         Integer newBandId = bandService.create(band);
         assertNotNull(newBandId);
         assertEquals(bandsSizeBefore, bandService.count() - 1);
@@ -106,7 +110,9 @@ class BandServiceImplIT {
     void testTryToCreateEqualsBands() {
         logger.debug("Band service execute test: testTryToCreateEqualsBands()");
         assertNotNull(bandService);
-        Band band = new Band("Offspring");
+        Band band = Band.builder()
+                .bandName("Offspring")
+                .build();
         assertThrows(NotUniqueException.class, () -> {
             bandService.create(band);
             bandService.create(band);

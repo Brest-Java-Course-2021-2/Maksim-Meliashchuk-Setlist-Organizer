@@ -50,6 +50,7 @@
         <javax.el.version>2.2.4</javax.el.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
         <springdoc-openapi-ui.version>1.6.4</springdoc-openapi-ui.version>
+        <projectlombok.version>1.18.22</projectlombok.version>
     </properties>
 
     <dependencyManagement>
@@ -171,6 +172,14 @@
                 <version>${hamcrest.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${projectlombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

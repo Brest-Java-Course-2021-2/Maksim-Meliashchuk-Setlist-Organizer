@@ -1,4 +1,4 @@
-package com.epam.brest.web_app;
+package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandDtoService;

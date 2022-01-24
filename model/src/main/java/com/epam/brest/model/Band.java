@@ -1,15 +1,27 @@
 package com.epam.brest.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+/**
+ * Band for model.
+ * There is a no args constructor, getters and setters for fields, override equals, hashcode and toString methods.
+ */
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Schema(name="Band", description = "Band")
 public class Band {
 
     private Integer bandId;
 
+    @NonNull
     @Schema(name = "Name", description = "name of the band")
     @NotEmpty(message = "Please provide band name!")
     @Size(max=100, message = "Band name size have to be <= {max} symbols!")
@@ -19,51 +31,4 @@ public class Band {
     @Size(max=1000, message = "Band details size have to be <= {max} symbols!")
     private String bandDetails;
 
-    public Band() {
-    }
-
-    public Band(String bandName) {
-        this.bandName = bandName;
-    }
-
-    public Band(String bandName, String bandDetails) {
-        this.bandName = bandName;
-        this.bandDetails = bandDetails;
-    }
-
-    public Integer getBandId() {
-        return bandId;
-    }
-
-    public Band setBandId(Integer bandId) {
-        this.bandId = bandId;
-        return this;
-    }
-
-    public String getBandName() {
-        return bandName;
-    }
-
-    public Band setBandName(String bandName) {
-        this.bandName = bandName;
-        return this;
-    }
-
-    public String getBandDetails() {
-        return bandDetails;
-    }
-
-    public Band setBandDetails(String bandDetails) {
-        this.bandDetails = bandDetails;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Band{" +
-                "bandId=" + bandId +
-                ", bandName='" + bandName + '\'' +
-                ", bandDetails='" + bandDetails + '\'' +
-                '}';
-    }
 }

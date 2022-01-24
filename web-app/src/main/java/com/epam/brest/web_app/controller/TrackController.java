@@ -1,4 +1,4 @@
-package com.epam.brest.web_app;
+package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Track;
 import com.epam.brest.model.dto.TrackDto;
@@ -9,7 +9,6 @@ import com.epam.brest.web_app.validator.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

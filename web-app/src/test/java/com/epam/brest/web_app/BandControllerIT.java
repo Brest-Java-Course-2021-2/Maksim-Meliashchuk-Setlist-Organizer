@@ -147,7 +147,10 @@ class BandControllerIT {
     public void shouldOpenEditBandPageById() throws Exception {
         logger.debug("shouldOpenEditBandPageById()");
 
-        Band band = new Band( "band").setBandId(1);
+        Band band = Band.builder()
+                .bandId(1)
+                .bandName("band")
+                .build();
 
         // WHEN
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(BANDS_URL + "/" + band.getBandId())))
