@@ -127,6 +127,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.epam.brest</groupId>
+                <artifactId>service-webclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>commons-validator</groupId>
                 <artifactId>commons-validator</artifactId>
                 <version>${commons-validator.version}</version>

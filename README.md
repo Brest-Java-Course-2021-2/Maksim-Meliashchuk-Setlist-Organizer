@@ -1,4 +1,4 @@
-# Maksim-Meliashchuk-Setlist-Organizer
+# <div align="center"> <img width="30" alt="logo" src="documentation/logo.svg"> Setlist Organizer </div>
 
 <div align="center">
 
