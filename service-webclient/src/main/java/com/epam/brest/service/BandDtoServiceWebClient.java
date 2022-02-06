@@ -27,7 +27,6 @@ public class BandDtoServiceWebClient implements BandDtoService {
     public List<BandDto> findAllWithCountTrack() {
         logger.debug("findAllWithCountTrack()");
         ParameterizedTypeReference<List<BandDto>> typeReference = new ParameterizedTypeReference<>(){};
-        webClient.get().uri(url).retrieve().bodyToMono(typeReference).block();
         return  webClient.get().uri(url).retrieve().bodyToMono(typeReference).block();
     }
 }
