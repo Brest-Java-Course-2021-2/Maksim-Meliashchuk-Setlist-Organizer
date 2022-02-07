@@ -44,9 +44,16 @@ public class ApplicationConfig {
     }
 
     @Bean
-    BandService bandService() {
+    @Conditional(RestTemplateCondition.class)
+    BandService bandServiceRestTemplate() {
         String url = String.format("%s://%s:%d/bands", protocol, host, port);
         return new BandServiceRest(url, restTemplate);
+    }
+
+    @Bean
+    @Conditional(WebClientCondition.class)
+    BandService bandServiceWebClient() {
+        return new BandServiceWebClient("/bands", webClient);
     }
 
     @Bean

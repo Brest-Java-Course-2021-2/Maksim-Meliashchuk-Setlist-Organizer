@@ -21,20 +21,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BandDtoServiceWebClientIT {
+public class BandDtoServiceWebClientTest {
 
-    private final Logger logger = LogManager.getLogger(BandDtoServiceWebClientIT.class);
+    private final Logger logger = LogManager.getLogger(BandDtoServiceWebClientTest.class);
 
     private BandDtoService serviceImpl;
 
     public static MockWebServer mockWebServer;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeAll
     static void setUp() throws IOException {
         mockWebServer = new MockWebServer();
-        mockWebServer.start(8088);
+        mockWebServer.start();
     }
 
     @AfterAll

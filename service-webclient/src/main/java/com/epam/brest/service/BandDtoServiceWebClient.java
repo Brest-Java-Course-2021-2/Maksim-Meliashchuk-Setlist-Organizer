@@ -14,9 +14,9 @@ public class BandDtoServiceWebClient implements BandDtoService {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceWebClient.class);
 
-    private String url;
+    private final String url;
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     public BandDtoServiceWebClient(String url, WebClient webClient) {
         this.url = url;
@@ -27,6 +27,11 @@ public class BandDtoServiceWebClient implements BandDtoService {
     public List<BandDto> findAllWithCountTrack() {
         logger.debug("findAllWithCountTrack()");
         ParameterizedTypeReference<List<BandDto>> typeReference = new ParameterizedTypeReference<>(){};
-        return  webClient.get().uri(url).retrieve().bodyToMono(typeReference).block();
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(typeReference)
+                .block();
     }
 }
