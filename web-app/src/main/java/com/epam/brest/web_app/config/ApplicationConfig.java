@@ -21,6 +21,9 @@ public class ApplicationConfig {
     @Value("${rest.server.port}")
     private Integer port;
 
+    @Value("${spring.jackson.date-format}")
+    private String dateFormat;
+
     private RestTemplate restTemplate;
 
     private WebClient webClient;
@@ -63,8 +66,16 @@ public class ApplicationConfig {
     }
 
     @Bean
+    @Conditional(RestTemplateCondition.class)
     TrackDtoService trackDtoService() {
         String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
         return new TrackDtoServiceRest(url, restTemplate);
     }
+
+    @Bean
+    @Conditional(WebClientCondition.class)
+    TrackDtoService trackDtoServiceWebClient() {
+        return new TrackDtoServiceWebClient("/repertoire/filter", webClient);
+    }
+
 }

@@ -1,13 +1,16 @@
-# <div align="center"> <img width="30" alt="logo" src="documentation/logo.svg"> Setlist Organizer </div>
+# <div align="center"> <img width="30" alt="logo" src="documentation/logo.svg"> SETLIST ORGANIZER </div>
 
 <div align="center">
 
 [![Java CI with Maven](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml)
 [![Codacy Security Scan](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/485bb945b088c6fd471e)
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6?action=collection%2Ffork&collection-url=entityId%3D18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6%26entityType%3Dcollection%26workspaceId%3D56c614c7-7bb5-44fe-b171-746dba387b30)
 <img src="https://validator.swagger.io/validator?url=https://setlist-organizer-rest.herokuapp.com/v3/api-docs">
 
+
+<sub>Built by <a href="https://github.com/Maxxx873">Maksim Meliashchuk</a>
 
 </div>
 
@@ -80,6 +83,20 @@ The specified versions are the tested ones.
   $ cd Maksim-Meliashchuk-Setlist-Organizer
   $ mvn clean install
 ```
+
+## Web clients configure
+
+Setup web-app in application.properties.
+
+Using **RestTemplate** (is deprecated since Spring 5):
+```bash
+app.httpClient = RestTemplate
+```
+Using **WebClient** (exists since Spring 5):
+```bash
+app.httpClient = WebClient
+```
+**WebClient** is a preferable choice.
 
 ## Run local tests (H2 in memory) 
 

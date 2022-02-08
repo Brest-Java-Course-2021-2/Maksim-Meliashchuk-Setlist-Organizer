@@ -18,6 +18,8 @@ public class TrackDto {
 
     private String trackBandName;
 
+    private Integer trackBandId;
+
     private Integer trackTempo;
 
     private Integer trackDuration;

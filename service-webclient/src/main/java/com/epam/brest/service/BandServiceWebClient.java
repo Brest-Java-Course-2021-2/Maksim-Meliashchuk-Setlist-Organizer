@@ -6,11 +6,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Service
 public class BandServiceWebClient implements BandService {
 
     private final Logger logger = LogManager.getLogger(BandServiceWebClient.class);
@@ -38,8 +40,7 @@ public class BandServiceWebClient implements BandService {
     @Override
     public List<Band> findAllBands() {
         logger.debug("findAllBands()");
-        ParameterizedTypeReference<List<Band>> typeReference = new ParameterizedTypeReference<>() {
-        };
+        ParameterizedTypeReference<List<Band>> typeReference = new ParameterizedTypeReference<>() {};
         return webClient
                 .get()
                 .uri(url)

@@ -69,7 +69,11 @@
                             <strong>
                                 <p th:text="${track.trackName}">My track</p>
                             </strong>
-                            <p th:text="${track.trackBandName}">My band</p>
+                            <p style="transform: rotate(0);">
+                               <a href="bandtracks.html" th:href="@{|/repertoire/filter/band/${track.trackBandId}|}"
+                               class="text-break stretched-link" style="text-decoration: none"
+                               th:text="${track.trackBandName}">My cover band</a>
+                            </p>
                             <small>
                                 <span name="timeDuration" th:text="${track.trackDuration}">00:15:15</span>
                                 <span th:text="${track.trackTempo} != null ? ' &#8901; ' + ${track.trackTempo} + ' bpm'">120 bpm</span>
