@@ -50,7 +50,7 @@ public class BandServiceRest implements BandService {
     public Integer update(Band band) {
         logger.debug("update({})", band);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Band> entity = new HttpEntity<>(band, headers);
         ResponseEntity<Integer> result = restTemplate.exchange(url, HttpMethod.PUT, entity, Integer.class);
         return result.getBody();
@@ -60,7 +60,7 @@ public class BandServiceRest implements BandService {
     public Integer delete(Integer bandId) {
         logger.debug("delete({})", bandId);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Band> entity = new HttpEntity<>(headers);
         ResponseEntity<Integer> result =
                 restTemplate.exchange(url + "/" + bandId, HttpMethod.DELETE, entity, Integer.class);

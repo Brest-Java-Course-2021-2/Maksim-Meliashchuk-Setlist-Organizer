@@ -155,7 +155,7 @@ class TrackServiceRestTest {
 
         // then
         mockServer.verify();
-        assertTrue(1 == result);
+        assertEquals(1, result);
         assertNotNull(resultTrack);
         assertEquals(resultTrack.getTrackId(), id);
         assertEquals(resultTrack.getTrackBandId(), track.getTrackBandId());

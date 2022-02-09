@@ -126,7 +126,7 @@ class TrackDtoServiceRestTest {
         // then
         mockServer.verify();
         assertNotNull(list);
-        assertTrue(list.size() == 1);
+        assertEquals(1, list.size());
     }
 
     private TrackDto create(int index) {

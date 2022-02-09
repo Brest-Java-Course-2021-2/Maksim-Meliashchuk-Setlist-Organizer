@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -69,6 +69,7 @@ class BandControllerIT {
                 .build();
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
+
     @Test
     void shouldReturnBandsPage() throws Exception {
         logger.debug("shouldReturnBandsPage()");

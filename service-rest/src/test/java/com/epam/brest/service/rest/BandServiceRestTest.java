@@ -124,10 +124,11 @@ class BandServiceRestTest {
         logger.debug("shouldUpdateBand()");
         // given
         Integer id = 1;
-        Band band = new Band();
-        band.setBandId(id);
-        band.setBandName("Test band");
-        band.setBandDetails("test band details");
+        Band band = Band.builder()
+                .bandId(id)
+                .bandName("Test band")
+                .bandDetails("test band details")
+                .build();
 
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(BANDS_URL)))
                 .andExpect(method(HttpMethod.PUT))
@@ -190,7 +191,7 @@ class BandServiceRestTest {
 
         // then
         mockServer.verify();
-        assertTrue(result> 0);
+        assertTrue(result > 0);
     }
 
     private Band create(int index) {
