@@ -1,10 +1,15 @@
 package com.epam.brest.service;
 
+import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -24,31 +29,72 @@ public class TrackServiceWebClient implements TrackService {
 
     @Override
     public Track getTrackById(Integer trackId) {
-        return null;
+        logger.debug("getTrackById({})", trackId);
+        return webClient
+                .get()
+                .uri(url + "/" + trackId)
+                .retrieve()
+                .bodyToMono(Track.class)
+                .block();
     }
 
     @Override
     public Integer create(Track track) {
-        return null;
+        logger.debug("create()");
+        return webClient
+                .post()
+                .uri(url)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(track), Track.class)
+                .retrieve()
+                .bodyToMono(Integer.class)
+                .block();
     }
 
     @Override
     public Integer update(Track track) {
-        return null;
+        logger.debug("update()");
+        return webClient
+                .put()
+                .uri(url)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(track), Track.class)
+                .retrieve()
+                .bodyToMono(Integer.class)
+                .block();
     }
 
     @Override
     public Integer delete(Integer trackId) {
-        return null;
+        logger.debug("delete()");
+        return webClient
+                .delete()
+                .uri(url + "/" + trackId)
+                .retrieve()
+                .bodyToMono(Integer.class)
+                .block();
     }
 
     @Override
     public Integer count() {
-        return null;
+        logger.debug("count()");
+        return webClient
+                .get()
+                .uri(url + "/count")
+                .retrieve()
+                .bodyToMono(Integer.class)
+                .block();
     }
 
     @Override
     public List<Track> findAllTracks() {
-        return null;
+        logger.debug("findAllTracks()");
+        ParameterizedTypeReference<List<Track>> typeReference = new ParameterizedTypeReference<>() {};
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(typeReference)
+                .block();
     }
 }

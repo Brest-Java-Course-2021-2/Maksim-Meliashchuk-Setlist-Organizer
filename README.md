@@ -86,6 +86,8 @@ The specified versions are the tested ones.
 
 ## Web clients configure
 
+The web application has two web client implementations for making HTTP calls to 
+REST application services - RestTemplate and a new WebClient alternative.
 Setup web-app in application.properties.
 
 Using **RestTemplate** (is deprecated since Spring 5):
