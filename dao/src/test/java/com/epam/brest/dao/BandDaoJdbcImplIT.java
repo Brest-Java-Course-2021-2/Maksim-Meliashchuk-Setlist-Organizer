@@ -15,7 +15,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +41,8 @@ class BandDaoJdbcImplIT {
         logger.debug("Band execute test: testFindAllBands()");
         assertNotNull(1);
         assertNotNull(bandDaoJDBC);
-        assertNotNull(bandDaoJDBC.findAll());
+        List<Band> bandList = bandDaoJDBC.findAll();
+        assertNotNull(bandList);
     }
 
  @Test
@@ -126,7 +129,8 @@ class BandDaoJdbcImplIT {
                 .bandDetails("Band of metal")
                 .build();
         bandDaoJDBC.create(band);
-        List<Band> bands = bandDaoJDBC.findAll();
+        List<Band> bands = bandDaoJDBC.findAll()
+                .stream().sorted(Comparator.comparing(Band::getBandId)).collect(Collectors.toList());
         bandDaoJDBC.delete(bands.get(bands.size() - 1).getBandId());
         assertEquals(bands.size() - 1, bandDaoJDBC.findAll().size());
     }

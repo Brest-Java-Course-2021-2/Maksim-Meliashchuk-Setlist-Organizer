@@ -14,6 +14,20 @@
 
 </div>
 
+## Table of content
+
+- [Project Information](#project-information)
+- [Applications Demo](#applications-demo)
+- [Technology Stack](#technology-stack)
+- [Requirements](#requirements)
+- [Installation Information](#installation-information)
+- [Web clients configure](#web-clients-configure)
+- [Run local tests (H2 in memory)](#run-local-tests--h2-in-memory-)
+- [Run application with PostgreSQL](#run-application-with-postgresql)
+- [Run with docker-compose](#run-with-docker-compose)
+- [Local tests with Postman](#local-tests-with-postman)
+- [Documenting a REST API](#documenting-a-rest-api)
+
 ## Project Information
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
@@ -27,8 +41,11 @@
 
 - [Software requirements specification](documentation/SetlistOrganizerSRC.md)
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
+- [Presentation](documentation/Setlist Organizer.pdf)
 
-## Applications Demo on [Heroku](https://heroku.com/) <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>
+## Applications Demo
+
+Applications deployed on [Heroku](https://heroku.com/) <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>
 
 The web application will be accessible at:
 
@@ -55,7 +72,9 @@ API documentation with Swagger UI:
     - [JUnit5](https://junit.org/junit5/)
     - [Mockito](http://site.mockito.org/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
-- **Database:** [H2](http://www.h2database.com/html/main.html)
+- **Database:** 
+  - [H2](http://www.h2database.com/html/main.html)
+  - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
 - **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
@@ -104,13 +123,26 @@ app.httpClient = WebClient
 
 In the root directory of the project:
 ```bash
-$ java -jar rest-app/target/rest-app-1.0-SNAPSHOT.jar
+$ java -jar -Dspring.profiles.active=dev rest-app/target/rest-app-1.0-SNAPSHOT.jar
 ```
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
 ```bash
 $ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar 
 ```
 The web application will be accessible at [http://localhost:8080](http://localhost:8080).
+
+## Run application with PostgreSQL
+
+PostgreSQL require(can be customized in application-postgres.properties file in prod-db module):
+* `driver` - org.postgresql.Driver
+* `url` - jdbc:postgresql://localhost:5432/setlistOrganizer
+* `user` - postgres
+* `password` - password
+  
+Run rest-app with PostgreSQL:
+```bash
+$ java -jar -Dspring.profiles.active=postgres rest-app/target/rest-app-1.0-SNAPSHOT.jar
+```
 
 ## Run with docker-compose
 In the root directory of the project start up the rest-app and web-app in one go:

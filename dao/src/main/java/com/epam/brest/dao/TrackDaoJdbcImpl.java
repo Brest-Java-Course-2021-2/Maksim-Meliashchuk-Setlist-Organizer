@@ -71,7 +71,7 @@ public class TrackDaoJdbcImpl implements TrackDao{
                         .addValue("trackReleaseDate", track.getTrackReleaseDate())
                         .addValue("trackBandId", track.getTrackBandId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(sqlCreateTrack, sqlParameterSource, keyHolder);
+        namedParameterJdbcTemplate.update(sqlCreateTrack, sqlParameterSource, keyHolder, new String[] {"track_id"});
         return (Integer) keyHolder.getKey();
     }
 

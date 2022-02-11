@@ -22,6 +22,11 @@
             <groupId>com.epam.brest</groupId>
             <artifactId>test-db</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.epam.brest</groupId>
+            <artifactId>prod-db</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

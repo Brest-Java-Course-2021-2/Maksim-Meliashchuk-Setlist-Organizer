@@ -69,7 +69,7 @@ public class BandDaoJdbcImpl implements BandDao{
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandDetails", band.getBandDetails());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(sqlCreateBand, sqlParameterSource, keyHolder);
+        namedParameterJdbcTemplate.update(sqlCreateBand, sqlParameterSource, keyHolder, new String[] {"band_id"});
         return (Integer) keyHolder.getKey();
     }
 
@@ -77,10 +77,6 @@ public class BandDaoJdbcImpl implements BandDao{
     public Integer update(Band band) {
         logger.debug("Update band: {}", band);
 
-/*        if (!isBandNameUnique(band)) {
-            logger.warn("Band {} already exists in DB!", band.getBandName().toUpperCase());
-            throw new NotUniqueException("Band '" + band.getBandName().toUpperCase() +"' already exists in Data Base!");
-        }*/
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandId", band.getBandId())

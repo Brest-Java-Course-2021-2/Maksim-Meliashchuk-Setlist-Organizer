@@ -25,6 +25,7 @@
         <module>service-rest</module>
         <module>web-app</module>
         <module>service-webclient</module>
+        <module>prod-db</module>
     </modules>
 
     <properties>

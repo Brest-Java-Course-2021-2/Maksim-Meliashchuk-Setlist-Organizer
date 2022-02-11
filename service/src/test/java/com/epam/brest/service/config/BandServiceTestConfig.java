@@ -9,11 +9,23 @@ import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.impl.BandDtoServiceImpl;
 import com.epam.brest.service.impl.BandServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
+import javax.sql.DataSource;
+
 @TestConfiguration
 public class BandServiceTestConfig extends SpringJdbcConfig {
+
+/*
+    @Autowired
+    public DataSource dataSource;
+
+    public BandServiceTestConfig(DataSource dataSource) {
+        super(dataSource);
+    }
+*/
 
     @Bean
     BandDtoDao bandDtoDao() {

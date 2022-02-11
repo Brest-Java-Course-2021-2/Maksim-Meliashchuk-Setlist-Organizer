@@ -113,7 +113,7 @@ public class TrackDaoJdbcImplTest {
                 .build();
 
         Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any(),
-                ArgumentMatchers.<KeyHolder>any())).thenAnswer(invocation ->  {
+                ArgumentMatchers.<KeyHolder>any(), any())).thenAnswer(invocation ->  {
             Object[] args = invocation.getArguments();
             Map<String, Object> keyMap = new HashMap<>();
             keyMap.put("", id);
@@ -123,7 +123,7 @@ public class TrackDaoJdbcImplTest {
 
         Integer result = trackDaoJdbc.create(track);
 
-        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture());
+        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture(), any());
 
         SqlParameterSource source = captorSource.getValue();
         KeyHolder keyHolder = captorKeyHolder.getValue();
