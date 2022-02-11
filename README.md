@@ -22,7 +22,7 @@
 - [Requirements](#requirements)
 - [Installation Information](#installation-information)
 - [Web clients configure](#web-clients-configure)
-- [Run local tests (H2 in memory)](#run-local-tests--h2-in-memory-)
+- [Run local tests](#run-local-tests)
 - [Run application with PostgreSQL](#run-application-with-postgresql)
 - [Run with docker-compose](#run-with-docker-compose)
 - [Local tests with Postman](#local-tests-with-postman)
@@ -41,7 +41,7 @@
 
 - [Software requirements specification](documentation/SetlistOrganizerSRC.md)
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
-- [Presentation](documentation/Setlist Organizer.pdf)
+- [Presentation](documentation/SetlistOrganizer.pdf)
 
 ## Applications Demo
 
@@ -119,7 +119,9 @@ app.httpClient = WebClient
 ```
 **WebClient** is a preferable choice.
 
-## Run local tests (H2 in memory) 
+## Run local tests
+
+Embedded H2 in memory.
 
 In the root directory of the project:
 ```bash
