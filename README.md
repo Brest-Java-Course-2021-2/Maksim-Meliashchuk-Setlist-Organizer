@@ -75,6 +75,7 @@ API documentation with Swagger UI:
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html)
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
+- **Database migration tool:** [Flyway](https://flywaydb.org/)
 - **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**

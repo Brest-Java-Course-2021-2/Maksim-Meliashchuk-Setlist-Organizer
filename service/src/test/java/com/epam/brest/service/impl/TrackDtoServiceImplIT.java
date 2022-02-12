@@ -5,13 +5,13 @@ import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.config.TrackServiceTestConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @PropertySource({"classpath:sql-track.properties"})
 @Transactional
 @Rollback
+@ActiveProfiles("dev")
 class TrackDtoServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackDtoServiceImplIT.class);
