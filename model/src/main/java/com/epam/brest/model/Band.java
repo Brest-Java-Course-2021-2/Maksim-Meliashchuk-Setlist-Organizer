@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 @Schema(name="Band", description = "Band")
 public class Band {
 
+    @Schema(name = "ID", description = "ID of the band", example = "1")
     private Integer bandId;
 
     @NonNull

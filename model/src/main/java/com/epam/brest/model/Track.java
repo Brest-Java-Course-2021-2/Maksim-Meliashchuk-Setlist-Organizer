@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class Track {
 
+    @Schema(name = "ID", description = "ID of the track", example = "1")
     private Integer trackId;
 
     @NonNull
@@ -31,6 +32,7 @@ public class Track {
     @Size(max=100, message = "Track name size have to be <= {max} symbols!")
     private String trackName;
 
+    @Schema(name = "Band ID", description = "ID of the band", example = "1")
     @Positive(message = "Band id should be positive")
     private Integer trackBandId;
 
@@ -52,7 +54,7 @@ public class Track {
     @URL(message = "Track link is not valid. The link must contain http or https!")
     private String trackLink;
 
-    @Schema(name = "Details", description = "track release date", example = "2020-12-01")
+    @Schema(name = "Release date", description = "track release date", example = "2020-12-01")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate trackReleaseDate;
 

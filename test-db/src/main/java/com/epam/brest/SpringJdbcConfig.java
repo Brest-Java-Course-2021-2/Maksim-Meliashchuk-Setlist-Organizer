@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 @Profile("dev")
 public class SpringJdbcConfig {
 
-
     @Bean
     public DataSource dataSource() {
        return new EmbeddedDatabaseBuilder()
