@@ -72,6 +72,10 @@ API documentation with Swagger UI:
     - [JUnit5](https://junit.org/junit5/)
     - [Mockito](http://site.mockito.org/)
 - **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
+- **Monitoring:**
+  - [Micrometer](https://micrometer.io/)
+  - [Prometheus](https://prometheus.io/)
+  - [Grafana](https://grafana.com/)
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html)
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
@@ -148,12 +152,20 @@ $ java -jar -Dspring.profiles.active=postgres rest-app/target/rest-app-1.0-SNAPS
 ```
 
 ## Run with docker-compose
-In the root directory of the project start up the rest-app and web-app in one go:
+
+In the root directory of the project, run the rest-app with monitoring and web-app in one go:
 ```bash
 $ sudo docker-compose up --build
 ```
-The web application will be accessible at [http://localhost:8080](http://localhost:8080).
-The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
+The web application will be accessible at [http://localhost:8080](http://localhost:8080)
+
+The rest application will be accessible at [http://localhost:8088](http://localhost:8088)
+
+Micrometer by default shows jvm metricsat at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
+
+Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
+
+Access the Grafana webUI on  [http://localhost:3000](http://localhost:3000)
 
 To stop the containers:
 ```bash

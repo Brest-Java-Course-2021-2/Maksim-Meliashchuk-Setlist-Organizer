@@ -18,3 +18,22 @@ services:
       - rest-app
 
     network_mode: host
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+    network_mode: host
+
+  prometheus:
+    image: prom/prometheus
+    user: root
+    ports:
+      - 9090:9090
+    volumes:
+      - ./rest-app/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+
+    network_mode: host
