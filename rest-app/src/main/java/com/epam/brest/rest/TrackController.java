@@ -1,9 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.TrackService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +37,7 @@ public class TrackController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of tracks",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TrackDto.class)) })
+                            array = @ArraySchema(schema = @Schema(implementation = Track.class))) })
     })
     @GetMapping(value = "/repertoire")
     public final Collection<Track> tracks() {
@@ -99,10 +99,10 @@ public class TrackController {
             @ApiResponse(responseCode = "404", description = "Trying to delete a non-existent track",
                     content = @Content)})
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})
-    public ResponseEntity<Integer> deleteBand(@PathVariable Integer id) {
+    public ResponseEntity<Integer> deleteTrack(@PathVariable Integer id) {
         logger.debug("delete({})", id);
         int result =  trackService.delete(id);
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

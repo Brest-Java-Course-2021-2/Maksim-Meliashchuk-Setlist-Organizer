@@ -1,6 +1,6 @@
 package com.epam.brest.service;
 
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

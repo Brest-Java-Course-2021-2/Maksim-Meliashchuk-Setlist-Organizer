@@ -2,7 +2,7 @@ package com.epam.brest.web_app;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;

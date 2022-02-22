@@ -1,5 +1,6 @@
-package com.epam.brest.model.dto;
+package com.epam.brest.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  */
 
 @Data
+@Schema(name="BandDto", description = "BandDto")
 public class BandDto {
 
     private Integer bandId;

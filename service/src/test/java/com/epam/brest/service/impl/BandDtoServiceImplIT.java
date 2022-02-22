@@ -1,6 +1,6 @@
 package com.epam.brest.service.impl;
 
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.config.BandServiceTestConfig;
 import org.apache.logging.log4j.LogManager;

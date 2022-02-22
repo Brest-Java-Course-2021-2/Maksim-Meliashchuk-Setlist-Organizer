@@ -1,10 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
 import com.epam.brest.service.BandService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +38,7 @@ public class BandController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of bands",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Band.class)) })
+                            array = @ArraySchema(schema = @Schema(implementation = Band.class))) })
     })
     @GetMapping(value = "/bands")
     public final Collection<Band> bands() {
@@ -92,7 +91,7 @@ public class BandController {
     public ResponseEntity<Integer> updateBand(@Valid @RequestBody Band band) {
         logger.debug("updateBand({})", band);
         int result = bandService.update(band);
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Delete a band")
@@ -109,7 +108,7 @@ public class BandController {
     public ResponseEntity<Integer> deleteBand(@PathVariable Integer id) {
         logger.debug("delete({},{})", id);
         int result =  bandService.delete(id);
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

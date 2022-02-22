@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 
 import java.util.List;
 

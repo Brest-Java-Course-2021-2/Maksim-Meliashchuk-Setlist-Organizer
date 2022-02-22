@@ -1,6 +1,6 @@
 package com.epam.brest.service.rest;
 
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoServiceRest;
 import com.epam.brest.service.config.ServiceRestTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;

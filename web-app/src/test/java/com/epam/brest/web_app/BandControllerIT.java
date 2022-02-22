@@ -1,7 +1,7 @@
 package com.epam.brest.web_app;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;

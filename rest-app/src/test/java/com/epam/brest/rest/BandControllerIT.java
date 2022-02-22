@@ -1,7 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.exception.CustomExceptionHandler;
-import com.epam.brest.exception.ErrorResponse;
+import com.epam.brest.model.ErrorResponse;
 import com.epam.brest.model.Band;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

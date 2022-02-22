@@ -1,8 +1,15 @@
-package com.epam.brest.exception;
+package com.epam.brest.model;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Setter
+@Getter
+@Schema(name="ErrorResponse", description = "ErrorResponse")
 public class ErrorResponse
 {
     public ErrorResponse() {
@@ -24,22 +31,6 @@ public class ErrorResponse
         if (ex != null) {
             this.details = Arrays.asList(ex.getMessage());
         }
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public List<String> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<String> details) {
-        this.details = details;
     }
 
 }

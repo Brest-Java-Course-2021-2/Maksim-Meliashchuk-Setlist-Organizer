@@ -1,0 +1,658 @@
+openapi: 3.0.1
+info:
+  title: Setlist Organizer API
+  description: '''Setlist Organizer'' is a web application for organizing repertoires
+    of musical bands.'
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0)
+  version: 1.0.0
+externalDocs:
+  description: Setlist Organizer github
+  url: https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer
+servers:
+- url: http://localhost:8088
+  description: Generated server url
+tags:
+- name: Track
+  description: the Track API
+- name: Version
+  description: the version Setlist Organizer API
+- name: Band
+  description: the Band API
+- name: Bands
+  description: the Bands API
+- name: Tracks
+  description: the Tracks API
+paths:
+  /repertoire:
+    get:
+      tags:
+      - Track
+      summary: Get information for all tracks based on their IDs
+      operationId: tracks
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Track'
+    put:
+      tags:
+      - Track
+      summary: Update a track
+      operationId: updateTrack
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Track'
+        required: true
+      responses:
+        "404":
+          description: Trying to update a non-existent track
+          content: {}
+        "400":
+          description: Trying to update track with invalid fields
+          content: {}
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Track(s) have been updated. Returns the number of tracks affected
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+    post:
+      tags:
+      - Track
+      summary: Create a new track
+      operationId: createTrack
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Track'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: An attempt to create track with invalid fields
+          content: {}
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Track have been created. Returns the ID of the new track
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /bands:
+    get:
+      tags:
+      - Band
+      summary: Get information for all bands based on their IDs
+      operationId: bands
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of bands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Band'
+    put:
+      tags:
+      - Band
+      summary: Update a band
+      operationId: updateBand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Band'
+        required: true
+      responses:
+        "404":
+          description: Trying to update a non-existent band
+          content: {}
+        "400":
+          description: An attempt to create band with invalid fields
+          content: {}
+        "422":
+          description: An attempt to create a non-unique band
+          content: {}
+        "200":
+          description: Band(s) have been updated. Returns the number of bands affected
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+    post:
+      tags:
+      - Band
+      summary: Create a new band
+      operationId: createBand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Band'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: An attempt to create band with invalid fields
+          content: {}
+        "422":
+          description: An attempt to create a non-unique band
+          content: {}
+        "200":
+          description: Band have been created. Returns the ID of the new band
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /version:
+    get:
+      tags:
+      - Version
+      summary: Get information for the API version
+      operationId: version
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A version
+          content:
+            application/json:
+              schema:
+                type: string
+  /tracks_dto:
+    get:
+      tags:
+      - Tracks
+      summary: Get information for all tracks with their band names
+      operationId: findAllTracksWithBandName
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+  /repertoire/{id}:
+    get:
+      tags:
+      - Track
+      summary: Get information for a single track identified by its unique ID
+      operationId: getTrackById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Trying to get a non-existent track
+          content: {}
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A track
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'
+    delete:
+      tags:
+      - Track
+      summary: Delete a track
+      operationId: deleteTrack
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Trying to delete a non-existent track
+          content: {}
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Track(s) have been removed. Returns the number of tracks affected
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /repertoire/filter:
+    get:
+      tags:
+      - Tracks
+      summary: "Get information for tracks with their release dates between {fromDate}\
+        \ and {toDate}"
+      operationId: findAllTracksWithReleaseDateFilter
+      parameters:
+      - name: fromDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: toDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+  /repertoire/filter/band/{bandId}:
+    get:
+      tags:
+      - Tracks
+      summary: Get information about band's tracks
+      operationId: findAllTracksWithBandNameByBandId
+      parameters:
+      - name: bandId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Band not found
+          content: {}
+        "400":
+          description: Invalid band id supplied
+          content: {}
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+  /bands_dto:
+    get:
+      tags:
+      - Bands
+      summary: Get information for all bands with their repertoire duration and track
+        count
+      operationId: bandsDto
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of bands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BandDto'
+  /bands/{id}:
+    get:
+      tags:
+      - Band
+      summary: Get information for a single band identified by its unique ID
+      operationId: getBandById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Trying to get a non-existent band
+          content: {}
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A band
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Band'
+    delete:
+      tags:
+      - Band
+      summary: Delete a band
+      operationId: deleteBand
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "404":
+          description: Trying to delete a non-existent band
+          content: {}
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Attempting to delete a band with linked tracks
+          content: {}
+        "200":
+          description: Band(s) have been removed. Returns the number of bands affected
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+      description: ErrorResponse
+    Track:
+      required:
+      - trackName
+      type: object
+      properties:
+        trackId:
+          type: integer
+          description: ID of the track
+          format: int32
+          example: 1
+        trackName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: name of track
+          example: New song
+        trackBandId:
+          type: integer
+          description: ID of the band
+          format: int32
+          example: 1
+        trackTempo:
+          type: integer
+          description: "track tempo, value in bpm"
+          format: int32
+          example: 120
+        trackDuration:
+          minimum: 0
+          type: integer
+          description: duration of the track play in ms
+          format: int32
+        trackDetails:
+          maxLength: 2000
+          minLength: 0
+          type: string
+          description: details about the track
+        trackLink:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: the link to the track if it is posted on the web
+          example: https://www.youtube.com/watch?v=Mp6W0IzLlW8&ab_channel=TheMuse
+        trackReleaseDate:
+          type: string
+          description: track release date
+          format: date
+          example: 2020-12-01
+      description: Track
+    Band:
+      required:
+      - bandName
+      type: object
+      properties:
+        bandId:
+          type: integer
+          description: ID of the band
+          format: int32
+          example: 1
+        bandName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: name of the band
+        bandDetails:
+          maxLength: 1000
+          minLength: 0
+          type: string
+          description: details about the band
+      description: Band
+    TrackDto:
+      type: object
+      properties:
+        trackId:
+          type: integer
+          format: int32
+        trackName:
+          type: string
+        trackBandName:
+          type: string
+        trackBandId:
+          type: integer
+          format: int32
+        trackTempo:
+          type: integer
+          format: int32
+        trackDuration:
+          type: integer
+          format: int32
+        trackDetails:
+          type: string
+        trackLink:
+          type: string
+        trackReleaseDate:
+          type: string
+          format: date
+      description: TrackDto
+    BandDto:
+      type: object
+      properties:
+        bandId:
+          type: integer
+          format: int32
+        bandName:
+          type: string
+        bandCountTrack:
+          type: integer
+          format: int32
+        bandRepertoireDuration:
+          type: integer
+          format: int32
+        bandDetails:
+          type: string
+      description: BandDto

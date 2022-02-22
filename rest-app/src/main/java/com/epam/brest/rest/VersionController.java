@@ -1,6 +1,5 @@
 package com.epam.brest.rest;
 
-import com.epam.brest.model.dto.TrackDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

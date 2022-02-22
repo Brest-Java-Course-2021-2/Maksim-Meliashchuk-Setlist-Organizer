@@ -1,10 +1,10 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.dao.BandDtoDaoJdbcImpl;
-import com.epam.brest.model.dto.BandDto;
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +35,7 @@ public class BandDtoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of bands",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BandDto.class)) })
+                           array = @ArraySchema(schema = @Schema(implementation = BandDto.class))) })
     })
     @GetMapping(value = "/bands_dto")
     public final Collection<BandDto> bandsDto() {

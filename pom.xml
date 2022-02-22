@@ -26,6 +26,7 @@
         <module>web-app</module>
         <module>service-webclient</module>
         <module>prod-db</module>
+        <module>rest-app-openapi</module>
     </modules>
 
     <properties>

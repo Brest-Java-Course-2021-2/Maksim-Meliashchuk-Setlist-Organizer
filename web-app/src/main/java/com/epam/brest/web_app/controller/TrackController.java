@@ -1,7 +1,7 @@
 package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;

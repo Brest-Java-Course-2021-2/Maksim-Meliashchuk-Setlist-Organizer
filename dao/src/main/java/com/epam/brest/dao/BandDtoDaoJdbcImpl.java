@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,7 @@
 package com.epam.brest.service.impl;
 
 import com.epam.brest.dao.TrackDtoDao;
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackDtoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,6 @@
 package com.epam.brest.rest;
 
-import com.epam.brest.model.dto.BandDto;
+import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

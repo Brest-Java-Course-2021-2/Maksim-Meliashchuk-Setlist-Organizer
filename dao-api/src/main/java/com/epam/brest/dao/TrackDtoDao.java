@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 
 import java.time.LocalDate;
 import java.util.List;

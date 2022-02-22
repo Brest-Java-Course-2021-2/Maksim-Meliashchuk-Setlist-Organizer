@@ -1,7 +1,7 @@
 package com.epam.brest.service.rest;
 
 import com.epam.brest.model.Track;
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackServiceRest;
 import com.epam.brest.service.config.ServiceRestTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;

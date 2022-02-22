@@ -1,5 +1,7 @@
 package com.epam.brest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -19,16 +21,16 @@ import javax.validation.constraints.Size;
 @Schema(name="Band", description = "Band")
 public class Band {
 
-    @Schema(name = "ID", description = "ID of the band", example = "1")
+    @Schema(name = "bandId", description = "ID of the band", example = "1")
     private Integer bandId;
 
     @NonNull
-    @Schema(name = "Name", description = "name of the band")
+    @Schema(name = "bandName", description = "name of the band")
     @NotEmpty(message = "Please provide band name!")
     @Size(max=100, message = "Band name size have to be <= {max} symbols!")
     private String bandName;
 
-    @Schema(name = "Details", description = "details about the band")
+    @Schema(name = "bandDetails", description = "details about the band")
     @Size(max=1000, message = "Band details size have to be <= {max} symbols!")
     private String bandDetails;
 

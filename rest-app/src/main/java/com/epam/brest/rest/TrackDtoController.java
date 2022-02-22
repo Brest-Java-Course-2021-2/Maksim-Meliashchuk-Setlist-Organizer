@@ -1,8 +1,9 @@
 package com.epam.brest.rest;
 
-import com.epam.brest.model.dto.TrackDto;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackDtoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,7 +37,7 @@ public class TrackDtoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of tracks",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TrackDto.class)) })
+                            array = @ArraySchema(schema = @Schema(implementation = TrackDto.class))) })
     })
     @GetMapping(value = "/tracks_dto")
     public final Collection<TrackDto> findAllTracksWithBandName() {
@@ -48,7 +49,7 @@ public class TrackDtoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of tracks",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TrackDto.class)) }),
+                            array = @ArraySchema(schema = @Schema(implementation = TrackDto.class))) }),
             @ApiResponse(responseCode = "400", description = "Invalid band id supplied",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Band not found",
@@ -63,7 +64,7 @@ public class TrackDtoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A set of tracks",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TrackDto.class)) })
+                            array = @ArraySchema(schema = @Schema(implementation = TrackDto.class))) })
     })
     @GetMapping(value = "/repertoire/filter")
     public final Collection<TrackDto> findAllTracksWithReleaseDateFilter(@RequestParam(value = "fromDate", required = false)

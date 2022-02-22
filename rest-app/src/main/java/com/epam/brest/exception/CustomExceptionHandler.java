@@ -1,6 +1,7 @@
 package com.epam.brest.exception;
 
 import com.epam.brest.dao.exception.NotUniqueException;
+import com.epam.brest.model.ErrorResponse;
 import com.epam.brest.service.exception.BandNotFoundException;
 import com.epam.brest.service.exception.TrackNotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;

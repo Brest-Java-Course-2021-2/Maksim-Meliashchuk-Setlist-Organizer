@@ -1,5 +1,6 @@
-package com.epam.brest.model.dto;
+package com.epam.brest.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
  */
 
 @Data
+@Schema(name="TrackDto", description = "TrackDto")
 public class TrackDto {
 
     private Integer trackId;
