@@ -52,7 +52,7 @@ public class TrackControllerIT {
     @Autowired
     private CustomExceptionHandler customExceptionHandler;
 
-    ObjectMapper objectMapper = JsonMapper.builder()
+    private final ObjectMapper objectMapper = JsonMapper.builder()
             .addModule(new JavaTimeModule())
             .build();
 
@@ -194,7 +194,7 @@ public class TrackControllerIT {
         assertEquals(trackSrc.getTrackBandId(), trackOptionalDst.get().getTrackBandId());
 
         // then
-        assertTrue(1 == result);
+        assertEquals(1, result);
 
         Optional<Track> updatedTrackOptional = trackService.findById(id);
         assertTrue(updatedTrackOptional.isPresent());

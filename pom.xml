@@ -57,6 +57,7 @@
         <mockwebserver.version>4.9.3</mockwebserver.version>
         <reactor-test.version>3.1.0.RELEASE</reactor-test.version>
         <okhttp.version>4.9.3</okhttp.version>
+        <spring-boot-maven-plugin.version>2.6.3</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -224,6 +225,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

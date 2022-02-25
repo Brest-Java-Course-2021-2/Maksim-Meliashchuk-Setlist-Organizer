@@ -1,6 +1,5 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
