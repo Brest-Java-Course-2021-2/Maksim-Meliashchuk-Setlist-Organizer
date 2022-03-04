@@ -67,52 +67,36 @@ API documentation with Swagger UI:
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
 <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
-- **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) 
-<img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
-- **Build System:** [Maven](https://maven.apache.org/) 
-<img height="20" width="20" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_maven.svg"/>
-- **Control System:** [Git](https://git-scm.com/) 
-<a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
+- **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
+- **Build System:** [Maven](https://maven.apache.org/) <img height="20" width="20" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_maven.svg"/>
+- **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
-- **Code Style:** [Codacy](https://www.codacy.com/) 
-<img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg"/>
+- **Code Style:** [Codacy](https://www.codacy.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg"/>
 - **Automated Testing:**
-    - [JUnit5](https://junit.org/junit5/) 
-    <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
+    - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
     - [Mockito](http://site.mockito.org/)
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
 - **Monitoring:**
   - [Micrometer](https://micrometer.io/)
-  - [Prometheus](https://prometheus.io/) 
-  <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
-  - [Grafana](https://grafana.com/) 
-  <img height="20" width="20" src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"/>
+  - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
+  - [Grafana](https://grafana.com/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"/>
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html)
-  - [PostgreSQL](https://www.postgresql.org/) 
-  <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
-- **Database migration tool:** [Flyway](https://flywaydb.org/) 
-<img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
+  - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
+- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
 - **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
-  - [Springdoc-openapi](https://springdoc.org/) 
-  <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
-  - [Swagger UI](https://swagger.io/tools/swagger-ui/) 
-  <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
+  - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
+  - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
 - **Code generation:**
-  - [OpenAPI Generator](https://openapi-generator.tech) 
-  <img height="20" width="20" src="https://openapi-generator.tech/img/color-logo.svg"/>
-  - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) 
-  <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
-- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/) 
-<img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/thymeleaf.svg"/>
-- **CSS Framework:** [Bootstrap](https://getbootstrap.com/) 
-<a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
-- **App containerization:** [Docker](https://www.docker.com/) 
-<a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="20" height="20"/> </a>
+  - [OpenAPI Generator](https://openapi-generator.tech) <img height="20" width="20" src="https://openapi-generator.tech/img/color-logo.svg"/>
+  - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
+- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/thymeleaf.svg"/>
+- **CSS Framework:** [Bootstrap](https://getbootstrap.com/) <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
+- **App containerization:** [Docker](https://www.docker.com/) <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="20" height="20"/> </a>
 
 ## Requirements
 
