@@ -100,7 +100,6 @@
             <groupId>com.epam.brest</groupId>
             <artifactId>service-generated-client</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
