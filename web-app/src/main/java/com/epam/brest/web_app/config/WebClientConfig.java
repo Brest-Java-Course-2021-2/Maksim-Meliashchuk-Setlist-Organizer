@@ -18,7 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 @Configuration
-@Profile("dev")
 @PropertySource("classpath:application-dev.properties")
 public class WebClientConfig {
 

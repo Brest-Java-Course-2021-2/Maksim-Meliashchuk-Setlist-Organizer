@@ -1,13 +1,19 @@
 package com.epam.brest.web_app.config;
 
+import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
+import com.epam.brest.web_app.condition.ApiClientCondition;
+import io.swagger.client.api.BandApi;
+import io.swagger.client.api.BandsApi;
+import io.swagger.client.api.TrackApi;
+import io.swagger.client.api.TracksApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @TestConfiguration
 @Profile("dev")
@@ -23,10 +29,11 @@ public class ApplicationTestConfig {
 
     private RestTemplate restTemplate;
 
-    private WebClient webClient;
+    private ApiClient apiClient;
 
-    public ApplicationTestConfig(RestTemplate restTemplate) {
+    public ApplicationTestConfig(RestTemplate restTemplate, ApiClient apiClient) {
         this.restTemplate = restTemplate;
+        this.apiClient = apiClient;
     }
 
     @Bean
@@ -52,4 +59,37 @@ public class ApplicationTestConfig {
         String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
         return new TrackDtoServiceRest(url, restTemplate);
     }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public BandsApi bandsApi() {
+        BandsApi bandsApi = new BandsApi();
+        bandsApi.setApiClient(apiClient);
+        return bandsApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public BandApi bandApi() {
+        BandApi bandApi = new BandApi();
+        bandApi.setApiClient(apiClient);
+        return bandApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public TracksApi tracksApi() {
+        TracksApi tracksApi = new TracksApi();
+        tracksApi.setApiClient(apiClient);
+        return tracksApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public TrackApi trackApi() {
+        TrackApi trackApi = new TrackApi();
+        trackApi.setApiClient(apiClient);
+        return trackApi;
+    }
+
 }

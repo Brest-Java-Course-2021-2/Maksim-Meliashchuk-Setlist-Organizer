@@ -1,4 +1,4 @@
-package com.epam.brest.web_app;
+package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
@@ -36,13 +36,12 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(properties = { "app.httpClient = RestTemplate" })
 @ActiveProfiles("dev")
 class BandControllerIT {
 
     private static final String BANDS_DTO_URL = "http://localhost:8088/bands_dto";
     private static final String BANDS_URL = "http://localhost:8088/bands";
-
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
 

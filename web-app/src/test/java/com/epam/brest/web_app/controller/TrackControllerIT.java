@@ -1,4 +1,4 @@
-package com.epam.brest.web_app;
+package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
@@ -39,7 +39,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(properties = { "app.httpClient = RestTemplate" })
 @ActiveProfiles("dev")
 public class TrackControllerIT {
 
@@ -173,8 +173,8 @@ public class TrackControllerIT {
         TrackDto trackDto2 = createTrackDto(1);
 
         List<TrackDto> trackList = Arrays.asList(trackDto1, trackDto2);
-        String fromDate = String.valueOf(LocalDate.parse("2000-10-10"));
-        String toDate = String.valueOf(LocalDate.parse("2021-10-10"));
+        String fromDate = "2000-10-10";
+        String toDate = "2021-10-10";
 
         mockServer.expect(once(), requestTo(new URI(TRACKS_DTO_URL + "?fromDate=" + fromDate +  "&toDate=" + toDate)))
                 .andExpect(method(HttpMethod.GET))
@@ -246,7 +246,6 @@ public class TrackControllerIT {
     public void shouldOpenEditTrackPageById() throws Exception {
         logger.debug("shouldOpenEditTrackPageById()");
 
-        //Track track = new Track("Test track").setTrackId(1).setTrackBandId(1);
         Track track = Track.builder()
                 .trackId(1)
                 .trackBandId(1)
@@ -329,9 +328,10 @@ public class TrackControllerIT {
     }
 
     private Band createBand(int index) {
-        Band band = new Band();
-        band.setBandId(index);
-        band.setBandName("band" + index);
+        Band band = Band.builder()
+                .bandId(index)
+                .bandName("band" + index)
+                .build();
         band.setBandDetails(band.getBandName() + "details" + index);
         return band;
     }

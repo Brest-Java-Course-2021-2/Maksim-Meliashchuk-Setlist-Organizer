@@ -1,5 +1,6 @@
 package com.epam.brest.web_app.exception;
 
+import com.epam.brest.ApiException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,7 +18,7 @@ public class GlobalDefaultExceptionHandler {
 
     private final Logger logger = LogManager.getLogger(GlobalDefaultExceptionHandler.class);
 
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler({Exception.class, ApiException.class})
     public ModelAndView handleDataIntegrityViolationException(HttpServletRequest req, Exception e) {
         logger.error("Request: " + req.getRequestURL() + " raised " + e);
         ModelAndView mav = new ModelAndView();
@@ -27,4 +28,5 @@ public class GlobalDefaultExceptionHandler {
         mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
     }
+
 }

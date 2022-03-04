@@ -26,6 +26,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.epam.brest</groupId>
+            <artifactId>service-swagger-client</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -90,6 +95,17 @@
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest</groupId>
+            <artifactId>service-generated-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

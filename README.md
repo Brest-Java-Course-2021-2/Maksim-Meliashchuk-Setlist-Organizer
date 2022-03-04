@@ -21,6 +21,8 @@
 - [Technology Stack](#technology-stack)
 - [Requirements](#requirements)
 - [Installation Information](#installation-information)
+- [OpenAPI generated server](#openapi-generated-server)
+- [Swagger generated client](#swagger-generated-client)
 - [Web clients configure](#web-clients-configure)
 - [Run local tests](#run-local-tests)
 - [Run application with PostgreSQL](#run-application-with-postgresql)
@@ -62,30 +64,36 @@ API documentation with Swagger UI:
 ## Technology Stack
 
 - **Programming Language:** [Java](https://www.java.com) <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
-- **Core Framework:** [Spring Boot](https://spring.io/projects/spring-boot) <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
-- **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/)
-- **Build System:** [Maven](https://maven.apache.org/)
+- **Core Framework:** [Spring Boot](https://spring.io/projects/spring-boot) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/springboot.svg" style="filter: invert(55%) sepia(92%) saturate(349%) hue-rotate(53deg) brightness(97%) contrast(76%);"/>
+<a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+- **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/hibernate.svg" style="filter: invert(38%) sepia(16%) saturate(344%) hue-rotate(154deg) brightness(93%) contrast(85%);"/>
+- **Build System:** [Maven](https://maven.apache.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/apachemaven.svg" style="filter: invert(18%) sepia(78%) saturate(4414%) hue-rotate(341deg) brightness(80%) contrast(94%);"/>
 - **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
-- **Code Style:** [Codacy](https://www.codacy.com/)
+- **Code Style:** [Codacy](https://www.codacy.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg" style="filter: invert(10%) sepia(16%) saturate(1082%) hue-rotate(100deg) brightness(91%) contrast(81%);"/>
 - **Automated Testing:**
-    - [JUnit5](https://junit.org/junit5/)
+    - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg" style="filter: invert(55%) sepia(92%) saturate(349%) hue-rotate(53deg) brightness(97%) contrast(76%);"/>
     - [Mockito](http://site.mockito.org/)
-- **Log:** [Log4j 2](https://logging.apache.org/log4j/2.x/)
+- **Log:** 
+  - [Log4j 2](https://logging.apache.org/log4j/2.x/)
+  - [Logback](https://logback.qos.ch/)
 - **Monitoring:**
   - [Micrometer](https://micrometer.io/)
-  - [Prometheus](https://prometheus.io/)
-  - [Grafana](https://grafana.com/)
+  - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/prometheus.svg" style="filter: invert(46%) sepia(60%) saturate(4137%) hue-rotate(345deg) brightness(93%) contrast(92%);"/>
+  - [Grafana](https://grafana.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/grafana.svg"  style="filter: invert(46%) sepia(55%) saturate(4542%) hue-rotate(7deg) brightness(102%) contrast(101%);"/>
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html)
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
-- **Database migration tool:** [Flyway](https://flywaydb.org/)
+- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/flyway.svg" style="filter: invert(9%) sepia(98%) saturate(6059%) hue-rotate(0deg) brightness(92%) contrast(107%);"/>
 - **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
-  - [Springdoc-openapi](https://springdoc.org/)
-  - [Swagger UI](https://swagger.io/tools/swagger-ui/)
-- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/)
+  - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/openapiinitiative.svg" style="filter: invert(55%) sepia(57%) saturate(457%) hue-rotate(49deg) brightness(94%) contrast(91%);"/>
+  - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" fill="#CC0200" src="https://unpkg.com/simple-icons@v6/icons/swagger.svg" style="filter: invert(80%) sepia(89%) saturate(446%) hue-rotate(33deg) brightness(94%) contrast(95%);"/>
+- **Code generation:**
+  - [OpenAPI Generator](https://openapi-generator.tech) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/openapiinitiative.svg" style="filter: invert(55%) sepia(57%) saturate(457%) hue-rotate(49deg) brightness(94%) contrast(91%);"/>
+  - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) <img height="20" width="20" fill="#CC0200" src="https://unpkg.com/simple-icons@v6/icons/swagger.svg" style="filter: invert(80%) sepia(89%) saturate(446%) hue-rotate(33deg) brightness(94%) contrast(95%);"/>
+- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/thymeleaf.svg" style="filter: invert(22%) sepia(37%) saturate(2427%) hue-rotate(101deg) brightness(103%) contrast(102%);"/>
 - **CSS Framework:** [Bootstrap](https://getbootstrap.com/) <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
 - **App containerization:** [Docker](https://www.docker.com/) <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="20" height="20"/> </a>
 
@@ -108,10 +116,36 @@ The specified versions are the tested ones.
   $ mvn clean install
 ```
 
+## OpenAPI generated server
+
+Automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project
+by using the [OpenAPI-Spec](https://openapis.org) and the [openapi-generator-maven-plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin/README.md).
+
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin) 
+in the module [rest-app](rest-app)
+
+*Refer to the module [rest-app-openapi](rest-app-openapi/README.md) for more information.*
+
+
+## Swagger generated client 
+
+Automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
+[swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
+
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
+in the module [rest-app](rest-app)
+
+*Refer to the module [service-swagger-client](service-swagger-client/README.md) for more information.*
+
+
 ## Web clients configure
 
-The web application has two web client implementations for making HTTP calls to 
-REST application services - RestTemplate and a new WebClient alternative.
+The web application has three web client implementations for making HTTP calls to 
+REST application services - RestTemplate, a new WebClient alternative and automatically generated by the 
+[Swagger Codegen](https://github.com/swagger-api/swagger-codegen) client API - 
+[ApiClient](service-swagger-client/README.md).
 Setup web-app in application.properties.
 
 Using **RestTemplate** (is deprecated since Spring 5):
@@ -122,6 +156,11 @@ Using **WebClient** (exists since Spring 5):
 ```bash
 app.httpClient = WebClient
 ```
+Using **ApiClient** (OkHttpClient based):
+```bash
+app.httpClient = ApiClient
+```
+
 **WebClient** is a preferable choice.
 
 ## Run local tests
@@ -131,6 +170,10 @@ Embedded H2 in memory.
 In the root directory of the project:
 ```bash
 $ java -jar -Dspring.profiles.active=dev rest-app/target/rest-app-1.0-SNAPSHOT.jar
+```
+To start the OpenAPI generated server:
+```bash
+$ java -jar -Dspring.profiles.active=dev rest-app-openapi/target/rest-app-openapi-1.0-SNAPSHOT.jar
 ```
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
 ```bash
@@ -161,7 +204,7 @@ The web application will be accessible at [http://localhost:8080](http://localho
 
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088)
 
-Micrometer by default shows jvm metricsat at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
+Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
 Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
 
@@ -186,6 +229,9 @@ Using OpenAPI 3.0
 
 The OpenAPI descriptions in JSON format will be available at the path: 
 [http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
+
+The OpenAPI descriptions in YAML format will be available at the path:
+[http://localhost:8088/v3/api-docs.yaml](http://localhost:8088/v3/api-docs.yaml)
 
 API documentation with Swagger UI: 
 [http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)

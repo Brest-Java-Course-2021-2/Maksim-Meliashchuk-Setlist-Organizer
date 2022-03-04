@@ -1,8 +1,14 @@
 package com.epam.brest.web_app.config;
 
+import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
+import com.epam.brest.web_app.condition.ApiClientCondition;
 import com.epam.brest.web_app.condition.RestTemplateCondition;
 import com.epam.brest.web_app.condition.WebClientCondition;
+import io.swagger.client.api.BandApi;
+import io.swagger.client.api.BandsApi;
+import io.swagger.client.api.TrackApi;
+import io.swagger.client.api.TracksApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -25,9 +31,12 @@ public class ApplicationConfig {
 
     private final WebClient webClient;
 
-    public ApplicationConfig(RestTemplate restTemplate, WebClient webClient) {
+    private final ApiClient apiClient;
+
+    public ApplicationConfig(RestTemplate restTemplate, WebClient webClient, ApiClient apiClient) {
         this.webClient = webClient;
         this.restTemplate = restTemplate;
+        this.apiClient = apiClient;
     }
 
     @Bean
@@ -80,6 +89,38 @@ public class ApplicationConfig {
     @Conditional(WebClientCondition.class)
     TrackDtoService trackDtoServiceWebClient() {
         return new TrackDtoServiceWebClient("/repertoire/filter", webClient);
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public BandsApi bandsApi() {
+        BandsApi bandsApi = new BandsApi();
+        bandsApi.setApiClient(apiClient);
+        return bandsApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public BandApi bandApi() {
+        BandApi bandApi = new BandApi();
+        bandApi.setApiClient(apiClient);
+        return bandApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public TracksApi tracksApi() {
+        TracksApi tracksApi = new TracksApi();
+        tracksApi.setApiClient(apiClient);
+        return tracksApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public TrackApi trackApi() {
+        TrackApi trackApi = new TrackApi();
+        trackApi.setApiClient(apiClient);
+        return trackApi;
     }
 
 }

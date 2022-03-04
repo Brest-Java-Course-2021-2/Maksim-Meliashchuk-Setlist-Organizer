@@ -27,6 +27,7 @@
         <module>service-webclient</module>
         <module>prod-db</module>
         <module>rest-app-openapi</module>
+        <module>service-swagger-client</module>
     </modules>
 
     <properties>
@@ -135,6 +136,12 @@
             <dependency>
                 <groupId>com.epam.brest</groupId>
                 <artifactId>service-webclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
+                <artifactId>service-swagger-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
