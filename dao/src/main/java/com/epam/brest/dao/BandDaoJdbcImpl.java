@@ -1,10 +1,11 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.dao.annotation.InjectSql;
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,25 +19,26 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@ComponentScan("com.epam.brest.dao.annotation")
 public class BandDaoJdbcImpl implements BandDao{
 
     private final Logger logger = LogManager.getLogger(BandDaoJdbcImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Value("${SQL_SELECT_COUNT_FROM_BAND}")
+    @InjectSql("/sql/band/selectCountFromBand.sql")
     private String sqlSelectCountFromBand;
-    @Value("${SQL_ALL_BANDS}")
+    @InjectSql("/sql/band/allBands.sql")
     private String sqlAllBands;
-    @Value("${SQL_CREATE_BAND}")
+    @InjectSql("/sql/band/createBand.sql")
     private String sqlCreateBand;
-    @Value("${SQL_CHECK_BAND}")
+    @InjectSql("/sql/band/checkBand.sql")
     private String sqlCheckBand;
-    @Value("${SQL_BAND_BY_ID}")
+    @InjectSql("/sql/band/bandById.sql")
     private String sqlBandById;
-    @Value("${SQL_UPDATE_BAND_BY_ID}")
+    @InjectSql("/sql/band/updateBandById.sql")
     private String sqlUpdateBandById;
-    @Value("${SQL_DELETE_BAND_BY_ID}")
+    @InjectSql("/sql/band/deleteBandById.sql")
     private String sqlDeleteBandById;
 
     public BandDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

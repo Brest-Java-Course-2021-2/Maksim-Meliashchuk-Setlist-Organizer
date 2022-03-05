@@ -1,0 +1,1 @@
+INSERT INTO band(band_name, band_details) values(:bandName, :bandDetails)
