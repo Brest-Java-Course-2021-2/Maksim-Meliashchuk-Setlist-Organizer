@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
+import com.epam.brest.service.BandFakerService;
 import com.epam.brest.service.BandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,8 +31,11 @@ public class BandController {
 
     private final Logger logger = LogManager.getLogger(BandController.class);
 
-    public BandController(BandService bandService) {
+    private final BandFakerService bandFakerService;
+
+    public BandController(BandService bandService, BandFakerService bandFakerService) {
         this.bandService = bandService;
+        this.bandFakerService = bandFakerService;
     }
 
     @Operation(summary = "Get information for all bands based on their IDs")
@@ -44,6 +48,21 @@ public class BandController {
     public final Collection<Band> bands() {
         logger.debug("bands()");
         return bandService.findAllBands();
+    }
+
+    @Operation(summary = "Get information for fake bands based on their IDs")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "A set of fake bands",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Band.class))) })
+    })
+    @GetMapping(value = "/bands/fill")
+    public final Collection<Band> bandsFake(@RequestParam(value = "size", required = false)
+                                                Integer size,
+                                            @RequestParam(defaultValue = "US", value = "language", required = false)
+                                                String language) {
+        logger.debug("fillFakeBands()");
+        return bandFakerService.fillFakeBands(size, "language");
     }
 
     @Operation(summary = "Get information for a single band identified by its unique ID")
@@ -106,7 +125,7 @@ public class BandController {
                     content = @Content)})
     @DeleteMapping(value = "/bands/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteBand(@PathVariable Integer id) {
-        logger.debug("delete({},{})", id);
+        logger.debug("delete({})", id);
         int result =  bandService.delete(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -531,6 +531,52 @@ paths:
               schema:
                 type: integer
                 format: int32
+  /bands/fill:
+    get:
+      tags:
+      - Band
+      summary: Get information for fake bands based on their IDs
+      operationId: bandsFake
+      parameters:
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
+          default: US
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of fake bands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Band'
 components:
   schemas:
     ErrorResponse:
