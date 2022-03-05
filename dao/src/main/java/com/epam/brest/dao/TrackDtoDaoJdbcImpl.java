@@ -1,9 +1,10 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.dao.annotation.InjectSql;
 import com.epam.brest.model.TrackDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,25 +15,26 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+@ComponentScan("com.epam.brest.dao.annotation")
 public class TrackDtoDaoJdbcImpl implements TrackDtoDao{
 
     private final Logger logger = LogManager.getLogger(TrackDtoDaoJdbcImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Value("${SQL_FIND_ALL_TRACKS_WITH_BAND_NAME}")
+    @InjectSql("/sql/track/findAllTracksWithBandName.sql")
     private String sqlFindAllTracksWithBandName;
 
-    @Value("${SQL_FIND_ALL_TRACKS_WITH_BAND_NAME_BY_BAND_ID}")
+    @InjectSql("/sql/track/findAllTracksWithBandNameByBandId.sql")
     private String sqlFindAllTracksWithBandNameByBandId;
 
-    @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_FILTER}")
+    @InjectSql("/sql/track/findAllTracksWithReleaseDateFilter.sql")
     private String sqlFindAllTracksWithReleaseDateFilter;
 
-    @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_FROM}")
+    @InjectSql("/sql/track/findAllTracksWithReleaseDateFrom.sql")
     private String sqlFindAllTracksWithReleaseDateFrom;
 
-    @Value("${SQL_FIND_ALL_TRACKS_WITH_RELEASE_DATE_TO}")
+    @InjectSql("/sql/track/findAllTracksWithReleaseDateTo.sql")
     private String sqlFindAllTracksWithReleaseDateTo;
 
     public TrackDtoDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

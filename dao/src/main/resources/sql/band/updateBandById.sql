@@ -1,0 +1,1 @@
+UPDATE band SET band_name = :bandName, band_details =:bandDetails WHERE band_id = :bandId

@@ -1,9 +1,10 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.dao.annotation.InjectSql;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@ComponentScan("com.epam.brest.dao.annotation")
 public class TrackDaoJdbcImpl implements TrackDao{
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImpl.class);
@@ -24,22 +26,22 @@ public class TrackDaoJdbcImpl implements TrackDao{
 
     private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
 
-    @Value("${SQL_ALL_TRACKS}")
+    @InjectSql("/sql/track/allTracks.sql")
     private String sqlAllTracks;
 
-    @Value("${SQL_SELECT_COUNT_FROM_TRACK}")
-    private String selectCountFromTrack;
+    @InjectSql("/sql/track/selectCountFromTrack.sql")
+    private String sqlSelectCountFromTrack;
 
-    @Value("${SQL_DELETE_TRACK_BY_ID}")
+    @InjectSql("/sql/track/deleteTrackById.sql")
     private String sqlDeleteTrackById;
 
-    @Value("${SQL_TRACK_BY_ID}")
+    @InjectSql("/sql/track/trackById.sql")
     private String sqlTrackById;
 
-    @Value("${SQL_UPDATE_TRACK_BY_ID}")
+    @InjectSql("/sql/track/updateTrackById.sql")
     private String sqlUpdateTrackById;
 
-    @Value("${SQL_CREATE_TRACK}")
+    @InjectSql("/sql/track/createTrack.sql")
     private String sqlCreateTrack;
 
     public TrackDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -102,7 +104,7 @@ public class TrackDaoJdbcImpl implements TrackDao{
     public Integer count() {
         logger.debug("Track count()");
         return namedParameterJdbcTemplate
-                .queryForObject(selectCountFromTrack, new MapSqlParameterSource(), Integer.class);
+                .queryForObject(sqlSelectCountFromTrack, new MapSqlParameterSource(), Integer.class);
     }
 
 }

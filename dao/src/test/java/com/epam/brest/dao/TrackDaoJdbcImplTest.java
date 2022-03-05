@@ -182,7 +182,7 @@ public class TrackDaoJdbcImplTest {
     public void testCountTrack() {
         logger.debug("Execute mock test: testCountTrack()");
         String sql = "count";
-        ReflectionTestUtils.setField(trackDaoJdbc, "selectCountFromTrack", sql);
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlSelectCountFromTrack", sql);
         int count = 1;
         Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 eq(Integer.class))).thenReturn(count);
