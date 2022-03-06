@@ -164,4 +164,21 @@ public class TrackControllerApiClient {
         return "repertoire";
     }
 
+    @GetMapping(value = "/repertoire/fill")
+    public String fillFakeTracks(@RequestParam(value = "size", required = false)
+                                        Integer size,
+                                @RequestParam(value = "language", required = false)
+                                        String language,
+                                Model model) {
+        LOGGER.debug("fillFakeTracks({},{})", size, language);
+        try {
+            model.addAttribute("tracks", tracksApi.fillTracksDtoFake(size,language));
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("size", size);
+        model.addAttribute("language", language);
+        return "repertoire";
+    }
+
 }

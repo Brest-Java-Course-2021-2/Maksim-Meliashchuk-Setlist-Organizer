@@ -17,7 +17,7 @@ public class BandsDtoDelegateImpl implements BandsDtoApiDelegate {
     private static final Logger LOGGER = LoggerFactory.getLogger(BandsDtoDelegateImpl.class);
 
     private final BandDtoService bandDtoService;
-
+    //TODO BandsDtoFakerService
     public BandsDtoDelegateImpl(BandDtoService bandDtoService) {
         this.bandDtoService = bandDtoService;
     }

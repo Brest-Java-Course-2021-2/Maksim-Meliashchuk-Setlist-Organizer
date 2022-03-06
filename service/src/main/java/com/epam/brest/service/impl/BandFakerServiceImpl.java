@@ -13,11 +13,11 @@ import java.util.stream.IntStream;
 @Service
 public class BandFakerServiceImpl implements BandFakerService {
 
-    final Integer DEFAULT_SIZE = 1;
+    final int DEFAULT_SIZE = 1;
 
     @Override
     public List<Band> fillFakeBands(Integer size, String language) {
-        Locale locale = new Locale((language != null) ? language : "en");
+        Locale locale = new Locale(language);
         Faker faker = new Faker(locale);
         List<Band> bandList = null;
         if (size >= DEFAULT_SIZE) {

@@ -15,44 +15,47 @@
     <title>Setlist Organizer</title>
 </head>
 
-<div th:insert="layouts :: header"></div>
-<div th:insert="layouts :: navbar"></div>
+<div class="fixed-top">
+    <div th:insert="layouts :: header"></div>
+    <div th:insert="layouts :: navbar"></div>
+</div>
+
+<div class="main">
+    <form class="form-group" th:action="@{/repertoire/filter}">
+        <div class="container">
+            <div class="row mb-3 mt-3">
+                <div class="row gap-6 d-flex justify-content-end">
+
+                    <div class="col-6 col-sm-6 col-md-auto px-1 d-flex justify-content-end">
+                        <label for="fromDate" class="col-form-label">Release date from:</label>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-auto p-1 d-flex justify-content-end">
+                        <input th:value="${fromDate}" type="date" class="form-control form-control-sm"
+                               id="fromDate" name="fromDate">
+                    </div>
 
 
-<form class="form-group" th:action="@{/repertoire/filter}">
-    <div class="container">
-        <div class="row mb-3 mt-3">
-            <div class="row gap-6 d-flex justify-content-end">
+                    <div class="col-6 col-sm-6 col-md-auto px-1 d-flex justify-content-end">
+                        <label for="toDate" class="col-form-label">to:</label>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-auto p-1 d-flex justify-content-end">
+                        <input th:value="${toDate}" type="date" class="form-control form-control-sm"
+                               id="toDate" name="toDate">
+                    </div>
 
-                <div class="col-6 col-sm-6 col-md-auto px-1 d-flex justify-content-end">
-                    <label for="fromDate" class="col-form-label">Release date from:</label>
-                </div>
-                <div class="col-6 col-sm-6 col-md-auto p-1 d-flex justify-content-end">
-                    <input th:value="${fromDate}" type="date" class="form-control form-control-sm"
-                           id="fromDate" name="fromDate">
-                </div>
-
-
-                <div class="col-6 col-sm-6 col-md-auto px-1 d-flex justify-content-end">
-                    <label for="toDate" class="col-form-label">to:</label>
-                </div>
-                <div class="col-6 col-sm-6 col-md-auto p-1 d-flex justify-content-end">
-                    <input th:value="${toDate}" type="date" class="form-control form-control-sm"
-                           id="toDate" name="toDate">
-                </div>
-
-                <div class="col col-md-auto px-1 d-flex justify-content-end">
-                    <div class="d-flex align-content-end flex-wrap">
-                        <strong>
-                            <button class="btn btn-dark">Submit</button>
-                            <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
-                        </strong>
+                    <div class="col col-md-auto px-1 d-flex justify-content-end">
+                        <div class="d-flex align-content-end flex-wrap">
+                            <strong>
+                                <button class="btn btn-dark">Submit</button>
+                                <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
+                            </strong>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
 <div class="container">
     <div class="d-grid gap-3">
@@ -70,9 +73,9 @@
                                 <p th:text="${track.trackName}">My track</p>
                             </strong>
                             <p style="transform: rotate(0);">
-                               <a href="bandtracks.html" th:href="@{|/repertoire/filter/band/${track.trackBandId}|}"
-                               class="text-break stretched-link" style="text-decoration: none"
-                               th:text="${track.trackBandName}">My cover band</a>
+                                <a href="bandtracks.html" th:href="@{|/repertoire/filter/band/${track.trackBandId}|}"
+                                   class="text-break stretched-link" style="text-decoration: none"
+                                   th:text="${track.trackBandName}">My cover band</a>
                             </p>
                             <small>
                                 <span name="timeDuration" th:text="${track.trackDuration}">00:15:15</span>
@@ -162,8 +165,6 @@
         secondsToTime();
         dateFormat();
     }
-
-
 </script>
 
 

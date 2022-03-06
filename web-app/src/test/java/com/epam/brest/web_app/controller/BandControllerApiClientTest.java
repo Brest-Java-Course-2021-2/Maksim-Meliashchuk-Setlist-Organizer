@@ -65,6 +65,27 @@ class BandControllerApiClientTest {
     }
 
     @Test
+    void fakeBands() throws Exception {
+        LOGGER.debug("fakeBands()");
+
+        BandDto band1 = createBandDto(1);
+        BandDto band2 = createBandDto(2);
+        List<BandDto> bandDtoList = Arrays.asList(band1, band2);
+        Integer size = 2;
+        String language = "EN";
+
+        when(bandsApi.fillBandsDtoFake(size, language)).thenReturn(bandDtoList);
+
+        this.mockMvc.perform(get("/bands/fill?size={size}&language={language}", size, language)).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(model().attribute("bands", bandDtoList))
+                .andExpect(content().string(containsString(band1.getBandName())))
+                .andExpect(content().string(containsString(band2.getBandName())));
+
+    }
+
+    @Test
     void gotoAddBandPage() throws Exception {
         LOGGER.debug("gotoAddBandPage()");
 

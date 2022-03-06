@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.BandDto;
+import com.epam.brest.service.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,8 @@ import java.util.Arrays;
 @ExtendWith(MockitoExtension.class)
 public class BandDtoControllerTest {
 
+    public static final int FAKE_DATA_SIZE = 2;
+
     private final Logger logger = LogManager.getLogger(BandDtoControllerTest.class);
 
     @InjectMocks
@@ -31,6 +34,10 @@ public class BandDtoControllerTest {
 
     @Mock
     private BandDtoService bandDtoService;
+
+    @Mock
+    private BandDtoFakerService bandDtoFakerService;
+
 
     private MockMvc mockMvc;
 
@@ -68,6 +75,32 @@ public class BandDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)));
 
         Mockito.verify(bandDtoService).findAllWithCountTrack();
+    }
+
+    @Test
+    public void shouldFillFakeBands() throws Exception {
+        logger.debug("shouldFillFakeBands()");
+
+        Mockito.when(bandDtoFakerService.fillFakeBandsDto(FAKE_DATA_SIZE, "EN"))
+                .thenReturn(Arrays.asList(create(0), create(1)));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/bands_dto/fill?size=" + FAKE_DATA_SIZE)
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bandId", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bandName", Matchers.is("band0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bandCountTrack", Matchers.is(100)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bandDetails", Matchers.is("band0details0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bandRepertoireDuration", Matchers.is(1000)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandName", Matchers.is("band1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandCountTrack", Matchers.is(101)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandDetails", Matchers.is("band1details1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)));
+
+        Mockito.verify(bandDtoFakerService).fillFakeBandsDto(FAKE_DATA_SIZE, "EN");
     }
 
     private BandDto create(int index) {

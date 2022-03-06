@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BandFakerServiceImplTest {
 
@@ -18,7 +17,7 @@ class BandFakerServiceImplTest {
         Integer size = 50;
         List<Band> fakerObjects = bandFakerService.fillFakeBands(size, "EN");
         assertNotNull(fakerObjects);
-        assertTrue(fakerObjects.size() > 0);
+        assertEquals(size, fakerObjects.size());
     }
 
 }

@@ -86,7 +86,9 @@ API documentation with Swagger UI:
   - [H2](http://www.h2database.com/html/main.html)
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
 - **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
-- **JSON library:** [Jackson](https://github.com/FasterXML/jackson)
+- **JSON library:** 
+  - [Jackson](https://github.com/FasterXML/jackson)
+  - [GSON](https://github.com/google/gson)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
@@ -157,7 +159,7 @@ Using **WebClient** (exists since Spring 5):
 ```bash
 app.httpClient = WebClient
 ```
-Using **ApiClient** (OkHttpClient based):
+Using **ApiClient** ([OkHttpClient](https://square.github.io/okhttp/) and [GSON](https://github.com/google/gson) based):
 ```bash
 app.httpClient = ApiClient
 ```

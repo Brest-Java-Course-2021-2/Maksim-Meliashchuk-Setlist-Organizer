@@ -80,3 +80,16 @@ a:hover {
     transform: scale(1);
 }
 
+.dropdown-menu {
+    width: 330px;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #e9ecef;
+}
+
+.main {
+  margin-top: 200px;
+}

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Layouts</title>
-
 </head>
 <body>
 
@@ -46,6 +45,55 @@
                     </li>
                 </ul>
             </div>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../static/img/grid.svg"
+                             th:src="@{/img/grid.svg}" height="40" width="40" alt="service">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <form class="form-group" th:action="@{/bands/fill}">
+                                <a class="dropdown-item">
+                                    <div class="input-group">
+                                        <button class="btn btn-dark" type="submit">
+                                            Fill fakes bands
+                                        </button>
+                                        <input type="number" class="form-control" th:name="size">
+                                        <select class="form-select" id="inputGroupSelect01"
+                                                th:name="language">
+                                            <option value="EN">EN</option>
+                                            <option value="RU">RU</option>
+                                        </select>
+                                    </div>
+                                </a>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="form-group" th:action="@{/repertoire/fill}">
+                                <a class="dropdown-item">
+                                    <div class="input-group">
+                                        <button class="btn btn-dark" type="submit">
+                                            Fill fakes tracks
+                                        </button>
+                                        <input type="number" class="form-control" th:name="size">
+                                        <select class="form-select" id="inputGroupSelect02"
+                                                th:name="language">
+                                            <option value="EN">EN</option>
+                                            <option value="RU">RU</option>
+                                        </select>
+                                    </div>
+                                </a>
+                            </form>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">About</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 </div>

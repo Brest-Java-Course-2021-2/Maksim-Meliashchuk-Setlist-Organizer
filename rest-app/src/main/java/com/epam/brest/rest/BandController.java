@@ -57,9 +57,9 @@ public class BandController {
                             array = @ArraySchema(schema = @Schema(implementation = Band.class))) })
     })
     @GetMapping(value = "/bands/fill")
-    public final Collection<Band> bandsFake(@RequestParam(value = "size", required = false)
+    public final Collection<Band> bandsFake(@RequestParam(defaultValue = "1", value = "size", required = false)
                                                 Integer size,
-                                            @RequestParam(defaultValue = "US", value = "language", required = false)
+                                            @RequestParam(defaultValue = "EN", value = "language", required = false)
                                                 String language) {
         logger.debug("fillFakeBands()");
         return bandFakerService.fillFakeBands(size, "language");

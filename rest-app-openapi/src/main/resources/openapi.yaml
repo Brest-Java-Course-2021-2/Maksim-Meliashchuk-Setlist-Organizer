@@ -279,6 +279,53 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+  /tracks_dto/fill:
+    get:
+      tags:
+      - Tracks
+      summary: Filled fake tracks with their band names
+      operationId: fillTracksDtoFake
+      parameters:
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
+          default: EN
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of fake tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
   /repertoire/{id}:
     get:
       tags:
@@ -464,6 +511,53 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BandDto'
+  /bands_dto/fill:
+    get:
+      tags:
+      - Bands
+      summary: Filled fake bands with their repertoire duration and number of tracks
+      operationId: fillBandsDtoFake
+      parameters:
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
+          default: EN
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of fake bands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BandDto'
   /bands/{id}:
     get:
       tags:
@@ -544,12 +638,13 @@ paths:
         schema:
           type: integer
           format: int32
+          default: 1
       - name: language
         in: query
         required: false
         schema:
           type: string
-          default: US
+          default: EN
       responses:
         "404":
           description: Not Found
@@ -684,7 +779,7 @@ components:
         trackReleaseDate:
           type: string
           format: date
-      description: TrackDto
+      description: Track with the band name
     BandDto:
       type: object
       properties:
@@ -701,4 +796,4 @@ components:
           format: int32
         bandDetails:
           type: string
-      description: BandDto
+      description: Band with the count of tracks and the duration of the repertoire
