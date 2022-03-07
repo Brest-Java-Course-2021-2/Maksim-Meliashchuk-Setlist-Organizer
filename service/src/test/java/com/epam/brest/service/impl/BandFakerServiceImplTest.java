@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BandFakerServiceImplTest {
 
-    private BandFakerService bandFakerService = new BandFakerServiceImpl();
+    private final BandFakerService bandFakerService = new BandFakerServiceImpl();
 
     @Test
     public void fillFakeBandsTest() {

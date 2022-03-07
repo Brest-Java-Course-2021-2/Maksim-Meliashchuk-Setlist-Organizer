@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class TrackDtoFakerServiceImplTest {
 
-    private TrackDtoFakerService trackDtoFakerService = new TrackDtoFakerServiceImpl();
+    private final TrackDtoFakerService trackDtoFakerService = new TrackDtoFakerServiceImpl();
 
     @Test
     void fillFakeTracksDto() {

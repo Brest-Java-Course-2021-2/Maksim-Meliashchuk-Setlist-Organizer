@@ -477,6 +477,53 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+  /repertoire/fill:
+    get:
+      tags:
+      - Track
+      summary: Fill information for fake tracks based on their IDs
+      operationId: tracksFake
+      parameters:
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
+          default: EN
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: A set of fake tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Track'
   /bands_dto:
     get:
       tags:

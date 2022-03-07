@@ -1,7 +1,7 @@
 package com.epam.brest.service.impl;
 
-import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandDtoFakerService;
+import com.epam.brest.model.Track;
+import com.epam.brest.service.TrackFakerService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BandDtoFakerServiceImplTest {
+class TrackFakerServiceImplTest {
 
-    private final BandDtoFakerService bandDtoFakerService = new BandDtoFakerServiceImpl();
+    private final TrackFakerService trackFakerService = new TrackFakerServiceImpl();
 
     @Test
-    void fillFakeBandsDto() {
+    void fillFakeTracks() {
         Integer size = 50;
-        List<BandDto> fakerObjects = bandDtoFakerService.fillFakeBandsDto(size, "EN");
+        List<Track> fakerObjects = trackFakerService.fillFakeTracks(size, "EN");
         assertNotNull(fakerObjects);
         assertEquals(size, fakerObjects.size());
     }
