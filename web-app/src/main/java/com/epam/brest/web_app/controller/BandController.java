@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @ConditionalOnExpression(
         "'${app.httpClient}'=='RestTemplate' or '${app.httpClient}'=='WebClient'"
 )
-
+//TODO fake bands
 public class BandController {
 
     private final BandDtoService bandDtoService;

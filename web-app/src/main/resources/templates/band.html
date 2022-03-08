@@ -12,66 +12,70 @@
     <title>Setlist Organizer</title>
 </head>
 
-<div th:insert="layouts :: header"></div>
-<div th:insert="layouts :: navbar"></div>
-
-
-<div class="container mt-2">
-
-    <h3 class="text-uppercase"
-        th:text="${isNew} ? 'New band' : 'Edit band'">Edit band
-    </h3>
-
-
-    <form id="band_form"
-          th:object="${band}"
-          action="bands.html"
-          th:action="@{${#httpServletRequest.servletPath}}"
-          th:method="@{post}">
-
-        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-            <p>Please fix errors below:</p>
-        </div>
-
-        <div class="mb-3 mt-3">
-
-            <input id="band_bandId"
-                   type="hidden"
-                   th:field="*{bandId}"/>
-
-            <p class="fs-5 ml-5 p-1">*Title</p>
-            <textarea id="field_band_name" class="form-control" rows="1" placeholder="Name of band" required
-                      type="text"
-                      th:field="*{bandName}"></textarea>
-            <div th:if="${#fields.hasErrors('bandName')}"
-                 class="text-danger"
-                 th:errors="*{bandName}">[errors]
-            </div>
-
-        </div>
-        <div class="mb-3">
-            <p class="fs-5 p-1">Details:</p>
-            <textarea id="field_band_details" class="form-control" rows="4" placeholder="About band" required
-                      type="text"
-                      th:field="*{bandDetails}"></textarea>
-            <div th:if="${#fields.hasErrors('bandDetails')}"
-                 class="text-danger"
-                 th:errors="*{bandDetails}">[errors]
-            </div>
-        </div>
-
-        <div class="mb-3 mt-3">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="bands.html" th:href="@{/bands}" class="btn btn btn-secondary me-md-2" role="button">Cancel</a>
-                <a href="bands.html"
-                   th:href="@{/bands}"
-                   th:onclick="@{document.forms['band_form'].submit(); return false;}"
-                   class="btn btn-dark" role="button">Save</a>
-            </div>
-        </div>
-    </form>
+<div class="fixed-top">
+    <div th:insert="layouts :: header"></div>
+    <div th:insert="layouts :: navbar"></div>
+    <div th:insert="layouts :: offcanvas"></div>
 </div>
 
+<div class="main">
+    <div class="container mt-2">
+
+        <h3 class="text-uppercase"
+            th:text="${isNew} ? 'New band' : 'Edit band'">Edit band
+        </h3>
+
+
+        <form id="band_form"
+              th:object="${band}"
+              action="bands.html"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:method="@{post}">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p>Please fix errors below:</p>
+            </div>
+
+            <div class="mb-3 mt-3">
+
+                <input id="band_bandId"
+                       type="hidden"
+                       th:field="*{bandId}"/>
+
+                <p class="fs-5 ml-5 p-1">*Title</p>
+                <textarea id="field_band_name" class="form-control" rows="1" placeholder="Name of band" required
+                          type="text"
+                          th:field="*{bandName}"></textarea>
+                <div th:if="${#fields.hasErrors('bandName')}"
+                     class="text-danger"
+                     th:errors="*{bandName}">[errors]
+                </div>
+
+            </div>
+            <div class="mb-3">
+                <p class="fs-5 p-1">Details:</p>
+                <textarea id="field_band_details" class="form-control" rows="4" placeholder="About band" required
+                          type="text"
+                          th:field="*{bandDetails}"></textarea>
+                <div th:if="${#fields.hasErrors('bandDetails')}"
+                     class="text-danger"
+                     th:errors="*{bandDetails}">[errors]
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="bands.html" th:href="@{/bands}" class="btn btn btn-secondary me-md-2"
+                       role="button">Cancel</a>
+                    <a href="bands.html"
+                       th:href="@{/bands}"
+                       th:onclick="@{document.forms['band_form'].submit(); return false;}"
+                       class="btn btn-dark" role="button">Save</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div th:insert="layouts :: footer"></div>
 

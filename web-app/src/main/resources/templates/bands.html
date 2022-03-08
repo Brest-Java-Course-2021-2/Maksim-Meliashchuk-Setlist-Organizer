@@ -17,14 +17,23 @@
 
 <div class="fixed-top">
     <div th:insert="layouts :: header"></div>
-    <div th:insert="layouts :: navbar"></div>
+    <div class="col">
+        <div th:insert="layouts :: navbar"></div>
+        <div th:insert="layouts :: offcanvas"></div>
+    </div>
 </div>
 
 <div class="main">
     <div class="container">
-        <div class="d-grid justify-content-end">
-            <div class="p-3">
-                <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">Add</a>
+        <div class="container">
+            <div class="row mb-3 mt-3">
+                <div class="row gap-6 d-flex justify-content-end">
+                    <div class="col col-md-auto px-1 d-flex justify-content-end">
+                        <div class="d-flex align-content-end flex-wrap">
+                            <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">Add</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

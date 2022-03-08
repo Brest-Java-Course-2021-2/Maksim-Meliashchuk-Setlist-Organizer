@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-
+//TODO Faker bands&data resttemplate
 @Service
 public class BandDtoServiceRest implements BandDtoService {
 

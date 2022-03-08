@@ -14,52 +14,56 @@
     <title>Setlist Organizer</title>
 </head>
 
-<div th:insert="layouts :: header"></div>
-<div th:insert="layouts :: navbar"></div>
+<div class="fixed-top">
+    <div th:insert="layouts :: header"></div>
+    <div th:insert="layouts :: navbar"></div>
+    <div th:insert="layouts :: offcanvas"></div>
+</div>
 
-<div class="container mt-2">
+<div class="main">
+    <div class="container mt-2">
 
-    <h3 class="text-uppercase"
-        th:text="${isNew} ? 'New track' : 'Edit track'">Edit band
-    </h3>
-
-
-    <form id="track_form"
-          th:object="${track}"
-          action="repertoire.html"
-          th:action="@{${#httpServletRequest.servletPath}}"
-          th:method="@{post}">
+        <h3 class="text-uppercase"
+            th:text="${isNew} ? 'New track' : 'Edit track'">Edit band
+        </h3>
 
 
-        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-            <p>Please fix errors below:</p>
-        </div>
+        <form id="track_form"
+              th:object="${track}"
+              action="repertoire.html"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:method="@{post}">
 
-        <div class="mb-3 mt-3">
-            <input id="track_trackId"
-                   type="hidden"
-                   th:field="*{trackId}"/>
 
-            <p class="fs-5 ml-5 p-1">*Title:</p>
-            <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" type="text"
-                      th:field="*{trackName}"></textarea>
-        </div>
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p>Please fix errors below:</p>
+            </div>
 
-        <div th:if="${#fields.hasErrors('trackName')}"
-             class="text-danger"
-             th:errors="*{trackName}">[errors]
-        </div>
+            <div class="mb-3 mt-3">
+                <input id="track_trackId"
+                       type="hidden"
+                       th:field="*{trackId}"/>
 
-        <div class="mb-3">
-            <p class="fs-5 p-1">Band:</p>
-            <select th:field="*{trackBandId}" class="select form-control" id="select" name="select">
-                <option th:each="band : ${bands}"
-                        th:value="${band.bandId}"
-                        th:text="${band.bandName}"/>
-            </select>
-        </div>
+                <p class="fs-5 ml-5 p-1">*Title:</p>
+                <textarea id="field_track_name" class="form-control" rows="1" placeholder="Name of track" type="text"
+                          th:field="*{trackName}"></textarea>
+            </div>
 
-        <input type="hidden" th:field="*{trackDuration}" id="field_track_duration">
+            <div th:if="${#fields.hasErrors('trackName')}"
+                 class="text-danger"
+                 th:errors="*{trackName}">[errors]
+            </div>
+
+            <div class="mb-3">
+                <p class="fs-5 p-1">Band:</p>
+                <select th:field="*{trackBandId}" class="select form-control" id="select" name="select">
+                    <option th:each="band : ${bands}"
+                            th:value="${band.bandId}"
+                            th:text="${band.bandName}"/>
+                </select>
+            </div>
+
+            <input type="hidden" th:field="*{trackDuration}" id="field_track_duration">
 
             <div class="row">
 
@@ -138,6 +142,7 @@
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <script>
                         document.write('<a href="' + document.referrer + '" class="btn btn-secondary me-md-2 back">Cancel</a>');
+
                     </script>
                     <a href="repertoire.html"
                        th:href="@{/repertoire}"
@@ -145,15 +150,14 @@
                        id="save_button" class="btn btn-dark" role="button">Save</a>
                 </div>
             </div>
-    </form>
+        </form>
+    </div>
 </div>
-
 
 <div th:insert="layouts :: footer"></div>
 
 <script>
     window.onload = durationToMinutesAndSeconds();
-
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

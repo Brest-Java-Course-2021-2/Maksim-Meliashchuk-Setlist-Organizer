@@ -38,7 +38,7 @@ public class ApplicationConfig {
         this.restTemplate = restTemplate;
         this.apiClient = apiClient;
     }
-
+//TODO beans for fakerservices resttemplate, webclient
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoService bandDtoServiceRestTemplate() {

@@ -3,6 +3,8 @@ package com.epam.brest.service.impl;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandFakerService;
 import com.github.javafaker.Faker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +15,13 @@ import java.util.stream.IntStream;
 @Service
 public class BandFakerServiceImpl implements BandFakerService {
 
+    private final Logger logger = LogManager.getLogger(BandFakerServiceImpl.class);
+
     final int DEFAULT_SIZE = 1;
 
     @Override
     public List<Band> fillFakeBands(Integer size, String language) {
+        logger.debug("fillFakeBandsDto({size},{language})", size, language);
         Locale locale = new Locale(language);
         Faker faker = new Faker(locale);
         List<Band> bandList = null;

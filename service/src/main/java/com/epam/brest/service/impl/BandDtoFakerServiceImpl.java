@@ -3,6 +3,8 @@ package com.epam.brest.service.impl;
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoFakerService;
 import com.github.javafaker.Faker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.IntStream;
 @Service
 public class BandDtoFakerServiceImpl implements BandDtoFakerService {
 
+    private final Logger logger = LogManager.getLogger(BandDtoFakerServiceImpl.class);
+
     final int DEFAULT_SIZE = 1;
     final int LOW_TRACK_DURATION = 200000;
     final int HIGH_TRACK_DURATION = 420000;
@@ -21,6 +25,7 @@ public class BandDtoFakerServiceImpl implements BandDtoFakerService {
 
     @Override
     public List<BandDto> fillFakeBandsDto(Integer size, String language) {
+        logger.debug("fillFakeBandsDto({size},{language})", size, language);
         Locale locale = new Locale(language);
         Faker faker = new Faker(locale);
         List<BandDto> bandDtoList = null;

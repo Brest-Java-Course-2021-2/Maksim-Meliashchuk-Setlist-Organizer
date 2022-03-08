@@ -93,3 +93,15 @@ a:hover {
 .main {
   margin-top: 200px;
 }
+
+.accordion-button:not(.collapsed) {
+    color: #212529;
+    background-color: #f8f9fa;
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+
+#toggleButtonOffcanvasRight {
+    position: fixed;
+    top: 126px;
+    right: 30px;
+ }

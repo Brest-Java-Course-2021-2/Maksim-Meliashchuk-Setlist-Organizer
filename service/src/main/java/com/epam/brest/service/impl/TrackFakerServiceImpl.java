@@ -3,6 +3,8 @@ package com.epam.brest.service.impl;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackFakerService;
 import com.github.javafaker.Faker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +17,8 @@ import java.util.stream.IntStream;
 @Service
 public class TrackFakerServiceImpl implements TrackFakerService {
 
+    private final Logger logger = LogManager.getLogger(TrackFakerServiceImpl.class);
+
     final int DEFAULT_SIZE = 1;
     final int HIGH_BAND_COUNT = 100;
     final int HIGH_TRACK_TEMPO = 240;
@@ -24,6 +28,7 @@ public class TrackFakerServiceImpl implements TrackFakerService {
 
     @Override
     public List<Track> fillFakeTracks(Integer size, String language) {
+        logger.debug("fillFakeTracks({size},{language})", size, language);
         Locale locale = new Locale(language);
         Faker faker = new Faker(locale);
         List<Track> trackList = null;

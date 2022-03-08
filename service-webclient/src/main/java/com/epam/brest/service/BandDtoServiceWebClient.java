@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
-
+//TODO Faker bands&data webclient
 @Service
 public class BandDtoServiceWebClient implements BandDtoService {
 
@@ -34,4 +34,5 @@ public class BandDtoServiceWebClient implements BandDtoService {
                 .bodyToMono(typeReference)
                 .block();
     }
+
 }

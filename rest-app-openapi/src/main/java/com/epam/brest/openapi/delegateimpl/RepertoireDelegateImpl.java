@@ -3,7 +3,9 @@ package com.epam.brest.openapi.delegateimpl;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.RepertoireApiDelegate;
+import com.epam.brest.service.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
+import com.epam.brest.service.TrackFakerService;
 import com.epam.brest.service.TrackService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +25,26 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
 
     private final TrackDtoService trackDtoService;
 
-    public RepertoireDelegateImpl(TrackService trackService, TrackDtoService trackDtoService) {
+    private final TrackFakerService trackFakerService;
+
+    public RepertoireDelegateImpl(TrackService trackService, TrackDtoService trackDtoService,
+                                  TrackFakerService trackFakerService) {
         this.trackService = trackService;
         this.trackDtoService = trackDtoService;
+        this.trackFakerService = trackFakerService;
     }
 
     @Override
     public ResponseEntity<List<Track>> tracks() {
         LOGGER.debug("tracks()");
         List<Track> resultList = trackService.findAllTracks();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Track>> tracksFake(Integer size, String language) {
+        LOGGER.debug("tracksFake()");
+        List<Track> resultList = trackFakerService.fillFakeTracks(size, language);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
