@@ -1,21 +1,20 @@
 package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
+import com.epam.brest.service.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
-import com.epam.brest.web_app.condition.ApiClientCondition;
-import com.epam.brest.web_app.condition.RestTemplateCondition;
 import com.epam.brest.web_app.validator.BandValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * MVC controller.
@@ -24,20 +23,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 @ConditionalOnExpression(
         "'${app.httpClient}'=='RestTemplate' or '${app.httpClient}'=='WebClient'"
 )
-//TODO fake bands
 public class BandController {
 
     private final BandDtoService bandDtoService;
 
     private final BandService bandService;
 
+    private final BandDtoFakerService bandDtoFakerService;
+
     private final BandValidator bandValidator;
 
     private final Logger logger = LogManager.getLogger(BandController.class);
 
-    public BandController(BandDtoService bandDtoService, BandService bandService, BandValidator bandValidator) {
+    public BandController(BandDtoService bandDtoService, BandService bandService, BandDtoFakerService bandDtoFakerService, BandValidator bandValidator) {
         this.bandDtoService = bandDtoService;
         this.bandService = bandService;
+        this.bandDtoFakerService = bandDtoFakerService;
         this.bandValidator = bandValidator;
     }
 
@@ -45,6 +46,17 @@ public class BandController {
     public String bands(Model model) {
         logger.debug("go to page bands");
         model.addAttribute("bands", bandDtoService.findAllWithCountTrack());
+        return "bands";
+    }
+
+    @GetMapping(value = "/bands/fill")
+    public String fillFakeBands(@RequestParam(value = "size", required = false)
+                                            Integer size,
+                                @RequestParam(value = "language", required = false)
+                                            String language,
+                                Model model) {
+        logger.debug("go to page bands");
+        model.addAttribute("bands", bandDtoFakerService.fillFakeBandsDto(size, language));
         return "bands";
     }
 

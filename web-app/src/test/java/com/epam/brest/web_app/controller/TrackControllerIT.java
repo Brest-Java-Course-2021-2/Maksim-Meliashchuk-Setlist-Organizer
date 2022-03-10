@@ -44,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TrackControllerIT {
 
     private static final String TRACKS_DTO_URL = "http://localhost:8088/repertoire/filter";
+    private static final String FAKE_TRACKS_URL = "http://localhost:8088/repertoire/fill?size=2&language=EN";
     private static final String TRACKS_DTO_BY_BAND_ID = "http://localhost:8088/repertoire/filter/band";
     private static final String TRACKS_URL = "http://localhost:8088/repertoire";
     private static final String BANDS_URL = "http://localhost:8088/bands";
@@ -93,6 +94,59 @@ public class TrackControllerIT {
 
         // THEN
         mockMvc.perform(MockMvcRequestBuilders.get("/repertoire")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("repertoire"))
+                .andExpect(model().attribute("tracks", hasItem(
+                        allOf(
+                                hasProperty("trackId", is(0)),
+                                hasProperty("trackName", is("track0")),
+                                hasProperty("trackBandName", is("band0")),
+                                hasProperty("trackTempo", is(100)),
+                                hasProperty("trackDuration", is(10000)),
+                                hasProperty("trackDetails", is("track0details0")),
+                                hasProperty("trackReleaseDate", is(LocalDate.parse("2012-03-12"))),
+                                hasProperty("trackLink", is("link0"))
+                        )
+                )))
+                .andExpect(model().attribute("tracks", hasItem(
+                        allOf(
+                                hasProperty("trackId", is(1)),
+                                hasProperty("trackName", is("track1")),
+                                hasProperty("trackBandName", is("band1")),
+                                hasProperty("trackTempo", is(101)),
+                                hasProperty("trackDuration", is(10001)),
+                                hasProperty("trackDetails", is("track1details1")),
+                                hasProperty("trackReleaseDate", is(LocalDate.parse("2013-03-12"))),
+                                hasProperty("trackLink", is("link1"))
+                        )
+                )));
+
+        // VERIFY
+        mockServer.verify();
+    }
+
+    @Test
+    void shouldFillFakeTracks() throws Exception {
+        logger.debug("shouldFillFakeTracks()");
+        Integer size = 2;
+        String language = "EN";
+        TrackDto trackDto1 = createTrackDto(0);
+        TrackDto trackDto2 = createTrackDto(1);
+
+        List<TrackDto> trackDtoList = Arrays.asList(trackDto1, trackDto2);
+
+        //WHEN
+        mockServer.expect(once(), requestTo(new URI(FAKE_TRACKS_URL)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(trackDtoList))
+
+                );
+
+        // THEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/repertoire/fill?size={size}&language={language}", size, language)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("repertoire"))

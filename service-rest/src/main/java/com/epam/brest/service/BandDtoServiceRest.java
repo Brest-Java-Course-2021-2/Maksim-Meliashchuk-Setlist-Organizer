@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-//TODO Faker bands&data resttemplate
+
 @Service
 public class BandDtoServiceRest implements BandDtoService {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceRest.class);
 
-    private String url;
+    private final String url;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public BandDtoServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
@@ -32,4 +32,5 @@ public class BandDtoServiceRest implements BandDtoService {
         ResponseEntity<List<BandDto>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null, typeReference);
         return responseEntity.getBody();
     }
+
 }

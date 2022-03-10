@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -27,8 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(BandControllerApiClient.class)
 @ComponentScan({"com.epam.brest.web_app.validator"})
+@SpringBootTest(properties = { "app.httpClient = ApiClient" })
+@AutoConfigureMockMvc
 class BandControllerApiClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BandControllerApiClient.class);

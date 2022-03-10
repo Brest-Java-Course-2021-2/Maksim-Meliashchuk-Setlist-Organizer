@@ -38,12 +38,19 @@ public class ApplicationConfig {
         this.restTemplate = restTemplate;
         this.apiClient = apiClient;
     }
-//TODO beans for fakerservices resttemplate, webclient
+//TODO beans for fakerservices webclient
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoService bandDtoServiceRestTemplate() {
         String url = String.format("%s://%s:%d/bands_dto", protocol, host, port);
         return new BandDtoServiceRest(url, restTemplate);
+    }
+
+    @Bean
+    @Conditional(RestTemplateCondition.class)
+    BandDtoFakerService bandDtoFakerServiceRestTemplate() {
+        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host, port);
+        return new BandDtoFakerServiceRest(url, restTemplate);
     }
 
     @Bean
@@ -83,6 +90,13 @@ public class ApplicationConfig {
     TrackDtoService trackDtoService() {
         String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
         return new TrackDtoServiceRest(url, restTemplate);
+    }
+
+    @Bean
+    @Conditional(RestTemplateCondition.class)
+    TrackDtoFakerService trackDtoFakerService() {
+        String url = String.format("%s://%s:%d/repertoire/fill", protocol, host, port);
+        return new TrackDtoFakerServiceRest(url, restTemplate);
     }
 
     @Bean
