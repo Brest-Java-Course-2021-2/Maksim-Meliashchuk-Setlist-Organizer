@@ -37,7 +37,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//TODO testing webclient
 @SpringBootTest(properties = { "app.httpClient = RestTemplate" })
 @ActiveProfiles("dev")
 class BandControllerIT {

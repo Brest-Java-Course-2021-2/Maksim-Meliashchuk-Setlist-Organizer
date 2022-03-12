@@ -1,4 +1,4 @@
-package com.epam.brest.web_app.config;
+package com.epam.brest.web_app.config.heroku;
 
 import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
@@ -16,16 +16,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @ComponentScan
-@Profile("dev")
-@PropertySource("classpath:application-dev.properties")
-public class ApplicationConfig {
+@Profile("heroku")
+@PropertySource("classpath:application-heroku.properties")
+public class ApplicationHerokuConfig {
 
     @Value("${rest.server.protocol}")
     private String protocol;
     @Value("${rest.server.host}")
     private String host;
-    @Value("${rest.server.port}")
-    private Integer port;
+    @Value("${base.url}")
+    private String url;
 
     private final RestTemplate restTemplate;
 
@@ -33,23 +33,23 @@ public class ApplicationConfig {
 
     private final ApiClient apiClient;
 
-    public ApplicationConfig(RestTemplate restTemplate, WebClient webClient, ApiClient apiClient) {
-        this.webClient = webClient;
+    public ApplicationHerokuConfig(RestTemplate restTemplate, WebClient webClient, ApiClient apiClient) {
         this.restTemplate = restTemplate;
+        this.webClient = webClient;
         this.apiClient = apiClient;
     }
 
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoService bandDtoServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands_dto", protocol, host, port);
+        String url = String.format("%s://%s:%d/bands_dto", protocol, host);
         return new BandDtoServiceRest(url, restTemplate);
     }
 
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoFakerService bandDtoFakerServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host, port);
+        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host);
         return new BandDtoFakerServiceRest(url, restTemplate);
     }
 
@@ -68,7 +68,7 @@ public class ApplicationConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandService bandServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands", protocol, host, port);
+        String url = String.format("%s://%s:%d/bands", protocol, host);
         return new BandServiceRest(url, restTemplate);
     }
 
@@ -81,7 +81,7 @@ public class ApplicationConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackService trackService() {
-        String url = String.format("%s://%s:%d/repertoire", protocol, host, port);
+        String url = String.format("%s://%s:%d/repertoire", protocol, host);
         return new TrackServiceRest(url, restTemplate);
     }
 
@@ -94,14 +94,14 @@ public class ApplicationConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackDtoService trackDtoService() {
-        String url = String.format("%s://%s:%d/repertoire/filter", protocol, host, port);
+        String url = String.format("%s://%s:%d/repertoire/filter", protocol, host);
         return new TrackDtoServiceRest(url, restTemplate);
     }
 
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackDtoFakerService trackDtoFakerService() {
-        String url = String.format("%s://%s:%d/tracks_dto/fill", protocol, host, port);
+        String url = String.format("%s://%s:%d/tracks_dto/fill", protocol, host);
         return new TrackDtoFakerServiceRest(url, restTemplate);
     }
 
@@ -121,6 +121,7 @@ public class ApplicationConfig {
     @Conditional(ApiClientCondition.class)
     public BandsApi bandsApi() {
         BandsApi bandsApi = new BandsApi();
+        apiClient.setBasePath(url);
         bandsApi.setApiClient(apiClient);
         return bandsApi;
     }
@@ -129,6 +130,7 @@ public class ApplicationConfig {
     @Conditional(ApiClientCondition.class)
     public BandApi bandApi() {
         BandApi bandApi = new BandApi();
+        apiClient.setBasePath(url);
         bandApi.setApiClient(apiClient);
         return bandApi;
     }
@@ -137,6 +139,7 @@ public class ApplicationConfig {
     @Conditional(ApiClientCondition.class)
     public TracksApi tracksApi() {
         TracksApi tracksApi = new TracksApi();
+        apiClient.setBasePath(url);
         tracksApi.setApiClient(apiClient);
         return tracksApi;
     }
@@ -145,8 +148,8 @@ public class ApplicationConfig {
     @Conditional(ApiClientCondition.class)
     public TrackApi trackApi() {
         TrackApi trackApi = new TrackApi();
+        apiClient.setBasePath(url);
         trackApi.setApiClient(apiClient);
         return trackApi;
     }
-
 }

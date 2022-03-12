@@ -61,7 +61,7 @@ public class TrackController {
                                               @RequestParam(defaultValue = "EN", value = "language", required = false)
                                                           String language) {
         logger.debug("tracksFake()");
-        return trackFakerService.fillFakeTracks(size, "language");
+        return trackFakerService.fillFakeTracks(size, language);
     }
 
     @Operation(summary = "Get information for a single track identified by its unique ID")

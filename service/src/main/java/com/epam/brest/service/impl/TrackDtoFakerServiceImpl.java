@@ -29,8 +29,7 @@ public class TrackDtoFakerServiceImpl implements TrackDtoFakerService {
     @Override
     public List<TrackDto> fillFakeTracksDto(Integer size, String language) {
         logger.debug("fillFakeTracksDto({size},{language})", size, language);
-        Locale locale = new Locale(language);
-        Faker faker = new Faker(locale);
+        Faker faker = new Faker(new Locale(language));
         List<TrackDto> trackDtoList = null;
         Random random = new Random();
         if (size >= DEFAULT_SIZE) {
@@ -38,11 +37,11 @@ public class TrackDtoFakerServiceImpl implements TrackDtoFakerService {
                     .mapToObj(i -> TrackDto.builder()
                             .trackId(i)
                             .trackBandId(random.nextInt(HIGH_BAND_COUNT + 1))
-                            .trackName(faker.rickAndMorty().character())
-                            .trackBandName(faker.rockBand().name())
-                            .trackDetails(faker.music().genre() + System.lineSeparator() +
-                                    faker.music().instrument() + System.lineSeparator() + faker.music().key() +
-                                    System.lineSeparator() + faker.music().chord())
+                            .trackName(faker.book().title())
+                            .trackBandName(faker.rockBand().name().toUpperCase())
+                            .trackDetails(faker.music().genre() + " " +
+                                    faker.music().instrument() + " " + faker.music().key() +
+                                    " " + faker.music().chord())
                             .trackLink("https://youtube.com/" + faker.regexify("[a-z1-9]{10}"))
                             .trackTempo(random.nextInt(HIGH_TRACK_TEMPO - LOW_TRACK_TEMPO) +
                                     LOW_TRACK_TEMPO)

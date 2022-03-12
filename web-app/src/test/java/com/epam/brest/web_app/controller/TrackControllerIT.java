@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TrackControllerIT {
 
     private static final String TRACKS_DTO_URL = "http://localhost:8088/repertoire/filter";
-    private static final String FAKE_TRACKS_URL = "http://localhost:8088/repertoire/fill?size=2&language=EN";
+    private static final String FAKE_TRACKS_URL = "http://localhost:8088/tracks_dto/fill?size=2&language=EN";
     private static final String TRACKS_DTO_BY_BAND_ID = "http://localhost:8088/repertoire/filter/band";
     private static final String TRACKS_URL = "http://localhost:8088/repertoire";
     private static final String BANDS_URL = "http://localhost:8088/bands";

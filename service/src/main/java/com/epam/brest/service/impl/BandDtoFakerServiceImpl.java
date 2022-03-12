@@ -26,16 +26,15 @@ public class BandDtoFakerServiceImpl implements BandDtoFakerService {
     @Override
     public List<BandDto> fillFakeBandsDto(Integer size, String language) {
         logger.debug("fillFakeBandsDto({size},{language})", size, language);
-        Locale locale = new Locale(language);
-        Faker faker = new Faker(locale);
+        Faker faker = new Faker(new Locale(language));
         List<BandDto> bandDtoList = null;
         Random random = new Random();
         if (size >= DEFAULT_SIZE) {
             bandDtoList = IntStream.rangeClosed(DEFAULT_SIZE, size)
                     .mapToObj(i -> BandDto.builder()
                             .bandId(i)
-                            .bandName(faker.rockBand().name())
-                            .bandDetails(faker.music().genre())
+                            .bandName(faker.rockBand().name().toUpperCase())
+                            .bandDetails(faker.music().genre() + " " + faker.book().title())
                             .bandCountTrack(random.nextInt(HIGH_TRACK_COUNT))
                             .bandRepertoireDuration(random.nextInt(HIGH_TRACK_COUNT) *
                                     random.nextInt(HIGH_TRACK_DURATION - LOW_TRACK_DURATION) +

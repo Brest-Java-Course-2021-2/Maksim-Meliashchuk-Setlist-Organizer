@@ -105,3 +105,7 @@ a:hover {
     top: 126px;
     right: 30px;
  }
+
+#toggleButtonOffcanvasRight:hover{
+    filter: invert(10%) sepia(16%) saturate(1082%) hue-rotate(100deg) brightness(91%) contrast(81%);
+ }

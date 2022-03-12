@@ -22,15 +22,14 @@ public class BandFakerServiceImpl implements BandFakerService {
     @Override
     public List<Band> fillFakeBands(Integer size, String language) {
         logger.debug("fillFakeBandsDto({size},{language})", size, language);
-        Locale locale = new Locale(language);
-        Faker faker = new Faker(locale);
+        Faker faker = new Faker(new Locale(language));
         List<Band> bandList = null;
         if (size >= DEFAULT_SIZE) {
             bandList = IntStream.rangeClosed(DEFAULT_SIZE, size)
                     .mapToObj(i -> Band.builder()
                             .bandId(i)
                             .bandName(faker.rockBand().name() + i)
-                            .bandDetails(faker.music().genre())
+                            .bandDetails(faker.music().genre() + " " + faker.book().title())
                             .build())
                     .collect(Collectors.toList());
         }

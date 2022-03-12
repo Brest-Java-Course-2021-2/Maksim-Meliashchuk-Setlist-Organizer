@@ -29,8 +29,7 @@ public class TrackFakerServiceImpl implements TrackFakerService {
     @Override
     public List<Track> fillFakeTracks(Integer size, String language) {
         logger.debug("fillFakeTracks({size},{language})", size, language);
-        Locale locale = new Locale(language);
-        Faker faker = new Faker(locale);
+        Faker faker = new Faker(new Locale(language));
         List<Track> trackList = null;
         Random random = new Random();
         if (size >= DEFAULT_SIZE) {
@@ -38,10 +37,10 @@ public class TrackFakerServiceImpl implements TrackFakerService {
                     .mapToObj(i -> Track.builder()
                             .trackId(i)
                             .trackBandId(random.nextInt(HIGH_BAND_COUNT + 1))
-                            .trackName(faker.rickAndMorty().character())
-                            .trackDetails(faker.music().genre() + System.lineSeparator() +
-                                    faker.music().instrument() + System.lineSeparator() + faker.music().key() +
-                                    System.lineSeparator() + faker.music().chord())
+                            .trackName(faker.book().title())
+                            .trackDetails(faker.music().genre() + " " +
+                                    faker.music().instrument() + " " + faker.music().key() +
+                                    " " + faker.music().chord() + " " + faker.book().publisher())
                             .trackLink("https://youtube.com/" + faker.regexify("[a-z1-9]{10}"))
                             .trackTempo(random.nextInt(HIGH_TRACK_TEMPO - LOW_TRACK_TEMPO) +
                                     LOW_TRACK_TEMPO)

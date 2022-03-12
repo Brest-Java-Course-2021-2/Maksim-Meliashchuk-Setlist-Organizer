@@ -113,7 +113,7 @@ public class TrackController {
                                         @RequestParam(value = "language", required = false)
                                                     String language,
                                         Model model) {
-        logger.debug("fillFakerTracks()");
+        logger.debug("fillFakerTracks({},{})", size, language);
         model.addAttribute("tracks", trackDtoFakerService.fillFakeTracksDto(size, language));
         return "repertoire";
     }
