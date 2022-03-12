@@ -15,8 +15,12 @@
     <title>Setlist Organizer</title>
 </head>
 
-<div th:insert="layouts :: header"></div>
-<div th:insert="layouts :: navbar"></div>
+<div class="fixed-top">
+    <div th:insert="layouts :: header"></div>
+    <div th:insert="layouts :: navbar"></div>
+    <div th:insert="layouts :: offcanvas"></div>
+</div>
+
 
 <form class="form-group" th:action="@{/repertoire/band}">
     <div class="container">

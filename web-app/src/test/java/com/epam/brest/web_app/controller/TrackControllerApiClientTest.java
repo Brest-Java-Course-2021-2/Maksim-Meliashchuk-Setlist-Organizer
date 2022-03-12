@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -28,8 +29,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(TrackControllerApiClient.class)
 @ComponentScan({"com.epam.brest.web_app.validator"})
+@SpringBootTest(properties = { "app.httpClient = ApiClient" })
+@AutoConfigureMockMvc
 class TrackControllerApiClientTest {
 
     @Autowired
@@ -161,6 +163,42 @@ class TrackControllerApiClientTest {
         when(tracksApi.findAllTracksWithBandName()).thenReturn(trackDtoList);
 
         this.mockMvc.perform(get("/repertoire")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(model().attribute("tracks", trackDtoList))
+                .andExpect(content().string(containsString(track1.getTrackName())))
+                .andExpect(content().string(containsString(track1.getTrackId().toString())))
+                .andExpect(content().string(containsString(track1.getTrackLink())))
+                .andExpect(content().string(containsString(track1.getTrackDetails())))
+                .andExpect(content().string(containsString(track1.getTrackBandName())))
+                .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
+                .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
+                .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
+
+                .andExpect(content().string(containsString(track2.getTrackBandName())))
+                .andExpect(content().string(containsString(track2.getTrackId().toString())))
+                .andExpect(content().string(containsString(track2.getTrackLink())))
+                .andExpect(content().string(containsString(track2.getTrackDetails())))
+                .andExpect(content().string(containsString(track2.getTrackBandName())))
+                .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
+                .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
+                .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+
+    }
+
+    @Test
+    void fillFakeTracksDto() throws Exception {
+        LOGGER.debug("fillFakeTracksDto()");
+
+        Integer size = 2;
+        String language = "EN";
+        TrackDto track1 = createTrackDto(1);
+        TrackDto track2 = createTrackDto(2);
+        List<TrackDto> trackDtoList = Arrays.asList(track1, track2);
+
+        when(tracksApi.fillTracksDtoFake(size, language)).thenReturn(trackDtoList);
+
+        this.mockMvc.perform(get("/repertoire/fill?size={size}&language={language}", size, language)).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(model().attribute("tracks", trackDtoList))

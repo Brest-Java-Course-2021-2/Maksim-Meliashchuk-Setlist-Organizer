@@ -1,4 +1,4 @@
-package com.epam.brest.web_app.config;
+package com.epam.brest.web_app.config.heroku;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -18,8 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 @Configuration
-@PropertySource("classpath:application-dev.properties")
-public class WebClientConfig {
+@Profile("heroku")
+@PropertySource("classpath:application-heroku.properties")
+public class WebClientHerokuConfig {
 
     @Value("${spring.jackson.date-format}")
     private String dateFormat;
@@ -49,4 +50,5 @@ public class WebClientConfig {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
+
 }

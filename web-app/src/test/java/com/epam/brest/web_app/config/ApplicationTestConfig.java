@@ -2,7 +2,6 @@ package com.epam.brest.web_app.config;
 
 import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
-import com.epam.brest.web_app.condition.ApiClientCondition;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
 import io.swagger.client.api.TrackApi;
@@ -10,7 +9,6 @@ import io.swagger.client.api.TracksApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
@@ -27,9 +25,9 @@ public class ApplicationTestConfig {
     @Value("${rest.server.port}")
     private Integer port;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    private ApiClient apiClient;
+    private final ApiClient apiClient;
 
     public ApplicationTestConfig(RestTemplate restTemplate, ApiClient apiClient) {
         this.restTemplate = restTemplate;
@@ -40,6 +38,12 @@ public class ApplicationTestConfig {
     BandDtoService bandDtoService() {
         String url = String.format("%s://%s:%d/bands_dto", protocol, host, port);
         return new BandDtoServiceRest(url, restTemplate);
+    }
+
+    @Bean
+    BandDtoFakerService bandDtoFakerService() {
+        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host, port);
+        return new BandDtoFakerServiceRest(url, restTemplate);
     }
 
     @Bean
@@ -61,7 +65,12 @@ public class ApplicationTestConfig {
     }
 
     @Bean
-    @Conditional(ApiClientCondition.class)
+    TrackDtoFakerService trackDtoFakerService() {
+        String url = String.format("%s://%s:%d/repertoire/fill", protocol, host, port);
+        return new TrackDtoFakerServiceRest(url, restTemplate);
+    }
+
+    @Bean
     public BandsApi bandsApi() {
         BandsApi bandsApi = new BandsApi();
         bandsApi.setApiClient(apiClient);
@@ -69,7 +78,6 @@ public class ApplicationTestConfig {
     }
 
     @Bean
-    @Conditional(ApiClientCondition.class)
     public BandApi bandApi() {
         BandApi bandApi = new BandApi();
         bandApi.setApiClient(apiClient);
@@ -77,7 +85,6 @@ public class ApplicationTestConfig {
     }
 
     @Bean
-    @Conditional(ApiClientCondition.class)
     public TracksApi tracksApi() {
         TracksApi tracksApi = new TracksApi();
         tracksApi.setApiClient(apiClient);
@@ -85,7 +92,6 @@ public class ApplicationTestConfig {
     }
 
     @Bean
-    @Conditional(ApiClientCondition.class)
     public TrackApi trackApi() {
         TrackApi trackApi = new TrackApi();
         trackApi.setApiClient(apiClient);

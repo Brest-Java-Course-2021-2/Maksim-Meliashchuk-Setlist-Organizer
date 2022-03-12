@@ -2,6 +2,7 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.openapi.api.BandsDtoApiDelegate;
+import com.epam.brest.service.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,11 @@ public class BandsDtoDelegateImpl implements BandsDtoApiDelegate {
 
     private final BandDtoService bandDtoService;
 
-    public BandsDtoDelegateImpl(BandDtoService bandDtoService) {
+    private final BandDtoFakerService bandDtoFakerService;
+
+    public BandsDtoDelegateImpl(BandDtoService bandDtoService, BandDtoFakerService bandDtoFakerService) {
         this.bandDtoService = bandDtoService;
+        this.bandDtoFakerService = bandDtoFakerService;
     }
 
     @Override
@@ -29,4 +33,10 @@ public class BandsDtoDelegateImpl implements BandsDtoApiDelegate {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<BandDto>> fillBandsDtoFake(Integer size, String language) {
+        LOGGER.debug("fillBandsDtoFake()");
+        List<BandDto> resultList = bandDtoFakerService.fillFakeBandsDto(size, language);
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
 }

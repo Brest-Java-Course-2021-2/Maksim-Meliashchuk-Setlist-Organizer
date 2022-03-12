@@ -46,6 +46,8 @@ public class TrackControllerIT {
 
     public static final String REPERTOIRE_ENDPOINT = "/repertoire";
 
+    public static final int FAKE_DATA_SIZE = 15;
+
     @Autowired
     private TrackController trackController;
 
@@ -58,7 +60,7 @@ public class TrackControllerIT {
 
     private MockMvc mockMvc;
 
-    private MockMvcTrackService trackService = new MockMvcTrackService();
+    private final MockMvcTrackService trackService = new MockMvcTrackService();
 
     @BeforeEach
     public void before() {
@@ -84,6 +86,18 @@ public class TrackControllerIT {
         // then
         assertNotNull(tracks);
         assertTrue(tracks.size() > 0);
+    }
+
+    @Test
+    public void shouldFillFakeTracks() throws Exception {
+        logger.debug("shouldFillFakeBands()");
+
+        // when
+        List<Track> tracks = trackService.fillFakeTracks();
+
+        // then
+        assertNotNull(tracks);
+        assertEquals(FAKE_DATA_SIZE, tracks.size());
     }
 
     @Test
@@ -231,6 +245,18 @@ public class TrackControllerIT {
         public List<Track> findAll() throws Exception {
             logger.debug("findAll()");
             MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT)
+                            .accept(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            assertNotNull(response);
+
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            });
+        }
+
+        public List<Track> fillFakeTracks() throws Exception {
+            logger.debug("fillFakeTracks()");
+            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE)
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();

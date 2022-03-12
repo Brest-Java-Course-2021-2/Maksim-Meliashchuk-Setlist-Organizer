@@ -5,6 +5,7 @@ import com.epam.brest.model.ErrorResponse;
 import com.epam.brest.model.Band;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,8 @@ public class BandControllerIT {
 
     public static final String BANDS_ENDPOINT = "/bands";
 
+    public static final int FAKE_DATA_SIZE = 15;
+
     @Autowired
     private BandController bandController;
 
@@ -86,6 +89,18 @@ public class BandControllerIT {
         // then
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
+    }
+
+    @Test
+    public void shouldFillFakeBands() throws Exception {
+        logger.debug("shouldFillFakeBands()");
+
+        // when
+        List<Band> bands = bandService.fillFakeBands();
+
+        // then
+        assertNotNull(bands);
+        assertEquals(FAKE_DATA_SIZE, bands.size());
     }
 
     @Test
@@ -267,6 +282,18 @@ public class BandControllerIT {
         public List<Band> findAll() throws Exception {
             logger.debug("findAll()");
             MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT)
+                            .accept(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            assertNotNull(response);
+
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Band>>() {
+            });
+        }
+
+        public List<Band> fillFakeBands() throws Exception {
+            logger.debug("fillFakeBands()");
+            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE)
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();

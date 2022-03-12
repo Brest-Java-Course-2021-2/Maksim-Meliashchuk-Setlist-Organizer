@@ -1,12 +1,14 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.TrackDto;
+import com.epam.brest.service.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -23,6 +25,8 @@ import java.util.Arrays;
 @ExtendWith(MockitoExtension.class)
 public class TrackDtoControllerTest {
 
+    public static final int FAKE_DATA_SIZE = 2;
+
     private final Logger logger = LogManager.getLogger(TrackDtoControllerTest.class);
 
     @InjectMocks
@@ -30,6 +34,9 @@ public class TrackDtoControllerTest {
 
     @Mock
     private TrackDtoService trackDtoService;
+
+    @Mock
+    private TrackDtoFakerService trackDtoFakerService;
 
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
@@ -86,6 +93,47 @@ public class TrackDtoControllerTest {
 
 
         Mockito.verify(trackDtoService).findAllTracksWithBandName();
+    }
+
+    @Test
+    public void shouldFillFakeTracksWithBandName() throws Exception {
+        logger.debug("shouldFillFakeTracksWithBandName()");
+
+        Mockito.when(trackDtoFakerService.fillFakeTracksDto(FAKE_DATA_SIZE, "EN"))
+                .thenReturn(Arrays.asList(create(0), create(1)));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/tracks_dto/fill?size=" + FAKE_DATA_SIZE)
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackId", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackName", Matchers.is("track0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDetails", Matchers.is("track0details0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackDuration", Matchers.is(10000)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackBandName", Matchers.is("band0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackLink", Matchers.is("link0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[0]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[1]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getMonthValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].trackReleaseDate[2]",
+                        Matchers.is(LocalDate.parse("2012-03-12").getDayOfMonth())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackName", Matchers.is("track1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDetails", Matchers.is("track1details1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackDuration", Matchers.is(10001)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackBandName", Matchers.is("band1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackLink", Matchers.is("link1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[0]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[1]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getMonthValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].trackReleaseDate[2]",
+                        Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
+
+
+        Mockito.verify(trackDtoFakerService).fillFakeTracksDto(FAKE_DATA_SIZE, "EN");
     }
 
     @Test

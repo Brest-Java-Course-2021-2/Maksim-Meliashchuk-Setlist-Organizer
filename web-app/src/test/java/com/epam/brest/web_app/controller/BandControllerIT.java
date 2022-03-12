@@ -2,6 +2,7 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
+import com.epam.brest.service.BandFakerService;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BandControllerIT {
 
     private static final String BANDS_DTO_URL = "http://localhost:8088/bands_dto";
+    private static final String FAKE_BANDS_DTO_URL = "http://localhost:8088/bands_dto/fill?size=2&language=EN";
     private static final String BANDS_URL = "http://localhost:8088/bands";
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
@@ -49,6 +51,8 @@ class BandControllerIT {
     private WebApplicationContext wac;
 
     private BandService bandService;
+
+    private BandFakerService bandFakerService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -88,6 +92,54 @@ class BandControllerIT {
 
         // THEN
         mockMvc.perform(MockMvcRequestBuilders.get("/bands")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("bands"))
+                .andExpect(model().attribute("bands", hasItem(
+                        allOf(
+                                hasProperty("bandId", is(1)),
+                                hasProperty("bandName", is("band1")),
+                                hasProperty("bandRepertoireDuration", is(1001)),
+                                hasProperty("bandDetails", is("band1details1")),
+                                hasProperty("bandCountTrack", is(101))
+                        )
+                )))
+                .andExpect(model().attribute("bands", hasItem(
+                        allOf(
+                                hasProperty("bandId", is(2)),
+                                hasProperty("bandName", is("band2")),
+                                hasProperty("bandRepertoireDuration", is(1002)),
+                                hasProperty("bandDetails", is("band2details2")),
+                                hasProperty("bandCountTrack", is(102))
+                        )
+                )));
+
+        // VERIFY
+        mockServer.verify();
+
+    }
+
+    @Test
+    void shouldFillFakeBands() throws Exception {
+        logger.debug("shouldFillFakeBands()");
+
+        BandDto band1 = createBandDto(1);
+        BandDto band2 = createBandDto(2);
+        Integer size = 2;
+        String language = "EN";
+        List<BandDto> bandDtoList = Arrays.asList(band1, band2);
+
+        //WHEN
+        mockServer.expect(once(), requestTo(new URI(FAKE_BANDS_DTO_URL)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(bandDtoList))
+
+                );
+
+        // THEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/bands/fill?size={size}&language={language}", size, language)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bands"))

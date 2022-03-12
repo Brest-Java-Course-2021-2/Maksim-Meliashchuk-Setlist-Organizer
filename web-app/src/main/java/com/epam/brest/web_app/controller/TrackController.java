@@ -3,14 +3,13 @@ package com.epam.brest.web_app.controller;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.web_app.condition.RestTemplateCondition;
 import com.epam.brest.web_app.validator.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,15 +37,18 @@ public class TrackController {
 
     private final TrackDtoService trackDtoService;
 
+    private final TrackDtoFakerService trackDtoFakerService;
+
     private final TrackValidator trackValidator;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, BandService bandService, TrackDtoService trackDtoService,
-                           TrackValidator trackValidator) {
+                           TrackDtoFakerService trackDtoFakerService, TrackValidator trackValidator) {
         this.trackService = trackService;
         this.bandService = bandService;
         this.trackDtoService = trackDtoService;
+        this.trackDtoFakerService = trackDtoFakerService;
         this.trackValidator = trackValidator;
     }
 
@@ -102,6 +104,17 @@ public class TrackController {
     public final String findAllTracksWithBandName(Model model) {
         logger.debug("findAllTracksWithBandName()");
         model.addAttribute("tracks", trackDtoService.findAllTracksWithBandName());
+        return "repertoire";
+    }
+
+    @GetMapping(value = "/repertoire/fill")
+    public final String fillFakerTracks(@RequestParam(value = "size", required = false)
+                                                    Integer size,
+                                        @RequestParam(value = "language", required = false)
+                                                    String language,
+                                        Model model) {
+        logger.debug("fillFakerTracks({},{})", size, language);
+        model.addAttribute("tracks", trackDtoFakerService.fillFakeTracksDto(size, language));
         return "repertoire";
     }
 

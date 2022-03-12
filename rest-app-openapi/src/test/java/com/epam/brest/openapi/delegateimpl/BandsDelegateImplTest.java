@@ -3,6 +3,7 @@ package com.epam.brest.openapi.delegateimpl;
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import com.epam.brest.openapi.api.BandsApiController;
+import com.epam.brest.service.BandFakerService;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -36,11 +37,16 @@ class BandsDelegateImplTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    public static final int FAKE_DATA_SIZE = 2;
+
     @InjectMocks
     private BandsDelegateImpl bandsDelegate;
 
     @Mock
     private BandService bandService;
+
+    @Mock
+    private BandFakerService bandFakerService;
 
     private MockMvc mockMvc;
 
@@ -97,6 +103,29 @@ class BandsDelegateImplTest {
         assertEquals(bandList, responseList);
 
         verify(bandService).findAllBands();
+    }
+
+    @Test
+    void shouldFillFakeBandsTest() throws Exception {
+
+        LOGGER.debug("shouldFillFakeBandsTest()");
+
+        List<Band> bandList = Arrays.asList(createBand(1), createBand(2));
+        when(bandFakerService.fillFakeBands(FAKE_DATA_SIZE, "EN")).thenReturn(bandList);
+
+        String responseBody = mockMvc.perform(get("/bands/fill?size=" + FAKE_DATA_SIZE))
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        List<Track> responseList = objectMapper.readValue(
+                responseBody,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, Band.class));
+
+        assertEquals(bandList, responseList);
+
+        verify(bandFakerService).fillFakeBands(FAKE_DATA_SIZE, "EN");
     }
 
     @Test

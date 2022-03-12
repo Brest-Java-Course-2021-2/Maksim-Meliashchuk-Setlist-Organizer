@@ -4,11 +4,13 @@ import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.RepertoireApiController;
 import com.epam.brest.service.TrackDtoService;
+import com.epam.brest.service.TrackFakerService;
 import com.epam.brest.service.TrackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,6 +56,9 @@ public class RepertoireDelegateImplTest {
     @Mock
     private TrackService trackService;
 
+    @Mock
+    private TrackFakerService trackFakerService;
+
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
 
@@ -65,6 +70,13 @@ public class RepertoireDelegateImplTest {
                 .build();
     }
 
+    @AfterEach
+    public void end() {
+        Mockito.verifyNoMoreInteractions(trackDtoService);
+        Mockito.verifyNoMoreInteractions(trackService);
+        Mockito.verifyNoMoreInteractions(trackFakerService);
+    }
+
     @Test
     public void shouldFindAllTracksWithBandNameByBandId() throws Exception {
 
@@ -72,7 +84,7 @@ public class RepertoireDelegateImplTest {
 
         int id = 1;
         when(trackDtoService.findAllTracksWithBandNameByBandId(id))
-                .thenReturn(Arrays.asList(createTrackDto(id)));
+                .thenReturn(List.of(createTrackDto(id)));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get(String.format("/repertoire/filter/band/%d", id))
@@ -144,7 +156,7 @@ public class RepertoireDelegateImplTest {
     void shouldCreateTrackTest() throws Exception {
 
         LOGGER.debug("shouldCreateTrackTest()");
-        Integer trackId = 1;
+        int trackId = 1;
         Track track = createTrack(trackId);
         when(trackService.create(any(Track.class))).thenReturn(trackId);
         String requestBody = objectMapper.writeValueAsString(track);
@@ -241,6 +253,32 @@ public class RepertoireDelegateImplTest {
 
         verify(trackService).findAllTracks();
         verifyNoMoreInteractions(trackService);
+    }
+
+    @Test
+    public void shouldFillFakeTracksTest() throws Exception {
+
+        LOGGER.debug("shouldFillFakeTracksTest()");
+
+        Integer size = 2;
+
+        List<Track> trackList = Arrays.asList(createTrack(0), createTrack(1));
+        Mockito.when(trackFakerService.fillFakeTracks(size, "EN"))
+                .thenReturn(trackList);
+
+        String responseBody = mockMvc.perform(get("/repertoire/fill?size=" + size))
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        List<Track> responseList = objectMapper.readValue(
+                responseBody,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, Track.class));
+
+        assertEquals(trackList, responseList);
+
+        verify(trackFakerService).fillFakeTracks(size, "EN");
     }
 
     private TrackDto createTrackDto(int index) {

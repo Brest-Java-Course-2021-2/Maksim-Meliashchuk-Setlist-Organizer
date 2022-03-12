@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -27,8 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(BandControllerApiClient.class)
 @ComponentScan({"com.epam.brest.web_app.validator"})
+@SpringBootTest(properties = { "app.httpClient = ApiClient" })
+@AutoConfigureMockMvc
 class BandControllerApiClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BandControllerApiClient.class);
@@ -56,6 +58,27 @@ class BandControllerApiClientTest {
         when(bandsApi.bandsDto()).thenReturn(bandDtoList);
 
         this.mockMvc.perform(get("/bands")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(model().attribute("bands", bandDtoList))
+                .andExpect(content().string(containsString(band1.getBandName())))
+                .andExpect(content().string(containsString(band2.getBandName())));
+
+    }
+
+    @Test
+    void fakeBands() throws Exception {
+        LOGGER.debug("fakeBands()");
+
+        BandDto band1 = createBandDto(1);
+        BandDto band2 = createBandDto(2);
+        List<BandDto> bandDtoList = Arrays.asList(band1, band2);
+        Integer size = 2;
+        String language = "EN";
+
+        when(bandsApi.fillBandsDtoFake(size, language)).thenReturn(bandDtoList);
+
+        this.mockMvc.perform(get("/bands/fill?size={size}&language={language}", size, language)).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(model().attribute("bands", bandDtoList))

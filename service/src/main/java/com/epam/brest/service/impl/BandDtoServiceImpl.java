@@ -3,6 +3,8 @@ package com.epam.brest.service.impl;
 import com.epam.brest.dao.BandDtoDao;
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Transactional
 public class BandDtoServiceImpl implements BandDtoService {
 
+    private final Logger logger = LogManager.getLogger(BandDtoServiceImpl.class);
+
     private final BandDtoDao bandDtoDao;
 
     public BandDtoServiceImpl(BandDtoDao bandDtoDao) {
@@ -20,6 +24,7 @@ public class BandDtoServiceImpl implements BandDtoService {
 
     @Override
     public List<BandDto> findAllWithCountTrack() {
+        logger.debug("findAllWithCountTrack()");
         return bandDtoDao.findAllWithCountTrack();
     }
 

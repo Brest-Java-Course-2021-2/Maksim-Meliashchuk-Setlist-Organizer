@@ -47,9 +47,22 @@ public class ApplicationConfig {
     }
 
     @Bean
+    @Conditional(RestTemplateCondition.class)
+    BandDtoFakerService bandDtoFakerServiceRestTemplate() {
+        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host, port);
+        return new BandDtoFakerServiceRest(url, restTemplate);
+    }
+
+    @Bean
     @Conditional(WebClientCondition.class)
     BandDtoService bandDtoServiceWebClient() {
         return new BandDtoServiceWebClient("/bands_dto", webClient);
+    }
+
+    @Bean
+    @Conditional(WebClientCondition.class)
+    BandDtoFakerService bandDtoFakerServiceWebClient() {
+        return new BandDtoFakerServiceWebClient("/bands_dto/fill", webClient);
     }
 
     @Bean
@@ -86,9 +99,22 @@ public class ApplicationConfig {
     }
 
     @Bean
+    @Conditional(RestTemplateCondition.class)
+    TrackDtoFakerService trackDtoFakerService() {
+        String url = String.format("%s://%s:%d/tracks_dto/fill", protocol, host, port);
+        return new TrackDtoFakerServiceRest(url, restTemplate);
+    }
+
+    @Bean
     @Conditional(WebClientCondition.class)
     TrackDtoService trackDtoServiceWebClient() {
         return new TrackDtoServiceWebClient("/repertoire/filter", webClient);
+    }
+
+    @Bean
+    @Conditional(WebClientCondition.class)
+    TrackDtoFakerService trackDtoFakerServiceWebClient() {
+        return new TrackDtoFakerServiceWebClient("/tracks_dto/fill", webClient);
     }
 
     @Bean

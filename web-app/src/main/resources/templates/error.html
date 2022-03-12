@@ -12,45 +12,49 @@
     <title>Setlist Organizer</title>
 </head>
 
-<div th:insert="layouts :: header"></div>
-<div th:insert="layouts :: navbar"></div>
+<div class="fixed-top">
+    <div th:insert="layouts :: header"></div>
+    <div th:insert="layouts :: navbar"></div>
+    <div th:insert="layouts :: offcanvas"></div>
+</div>
 
-<section class="container">
-    <div class="alert alert-danger" role="alert">
-        <h2>Exception!</h2>
+<div class="main">
+    <section class="container">
+        <div class="alert alert-danger" role="alert">
+            <h2>Exception!</h2>
 
-        <p th:if="${isNotUniqueException}">
-            <span th:text="${exception.getMessage()}">Exception</span>
-        </p>
+            <p th:if="${isNotUniqueException}">
+                <span th:text="${exception.getMessage()}">Exception</span>
+            </p>
 
-        <p th:if="${timestamp}" id='created'>
-            <b>Occurred:</b> <span th:text="${timestamp}">Timestamp</span>
-        </p>
+            <p th:if="${timestamp}" id='created'>
+                <b>Occurred:</b> <span th:text="${timestamp}">Timestamp</span>
+            </p>
 
-        <p th:if="!${isNotUniqueException}">
-            <span>Application has encountered an error. Please contact support.</span>
-        </p>
+            <p th:if="!${isNotUniqueException}">
+                <span>Application has encountered an error. Please contact support.</span>
+            </p>
 
-        <p>
-            <a class="alert-link" data-bs-toggle="collapse" href="#collapseError" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Read more
-            </a>
-        </p>
-        <div class="collapse" id="collapseError">
-            <div class="card border-danger mb-3" style="max-width: 40rem;">
-                <div class = "p-1" th:utext="'Exception: ' + ${exception.getMessage()}" >Something wrong</div>
+            <p>
+                <a class="alert-link" data-bs-toggle="collapse" href="#collapseError" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    Read more
+                </a>
+            </p>
+            <div class="collapse" id="collapseError">
+                <div class="card border-danger mb-3" style="max-width: 40rem;">
+                    <div class="p-1" th:utext="'Exception: ' + ${exception.getMessage()}">Something wrong</div>
+                </div>
             </div>
-        </div>
 
 
-        <script>
+            <script>
                 document.write('<a href="' + document.referrer + '"> <div class="alert-link"> Go Back</div>');
+            </script>
 
-
-        </script>
-
-    </div>
-</section>
+        </div>
+    </section>
+</div>
 
 <div th:insert="layouts :: footer"></div>
 

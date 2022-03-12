@@ -1,7 +1,10 @@
 package com.epam.brest.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -11,7 +14,10 @@ import java.time.LocalDate;
  */
 
 @Data
-@Schema(name="TrackDto", description = "TrackDto")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(name="TrackDto", description = "Track with the band name")
 public class TrackDto {
 
     private Integer trackId;

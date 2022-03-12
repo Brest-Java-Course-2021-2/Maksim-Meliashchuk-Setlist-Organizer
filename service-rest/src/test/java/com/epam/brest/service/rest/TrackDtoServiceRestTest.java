@@ -56,7 +56,7 @@ class TrackDtoServiceRestTest {
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
 
-    private ObjectMapper objectMapper = JsonMapper.builder()
+    private final ObjectMapper objectMapper = JsonMapper.builder()
             .addModule(new JavaTimeModule())
             .build();
 
@@ -116,7 +116,7 @@ class TrackDtoServiceRestTest {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(Arrays.asList(create(1)))));
+                        .body(objectMapper.writeValueAsString(List.of(create(1)))));
 
         // when
         List<TrackDto> list = trackDtoServiceRest.findAllTracksWithReleaseDateFilter(FROM_DATE, TO_DATE);

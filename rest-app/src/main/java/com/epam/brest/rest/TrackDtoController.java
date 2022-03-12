@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.TrackDto;
+import com.epam.brest.service.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -29,8 +30,11 @@ public class TrackDtoController {
 
     private final TrackDtoService trackDtoService;
 
-    public TrackDtoController(TrackDtoService trackDtoService) {
+    private final TrackDtoFakerService trackDtoFakerService;
+
+    public TrackDtoController(TrackDtoService trackDtoService, TrackDtoFakerService trackDtoFakerService) {
         this.trackDtoService = trackDtoService;
+        this.trackDtoFakerService = trackDtoFakerService;
     }
 
     @Operation(summary = "Get information for all tracks with their band names")
@@ -43,6 +47,21 @@ public class TrackDtoController {
     public final Collection<TrackDto> findAllTracksWithBandName() {
         logger.debug("findAllTracksWithBandName()");
         return trackDtoService.findAllTracksWithBandName();
+    }
+
+    @Operation(summary = "Filled fake tracks with their band names")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "A set of fake tracks",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TrackDto.class))) })
+    })
+    @GetMapping(value = "/tracks_dto/fill")
+    public final Collection<TrackDto> fillTracksDtoFake(@RequestParam(defaultValue = "1", value = "size", required = false)
+                                                                    Integer size,
+                                                        @RequestParam(defaultValue = "EN", value = "language", required = false)
+                                                                    String language) {
+        logger.debug("findAllTracksWithBandName()");
+        return trackDtoFakerService.fillFakeTracksDto(size, language);
     }
 
     @Operation(summary = "Get information about band's tracks")

@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Track;
+import com.epam.brest.service.TrackFakerService;
 import com.epam.brest.service.TrackService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,12 +26,15 @@ import java.util.Collection;
 @RestController
 @CrossOrigin
 public class TrackController {
+
     private final TrackService trackService;
+    private final TrackFakerService trackFakerService;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
-    public TrackController(TrackService trackService) {
+    public TrackController(TrackService trackService, TrackFakerService trackFakerService) {
         this.trackService = trackService;
+        this.trackFakerService = trackFakerService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -43,6 +47,21 @@ public class TrackController {
     public final Collection<Track> tracks() {
         logger.debug("tracks()");
         return trackService.findAllTracks();
+    }
+
+    @Operation(summary = "Fill information for fake tracks based on their IDs")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "A set of fake tracks",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Track.class))) })
+    })
+    @GetMapping(value = "/repertoire/fill")
+    public final Collection<Track> tracksFake(@RequestParam(defaultValue = "1", value = "size", required = false)
+                                                          Integer size,
+                                              @RequestParam(defaultValue = "EN", value = "language", required = false)
+                                                          String language) {
+        logger.debug("tracksFake()");
+        return trackFakerService.fillFakeTracks(size, language);
     }
 
     @Operation(summary = "Get information for a single track identified by its unique ID")

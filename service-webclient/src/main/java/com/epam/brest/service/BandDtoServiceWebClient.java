@@ -34,4 +34,5 @@ public class BandDtoServiceWebClient implements BandDtoService {
                 .bodyToMono(typeReference)
                 .block();
     }
+
 }

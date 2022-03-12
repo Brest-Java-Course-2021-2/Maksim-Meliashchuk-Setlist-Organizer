@@ -1,7 +1,10 @@
 package com.epam.brest.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * POJO Band for model.
@@ -9,7 +12,10 @@ import lombok.Data;
  */
 
 @Data
-@Schema(name="BandDto", description = "BandDto")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(name="BandDto", description = "Band with the count of tracks and the duration of the repertoire")
 public class BandDto {
 
     private Integer bandId;

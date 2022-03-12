@@ -10,9 +10,7 @@ import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -161,6 +159,23 @@ public class TrackControllerApiClient {
         }
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
+        return "repertoire";
+    }
+
+    @GetMapping(value = "/repertoire/fill")
+    public String fillFakeTracks(@RequestParam(value = "size", required = false)
+                                        Integer size,
+                                @RequestParam(value = "language", required = false)
+                                        String language,
+                                Model model) {
+        LOGGER.debug("fillFakeTracks({},{})", size, language);
+        try {
+            model.addAttribute("tracks", tracksApi.fillTracksDtoFake(size,language));
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("size", size);
+        model.addAttribute("language", language);
         return "repertoire";
     }
 

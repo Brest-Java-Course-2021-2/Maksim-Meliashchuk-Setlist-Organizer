@@ -16,9 +16,9 @@ public class BandDtoServiceRest implements BandDtoService {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceRest.class);
 
-    private String url;
+    private final String url;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public BandDtoServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
@@ -32,4 +32,5 @@ public class BandDtoServiceRest implements BandDtoService {
         ResponseEntity<List<BandDto>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,null, typeReference);
         return responseEntity.getBody();
     }
+
 }
