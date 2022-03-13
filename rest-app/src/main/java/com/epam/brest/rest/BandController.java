@@ -1,7 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.service.BandFakerService;
+import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

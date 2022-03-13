@@ -4,7 +4,7 @@ import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.RepertoireApiController;
 import com.epam.brest.service.TrackDtoService;
-import com.epam.brest.service.TrackFakerService;
+import com.epam.brest.service.faker.TrackFakerService;
 import com.epam.brest.service.TrackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;

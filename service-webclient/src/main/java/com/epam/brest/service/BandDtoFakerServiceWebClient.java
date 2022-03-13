@@ -1,6 +1,7 @@
 package com.epam.brest.service;
 
 import com.epam.brest.model.BandDto;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.ParameterizedTypeReference;

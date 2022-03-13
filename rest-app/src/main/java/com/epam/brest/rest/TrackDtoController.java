@@ -1,7 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.service.TrackDtoFakerService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

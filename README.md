@@ -90,6 +90,7 @@ API documentation with Swagger UI:
   - [Jackson](https://github.com/FasterXML/jackson)
   - [GSON](https://github.com/google/gson)
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
+- **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
 - **Annotations:** [Lombok](https://projectlombok.org/)
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>

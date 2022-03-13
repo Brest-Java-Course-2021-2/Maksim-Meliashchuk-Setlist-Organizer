@@ -2,7 +2,7 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandFakerService;
+import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;

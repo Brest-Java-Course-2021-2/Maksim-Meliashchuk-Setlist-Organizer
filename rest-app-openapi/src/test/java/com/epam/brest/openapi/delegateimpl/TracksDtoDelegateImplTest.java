@@ -2,7 +2,7 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.TracksDtoApiController;
-import com.epam.brest.service.TrackDtoFakerService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;

@@ -2,7 +2,7 @@ package com.epam.brest.rest;
 
 import com.epam.brest.dao.BandDtoDaoJdbcImpl;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandDtoFakerService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

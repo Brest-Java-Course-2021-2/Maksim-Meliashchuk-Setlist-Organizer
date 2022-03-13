@@ -3,7 +3,7 @@ package com.epam.brest.openapi.delegateimpl;
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import com.epam.brest.openapi.api.BandsApiController;
-import com.epam.brest.service.BandFakerService;
+import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;

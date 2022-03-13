@@ -2,7 +2,7 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.TracksDtoApiDelegate;
-import com.epam.brest.service.TrackDtoFakerService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

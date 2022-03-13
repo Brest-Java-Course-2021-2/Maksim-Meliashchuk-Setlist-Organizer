@@ -5,8 +5,12 @@ import com.epam.brest.dao.TrackDao;
 import com.epam.brest.dao.TrackDaoJdbcImpl;
 import com.epam.brest.dao.TrackDtoDao;
 import com.epam.brest.dao.TrackDtoDaoJdbcImpl;
+import com.epam.brest.service.excel.TrackDtoExportExcelService;
 import com.epam.brest.service.TrackDtoService;
+import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.service.excel.TrackDtoExportExcelServiceImpl;
+import com.epam.brest.service.excel.TrackExportExcelServiceImpl;
 import com.epam.brest.service.impl.TrackDtoServiceImpl;
 import com.epam.brest.service.impl.TrackServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -35,5 +39,15 @@ public class TrackServiceTestConfig extends SpringJdbcConfig {
     @Bean
     TrackService trackService() {
         return new TrackServiceImpl(trackDao());
+    }
+
+    @Bean
+    TrackExportExcelService trackExportExcelService() {
+        return new TrackExportExcelServiceImpl(trackService());
+    }
+
+    @Bean
+    TrackDtoExportExcelService trackDtoExportExcelService() {
+        return new TrackDtoExportExcelServiceImpl(trackDtoService());
     }
 }

@@ -1,7 +1,6 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.faker;
 
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.service.TrackDtoFakerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;

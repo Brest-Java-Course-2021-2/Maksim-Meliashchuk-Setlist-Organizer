@@ -11,10 +11,6 @@
 
     <artifactId>service</artifactId>
 
-    <properties>
-        <javafaker.version>1.0.2</javafaker.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -49,7 +45,16 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>${javafaker.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
         </dependency>
 
     </dependencies>

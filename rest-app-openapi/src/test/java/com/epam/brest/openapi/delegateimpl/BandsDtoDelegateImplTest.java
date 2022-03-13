@@ -2,7 +2,7 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.openapi.api.BandsDtoApiController;
-import com.epam.brest.service.BandDtoFakerService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;

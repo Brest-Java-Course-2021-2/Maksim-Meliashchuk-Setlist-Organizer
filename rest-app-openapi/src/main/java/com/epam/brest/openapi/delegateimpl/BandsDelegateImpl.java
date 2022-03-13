@@ -2,7 +2,7 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.openapi.api.BandsApiDelegate;
-import com.epam.brest.service.BandFakerService;
+import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

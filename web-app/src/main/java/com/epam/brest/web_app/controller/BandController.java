@@ -1,7 +1,7 @@
 package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.service.BandDtoFakerService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import com.epam.brest.web_app.validator.BandValidator;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * MVC controller.
