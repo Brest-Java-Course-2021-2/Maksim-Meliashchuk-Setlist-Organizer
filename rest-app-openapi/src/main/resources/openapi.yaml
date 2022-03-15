@@ -326,6 +326,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+  /tracks_dto/export/excel:
+    get:
+      tags:
+      - Tracks
+      summary: Export information for all tracks with their band names to Excel
+      operationId: exportToExcelAllTracksWithBandName
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
   /repertoire/{id}:
     get:
       tags:
@@ -524,6 +556,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Track'
+  /repertoire/export/excel:
+    get:
+      tags:
+      - Track
+      summary: Export information for all tracks based on their IDs to Excel
+      operationId: exportToExcelAllTracks
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
   /bands_dto:
     get:
       tags:
@@ -605,6 +669,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BandDto'
+  /bands_dto/export/excel:
+    get:
+      tags:
+      - Bands
+      summary: Export information for all bands with their repertoire duration and
+        track count to Excel
+      operationId: exportToExcelAllBandsDto
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
   /bands/{id}:
     get:
       tags:
@@ -719,6 +816,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Band'
+  /bands/export/excel:
+    get:
+      tags:
+      - Band
+      summary: Export information for all bands based on their IDs to Excel
+      operationId: exportToExcelAllBands
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     ErrorResponse:

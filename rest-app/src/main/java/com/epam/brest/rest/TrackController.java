@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Track;
+import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
 import com.epam.brest.service.TrackService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -29,12 +32,15 @@ public class TrackController {
 
     private final TrackService trackService;
     private final TrackFakerService trackFakerService;
+    private final TrackExportExcelService trackExportExcelService;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
-    public TrackController(TrackService trackService, TrackFakerService trackFakerService) {
+    public TrackController(TrackService trackService, TrackFakerService trackFakerService,
+                           TrackExportExcelService trackExportExcelService) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
+        this.trackExportExcelService = trackExportExcelService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -122,6 +128,22 @@ public class TrackController {
         logger.debug("delete({})", id);
         int result =  trackService.delete(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Export information for all tracks based on their IDs to Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
+                    content = { @Content(mediaType = "application/vnd.ms-excel",
+                            schema = @Schema(implementation = String.class, format = "binary")) }),
+    })
+    @GetMapping(value = "/repertoire/export/excel")
+    public final void exportToExcelAllTracks(HttpServletResponse response) throws IOException {
+        logger.debug("exportToExcelAllTracks()");
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Tracks.xlsx";
+        response.setHeader(headerKey, headerValue);
+        trackExportExcelService.exportTracksExcel(response);
     }
 
 }

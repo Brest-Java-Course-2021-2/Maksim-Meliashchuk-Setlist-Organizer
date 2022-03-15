@@ -6,9 +6,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,14 +15,21 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class ExportExcelUtil {
-    private final Logger logger = LogManager.getLogger(ExportExcelUtil.class);
 
-    public static void exportToExcel (Class clazz, List objectsList) {
+    private static final Logger logger = LogManager.getLogger(ExportExcelUtil.class);
 
+    private static XSSFWorkbook workbook;
+
+    public ExportExcelUtil() {
+        workbook = new XSSFWorkbook();
+    }
+
+    public static void writeData (List objectsList) {
+        logger.debug("writeData()");
+        Class<?> clazz = objectsList.get(0).getClass();
         Field[] fields = clazz.getDeclaredFields();
         Method[] allMethods = clazz.getDeclaredMethods();
 
-        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet(clazz.getSimpleName());
 
         Row header = sheet.createRow(0);
@@ -35,7 +41,7 @@ public class ExportExcelUtil {
         headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         headerStyle.setWrapText(true);
 
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+        XSSFFont font = workbook.createFont();
         font.setFontName("Arial");
         font.setFontHeightInPoints((short) 12);
         font.setBold(true);
@@ -76,26 +82,15 @@ public class ExportExcelUtil {
 
         }
 
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        String fileLocation = path.substring(0, path.length() - 1) + clazz.getSimpleName() + ".xlsx";
+    }
 
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(fileLocation);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            workbook.write(outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            workbook.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void exportToExcel(HttpServletResponse response, List objectsList) throws IOException {
+        logger.debug("exportToExcel()");
+        writeData(objectsList);
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
 
     }
 }

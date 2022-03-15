@@ -77,38 +77,38 @@
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                              data-bs-parent="#accordion">
                             <div class="p-2">
-                            <p>Generate fake bands:</p>
-                            <form id="bandsGenerate" class="form-group" th:action="@{/bands/fill}">
-                                <div class="input-group">
-                                    <button class="btn btn-dark" type="submit">
-                                        Generate
-                                    </button>
-                                    <input type="number" class="form-control" th:name="size" placeholder="Size">
-                                    <select class="form-select" id="inputGroupSelect01"
-                                            th:name="language">
-                                        <option value="EN">EN</option>
-                                        <option value="FR">FR</option>
-                                        <option value="DE">DE</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
+                                <p>Generate fake bands:</p>
+                                <form id="bandsGenerate" class="form-group" th:action="@{/bands/fill}">
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-dark" type="submit">
+                                            Generate
+                                        </button>
+                                        <input type="number" class="form-control" th:name="size" placeholder="Size">
+                                        <select class="form-select" id="inputGroupSelect01"
+                                                th:name="language">
+                                            <option value="EN">EN</option>
+                                            <option value="FR">FR</option>
+                                            <option value="DE">DE</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
                             <div class="p-2">
-                            <p>Generate fake tracks:</p>
-                            <form id="tacksGenerate" class="form-group" th:action="@{/repertoire/fill}">
-                                <div class="input-group">
-                                    <button class="btn btn-dark" type="submit">
-                                        Generate
-                                    </button>
-                                    <input type="number" class="form-control" th:name="size" placeholder="Size">
-                                    <select class="form-select" id="inputGroupSelect02"
-                                            th:name="language">
-                                        <option value="EN">EN</option>
-                                        <option value="FR">FR</option>
-                                        <option value="DE">DE</option>
-                                    </select>
-                                </div>
-                            </form>
+                                <p>Generate fake tracks:</p>
+                                <form id="tacksGenerate" class="form-group" th:action="@{/repertoire/fill}">
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-dark" type="submit">
+                                            Generate
+                                        </button>
+                                        <input type="number" class="form-control" th:name="size" placeholder="Size">
+                                        <select class="form-select" id="inputGroupSelect02"
+                                                th:name="language">
+                                            <option value="EN">EN</option>
+                                            <option value="FR">FR</option>
+                                            <option value="DE">DE</option>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -122,6 +122,30 @@
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                              data-bs-parent="#accordion">
                             <div class="accordion-body">
+                                <p>Export data from selected table to Excel:</p>
+                                <div class="btn-group" role="group" aria-label="Export">
+                                    <div class="p-1">
+                                        <img src="../static/img/excel.svg"
+                                             th:src="@{/img/excel.svg}" height="35" width="35" alt="Excel">
+                                    </div>
+                                    <form id="bandsExportExcel" class="form-group" th:action="@{/bands/export/excel}">
+                                        <div class="p-1 align-middle">
+                                            <button class="btn btn-outline-dark" type="submit">
+                                                Bands
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <form id="repertoireExportExcel" class="form-group"
+                                          th:action="@{/repertoire/export/excel}">
+                                        <div class="p-1 align-middle">
+                                            <button class="btn btn-outline-dark" type="submit">
+                                                Repertoire
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

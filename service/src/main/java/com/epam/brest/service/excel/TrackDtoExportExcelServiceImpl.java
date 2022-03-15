@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,10 +22,14 @@ public class TrackDtoExportExcelServiceImpl implements TrackDtoExportExcelServic
     }
 
     @Override
-    public List<TrackDto> exportTracksDtoExcel() {
+    public List<TrackDto> exportTracksDtoExcel(HttpServletResponse response) {
         logger.debug("exportTracksDtoExcel()");
         List<TrackDto> trackList = trackService.findAllTracksWithBandName();
-        ExportExcelUtil.exportToExcel(TrackDto.class, trackList);
+        try {
+            new ExportExcelUtil().exportToExcel(response, trackList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return trackList;
     }
 }

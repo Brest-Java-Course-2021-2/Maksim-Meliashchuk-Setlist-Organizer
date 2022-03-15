@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -179,4 +186,13 @@ public class TrackControllerApiClient {
         return "repertoire";
     }
 
+    @GetMapping(value = "/repertoire/export/excel")
+    private ResponseEntity<byte[]> exportBandDtoExcel() throws ApiException, IOException {
+        LOGGER.debug("exportBandDtoExcel");
+        Path path = Paths.get(tracksApi.exportToExcelAllTracksWithBandName().getAbsolutePath());
+        byte[] isr = Files.readAllBytes(path);
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Repertoire.xlsx");
+        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    }
 }

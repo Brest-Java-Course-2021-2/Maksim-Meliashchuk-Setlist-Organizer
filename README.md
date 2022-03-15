@@ -8,6 +8,7 @@
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6?action=collection%2Ffork&collection-url=entityId%3D18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6%26entityType%3Dcollection%26workspaceId%3D56c614c7-7bb5-44fe-b171-746dba387b30)
 <img src="https://validator.swagger.io/validator?url=https://setlist-organizer-rest.herokuapp.com/v3/api-docs">
+[![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://setlist-organizer-web.herokuapp.com/)
 
 
 <sub>Built by <a href="https://github.com/Maxxx873">Maksim Meliashchuk</a>

@@ -1,6 +1,7 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
+import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -27,14 +30,16 @@ import java.util.Collection;
 @CrossOrigin
 public class BandController {
 
-    private final BandService bandService;
-
     private final Logger logger = LogManager.getLogger(BandController.class);
 
+    private final BandService bandService;
+    private final BandExportExcelService bandExportExcelService;
     private final BandFakerService bandFakerService;
 
-    public BandController(BandService bandService, BandFakerService bandFakerService) {
+    public BandController(BandService bandService, BandExportExcelService bandExportExcelService,
+                          BandFakerService bandFakerService) {
         this.bandService = bandService;
+        this.bandExportExcelService = bandExportExcelService;
         this.bandFakerService = bandFakerService;
     }
 
@@ -130,5 +135,19 @@ public class BandController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
+    @Operation(summary = "Export information for all bands based on their IDs to Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
+                    content = { @Content(mediaType = "application/vnd.ms-excel",
+                            schema = @Schema(implementation = String.class, format = "binary")) }),
+    })
+    @GetMapping(value = "bands/export/excel")
+    public final void exportToExcelAllBands(HttpServletResponse response) throws IOException {
+        logger.debug("exportToExcelAllBands()");
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Bands.xlsx";
+        response.setHeader(headerKey, headerValue);
+        bandExportExcelService.exportBandsExcel(response);
+    }
 }

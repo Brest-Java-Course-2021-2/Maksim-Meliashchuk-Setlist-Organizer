@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,10 +22,14 @@ public class BandDtoExportExcelServiceImpl implements BandDtoExportExcelService{
     }
 
     @Override
-    public List<BandDto> exportBandsDtoExcel() {
+    public List<BandDto> exportBandsDtoExcel(HttpServletResponse response) {
         logger.debug("exportBandsDtoExcel()");
         List<BandDto> bandList = bandService.findAllWithCountTrack();
-        ExportExcelUtil.exportToExcel(BandDto.class, bandList);
+        try {
+            new ExportExcelUtil().exportToExcel(response, bandList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return bandList;
     }
 }
