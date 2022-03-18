@@ -4,6 +4,7 @@ import com.epam.brest.ApiException;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.web_app.condition.ApiClientCondition;
+import com.epam.brest.web_app.excel.RepertoireViewExportExcel;
 import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.TrackApi;
@@ -12,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,11 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +41,10 @@ public class TrackControllerApiClient {
     private final TrackApi trackApi;
     private final BandApi bandApi;
 
-    public TrackControllerApiClient(TrackValidator trackValidator, TracksApi tracksApi, TrackApi trackApi, BandApi bandApi) {
+    private List<TrackDto> trackDtoList;
+
+    public TrackControllerApiClient(TrackValidator trackValidator, TracksApi tracksApi, TrackApi trackApi,
+                                    BandApi bandApi) {
         this.trackValidator = trackValidator;
         this.tracksApi = tracksApi;
         this.trackApi = trackApi;
@@ -129,7 +127,8 @@ public class TrackControllerApiClient {
     public final String findAllTracksWithBandName(Model model) {
         LOGGER.debug("findAllTracksWithBandName()");
         try {
-            model.addAttribute("tracks", tracksApi.findAllTracksWithBandName());
+            trackDtoList = tracksApi.findAllTracksWithBandName();
+            model.addAttribute("tracks", trackDtoList);
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -139,7 +138,6 @@ public class TrackControllerApiClient {
     @GetMapping(value = "/repertoire/filter/band/{id}")
     public final String gotoBandTracksPage(@PathVariable Integer id, Model model) {
         LOGGER.debug("gotoBandTracksPage(id:{},model:{})", id, model);
-        List<TrackDto> trackDtoList = null;
         try {
             trackDtoList = tracksApi.findAllTracksWithBandNameByBandId(id);
         } catch (ApiException e) {
@@ -160,7 +158,8 @@ public class TrackControllerApiClient {
                                                  Model model) {
         LOGGER.debug("filterTrackByReleaseDate({},{})", fromDate, toDate);
         try {
-            model.addAttribute("tracks", tracksApi.findAllTracksWithReleaseDateFilter(fromDate, toDate));
+            trackDtoList = tracksApi.findAllTracksWithReleaseDateFilter(fromDate, toDate);
+            model.addAttribute("tracks", trackDtoList);
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -171,13 +170,14 @@ public class TrackControllerApiClient {
 
     @GetMapping(value = "/repertoire/fill")
     public String fillFakeTracks(@RequestParam(value = "size", required = false)
-                                        Integer size,
-                                @RequestParam(value = "language", required = false)
-                                        String language,
-                                Model model) {
+                                         Integer size,
+                                 @RequestParam(value = "language", required = false)
+                                         String language,
+                                 Model model) {
         LOGGER.debug("fillFakeTracks({},{})", size, language);
         try {
-            model.addAttribute("tracks", tracksApi.fillTracksDtoFake(size,language));
+            trackDtoList = tracksApi.fillTracksDtoFake(size, language);
+            model.addAttribute("tracks", trackDtoList);
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -187,12 +187,10 @@ public class TrackControllerApiClient {
     }
 
     @GetMapping(value = "/repertoire/export/excel")
-    private ResponseEntity<byte[]> exportBandDtoExcel() throws ApiException, IOException {
-        LOGGER.debug("exportBandDtoExcel");
-        Path path = Paths.get(tracksApi.exportToExcelAllTracksWithBandName().getAbsolutePath());
-        byte[] isr = Files.readAllBytes(path);
-        HttpHeaders respHeaders = new HttpHeaders();
-        respHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Repertoire.xlsx");
-        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    public ModelAndView exportToExcel() {
+        ModelAndView mav = new ModelAndView();
+        mav.setView(new RepertoireViewExportExcel());
+        mav.addObject("tracks", trackDtoList);
+        return mav;
     }
 }

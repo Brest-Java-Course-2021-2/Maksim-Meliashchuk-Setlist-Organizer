@@ -82,7 +82,7 @@ public class BandsDelegateImpl implements BandsApiDelegate {
 
     @Override
     public ResponseEntity<Resource> exportToExcelAllBands() {
-        LOGGER.debug("exportToExcelAllBands1()");
+        LOGGER.debug("exportToExcelAllBands()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();

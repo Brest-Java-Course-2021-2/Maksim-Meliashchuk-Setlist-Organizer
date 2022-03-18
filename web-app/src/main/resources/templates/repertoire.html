@@ -23,9 +23,11 @@
 
 
 <div class="main">
-    <form class="form-group" th:action="@{/repertoire/filter}">
-        <div class="container">
-            <div class="row mb-3 mt-3">
+
+    <div class="container">
+
+        <div class="row mb-3 mt-3">
+            <form class="form-group" th:action="@{/repertoire/filter}">
                 <div class="row gap-6 d-flex justify-content-end">
 
                     <div class="col-6 col-sm-6 col-md-auto px-1 d-flex justify-content-end">
@@ -48,15 +50,21 @@
                     <div class="col col-md-auto px-1 d-flex justify-content-end">
                         <div class="d-flex align-content-end flex-wrap">
                             <strong>
-                                <button class="btn btn-dark">Submit</button>
-                                <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
+                                <button class="btn btn-dark" type="submit" value="Filter"><i class="bi bi-funnel"></i> | Filter</button>
+                                <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark" role="button">
+                                    <i class="bi bi-file-earmark-excel"></i> | Export</a>
+                                <a href="track.html" th:href="@{/bands/export/excel}" class="btn btn-dark"
+                                   role="button">
+                                    <i class="bi bi-file-earmark-excel-fill"></i> | Import</a>
+                                <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">
+                                    <i class="bi bi-plus-square"></i> | Add</a>
                             </strong>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <div class="container">
@@ -167,6 +175,7 @@
         secondsToTime();
         dateFormat();
     }
+
 </script>
 
 

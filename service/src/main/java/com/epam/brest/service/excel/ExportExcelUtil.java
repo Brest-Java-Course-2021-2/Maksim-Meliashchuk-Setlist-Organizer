@@ -90,6 +90,7 @@ public class ExportExcelUtil {
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
         workbook.close();
+        outputStream.flush();
         outputStream.close();
 
     }
