@@ -106,6 +106,7 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=BandsDto.xlsx");
         }
+        //TODO fix Resource
         Resource resource = (Resource) trackExportExcelService.exportTracksExcel(response);
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }

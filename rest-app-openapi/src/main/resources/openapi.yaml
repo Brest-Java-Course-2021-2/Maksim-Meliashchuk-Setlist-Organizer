@@ -354,7 +354,7 @@ paths:
         "200":
           description: Successfully export to Excel
           content:
-            application/vnd.ms-excel:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
               schema:
                 type: string
                 format: binary
@@ -584,7 +584,7 @@ paths:
         "200":
           description: Successfully export to Excel
           content:
-            application/vnd.ms-excel:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
               schema:
                 type: string
                 format: binary
@@ -698,7 +698,7 @@ paths:
         "200":
           description: Successfully export to Excel
           content:
-            application/vnd.ms-excel:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
               schema:
                 type: string
                 format: binary
@@ -844,7 +844,7 @@ paths:
         "200":
           description: Successfully export to Excel
           content:
-            application/vnd.ms-excel:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
               schema:
                 type: string
                 format: binary

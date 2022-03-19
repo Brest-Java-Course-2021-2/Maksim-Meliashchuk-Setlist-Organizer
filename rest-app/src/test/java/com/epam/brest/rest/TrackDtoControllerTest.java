@@ -1,6 +1,8 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.TrackDto;
+import com.epam.brest.service.excel.TrackDtoExportExcelService;
+import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import org.apache.logging.log4j.LogManager;
@@ -18,8 +20,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class TrackDtoControllerTest {
@@ -36,6 +41,9 @@ public class TrackDtoControllerTest {
 
     @Mock
     private TrackDtoFakerService trackDtoFakerService;
+
+    @Mock
+    private TrackDtoExportExcelService trackDtoExportExcelService;
 
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
@@ -208,6 +216,22 @@ public class TrackDtoControllerTest {
 
         Mockito.verify(trackDtoService).findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture());
 
+    }
+
+    @Test
+    public void shouldExportTracksDtoToExcel() throws Exception {
+        logger.debug("shouldExportTracksDtoToExcel()");
+        Mockito.when(trackDtoExportExcelService.exportTracksDtoExcel(any(HttpServletResponse.class)))
+                .thenReturn(Arrays.asList(create(0), create(1)));
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/tracks_dto/export/excel")
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .andExpect(MockMvcResultMatchers.header()
+                        .string("Content-disposition", "attachment; filename=TracksDto.xlsx"));
+
+        Mockito.verify(trackDtoExportExcelService).exportTracksDtoExcel(any(HttpServletResponse.class));
     }
 
     private TrackDto create(int index) {

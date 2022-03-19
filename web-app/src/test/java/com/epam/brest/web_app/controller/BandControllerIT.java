@@ -2,8 +2,8 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.faker.BandFakerService;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.faker.BandFakerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +35,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(properties = { "app.httpClient = RestTemplate" })
@@ -91,7 +92,7 @@ class BandControllerIT {
                 );
 
         // THEN
-        mockMvc.perform(MockMvcRequestBuilders.get("/bands")
+        mockMvc.perform(get("/bands")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bands"))
@@ -139,7 +140,7 @@ class BandControllerIT {
                 );
 
         // THEN
-        mockMvc.perform(MockMvcRequestBuilders.get("/bands/fill?size={size}&language={language}", size, language)
+        mockMvc.perform(get("/bands/fill?size={size}&language={language}", size, language)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bands"))
@@ -213,7 +214,7 @@ class BandControllerIT {
 
         // THEN
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/band/1")
+                        get("/band/1")
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
@@ -268,7 +269,7 @@ class BandControllerIT {
 
         // THEN
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/band/1/delete")
+                        get("/band/1/delete")
                 ).andExpect(status().isFound())
                 .andExpect(view().name("redirect:/bands"))
                 .andExpect(redirectedUrl("/bands"));

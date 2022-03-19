@@ -14,8 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -105,13 +105,13 @@ public class TrackDtoController {
     @Operation(summary = "Export information for all tracks with their band names to Excel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
-                    content = { @Content(mediaType = "application/vnd.ms-excel",
-                            schema = @Schema(implementation = ResponseEntity.class, format = "binary"))})
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary"))})
     })
     @GetMapping(value = "tracks_dto/export/excel")
     public final void exportToExcelAllTracksWithBandName(HttpServletResponse response) throws IOException {
         logger.debug("exportToExcelAllTracksWithBandName()");
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=TracksDto.xlsx";
         response.setHeader(headerKey, headerValue);

@@ -90,6 +90,7 @@ public class BandsDelegateImpl implements BandsApiDelegate {
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=Bands.xlsx");
         }
+        //TODO fix Resource
         Resource resource = (Resource) bandExportExcelService.exportBandsExcel(response);
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }

@@ -2,9 +2,9 @@ package com.epam.brest.rest;
 
 import com.epam.brest.dao.BandDtoDaoJdbcImpl;
 import com.epam.brest.model.BandDto;
+import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.excel.BandDtoExportExcelService;
 import com.epam.brest.service.faker.BandDtoFakerService;
-import com.epam.brest.service.BandDtoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,13 +72,13 @@ public class BandDtoController {
     @Operation(summary = "Export information for all bands with their repertoire duration and track count to Excel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
-                    content = { @Content(mediaType = "application/vnd.ms-excel",
-                            schema = @Schema(implementation = String.class, format = "binary")) }),
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
     })
     @GetMapping(value = "bands_dto/export/excel")
     public final void exportToExcelAllBandsDto(HttpServletResponse response) throws IOException {
         logger.debug("exportToExcelAllBands()");
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=BandsDto.xlsx";
         response.setHeader(headerKey, headerValue);

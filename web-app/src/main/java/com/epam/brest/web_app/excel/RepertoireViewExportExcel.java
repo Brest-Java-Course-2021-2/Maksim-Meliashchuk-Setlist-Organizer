@@ -1,6 +1,7 @@
 package com.epam.brest.web_app.excel;
 
 import com.epam.brest.model.TrackDto;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
@@ -44,16 +45,37 @@ public class RepertoireViewExportExcel extends AbstractXlsxView {
         for(TrackDto trackDto : list) {
             Row row = sheet.createRow(rowNum++);
             row.setRowStyle(rowStyle);
-            row.createCell(0).setCellValue(trackDto.getTrackId());
-            row.createCell(1).setCellValue(trackDto.getTrackName());
-            row.createCell(2).setCellValue(trackDto.getTrackDetails());
-            row.createCell(3).setCellValue(trackDto.getTrackBandId());
-            row.createCell(4).setCellValue(trackDto.getTrackBandName());
-            row.createCell(5).setCellValue(trackDto.getTrackTempo());
-            row.createCell(6).setCellValue(trackDto.getTrackDuration());
-            row.createCell(7).setCellValue(trackDto.getTrackReleaseDate()
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            row.createCell(8).setCellValue(trackDto.getTrackLink());
+            if (trackDto.getTrackId() != null) {
+                row.createCell(0).setCellValue(trackDto.getTrackId());
+            }
+            if (trackDto.getTrackName() != null) {
+                row.createCell(1).setCellValue(trackDto.getTrackName());
+            }
+            if (trackDto.getTrackDetails() != null) {
+                row.createCell(2).setCellValue(trackDto.getTrackDetails());
+            }
+            if (trackDto.getTrackBandId() != null) {
+                row.createCell(3).setCellValue(trackDto.getTrackBandId());
+            }
+            if (trackDto.getTrackBandName() != null) {
+                row.createCell(4).setCellValue(trackDto.getTrackBandName());
+            }
+            if (trackDto.getTrackTempo()!= null) {
+                row.createCell(5).setCellValue(trackDto.getTrackTempo());
+            }
+            if (trackDto.getTrackDuration()!= null) {
+                row.createCell(6).setCellValue(
+                        DurationFormatUtils.formatDuration(Long.parseLong(trackDto.getTrackDuration().toString()),
+                                "HH:mm:ss", true));
+            }
+            if (trackDto.getTrackReleaseDate()!= null) {
+                row.createCell(7).setCellValue(trackDto.getTrackReleaseDate()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+            if (trackDto.getTrackLink()!= null) {
+                row.createCell(8).setCellValue(trackDto.getTrackLink());
+            }
+
         }
     }
 

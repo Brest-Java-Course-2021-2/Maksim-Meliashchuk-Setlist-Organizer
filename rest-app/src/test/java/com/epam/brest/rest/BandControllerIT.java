@@ -1,11 +1,10 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.exception.CustomExceptionHandler;
-import com.epam.brest.model.ErrorResponse;
 import com.epam.brest.model.Band;
+import com.epam.brest.model.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -276,6 +275,20 @@ public class BandControllerIT {
         assertEquals(errorResponse.getMessage(), DATA_BASE_ERROR);
     }
 
+    @Test
+    public void shouldBandsExportExcel() throws Exception {
+        logger.debug("shouldBandsExportExcel()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/excel")
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xlsx");
+    }
+
 
     class MockMvcBandService {
 
@@ -352,7 +365,6 @@ public class BandControllerIT {
 
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
-
     }
 
 

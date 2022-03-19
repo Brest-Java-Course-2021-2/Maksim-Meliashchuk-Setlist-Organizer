@@ -1,9 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
+import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
-import com.epam.brest.service.BandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -138,13 +139,13 @@ public class BandController {
     @Operation(summary = "Export information for all bands based on their IDs to Excel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
-                    content = { @Content(mediaType = "application/vnd.ms-excel",
-                            schema = @Schema(implementation = String.class, format = "binary")) }),
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
     })
     @GetMapping(value = "bands/export/excel")
     public final void exportToExcelAllBands(HttpServletResponse response) throws IOException {
         logger.debug("exportToExcelAllBands()");
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=Bands.xlsx";
         response.setHeader(headerKey, headerValue);

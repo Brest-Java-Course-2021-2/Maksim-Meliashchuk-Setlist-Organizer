@@ -239,6 +239,20 @@ public class TrackControllerIT {
         assertEquals(tracks.size() - 1, currentTrack.size());
     }
 
+    @Test
+    public void shouldTracksExportExcel() throws Exception {
+        logger.debug("shouldTracksExportExcel()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel")
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Tracks.xlsx");
+    }
+
 
     class MockMvcTrackService {
 
@@ -314,6 +328,7 @@ public class TrackControllerIT {
 
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
+
 
     }
 

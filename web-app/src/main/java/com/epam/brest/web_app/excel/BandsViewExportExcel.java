@@ -1,6 +1,7 @@
 package com.epam.brest.web_app.excel;
 
 import com.epam.brest.model.BandDto;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
@@ -40,11 +41,25 @@ public class BandsViewExportExcel extends AbstractXlsxView {
         for(BandDto bandDto : list) {
             Row row = sheet.createRow(rowNum++);
             row.setRowStyle(rowStyle);
-            row.createCell(0).setCellValue(bandDto.getBandId());
-            row.createCell(1).setCellValue(bandDto.getBandName());
-            row.createCell(2).setCellValue(bandDto.getBandDetails());
-            row.createCell(3).setCellValue(bandDto.getBandCountTrack());
-            row.createCell(4).setCellValue(bandDto.getBandRepertoireDuration());
+            if (bandDto.getBandId() != null) {
+                row.createCell(0).setCellValue(bandDto.getBandId());
+            }
+            if (bandDto.getBandName() != null) {
+                row.createCell(1).setCellValue(bandDto.getBandName());
+            }
+            if (bandDto.getBandDetails() != null) {
+                row.createCell(2).setCellValue(bandDto.getBandDetails());
+
+            }
+            if (bandDto.getBandCountTrack() != null) {
+                row.createCell(3).setCellValue(bandDto.getBandCountTrack());
+            }
+            if (bandDto.getBandRepertoireDuration() != null) {
+                row.createCell(4).setCellValue(
+                        DurationFormatUtils.formatDuration(Long.parseLong(bandDto.getBandRepertoireDuration().toString()),
+                                "HH:mm:ss", true));
+            }
+
         }
     }
 }

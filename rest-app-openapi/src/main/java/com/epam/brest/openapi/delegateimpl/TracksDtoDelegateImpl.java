@@ -63,6 +63,7 @@ public class TracksDtoDelegateImpl implements TracksDtoApiDelegate {
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=TracksDto.xlsx");
         }
+        //TODO fix Resource
         Resource resource = (Resource) trackDtoExportExcelService.exportTracksDtoExcel(response);
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
