@@ -4,8 +4,9 @@ import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.openapi.api.RepertoireApiController;
 import com.epam.brest.service.TrackDtoService;
-import com.epam.brest.service.faker.TrackFakerService;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.service.excel.TrackExportExcelService;
+import com.epam.brest.service.faker.TrackFakerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +61,9 @@ public class RepertoireDelegateImplTest {
     @Mock
     private TrackFakerService trackFakerService;
 
+    @Mock
+    private TrackExportExcelService trackExportExcelService;
+
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
 
@@ -76,7 +81,7 @@ public class RepertoireDelegateImplTest {
         Mockito.verifyNoMoreInteractions(trackService);
         Mockito.verifyNoMoreInteractions(trackFakerService);
     }
-    //TODO exportToExcel
+
     @Test
     public void shouldFindAllTracksWithBandNameByBandId() throws Exception {
 
@@ -279,6 +284,20 @@ public class RepertoireDelegateImplTest {
         assertEquals(trackList, responseList);
 
         verify(trackFakerService).fillFakeTracks(size, "EN");
+    }
+
+    @Test
+    public void shouldTracksExportExcel() throws Exception {
+        LOGGER.debug("shouldTracksExportExcel()");
+        List<Track> trackList = Arrays.asList(createTrack(1), createTrack(2));
+        when(trackExportExcelService.exportTracksExcel(any(HttpServletResponse.class))).thenReturn(trackList);
+        mockMvc.perform(get("/repertoire/export/excel"))
+                .andDo(print())
+                .andExpect(content().contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-disposition", "attachment; filename=Tracks.xlsx"))
+                .andReturn().getResponse();
+      verify(trackExportExcelService).exportTracksExcel(any(HttpServletResponse.class));
     }
 
     private TrackDto createTrackDto(int index) {

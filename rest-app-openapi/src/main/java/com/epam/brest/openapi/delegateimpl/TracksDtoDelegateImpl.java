@@ -59,13 +59,12 @@ public class TracksDtoDelegateImpl implements TracksDtoApiDelegate {
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=TracksDto.xlsx");
         }
-        //TODO fix Resource
-        Resource resource = (Resource) trackDtoExportExcelService.exportTracksDtoExcel(response);
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        trackDtoExportExcelService.exportTracksDtoExcel(response);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
 

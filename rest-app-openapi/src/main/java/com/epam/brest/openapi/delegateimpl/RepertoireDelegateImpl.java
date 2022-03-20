@@ -102,12 +102,11 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
-            response.setHeader("Content-Disposition", "attachment; filename=BandsDto.xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=Tracks.xlsx");
         }
-        //TODO fix Resource
-        Resource resource = (Resource) trackExportExcelService.exportTracksExcel(response);
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        trackExportExcelService.exportTracksExcel(response);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }

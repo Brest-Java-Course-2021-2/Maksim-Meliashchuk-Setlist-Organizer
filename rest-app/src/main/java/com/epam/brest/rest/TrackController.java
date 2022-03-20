@@ -135,7 +135,7 @@ public class TrackController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
                     content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary"))})
     })
     @GetMapping(value = "/repertoire/export/excel")
     public final void exportToExcelAllTracks(HttpServletResponse response) throws IOException {

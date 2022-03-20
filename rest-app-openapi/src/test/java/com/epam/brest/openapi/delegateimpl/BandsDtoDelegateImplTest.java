@@ -2,8 +2,9 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.openapi.api.BandsDtoApiController;
-import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
+import com.epam.brest.service.excel.BandDtoExportExcelService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BandsDtoDelegateImplTest {
@@ -39,6 +49,9 @@ public class BandsDtoDelegateImplTest {
     @Mock
     private BandDtoFakerService bandDtoFakerService;
 
+    @Mock
+    private BandDtoExportExcelService bandDtoExportExcelService;
+
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -52,7 +65,7 @@ public class BandsDtoDelegateImplTest {
         Mockito.verifyNoMoreInteractions(bandDtoService);
         Mockito.verifyNoMoreInteractions(bandDtoFakerService);
     }
-    //TODO exportToExcel
+
     @Test
     public void shouldFindAllWithCountTrack() throws Exception {
         LOGGER.debug("shouldFindAllWithCountTrack()");
@@ -102,6 +115,21 @@ public class BandsDtoDelegateImplTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)));
 
         Mockito.verify(bandDtoFakerService).fillFakeBandsDto(FAKE_DATA_SIZE, "EN");
+    }
+
+    @Test
+    public void shouldBandsDtoExportExcel() throws Exception {
+        LOGGER.debug("shouldBandsDtoExportExcel()");
+        List<BandDto> bandList = Arrays.asList(create(1), create(2));
+
+        when(bandDtoExportExcelService.exportBandsDtoExcel(any(HttpServletResponse.class))).thenReturn(bandList);
+        mockMvc.perform(get("/bands_dto/export/excel"))
+                .andDo(print())
+                .andExpect(content().contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-disposition", "attachment; filename=BandsDto.xlsx"))
+                .andReturn().getResponse();
+        verify(bandDtoExportExcelService).exportBandsDtoExcel(any(HttpServletResponse.class));
     }
 
     private BandDto create(int index) {
