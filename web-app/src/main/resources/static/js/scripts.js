@@ -44,4 +44,11 @@ function dateFormat() {
     })
 }
 
+function actionOnSubmit()
+{
+    var e = document.getElementById("dataBaseTables");
+    var formaction = e.options[e.selectedIndex].value;
+    document.exportExcel.action = formaction;
+}
+
 

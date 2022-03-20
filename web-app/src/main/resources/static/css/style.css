@@ -109,3 +109,17 @@ a:hover {
 #toggleButtonOffcanvasRight:hover{
     filter: invert(10%) sepia(16%) saturate(1082%) hue-rotate(100deg) brightness(91%) contrast(81%);
  }
+
+span.excel {
+    background: url(../img/excel.svg) no-repeat top left;
+    background-size: cover;
+    cursor: pointer;
+    display: inline-block;
+    height: 35px;
+    width: 35px;
+}
+
+span.excel:hover {
+   filter: invert(47%) sepia(11%) saturate(355%) hue-rotate(167deg) brightness(93%) contrast(90%);
+}
+

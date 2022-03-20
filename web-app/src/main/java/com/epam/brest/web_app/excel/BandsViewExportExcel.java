@@ -38,28 +38,31 @@ public class BandsViewExportExcel extends AbstractXlsxView {
         header.createCell(4).setCellValue("DURATION OF THE REPERTOIRE");
 
         int rowNum = 1;
-        for(BandDto bandDto : list) {
-            Row row = sheet.createRow(rowNum++);
-            row.setRowStyle(rowStyle);
-            if (bandDto.getBandId() != null) {
-                row.createCell(0).setCellValue(bandDto.getBandId());
-            }
-            if (bandDto.getBandName() != null) {
-                row.createCell(1).setCellValue(bandDto.getBandName());
-            }
-            if (bandDto.getBandDetails() != null) {
-                row.createCell(2).setCellValue(bandDto.getBandDetails());
+        if (list != null) {
+            for(BandDto bandDto : list) {
+                Row row = sheet.createRow(rowNum++);
+                row.setRowStyle(rowStyle);
+                if (bandDto.getBandId() != null) {
+                    row.createCell(0).setCellValue(bandDto.getBandId());
+                }
+                if (bandDto.getBandName() != null) {
+                    row.createCell(1).setCellValue(bandDto.getBandName());
+                }
+                if (bandDto.getBandDetails() != null) {
+                    row.createCell(2).setCellValue(bandDto.getBandDetails());
+
+                }
+                if (bandDto.getBandCountTrack() != null) {
+                    row.createCell(3).setCellValue(bandDto.getBandCountTrack());
+                }
+                if (bandDto.getBandRepertoireDuration() != null) {
+                    row.createCell(4).setCellValue(
+                            DurationFormatUtils.formatDuration(Long.parseLong(bandDto.getBandRepertoireDuration().toString()),
+                                    "HH:mm:ss", true));
+                }
 
             }
-            if (bandDto.getBandCountTrack() != null) {
-                row.createCell(3).setCellValue(bandDto.getBandCountTrack());
-            }
-            if (bandDto.getBandRepertoireDuration() != null) {
-                row.createCell(4).setCellValue(
-                        DurationFormatUtils.formatDuration(Long.parseLong(bandDto.getBandRepertoireDuration().toString()),
-                                "HH:mm:ss", true));
-            }
-
         }
+
     }
 }

@@ -244,9 +244,8 @@ public class TrackControllerIT {
         logger.debug("shouldTracksExportExcel()");
 
         MockHttpServletResponse response =
-                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel")
-                                .accept(MediaType.APPLICATION_JSON)
-                        ).andExpect(status().isOk())
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel"))
+                        .andExpect(status().isOk())
                         .andReturn().getResponse();
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

@@ -42,39 +42,42 @@ public class RepertoireViewExportExcel extends AbstractXlsxView {
         header.createCell(8).setCellValue("LINK");
 
         int rowNum = 1;
-        for(TrackDto trackDto : list) {
-            Row row = sheet.createRow(rowNum++);
-            row.setRowStyle(rowStyle);
-            if (trackDto.getTrackId() != null) {
-                row.createCell(0).setCellValue(trackDto.getTrackId());
-            }
-            if (trackDto.getTrackName() != null) {
-                row.createCell(1).setCellValue(trackDto.getTrackName());
-            }
-            if (trackDto.getTrackDetails() != null) {
-                row.createCell(2).setCellValue(trackDto.getTrackDetails());
-            }
-            if (trackDto.getTrackBandId() != null) {
-                row.createCell(3).setCellValue(trackDto.getTrackBandId());
-            }
-            if (trackDto.getTrackBandName() != null) {
-                row.createCell(4).setCellValue(trackDto.getTrackBandName());
-            }
-            if (trackDto.getTrackTempo()!= null) {
-                row.createCell(5).setCellValue(trackDto.getTrackTempo());
-            }
-            if (trackDto.getTrackDuration()!= null) {
-                row.createCell(6).setCellValue(
-                        DurationFormatUtils.formatDuration(Long.parseLong(trackDto.getTrackDuration().toString()),
-                                "HH:mm:ss", true));
-            }
-            if (trackDto.getTrackReleaseDate()!= null) {
-                row.createCell(7).setCellValue(trackDto.getTrackReleaseDate()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            }
-            if (trackDto.getTrackLink()!= null) {
-                row.createCell(8).setCellValue(trackDto.getTrackLink());
-            }
+        if (list != null) {
+            for(TrackDto trackDto : list) {
+                Row row = sheet.createRow(rowNum++);
+                row.setRowStyle(rowStyle);
+                if (trackDto.getTrackId() != null) {
+                    row.createCell(0).setCellValue(trackDto.getTrackId());
+                }
+                if (trackDto.getTrackName() != null) {
+                    row.createCell(1).setCellValue(trackDto.getTrackName());
+                }
+                if (trackDto.getTrackDetails() != null) {
+                    row.createCell(2).setCellValue(trackDto.getTrackDetails());
+                }
+                if (trackDto.getTrackBandId() != null) {
+                    row.createCell(3).setCellValue(trackDto.getTrackBandId());
+                }
+                if (trackDto.getTrackBandName() != null) {
+                    row.createCell(4).setCellValue(trackDto.getTrackBandName());
+                }
+                if (trackDto.getTrackTempo()!= null) {
+                    row.createCell(5).setCellValue(trackDto.getTrackTempo());
+                }
+                if (trackDto.getTrackDuration()!= null) {
+                    row.createCell(6).setCellValue(
+                            DurationFormatUtils.formatDuration(Long.parseLong(trackDto.getTrackDuration().toString()),
+                                    "HH:mm:ss", true));
+                }
+                if (trackDto.getTrackReleaseDate()!= null) {
+                    row.createCell(7).setCellValue(trackDto.getTrackReleaseDate()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                }
+                if (trackDto.getTrackLink()!= null) {
+                    row.createCell(8).setCellValue(trackDto.getTrackLink());
+                }
+        }
+
 
         }
     }

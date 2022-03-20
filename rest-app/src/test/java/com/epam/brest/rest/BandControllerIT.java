@@ -280,9 +280,8 @@ public class BandControllerIT {
         logger.debug("shouldBandsExportExcel()");
 
         MockHttpServletResponse response =
-                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/excel")
-                                .accept(MediaType.APPLICATION_JSON)
-                        ).andExpect(status().isOk())
+                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/excel"))
+                        .andExpect(status().isOk())
                         .andReturn().getResponse();
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
