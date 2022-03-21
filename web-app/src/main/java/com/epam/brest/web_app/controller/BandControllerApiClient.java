@@ -9,6 +9,7 @@ import com.epam.brest.web_app.excel.RepertoireViewExportExcel;
 import com.epam.brest.web_app.validator.BandValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
+import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -24,7 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -147,9 +151,20 @@ public class BandControllerApiClient {
 
     @GetMapping(value = "/bands/export/excel")
     public ModelAndView exportToExcel() {
+        LOGGER.debug("exportToExcel()");
         ModelAndView mav = new ModelAndView();
         mav.setView(new BandsViewExportExcel());
         mav.addObject("bands", bandDtoList);
         return mav;
+    }
+
+    @GetMapping(value = "/band/export/excel")
+    public void exportFromBandTableToExcel(HttpServletResponse response) throws ApiException, IOException {
+        LOGGER.debug("exportFromBandTableToExcel()");
+        InputStream is = new FileInputStream(bandApi.exportToExcelAllBands());
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=Band.xlsx");
+        IOUtils.copy(is, response.getOutputStream());
+        response.flushBuffer();
     }
 }

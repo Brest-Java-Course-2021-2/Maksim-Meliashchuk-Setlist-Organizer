@@ -114,6 +114,7 @@ public class BandController {
 
     @GetMapping(value = "/bands/export/excel")
     public ModelAndView exportToExcel() {
+        logger.debug("exportToExcel()");
         ModelAndView mav = new ModelAndView();
         mav.setView(new BandsViewExportExcel());
         mav.addObject("bands", bandDtoList);

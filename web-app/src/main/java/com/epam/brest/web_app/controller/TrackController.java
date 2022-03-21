@@ -147,6 +147,7 @@ public class TrackController {
 
     @GetMapping(value = "/repertoire/export/excel")
     public ModelAndView exportToExcel() {
+        logger.debug("exportToExcel()");
         ModelAndView mav = new ModelAndView();
         mav.setView(new RepertoireViewExportExcel());
         mav.addObject("tracks", trackDtoList);

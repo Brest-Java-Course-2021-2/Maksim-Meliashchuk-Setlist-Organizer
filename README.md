@@ -46,6 +46,11 @@
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 - [Presentation](documentation/SetlistOrganizer.pdf)
 
+_<sub>Note: the project is constantly being improved and developed.
+The features of the current version of the project may differ from the information in this section.
+See the following sections in this README for up-to-date project information.</a>_
+
+
 ## Applications Demo
 
 Applications deployed on [Heroku](https://heroku.com/) <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>

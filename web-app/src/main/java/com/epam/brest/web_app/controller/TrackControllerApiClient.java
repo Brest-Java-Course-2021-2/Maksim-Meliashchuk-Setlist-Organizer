@@ -9,6 +9,7 @@ import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
+import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -16,12 +17,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -188,9 +190,20 @@ public class TrackControllerApiClient {
 
     @GetMapping(value = "/repertoire/export/excel")
     public ModelAndView exportToExcel() {
+        LOGGER.debug("exportToExcel()");
         ModelAndView mav = new ModelAndView();
         mav.setView(new RepertoireViewExportExcel());
         mav.addObject("tracks", trackDtoList);
         return mav;
+    }
+
+    @GetMapping(value = "/track/export/excel")
+    public void exportFromTrackTableToExcel(HttpServletResponse response) throws ApiException, IOException {
+        LOGGER.debug("exportFromTrackTableToExcel()");
+        InputStream is = new FileInputStream(trackApi.exportToExcelAllTracks());
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=Track.xlsx");
+        IOUtils.copy(is, response.getOutputStream());
+        response.flushBuffer();
     }
 }
