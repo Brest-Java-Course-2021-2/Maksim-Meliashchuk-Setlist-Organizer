@@ -46,7 +46,8 @@
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 - [Presentation](documentation/SetlistOrganizer.pdf)
 
-_<sub>Note: the project is constantly being improved and developed.
+_<sub>Note: the Mind map, Software requirements specification, Available REST endpoints and Presentation 
+describe the basic version of the project.The project is constantly being improved and developed.
 The features of the current version of the project may differ from the information in this section.
 See the following sections in this README for up-to-date project information.</a>_
 

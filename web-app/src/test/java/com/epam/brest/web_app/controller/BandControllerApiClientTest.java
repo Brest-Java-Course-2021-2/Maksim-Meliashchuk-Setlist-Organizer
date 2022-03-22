@@ -22,6 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -216,6 +217,16 @@ class BandControllerApiClientTest {
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Bands.xlsx");
+    }
+
+    @Test
+    void shouldExportBandTableToExcel() throws Exception {
+        LOGGER.debug("shouldExportBandTableToExcel()");
+        File file = new File("src/test/resources/Band.xlsx");
+        when(bandApi.exportToExcelAllBands()).thenReturn(file);
+        mockMvc.perform(get("/band/export/excel"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
     }
 
     private BandDto createBandDto(int index) {

@@ -13,6 +13,7 @@ import com.epam.brest.service.impl.BandServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.multipart.MultipartFile;
 
 @TestConfiguration
 @ComponentScan("com.epam.brest.dao.annotation")
@@ -46,6 +47,11 @@ public class BandServiceTestConfig extends SpringJdbcConfig {
     @Bean
     BandDtoExportExcelService bandDtoExportExcelService() {
         return new BandDtoExportExcelServiceImpl(bandDtoService());
+    }
+
+    @Bean
+    BandImportExcelService bandImportExcelService() {
+        return new BandImportExcelServiceImpl(bandService());
     }
 
 }

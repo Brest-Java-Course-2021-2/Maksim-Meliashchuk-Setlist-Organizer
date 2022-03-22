@@ -1,13 +1,10 @@
 package com.epam.brest.web_app.controller;
 
-import com.epam.brest.model.BandDto;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
@@ -27,6 +24,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -334,6 +332,16 @@ class TrackControllerApiClientTest {
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Repertoire.xlsx");
+    }
+
+    @Test
+    void shouldExportTrackTableToExcel() throws Exception {
+        LOGGER.debug("shouldExportTrackTableToExcel()");
+        File file = new File("src/test/resources/Track.xlsx");
+        when(trackApi.exportToExcelAllTracks()).thenReturn(file);
+        mockMvc.perform(get("/track/export/excel"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
     }
 
     private TrackDto createTrackDto(int index) {
