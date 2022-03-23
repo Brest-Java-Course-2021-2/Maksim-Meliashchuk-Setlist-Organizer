@@ -215,6 +215,49 @@ paths:
               schema:
                 type: integer
                 format: int32
+  /bands/import/excel:
+    post:
+      tags:
+      - Band
+      summary: Import information in the table 'Band' from Excel
+      operationId: importBandFromExcel
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Band(s) have been imported. Returns the number of bands imported.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
   /version:
     get:
       tags:

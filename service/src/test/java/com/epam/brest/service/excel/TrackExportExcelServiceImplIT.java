@@ -1,6 +1,8 @@
 package com.epam.brest.service.excel;
 
-import com.epam.brest.service.config.BandServiceTestConfig;
+import com.epam.brest.service.config.TrackServiceTestConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@Import({BandServiceTestConfig.class})
-class BandExportExcelServiceImplTest {
+@Import({TrackServiceTestConfig.class})
+class TrackExportExcelServiceImplIT {
+
+    private final Logger logger = LogManager.getLogger(TrackExportExcelServiceImplIT.class);
 
     @Autowired
-    private BandExportExcelService bandExportExcelService;
+    private TrackExportExcelService trackExportExcelService;
 
     @Test
-    void exportBandsExcel() {
+    void exportTracksExcel() {
+        logger.debug("exportTracksExcel()");
         HttpServletResponse httpServletResponse = new MockHttpServletResponse();
-        assertNotNull(bandExportExcelService.exportBandsExcel(httpServletResponse));
+        assertNotNull(trackExportExcelService.exportTracksExcel(httpServletResponse));
     }
 }

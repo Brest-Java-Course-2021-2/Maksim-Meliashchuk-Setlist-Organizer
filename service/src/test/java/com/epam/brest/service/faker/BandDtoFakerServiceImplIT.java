@@ -1,6 +1,6 @@
 package com.epam.brest.service.faker;
 
-import com.epam.brest.model.Track;
+import com.epam.brest.model.BandDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -10,17 +10,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class TrackFakerServiceImplTest {
+class BandDtoFakerServiceImplIT {
 
-    private final Logger logger = LogManager.getLogger(TrackFakerServiceImplTest.class);
+    private final Logger logger = LogManager.getLogger(BandDtoFakerServiceImplIT.class);
 
-    private final TrackFakerService trackFakerService = new TrackFakerServiceImpl();
+    private final BandDtoFakerService bandDtoFakerService = new BandDtoFakerServiceImpl();
 
     @Test
-    void fillFakeTracks() {
-        logger.debug("fillFakeTracks()");
+    void fillFakeBandsDto() {
+        logger.debug("fillFakeBandsDto()");
         Integer size = 50;
-        List<Track> fakerObjects = trackFakerService.fillFakeTracks(size, "EN");
+        List<BandDto> fakerObjects = bandDtoFakerService.fillFakeBandsDto(size, "EN");
         assertNotNull(fakerObjects);
         assertEquals(size, fakerObjects.size());
     }

@@ -9,9 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BandFakerServiceImplTest {
+class BandFakerServiceImplIT {
 
-    private final Logger logger = LogManager.getLogger(BandFakerServiceImplTest.class);
+    private final Logger logger = LogManager.getLogger(BandFakerServiceImplIT.class);
 
     private final BandFakerService bandFakerService = new BandFakerServiceImpl();
 
