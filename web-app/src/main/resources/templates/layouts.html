@@ -79,7 +79,7 @@
                             <div class="accordion-body">
                                 <p>Generate fake bands:</p>
                                 <form id="bandsGenerate" class="form-group" th:action="@{/bands/fill}">
-                                    <div class="input-group">
+                                    <div class="input-group input-group-sm">
                                         <button class="btn btn-dark" type="submit">
                                             <i class="bi bi-arrow-clockwise"></i> | Generate</a>
                                         </button>
@@ -95,7 +95,7 @@
 
                                 <p>Generate fake tracks:</p>
                                 <form id="tacksGenerate" class="form-group" th:action="@{/repertoire/fill}">
-                                    <div class="input-group">
+                                    <div class="input-group input-group-sm">
                                         <button class="btn btn-dark" type="submit">
                                             <i class="bi bi-arrow-clockwise"></i> | Generate</a>
                                         </button>
@@ -121,13 +121,18 @@
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                              data-bs-parent="#accordion">
                             <div class="accordion-body">
-                                <p>Export data from selected table to Excel:</p>
+                                <div class="mb-1">
+                                    <img src="../static/img/excel.svg"
+                                         th:src="@{/img/excel.svg}" height="25" width="25" alt="Excel">
+                                    <label class="form-label">Import data from Excel to selected
+                                        table:</label>
+                                </div>
                                 <form name="exportExcel" class="d-flex" onSubmit="actionOnSubmitExportExcel()">
-                                    <button class="btn btn-link" type="submit">
-                                        <span class="excel"></span>
-                                    </button>
-                                    <div class="row p-2 flex-fill align-items-center">
-                                        <select class="form-select" id="dataBaseTablesExportExcel" style="height:38px">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-dark" type="submit">
+                                            <i class="bi bi-box-arrow-down"></i> | Export</a>
+                                        </button>
+                                        <select class="form-select" id="dataBaseTablesExportExcel">
                                             <option th:value="@{/band/export/excel}">Band</option>
                                             <option th:value="@{/track/export/excel}">Track</option>
                                         </select>
@@ -147,15 +152,21 @@
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                          data-bs-parent="#accordion">
                         <div class="accordion-body">
-                            <p>Import data from Excel to selected table:</p>
-                            <form name="importExcel" method="post" class="d-flex" enctype="multipart/form-data" onSubmit="actionOnSubmitImportExcel()">
-                                <div class="input-group mb-3 align-items-center">
-                                    <button class="btn btn-link" type="submit">
-                                        <span class="excel"></span>
+                            <form name="importExcel" method="post" enctype="multipart/form-data"
+                                  onSubmit="actionOnSubmitImportExcel()">
+                                <div class="mb-3">
+                                    <img src="../static/img/excel.svg"
+                                         th:src="@{/img/excel.svg}" height="25" width="25" alt="Excel">
+                                    <label for="uploadfile" class="form-label">Import data from Excel to selected
+                                        table:</label>
+                                    <input type="file" name="uploadfile" class="form-control form-control-sm"
+                                           id="uploadfile" accept=".xls,.xlsx">
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <button class="btn btn-dark" type="submit">
+                                        <i class="bi bi-box-arrow-in-up"></i> | Import</a>
                                     </button>
-                                    <input type="file" name="uploadfile" class="form-control"
-                                           id="uploadfile" accept=".xls,.xlsx" style="height:38px">
-                                    <select class="form-select" id="dataBaseTablesImportExcel" style="height:38px">
+                                    <select class="form-select" id="dataBaseTablesImportExcel">
                                         <option th:value="@{/band/import/excel}">Band</option>
                                         <option th:value="@{/track/import/excel}">Track</option>
                                     </select>
@@ -175,6 +186,10 @@
                          data-bs-parent="#accordion">
                         <div class="accordion-body">
                             'Setlist Organizer' is a web application for organizing repertoires of musical bands.
+                            <a href="https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer">
+                                <i class="bi bi-github"></i>
+                            </a>
+
                         </div>
                     </div>
                 </div>

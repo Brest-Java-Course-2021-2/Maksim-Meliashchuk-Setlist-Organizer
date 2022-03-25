@@ -294,8 +294,6 @@ public class BandControllerIT {
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xlsx");
     }
 
-
-
     @Test
     @Transactional
     public void shouldImportBandExcel() throws Exception {

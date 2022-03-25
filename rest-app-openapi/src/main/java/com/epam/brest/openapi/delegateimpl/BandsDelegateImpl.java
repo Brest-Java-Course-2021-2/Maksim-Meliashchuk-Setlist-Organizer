@@ -4,6 +4,7 @@ import com.epam.brest.model.Band;
 import com.epam.brest.openapi.api.BandsApiDelegate;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
+import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,16 +29,16 @@ public class BandsDelegateImpl implements BandsApiDelegate {
     private static final Logger LOGGER = LoggerFactory.getLogger(BandsDelegateImpl.class);
 
     private final BandService bandService;
-
     private final BandFakerService bandFakerService;
-
     private final BandExportExcelService bandExportExcelService;
+    private final BandImportExcelService bandImportExcelService;
 
     public BandsDelegateImpl(BandService bandService, BandFakerService bandFakerService,
-                             BandExportExcelService bandExportExcelService) {
+                             BandExportExcelService bandExportExcelService, BandImportExcelService bandImportExcelService) {
         this.bandService = bandService;
         this.bandFakerService = bandFakerService;
         this.bandExportExcelService = bandExportExcelService;
+        this.bandImportExcelService = bandImportExcelService;
     }
 
     @Override
@@ -92,5 +95,17 @@ public class BandsDelegateImpl implements BandsApiDelegate {
         }
         bandExportExcelService.exportBandsExcel(response);
         return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Integer> importBandFromExcel(MultipartFile file) {
+        LOGGER.debug("importBandFromExcel({})", file.getName());
+        int result = 0;
+        try {
+            result = bandImportExcelService.importBandsExcel(file).size();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

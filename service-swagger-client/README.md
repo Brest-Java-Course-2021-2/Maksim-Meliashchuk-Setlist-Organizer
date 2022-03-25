@@ -2,7 +2,7 @@
 
 Setlist Organizer API
 - API version: 1.0.0
-  - Build date: 2022-02-28T21:26:17.069758+03:00[Europe/Minsk]
+  - Build date: 2022-03-25T23:36:05.819161+03:00[Europe/Minsk]
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
@@ -106,6 +106,30 @@ public class BandApiExample {
     public static void main(String[] args) {
         
         BandApi apiInstance = new BandApi();
+        Integer size = 1; // Integer | 
+        String language = "EN"; // String | 
+        try {
+            List<Band> result = apiInstance.bandsFake(size, language);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BandApi#bandsFake");
+            e.printStackTrace();
+        }
+    }
+}
+import com.epam.brest.*;
+import com.epam.brest.auth.*;
+
+import io.swagger.client.api.BandApi;
+
+import java.io.File;
+import java.util.*;
+
+public class BandApiExample {
+
+    public static void main(String[] args) {
+        
+        BandApi apiInstance = new BandApi();
         Band body = new Band(); // Band | 
         try {
             Integer result = apiInstance.createBand(body);
@@ -152,12 +176,57 @@ public class BandApiExample {
     public static void main(String[] args) {
         
         BandApi apiInstance = new BandApi();
+        try {
+            File result = apiInstance.exportToExcelAllBands();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BandApi#exportToExcelAllBands");
+            e.printStackTrace();
+        }
+    }
+}
+import com.epam.brest.*;
+import com.epam.brest.auth.*;
+
+import io.swagger.client.api.BandApi;
+
+import java.io.File;
+import java.util.*;
+
+public class BandApiExample {
+
+    public static void main(String[] args) {
+        
+        BandApi apiInstance = new BandApi();
         Integer id = 56; // Integer | 
         try {
             Band result = apiInstance.getBandById(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling BandApi#getBandById");
+            e.printStackTrace();
+        }
+    }
+}
+import com.epam.brest.*;
+import com.epam.brest.auth.*;
+
+import io.swagger.client.api.BandApi;
+
+import java.io.File;
+import java.util.*;
+
+public class BandApiExample {
+
+    public static void main(String[] args) {
+        
+        BandApi apiInstance = new BandApi();
+        File file = new File("file_example"); // File | 
+        try {
+            Integer result = apiInstance.importBandFromExcel(file);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BandApi#importBandFromExcel");
             e.printStackTrace();
         }
     }
@@ -194,16 +263,26 @@ All URIs are relative to *http://localhost:8088*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BandApi* | [**bands**](docs/BandApi.md#bands) | **GET** /bands | Get information for all bands based on their IDs
+*BandApi* | [**bandsFake**](docs/BandApi.md#bandsFake) | **GET** /bands/fill | Get information for fake bands based on their IDs
 *BandApi* | [**createBand**](docs/BandApi.md#createBand) | **POST** /bands | Create a new band
 *BandApi* | [**deleteBand**](docs/BandApi.md#deleteBand) | **DELETE** /bands/{id} | Delete a band
+*BandApi* | [**exportToExcelAllBands**](docs/BandApi.md#exportToExcelAllBands) | **GET** /bands/export/excel | Export information for all bands based on their IDs to Excel
 *BandApi* | [**getBandById**](docs/BandApi.md#getBandById) | **GET** /bands/{id} | Get information for a single band identified by its unique ID
+*BandApi* | [**importBandFromExcel**](docs/BandApi.md#importBandFromExcel) | **POST** /bands/import/excel | Import information in the table &#x27;Band&#x27; from Excel
 *BandApi* | [**updateBand**](docs/BandApi.md#updateBand) | **PUT** /bands | Update a band
 *BandsApi* | [**bandsDto**](docs/BandsApi.md#bandsDto) | **GET** /bands_dto | Get information for all bands with their repertoire duration and track count
+*BandsApi* | [**exportToExcelAllBandsDto**](docs/BandsApi.md#exportToExcelAllBandsDto) | **GET** /bands_dto/export/excel | Export information for all bands with their repertoire duration and track count to Excel
+*BandsApi* | [**fillBandsDtoFake**](docs/BandsApi.md#fillBandsDtoFake) | **GET** /bands_dto/fill | Filled fake bands with their repertoire duration and number of tracks
 *TrackApi* | [**createTrack**](docs/TrackApi.md#createTrack) | **POST** /repertoire | Create a new track
 *TrackApi* | [**deleteTrack**](docs/TrackApi.md#deleteTrack) | **DELETE** /repertoire/{id} | Delete a track
+*TrackApi* | [**exportToExcelAllTracks**](docs/TrackApi.md#exportToExcelAllTracks) | **GET** /repertoire/export/excel | Export information for all tracks based on their IDs to Excel
 *TrackApi* | [**getTrackById**](docs/TrackApi.md#getTrackById) | **GET** /repertoire/{id} | Get information for a single track identified by its unique ID
+*TrackApi* | [**importTrackFromExcel**](docs/TrackApi.md#importTrackFromExcel) | **POST** /repertoire/import/excel | Import information in the table &#x27;Track&#x27; from Excel
 *TrackApi* | [**tracks**](docs/TrackApi.md#tracks) | **GET** /repertoire | Get information for all tracks based on their IDs
+*TrackApi* | [**tracksFake**](docs/TrackApi.md#tracksFake) | **GET** /repertoire/fill | Fill information for fake tracks based on their IDs
 *TrackApi* | [**updateTrack**](docs/TrackApi.md#updateTrack) | **PUT** /repertoire | Update a track
+*TracksApi* | [**exportToExcelAllTracksWithBandName**](docs/TracksApi.md#exportToExcelAllTracksWithBandName) | **GET** /tracks_dto/export/excel | Export information for all tracks with their band names to Excel
+*TracksApi* | [**fillTracksDtoFake**](docs/TracksApi.md#fillTracksDtoFake) | **GET** /tracks_dto/fill | Filled fake tracks with their band names
 *TracksApi* | [**findAllTracksWithBandName**](docs/TracksApi.md#findAllTracksWithBandName) | **GET** /tracks_dto | Get information for all tracks with their band names
 *TracksApi* | [**findAllTracksWithBandNameByBandId**](docs/TracksApi.md#findAllTracksWithBandNameByBandId) | **GET** /repertoire/filter/band/{bandId} | Get information about band&#x27;s tracks
 *TracksApi* | [**findAllTracksWithReleaseDateFilter**](docs/TracksApi.md#findAllTracksWithReleaseDateFilter) | **GET** /repertoire/filter | Get information for tracks with their release dates between {fromDate} and {toDate}
