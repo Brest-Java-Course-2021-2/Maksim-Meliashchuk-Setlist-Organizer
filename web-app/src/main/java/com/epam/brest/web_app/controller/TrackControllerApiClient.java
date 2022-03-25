@@ -18,12 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -205,5 +204,18 @@ public class TrackControllerApiClient {
         response.setHeader("Content-Disposition", "attachment; filename=Track.xlsx");
         IOUtils.copy(is, response.getOutputStream());
         response.flushBuffer();
+    }
+
+    @PostMapping(value = "/track/import/excel")
+    public final String importInTrackTableFromExcel(@RequestParam("uploadfile") final MultipartFile file) throws ApiException, IOException {
+        LOGGER.debug("importInTrackTableFromExcel()");
+        File convertFile = new File ("Track.xlsx");
+        convertFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convertFile);
+        fos.write(file.getBytes());
+        fos.close();
+        trackApi.importTrackFromExcel(convertFile);
+        convertFile.delete();
+        return "redirect:/repertoire";
     }
 }

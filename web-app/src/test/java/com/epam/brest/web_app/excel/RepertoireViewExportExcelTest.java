@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,7 +29,7 @@ class RepertoireViewExportExcelTest {
         ModelAndView mav = new ModelAndView();
         mav.setView(new RepertoireViewExportExcel());
         mav.addObject("tracks", Arrays.asList(create(0), create(1)));
-        mav.getView().render(mav.getModelMap(), request, response);
+        Objects.requireNonNull(mav.getView()).render(mav.getModelMap(), request, response);
         Workbook wb = new XSSFWorkbook(new ByteArrayInputStream(response.getContentAsByteArray()));
         assertEquals(wb.getSheetName(0), "Repertoire");
         Sheet sheet = wb.getSheet("Repertoire");

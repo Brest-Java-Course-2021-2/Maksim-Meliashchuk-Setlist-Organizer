@@ -115,8 +115,8 @@ span.excel {
     background-size: cover;
     cursor: pointer;
     display: inline-block;
-    height: 35px;
-    width: 35px;
+    height: 33px;
+    width: 33px;
 }
 
 span.excel:hover {

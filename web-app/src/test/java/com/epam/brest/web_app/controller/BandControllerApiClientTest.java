@@ -8,6 +8,7 @@ import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.web_app.validator.BandValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +19,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -217,6 +221,21 @@ class BandControllerApiClientTest {
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Bands.xlsx");
+    }
+
+    @Test
+    void shouldImportBandsFromExcel() throws Exception {
+        LOGGER.debug("shouldImportBandsFromExcel()");
+        File file = new File("src/test/resources/Band.xlsx");
+        FileInputStream input = new FileInputStream(file);
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
+                file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/band/import/excel")
+                        .file(mockMultipartFile))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/bands"))
+                .andExpect(redirectedUrl("/bands"));
     }
 
     @Test

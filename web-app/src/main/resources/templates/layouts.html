@@ -122,12 +122,12 @@
                              data-bs-parent="#accordion">
                             <div class="accordion-body">
                                 <p>Export data from selected table to Excel:</p>
-                                <form name="exportExcel" class="d-flex" onSubmit="actionOnSubmit()">
+                                <form name="exportExcel" class="d-flex" onSubmit="actionOnSubmitExportExcel()">
                                     <button class="btn btn-link" type="submit">
                                         <span class="excel"></span>
                                     </button>
                                     <div class="row p-2 flex-fill align-items-center">
-                                        <select class="form-select" id="dataBaseTables" style="height:38px">
+                                        <select class="form-select" id="dataBaseTablesExportExcel" style="height:38px">
                                             <option th:value="@{/band/export/excel}">Band</option>
                                             <option th:value="@{/track/export/excel}">Track</option>
                                         </select>
@@ -148,13 +148,17 @@
                          data-bs-parent="#accordion">
                         <div class="accordion-body">
                             <p>Import data from Excel to selected table:</p>
-                            <form method="post" class="d-flex" enctype="multipart/form-data" th:action="${uploadFileUrl}">
+                            <form name="importExcel" method="post" class="d-flex" enctype="multipart/form-data" onSubmit="actionOnSubmitImportExcel()">
                                 <div class="input-group mb-3 align-items-center">
                                     <button class="btn btn-link" type="submit">
                                         <span class="excel"></span>
                                     </button>
-                                    <input type="file" class="form-control"
-                                           id="inputGroupFile01" accept=".xls,.xlsx" style="height:38px">
+                                    <input type="file" name="uploadfile" class="form-control"
+                                           id="uploadfile" accept=".xls,.xlsx" style="height:38px">
+                                    <select class="form-select" id="dataBaseTablesImportExcel" style="height:38px">
+                                        <option th:value="@{/band/import/excel}">Band</option>
+                                        <option th:value="@{/track/import/excel}">Track</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>

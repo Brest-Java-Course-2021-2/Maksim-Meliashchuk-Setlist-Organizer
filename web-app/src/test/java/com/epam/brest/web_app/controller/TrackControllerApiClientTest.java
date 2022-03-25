@@ -10,6 +10,7 @@ import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -342,6 +346,21 @@ class TrackControllerApiClientTest {
         mockMvc.perform(get("/track/export/excel"))
                 .andExpect(status().isOk()).andExpect(content()
                         .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+    }
+
+    @Test
+    void shouldImportTracksFromExcel() throws Exception {
+        LOGGER.debug("shouldImportTracksFromExcel()");
+        File file = new File("src/test/resources/Track.xlsx");
+        FileInputStream input = new FileInputStream(file);
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
+                file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/track/import/excel")
+                        .file(mockMultipartFile))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/repertoire"))
+                .andExpect(redirectedUrl("/repertoire"));
     }
 
     private TrackDto createTrackDto(int index) {

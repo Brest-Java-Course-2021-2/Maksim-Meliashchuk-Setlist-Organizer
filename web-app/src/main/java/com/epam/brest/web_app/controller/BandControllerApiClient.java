@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -159,5 +158,18 @@ public class BandControllerApiClient {
         response.setHeader("Content-Disposition", "attachment; filename=Band.xlsx");
         IOUtils.copy(is, response.getOutputStream());
         response.flushBuffer();
+    }
+
+    @PostMapping(value = "/band/import/excel")
+    public final String importInBandTableFromExcel(@RequestParam("uploadfile") final MultipartFile file) throws ApiException, IOException {
+        LOGGER.debug("importInBandTableFromExcel()");
+        File convertFile = new File ("Band.xlsx");
+        convertFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convertFile);
+        fos.write(file.getBytes());
+        fos.close();
+        bandApi.importBandFromExcel(convertFile);
+        convertFile.delete();
+        return "redirect:/bands";
     }
 }

@@ -307,8 +307,10 @@ public class BandControllerIT {
                 files.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 IOUtils.toByteArray(input));
 
-        mockMvc.perform(multipart("/bands/import/excel").file(multipartFile))
-                .andExpect(status().isOk());
+        MockHttpServletResponse response = mockMvc.perform(multipart("/bands/import/excel").file(multipartFile))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
     class MockMvcBandService {

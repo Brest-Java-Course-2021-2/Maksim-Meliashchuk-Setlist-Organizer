@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,7 +28,7 @@ class BandsViewExportExcelTest {
         ModelAndView mav = new ModelAndView();
         mav.setView(new BandsViewExportExcel());
         mav.addObject("bands", Arrays.asList(create(0), create(1)));
-        mav.getView().render(mav.getModelMap(), request, response);
+        Objects.requireNonNull(mav.getView()).render(mav.getModelMap(), request, response);
         Workbook wb = new XSSFWorkbook(new ByteArrayInputStream(response.getContentAsByteArray()));
         assertEquals(wb.getSheetName(0), "Bands");
         Sheet sheet = wb.getSheet("Bands");

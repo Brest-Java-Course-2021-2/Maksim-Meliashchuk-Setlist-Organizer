@@ -3,6 +3,7 @@ package com.epam.brest.rest;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
+import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,14 +36,16 @@ public class TrackController {
     private final TrackService trackService;
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
+    private final TrackImportExcelService trackImportExcelService;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, TrackFakerService trackFakerService,
-                           TrackExportExcelService trackExportExcelService) {
+                           TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
+        this.trackImportExcelService = trackImportExcelService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -145,6 +149,19 @@ public class TrackController {
         String headerValue = "attachment; filename=Tracks.xlsx";
         response.setHeader(headerKey, headerValue);
         trackExportExcelService.exportTracksExcel(response);
+    }
+
+    @Operation(summary = "Import information in the table 'Track' from Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Track(s) have been imported. Returns the number of tracks imported.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Integer.class)) })})
+    @PostMapping(value = "/repertoire/import/excel", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
+    public ResponseEntity<Integer> importTrackFromExcel(@RequestParam(value ="file") final MultipartFile files) throws IOException {
+        logger.debug("importTrackFromExcel({})", files.getName());
+        int result =  trackImportExcelService.importTrackExcel(files).size();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
