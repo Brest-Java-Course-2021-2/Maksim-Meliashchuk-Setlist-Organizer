@@ -1,4 +1,4 @@
-package com.epam.brest.service;
+package com.epam.brest.service.faker;
 
 import com.epam.brest.model.Band;
 

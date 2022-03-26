@@ -1,7 +1,6 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.faker;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.service.BandFakerService;
 import com.github.javafaker.Faker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

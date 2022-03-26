@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +28,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -239,6 +243,36 @@ public class TrackControllerIT {
         assertEquals(tracks.size() - 1, currentTrack.size());
     }
 
+    @Test
+    public void shouldTracksExportExcel() throws Exception {
+        logger.debug("shouldTracksExportExcel()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel"))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Tracks.xlsx");
+    }
+
+    @Test
+    @Transactional
+    public void shouldImportTrackExcel() throws Exception {
+        logger.debug("shouldImportTrackExcel()");
+
+        File files = new File("src/test/resources/Track.xlsx");
+        FileInputStream input = new FileInputStream(files);
+        MockMultipartFile multipartFile = new MockMultipartFile("file",
+                files.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+
+        MockHttpServletResponse response = mockMvc.perform(multipart("/repertoire/import/excel")
+                        .file(multipartFile))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
+    }
+
 
     class MockMvcTrackService {
 
@@ -314,6 +348,7 @@ public class TrackControllerIT {
 
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
+
 
     }
 

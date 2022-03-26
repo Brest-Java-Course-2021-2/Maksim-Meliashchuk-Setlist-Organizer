@@ -1,8 +1,10 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.Band;
-import com.epam.brest.service.BandFakerService;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.excel.BandExportExcelService;
+import com.epam.brest.service.excel.BandImportExcelService;
+import com.epam.brest.service.faker.BandFakerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,10 +15,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -27,15 +33,19 @@ import java.util.Collection;
 @CrossOrigin
 public class BandController {
 
-    private final BandService bandService;
-
     private final Logger logger = LogManager.getLogger(BandController.class);
 
+    private final BandService bandService;
+    private final BandExportExcelService bandExportExcelService;
     private final BandFakerService bandFakerService;
+    private final BandImportExcelService bandImportExcelService;
 
-    public BandController(BandService bandService, BandFakerService bandFakerService) {
+    public BandController(BandService bandService, BandExportExcelService bandExportExcelService,
+                          BandFakerService bandFakerService, BandImportExcelService bandImportExcelService) {
         this.bandService = bandService;
+        this.bandExportExcelService = bandExportExcelService;
         this.bandFakerService = bandFakerService;
+        this.bandImportExcelService = bandImportExcelService;
     }
 
     @Operation(summary = "Get information for all bands based on their IDs")
@@ -130,5 +140,32 @@ public class BandController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @Operation(summary = "Export information for all bands based on their IDs to Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
+    })
+    @GetMapping(value = "/bands/export/excel")
+    public final void exportToExcelAllBands(HttpServletResponse response) throws IOException {
+        logger.debug("exportToExcelAllBands()");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Bands.xlsx";
+        response.setHeader(headerKey, headerValue);
+        bandExportExcelService.exportBandsExcel(response);
+    }
 
+    @Operation(summary = "Import information in the table 'Band' from Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Band(s) have been imported. Returns the number of bands imported.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Integer.class)) })})
+    @PostMapping(value = "/bands/import/excel", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
+    public ResponseEntity<Integer> importBandFromExcel(@RequestParam(value ="file") final MultipartFile files) throws IOException {
+        logger.debug("importBandFromExcel({})", files.getName());
+        int result =  bandImportExcelService.importBandsExcel(files).size();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

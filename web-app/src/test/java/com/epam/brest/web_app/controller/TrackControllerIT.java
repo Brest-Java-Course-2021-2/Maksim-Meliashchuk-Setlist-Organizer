@@ -3,7 +3,11 @@ package com.epam.brest.web_app.controller;
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
+import com.epam.brest.service.BandService;
+import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
+import com.epam.brest.web_app.validator.TrackValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -31,6 +38,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -39,7 +48,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(properties = { "app.httpClient = RestTemplate" })
+@SpringBootTest(properties = {"app.httpClient = RestTemplate"})
 @ActiveProfiles("dev")
 public class TrackControllerIT {
 
@@ -54,7 +63,20 @@ public class TrackControllerIT {
     @Autowired
     private WebApplicationContext wac;
 
+    @Autowired
     private TrackService trackService;
+
+    @Autowired
+    private BandService bandService;
+
+    @Autowired
+    private TrackDtoService trackDtoService;
+
+    @Autowired
+    private TrackDtoFakerService trackDtoFakerService;
+
+    @Autowired
+    private TrackValidator trackValidator;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -197,7 +219,7 @@ public class TrackControllerIT {
                 );
         // THEN
         mockMvc.perform(get("/repertoire/filter/band/{id}", id)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bandtracks"))
                 .andExpect(model().attribute("tracksCount", is(1)))
@@ -230,7 +252,7 @@ public class TrackControllerIT {
         String fromDate = "2000-10-10";
         String toDate = "2021-10-10";
 
-        mockServer.expect(once(), requestTo(new URI(TRACKS_DTO_URL + "?fromDate=" + fromDate +  "&toDate=" + toDate)))
+        mockServer.expect(once(), requestTo(new URI(TRACKS_DTO_URL + "?fromDate=" + fromDate + "&toDate=" + toDate)))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess()
                         .contentType(MediaType.APPLICATION_JSON)
@@ -365,6 +387,23 @@ public class TrackControllerIT {
 
         // VERIFY
         mockServer.verify();
+    }
+
+    @Test
+    void shouldExportTracksDtoToExcel() throws Exception {
+        logger.debug("shouldExportTracksDtoToExcel()");
+        List<TrackDto> trackDtoList = Arrays.asList(createTrackDto(1), createTrackDto(2));
+        TrackController trackController = new TrackController(trackService, bandService, trackDtoService,
+                trackDtoFakerService, trackValidator);
+        ReflectionTestUtils.setField(trackController, "trackDtoList", trackDtoList);
+        ModelAndView mav = trackController.exportToExcel();
+        assertEquals(trackDtoList, mav.getModel().get("tracks"));
+        MockHttpServletResponse response = mockMvc.perform(get("/repertoire/export/excel"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Repertoire.xlsx");
     }
 
     private TrackDto createTrackDto(int index) {

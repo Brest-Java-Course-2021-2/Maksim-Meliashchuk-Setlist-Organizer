@@ -2,9 +2,13 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
+import com.epam.brest.service.BandDtoService;
+import com.epam.brest.service.BandService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.web_app.validator.BandValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +18,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,6 +56,15 @@ class BandControllerApiClientTest {
 
     @MockBean
     private BandApi bandApi;
+
+    @MockBean
+    private BandDtoService bandDtoService;
+
+    @MockBean
+    private BandService bandService;
+
+    @MockBean
+    private BandDtoFakerService bandDtoFakerService;
 
     @MockBean
     private BandValidator bandValidator;
@@ -182,6 +204,48 @@ class BandControllerApiClientTest {
                 .andExpect(view().name("redirect:/bands"))
                 .andExpect(redirectedUrl("/bands"));
 
+    }
+
+    @Test
+    void shouldExportBandsDtoToExcel() throws Exception {
+        LOGGER.debug("shouldExportBandsDtoToExcel()");
+        List<BandDto> bandDtoList = Arrays.asList(createBandDto(1), createBandDto(2));
+        BandController bandController = new BandController(bandDtoService, bandService, bandDtoFakerService,
+                bandValidator);
+        ReflectionTestUtils.setField(bandController, "bandDtoList", bandDtoList);
+        ModelAndView mav = bandController.exportToExcel();
+        assertEquals(bandDtoList, mav.getModel().get("bands"));
+        MockHttpServletResponse response = mockMvc.perform(get("/bands/export/excel"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Bands.xlsx");
+    }
+
+    @Test
+    void shouldImportBandsFromExcel() throws Exception {
+        LOGGER.debug("shouldImportBandsFromExcel()");
+        File file = new File("src/test/resources/Band.xlsx");
+        FileInputStream input = new FileInputStream(file);
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
+                file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/band/import/excel")
+                        .file(mockMultipartFile))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/bands"))
+                .andExpect(redirectedUrl("/bands"));
+    }
+
+    @Test
+    void shouldExportBandTableToExcel() throws Exception {
+        LOGGER.debug("shouldExportBandTableToExcel()");
+        File file = new File("src/test/resources/Band.xlsx");
+        when(bandApi.exportToExcelAllBands()).thenReturn(file);
+        mockMvc.perform(get("/band/export/excel"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
     }
 
     private BandDto createBandDto(int index) {

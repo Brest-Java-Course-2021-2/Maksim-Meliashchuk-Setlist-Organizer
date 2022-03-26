@@ -2,8 +2,9 @@ package com.epam.brest.rest;
 
 import com.epam.brest.dao.BandDtoDaoJdbcImpl;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
+import com.epam.brest.service.excel.BandDtoExportExcelService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
 
 @Tag(name = "Bands", description = "the Bands API")
@@ -28,11 +32,13 @@ public class BandDtoController {
     private static final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImpl.class);
 
     private final BandDtoService bandDtoService;
-
+    private final BandDtoExportExcelService bandDtoExportExcelService;
     private final BandDtoFakerService bandDtoFakerService;
 
-    public BandDtoController(BandDtoService bandDtoService, BandDtoFakerService bandDtoFakerService) {
+    public BandDtoController(BandDtoService bandDtoService, BandDtoExportExcelService bandDtoExportExcelService,
+                             BandDtoFakerService bandDtoFakerService) {
         this.bandDtoService = bandDtoService;
+        this.bandDtoExportExcelService = bandDtoExportExcelService;
         this.bandDtoFakerService = bandDtoFakerService;
     }
 
@@ -61,5 +67,21 @@ public class BandDtoController {
                                                     String language) {
         logger.debug("bandsDtoFake()");
         return bandDtoFakerService.fillFakeBandsDto(size, language);
+    }
+
+    @Operation(summary = "Export information for all bands with their repertoire duration and track count to Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
+    })
+    @GetMapping(value = "bands_dto/export/excel")
+    public final void exportToExcelAllBandsDto(HttpServletResponse response) throws IOException {
+        logger.debug("exportToExcelAllBands()");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=BandsDto.xlsx";
+        response.setHeader(headerKey, headerValue);
+        bandDtoExportExcelService.exportBandsDtoExcel(response);
     }
 }

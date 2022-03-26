@@ -25,13 +25,17 @@
 
 <div class="main">
     <div class="container">
-        <div class="container">
-            <div class="row mb-3 mt-3">
-                <div class="row gap-6 d-flex justify-content-end">
-                    <div class="col col-md-auto px-1 d-flex justify-content-end">
-                        <div class="d-flex align-content-end flex-wrap">
-                            <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">Add</a>
-                        </div>
+        <div class="row mb-3 mt-3">
+            <div class="row gap-6 d-flex justify-content-end">
+                <div class="col col-md-auto px-1 d-flex justify-content-end">
+                    <div class="d-flex align-content-end flex-wrap">
+                        <strong>
+                            <a href="track.html" th:href="@{/bands/export/excel}" class="btn btn-dark"
+                               role="button">
+                                <i class="bi bi-file-earmark-excel"></i> | Export</a>
+                            <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">
+                                <i class="bi bi-plus-square"></i> | Add</a></a>
+                        </strong>
                     </div>
                 </div>
             </div>

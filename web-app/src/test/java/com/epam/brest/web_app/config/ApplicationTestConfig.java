@@ -2,6 +2,8 @@ package com.epam.brest.web_app.config;
 
 import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
+import com.epam.brest.service.faker.BandDtoFakerService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
 import io.swagger.client.api.TrackApi;

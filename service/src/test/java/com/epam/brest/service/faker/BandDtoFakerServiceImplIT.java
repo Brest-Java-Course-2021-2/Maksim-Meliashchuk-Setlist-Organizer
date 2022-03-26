@@ -1,7 +1,6 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.faker;
 
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandDtoFakerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -11,9 +10,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BandDtoFakerServiceImplTest {
+class BandDtoFakerServiceImplIT {
 
-    private final Logger logger = LogManager.getLogger(BandDtoFakerServiceImplTest.class);
+    private final Logger logger = LogManager.getLogger(BandDtoFakerServiceImplIT.class);
 
     private final BandDtoFakerService bandDtoFakerService = new BandDtoFakerServiceImpl();
 

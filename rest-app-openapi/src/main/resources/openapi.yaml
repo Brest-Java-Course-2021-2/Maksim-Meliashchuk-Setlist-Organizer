@@ -215,6 +215,92 @@ paths:
               schema:
                 type: integer
                 format: int32
+  /repertoire/import/excel:
+    post:
+      tags:
+      - Track
+      summary: Import information in the table 'Track' from Excel
+      operationId: importTrackFromExcel
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Track(s) have been imported. Returns the number of tracks imported.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /bands/import/excel:
+    post:
+      tags:
+      - Band
+      summary: Import information in the table 'Band' from Excel
+      operationId: importBandFromExcel
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Band(s) have been imported. Returns the number of bands imported.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
   /version:
     get:
       tags:
@@ -326,6 +412,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+  /tracks_dto/export/excel:
+    get:
+      tags:
+      - Tracks
+      summary: Export information for all tracks with their band names to Excel
+      operationId: exportToExcelAllTracksWithBandName
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
   /repertoire/{id}:
     get:
       tags:
@@ -524,6 +642,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Track'
+  /repertoire/export/excel:
+    get:
+      tags:
+      - Track
+      summary: Export information for all tracks based on their IDs to Excel
+      operationId: exportToExcelAllTracks
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
   /bands_dto:
     get:
       tags:
@@ -605,6 +755,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BandDto'
+  /bands_dto/export/excel:
+    get:
+      tags:
+      - Bands
+      summary: Export information for all bands with their repertoire duration and
+        track count to Excel
+      operationId: exportToExcelAllBandsDto
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
   /bands/{id}:
     get:
       tags:
@@ -719,6 +902,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Band'
+  /bands/export/excel:
+    get:
+      tags:
+      - Band
+      summary: Export information for all bands based on their IDs to Excel
+      operationId: exportToExcelAllBands
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export to Excel
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     ErrorResponse:

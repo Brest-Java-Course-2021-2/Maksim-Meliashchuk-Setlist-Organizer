@@ -3,9 +3,10 @@ package com.epam.brest.web_app.controller;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.BandService;
-import com.epam.brest.service.TrackDtoFakerService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
+import com.epam.brest.web_app.excel.RepertoireViewExportExcel;
 import com.epam.brest.web_app.validator.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,14 +34,12 @@ import java.util.List;
 public class TrackController {
 
     private final TrackService trackService;
-
     private final BandService bandService;
-
     private final TrackDtoService trackDtoService;
-
     private final TrackDtoFakerService trackDtoFakerService;
-
     private final TrackValidator trackValidator;
+
+    private List<TrackDto> trackDtoList;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
@@ -103,7 +103,8 @@ public class TrackController {
     @GetMapping(value = "/repertoire")
     public final String findAllTracksWithBandName(Model model) {
         logger.debug("findAllTracksWithBandName()");
-        model.addAttribute("tracks", trackDtoService.findAllTracksWithBandName());
+        trackDtoList = trackDtoService.findAllTracksWithBandName();
+        model.addAttribute("tracks", trackDtoList);
         return "repertoire";
     }
 
@@ -114,14 +115,15 @@ public class TrackController {
                                                     String language,
                                         Model model) {
         logger.debug("fillFakerTracks({},{})", size, language);
-        model.addAttribute("tracks", trackDtoFakerService.fillFakeTracksDto(size, language));
+        trackDtoList = trackDtoFakerService.fillFakeTracksDto(size, language);
+        model.addAttribute("tracks", trackDtoList);
         return "repertoire";
     }
 
     @GetMapping(value = "/repertoire/filter/band/{id}")
     public final String gotoBandTracksPage(@PathVariable Integer id, Model model) {
         logger.debug("gotoBandTracksPage(id:{},model:{})", id, model);
-        List<TrackDto> trackDtoList = trackDtoService.findAllTracksWithBandNameByBandId(id);
+        trackDtoList = trackDtoService.findAllTracksWithBandNameByBandId(id);
         model.addAttribute("tracksDuration",
                 trackDtoList.stream().mapToInt(TrackDto::getTrackDuration).sum());
         model.addAttribute("tracks", trackDtoList);
@@ -136,10 +138,19 @@ public class TrackController {
                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                                                  Model model) {
         logger.debug("filterTrackByReleaseDate({},{})", fromDate, toDate);
-        model.addAttribute("tracks", trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate));
+        trackDtoList = trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate);
+        model.addAttribute("tracks", trackDtoList);
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
         return "repertoire";
     }
 
+    @GetMapping(value = "/repertoire/export/excel")
+    public ModelAndView exportToExcel() {
+        logger.debug("exportToExcel()");
+        ModelAndView mav = new ModelAndView();
+        mav.setView(new RepertoireViewExportExcel());
+        mav.addObject("tracks", trackDtoList);
+        return mav;
+    }
 }

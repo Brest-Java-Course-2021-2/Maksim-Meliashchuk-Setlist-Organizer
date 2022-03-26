@@ -1,8 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
+import com.epam.brest.service.excel.BandDtoExportExcelService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
@@ -20,7 +21,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class BandDtoControllerTest {
@@ -38,6 +42,8 @@ public class BandDtoControllerTest {
     @Mock
     private BandDtoFakerService bandDtoFakerService;
 
+    @Mock
+    private BandDtoExportExcelService bandDtoExportExcelService;
 
     private MockMvc mockMvc;
 
@@ -55,7 +61,6 @@ public class BandDtoControllerTest {
     @Test
     public void shouldFindAllWithCountTrack() throws Exception {
         logger.debug("shouldFindAllWithCountTrack()");
-
         Mockito.when(bandDtoService.findAllWithCountTrack()).thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
@@ -101,6 +106,22 @@ public class BandDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].bandRepertoireDuration", Matchers.is(1001)));
 
         Mockito.verify(bandDtoFakerService).fillFakeBandsDto(FAKE_DATA_SIZE, "EN");
+    }
+
+    @Test
+    public void shouldExportBandsDtoToExcel() throws Exception {
+        logger.debug("shouldExportBandsDtoToExcel()");
+        Mockito.when(bandDtoExportExcelService.exportBandsDtoExcel(any(HttpServletResponse.class)))
+                .thenReturn(Arrays.asList(create(0), create(1)));
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/bands_dto/export/excel")
+                ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .andExpect(MockMvcResultMatchers.header()
+                        .string("Content-disposition", "attachment; filename=BandsDto.xlsx"));
+
+        Mockito.verify(bandDtoExportExcelService).exportBandsDtoExcel(any(HttpServletResponse.class));
     }
 
     private BandDto create(int index) {

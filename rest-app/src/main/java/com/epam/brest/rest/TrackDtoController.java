@@ -1,8 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.service.TrackDtoFakerService;
 import com.epam.brest.service.TrackDtoService;
+import com.epam.brest.service.excel.TrackDtoExportExcelService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +15,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -32,9 +36,13 @@ public class TrackDtoController {
 
     private final TrackDtoFakerService trackDtoFakerService;
 
-    public TrackDtoController(TrackDtoService trackDtoService, TrackDtoFakerService trackDtoFakerService) {
+    private final TrackDtoExportExcelService trackDtoExportExcelService;
+
+    public TrackDtoController(TrackDtoService trackDtoService, TrackDtoFakerService trackDtoFakerService,
+                              TrackDtoExportExcelService trackDtoExportExcelService) {
         this.trackDtoService = trackDtoService;
         this.trackDtoFakerService = trackDtoFakerService;
+        this.trackDtoExportExcelService = trackDtoExportExcelService;
     }
 
     @Operation(summary = "Get information for all tracks with their band names")
@@ -92,5 +100,21 @@ public class TrackDtoController {
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {
         logger.debug("filterTrackByReleaseDate({},{})", fromDate, toDate);
         return trackDtoService.findAllTracksWithReleaseDateFilter(fromDate, toDate);
+    }
+
+    @Operation(summary = "Export information for all tracks with their band names to Excel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to Excel",
+                    content = { @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary"))})
+    })
+    @GetMapping(value = "tracks_dto/export/excel")
+    public final void exportToExcelAllTracksWithBandName(HttpServletResponse response) throws IOException {
+        logger.debug("exportToExcelAllTracksWithBandName()");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=TracksDto.xlsx";
+        response.setHeader(headerKey, headerValue);
+        trackDtoExportExcelService.exportTracksDtoExcel(response);
     }
 }

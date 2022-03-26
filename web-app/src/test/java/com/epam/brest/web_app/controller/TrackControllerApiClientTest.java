@@ -2,10 +2,15 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
+import com.epam.brest.service.BandService;
+import com.epam.brest.service.TrackDtoService;
+import com.epam.brest.service.TrackService;
+import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +20,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,6 +59,18 @@ class TrackControllerApiClientTest {
 
     @MockBean
     private BandApi bandApi;
+
+    @MockBean
+    private TrackDtoService trackDtoService;
+
+    @MockBean
+    private TrackService trackService;
+
+    @MockBean
+    private BandService bandService;
+
+    @MockBean
+    private TrackDtoFakerService trackDtoFakerService;
 
     @MockBean
     private TrackValidator trackValidator;
@@ -293,6 +319,48 @@ class TrackControllerApiClientTest {
                 .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
                 .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
 
+    }
+
+    @Test
+    void shouldExportTracksDtoToExcel() throws Exception {
+        LOGGER.debug("shouldExportTracksDtoToExcel()");
+        List<TrackDto> trackDtoList = Arrays.asList(createTrackDto(1), createTrackDto(2));
+        TrackController trackController = new TrackController(trackService, bandService, trackDtoService,
+                trackDtoFakerService, trackValidator);
+        ReflectionTestUtils.setField(trackController, "trackDtoList", trackDtoList);
+        ModelAndView mav = trackController.exportToExcel();
+        assertEquals(trackDtoList, mav.getModel().get("tracks"));
+        MockHttpServletResponse response = mockMvc.perform(get("/repertoire/export/excel"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment;fileName=Repertoire.xlsx");
+    }
+
+    @Test
+    void shouldExportTrackTableToExcel() throws Exception {
+        LOGGER.debug("shouldExportTrackTableToExcel()");
+        File file = new File("src/test/resources/Track.xlsx");
+        when(trackApi.exportToExcelAllTracks()).thenReturn(file);
+        mockMvc.perform(get("/track/export/excel"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+    }
+
+    @Test
+    void shouldImportTracksFromExcel() throws Exception {
+        LOGGER.debug("shouldImportTracksFromExcel()");
+        File file = new File("src/test/resources/Track.xlsx");
+        FileInputStream input = new FileInputStream(file);
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
+                file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/track/import/excel")
+                        .file(mockMultipartFile))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/repertoire"))
+                .andExpect(redirectedUrl("/repertoire"));
     }
 
     private TrackDto createTrackDto(int index) {

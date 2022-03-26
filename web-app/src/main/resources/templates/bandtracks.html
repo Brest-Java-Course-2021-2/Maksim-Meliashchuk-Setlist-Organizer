@@ -23,24 +23,30 @@
 
 
 <form class="form-group" th:action="@{/repertoire/band}">
-    <div class="container">
-        <div class="row mb-3 mt-3">
-            <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
+    <div class="main">
+        <div class="container">
+            <div class="row mb-3 mt-3">
+                <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
 
-                <div class="col-auto px-1">
-                    <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
-                </div>
+                    <div class="col-auto px-1">
+                        <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
+                    </div>
 
-                <div class="col-auto px-1">
-                    <span class="fs-6">Total duration:</span>
-                    <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
-                </div>
+                    <div class="col-auto px-1">
+                        <span class="fs-6">Total duration:</span>
+                        <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
+                    </div>
 
-                <div class="col-auto px-1 d-flex justify-content-end">
-                    <div class="d-flex align-content-end flex-wrap">
-                        <strong>
-                            <a href="track.html" th:href="@{/track}" class="btn btn-dark" role="button">Add</a>
-                        </strong>
+                    <div class="col-auto px-1 d-flex justify-content-end">
+                        <div class="d-flex align-content-end flex-wrap">
+                            <strong>
+                                <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark"
+                                   role="button">
+                                    <i class="bi bi-file-earmark-excel"></i> | Export</a>
+                                <a href="band.html" th:href="@{/track}" class="btn btn-dark" role="button">
+                                    <i class="bi bi-plus-square"></i> | Add</a></a>
+                            </strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -152,6 +158,7 @@
         secondsToTime();
         dateFormat();
     }
+
 
 
 </script>

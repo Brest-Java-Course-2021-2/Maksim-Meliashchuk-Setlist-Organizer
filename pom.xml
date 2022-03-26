@@ -53,12 +53,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javax.el.version>2.2.4</javax.el.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
-        <springdoc-openapi-ui.version>1.6.4</springdoc-openapi-ui.version>
+        <springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
         <projectlombok.version>1.18.22</projectlombok.version>
         <mockwebserver.version>4.9.3</mockwebserver.version>
         <reactor-test.version>3.1.0.RELEASE</reactor-test.version>
         <okhttp.version>4.9.3</okhttp.version>
+        <javafaker.version>1.0.2</javafaker.version>
         <spring-boot-maven-plugin.version>2.6.3</spring-boot-maven-plugin.version>
+        <poi-ooxml.version>5.2.1</poi-ooxml.version>
     </properties>
 
     <dependencyManagement>
@@ -219,6 +221,24 @@
                 <artifactId>lombok</artifactId>
                 <version>${projectlombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.javafaker</groupId>
+                <artifactId>javafaker</artifactId>
+                <version>${javafaker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi-ooxml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
             </dependency>
 
 

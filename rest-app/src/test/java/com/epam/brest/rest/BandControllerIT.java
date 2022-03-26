@@ -1,11 +1,11 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.exception.CustomExceptionHandler;
-import com.epam.brest.model.ErrorResponse;
 import com.epam.brest.model.Band;
+import com.epam.brest.model.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +28,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @Transactional
+@Rollback
 @ActiveProfiles("dev")
 public class BandControllerIT {
 
@@ -276,6 +281,35 @@ public class BandControllerIT {
         assertEquals(errorResponse.getMessage(), DATA_BASE_ERROR);
     }
 
+    @Test
+    public void shouldBandsExportExcel() throws Exception {
+        logger.debug("shouldBandsExportExcel()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/excel"))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xlsx");
+    }
+
+    @Test
+    @Transactional
+    public void shouldImportBandExcel() throws Exception {
+        logger.debug("shouldImportBandExcel()");
+
+        File files = new File("src/test/resources/Band.xlsx");
+        FileInputStream input = new FileInputStream(files);
+        MockMultipartFile multipartFile = new MockMultipartFile("file",
+                files.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                IOUtils.toByteArray(input));
+
+        MockHttpServletResponse response = mockMvc.perform(multipart("/bands/import/excel").file(multipartFile))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
+    }
 
     class MockMvcBandService {
 
@@ -352,7 +386,6 @@ public class BandControllerIT {
 
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
-
     }
 
 
