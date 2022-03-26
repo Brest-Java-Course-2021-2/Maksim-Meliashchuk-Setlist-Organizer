@@ -37,17 +37,21 @@ public class TrackImportExcelServiceServiceImpl implements TrackImportExcelServi
         for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
             if (index > 0) {
                 XSSFRow row = worksheet.getRow(index);
-                Track track = Track.builder()
-                        .trackName(row.getCell(1).getStringCellValue())
-                        .trackBandId(Integer.valueOf(row.getCell(2).getStringCellValue()))
-                        .trackTempo(Integer.valueOf(row.getCell(3).getStringCellValue()))
-                        .trackDuration(Integer.valueOf(row.getCell(4).getStringCellValue()))
-                        .trackDetails(row.getCell(5).getStringCellValue())
-                        .trackLink(row.getCell(6).getStringCellValue())
-                        .trackReleaseDate(LocalDate.parse(formatter.formatCellValue(row.getCell(7))))
-                        .build();
-                trackService.create(track);
-                tracks.add(track);
+                try {
+                    Track track = Track.builder()
+                            .trackName(formatter.formatCellValue(row.getCell(1)))
+                            .trackBandId(Integer.valueOf(formatter.formatCellValue(row.getCell(2))))
+                            .trackTempo(Integer.valueOf(formatter.formatCellValue(row.getCell(3))))
+                            .trackDuration(Integer.valueOf(formatter.formatCellValue(row.getCell(4))))
+                            .trackDetails(formatter.formatCellValue(row.getCell(5)))
+                            .trackLink(formatter.formatCellValue(row.getCell(6)))
+                            .trackReleaseDate(LocalDate.parse(formatter.formatCellValue(row.getCell(7))))
+                            .build();
+                    trackService.create(track);
+                    tracks.add(track);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return tracks;
