@@ -260,7 +260,8 @@ API documentation with Swagger UI:
 ## Excel Import and Export
 <img src="https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white"/>
 
-These REST applications have several endpoints (`/export/excel` and `/import/excel`) to create and import Excel files using Apache POI.
+These REST applications have several endpoints (`/export/excel` and `/import/excel`) to create and import Excel files using 
+[Apache POI](https://poi.apache.org/components/spreadsheet/).
 
 *Please, after running the REST application, refer to the API documentation with [Swagger UI](http://localhost:8088/swagger-ui/index.html) for more information.*
 
