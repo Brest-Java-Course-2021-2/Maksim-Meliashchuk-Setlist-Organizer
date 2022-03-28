@@ -25,6 +25,9 @@ services:
       - 3000:3000
     volumes:
       - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     network_mode: host
 
   prometheus:
