@@ -19,7 +19,8 @@
         <module>test-db</module>
         <module>rest-app</module>
         <module>dao-api</module>
-        <module>dao</module>
+        <module>dao-jdbc</module>
+        <module>dao-jpa</module>
         <module>service-api</module>
         <module>service</module>
         <module>service-rest</module>
@@ -61,6 +62,7 @@
         <javafaker.version>1.0.2</javafaker.version>
         <spring-boot-maven-plugin.version>2.6.3</spring-boot-maven-plugin.version>
         <poi-ooxml.version>5.2.1</poi-ooxml.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +91,12 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
+                <artifactId>prod-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
                 <artifactId>model</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -101,7 +109,7 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
-                <artifactId>dao</artifactId>
+                <artifactId>dao-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -214,6 +222,20 @@
                 <artifactId>reactor-test</artifactId>
                 <version>${reactor-test.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${org.mapstruct.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>

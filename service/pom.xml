@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.epam.brest</groupId>
-            <artifactId>dao</artifactId>
+            <artifactId>dao-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.epam.brest</groupId>

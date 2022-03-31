@@ -1,6 +1,6 @@
 package com.epam.brest.rest;
 
-import com.epam.brest.dao.BandDtoDaoJdbcImpl;
+import com.epam.brest.dao.jdbc.BandDtoDaoJdbcImpl;
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.excel.BandDtoExportExcelService;
