@@ -1,22 +1,22 @@
 package com.epam.brest.service.config;
 
-import com.epam.brest.SpringJdbcConfig;
+import com.epam.brest.SpringDataSourceTestConfig;
 import com.epam.brest.dao.TrackDao;
-import com.epam.brest.dao.jdbc.TrackDaoJdbcImpl;
 import com.epam.brest.dao.TrackDtoDao;
+import com.epam.brest.dao.jdbc.TrackDaoJdbcImpl;
 import com.epam.brest.dao.jdbc.TrackDtoDaoJdbcImpl;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.*;
-import com.epam.brest.service.impl.TrackDtoServiceImpl;
-import com.epam.brest.service.impl.TrackServiceImpl;
+import com.epam.brest.service.impl.jdbc.TrackDtoServiceImpl;
+import com.epam.brest.service.impl.jdbc.TrackServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @TestConfiguration
 @ComponentScan("com.epam.brest.dao.annotation")
-public class TrackServiceTestConfig extends SpringJdbcConfig {
+public class TrackServiceTestConfig extends SpringDataSourceTestConfig {
 
     @Bean
     TrackDtoDao trackDtoDao() {

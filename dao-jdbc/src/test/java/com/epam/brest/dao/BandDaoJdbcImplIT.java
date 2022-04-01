@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJdbcTest
 @Import({BandDaoJdbcImpl.class})
-@PropertySource({"classpath:sql-band.properties"})
 @ContextConfiguration(classes = SpringJdbcConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 @Rollback
+@ActiveProfiles({"dev", "jdbc"})
 class BandDaoJdbcImplIT {
 
     private final Logger logger = LogManager.getLogger(BandDaoJdbcImplIT.class);

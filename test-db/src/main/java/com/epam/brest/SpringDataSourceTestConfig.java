@@ -11,13 +11,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("jdbc")
-public class SpringJdbcConfig {
-
+@Profile("test")
+public class SpringDataSourceTestConfig {
     @Bean
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
+                .addScript("create-db.sql")
+                .addScript("init-db.sql")
                 .build();
     }
 
@@ -30,5 +31,4 @@ public class SpringJdbcConfig {
     public DataSourceTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-
 }

@@ -227,7 +227,11 @@ The rest application will be accessible at [http://localhost:8088](http://localh
 
 Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
+<img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
+
 Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
+
+<img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
 
 Access the Grafana webUI on  [http://localhost:3000](http://localhost:3000)
 

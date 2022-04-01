@@ -1,8 +1,8 @@
 package com.epam.brest.dao;
 
+import com.epam.brest.SpringJdbcConfig;
 import com.epam.brest.dao.jdbc.TrackDaoJdbcImpl;
 import com.epam.brest.model.Track;
-import com.epam.brest.SpringJdbcConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +22,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJdbcTest
 @Import({TrackDaoJdbcImpl.class})
-@PropertySource({"classpath:sql-track.properties"})
 @ContextConfiguration(classes = SpringJdbcConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 @Rollback
+@ActiveProfiles({"dev", "jdbc"})
 public class TrackDaoJdbcImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImplIT.class);

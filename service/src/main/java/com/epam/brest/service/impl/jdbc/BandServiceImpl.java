@@ -1,4 +1,4 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.impl.jdbc;
 
 import com.epam.brest.dao.BandDao;
 import com.epam.brest.model.Band;
@@ -6,6 +6,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.exception.BandNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Profile({"jdbc"})
 public class BandServiceImpl implements BandService {
 
     private final Logger logger = LogManager.getLogger(BandServiceImpl.class);

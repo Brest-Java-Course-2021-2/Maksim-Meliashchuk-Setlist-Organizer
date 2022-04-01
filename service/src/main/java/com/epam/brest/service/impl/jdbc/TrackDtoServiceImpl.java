@@ -1,10 +1,11 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.impl.jdbc;
 
 import com.epam.brest.dao.TrackDtoDao;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackDtoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Profile({"jdbc"})
 public class TrackDtoServiceImpl implements TrackDtoService {
 
     private final Logger logger = LogManager.getLogger(TrackDtoServiceImpl.class);

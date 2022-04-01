@@ -115,6 +115,13 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
+                <artifactId>dao-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
                 <artifactId>service-api</artifactId>
                 <version>${project.version}</version>
             </dependency>

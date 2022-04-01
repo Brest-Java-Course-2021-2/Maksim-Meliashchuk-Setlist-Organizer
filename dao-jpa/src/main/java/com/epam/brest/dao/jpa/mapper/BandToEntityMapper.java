@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BandToEntityMapper {
-    BandEntity bandToBandEntity(Band book);
+    BandEntity bandToBandEntity(Band band);
     Band bandEntityToBand(BandEntity bandEntity);
 }

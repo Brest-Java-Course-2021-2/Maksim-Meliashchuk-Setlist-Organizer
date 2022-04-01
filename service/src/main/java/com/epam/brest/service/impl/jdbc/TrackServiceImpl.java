@@ -1,4 +1,4 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.impl.jdbc;
 
 import com.epam.brest.dao.TrackDao;
 import com.epam.brest.model.Track;
@@ -6,6 +6,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.exception.TrackNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Profile({"jdbc"})
 public class TrackServiceImpl implements TrackService {
 
     private final Logger logger = LogManager.getLogger(TrackServiceImpl.class);

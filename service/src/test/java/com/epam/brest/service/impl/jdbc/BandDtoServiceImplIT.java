@@ -1,4 +1,4 @@
-package com.epam.brest.service.impl;
+package com.epam.brest.service.impl.jdbc;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
