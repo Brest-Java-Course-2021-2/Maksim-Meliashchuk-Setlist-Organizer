@@ -46,12 +46,13 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public Integer update(Band band) {
+        Integer result = 1;
         if (!bandRepository.existsById(band.getBandId()))
             throw new BandNotFoundException(band.getBandId());
 
         BandEntity bandEntity = mapper.bandToBandEntity(band);
         bandRepository.save(bandEntity);
-        return 1;
+        return result;
     }
 
     @Override
