@@ -7,6 +7,7 @@ import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.exception.BandNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,14 @@ import java.util.stream.StreamSupport;
 @Service
 @RequiredArgsConstructor
 @Profile("jpa")
+@Slf4j
 public class BandServiceJpaImpl implements BandService {
     private final BandRepository bandRepository;
     private final BandToEntityMapper mapper;
 
     @Override
     public Band getBandById(Integer bandId) {
+        log.info("getBandById({})", bandId);
         BandEntity bandEntity = bandRepository
                 .findById(bandId)
                 .orElseThrow(() -> new BandNotFoundException(bandId));
@@ -31,6 +34,7 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public List<Band> findAllBands() {
+        log.info("findAllBands()");
         Iterable<BandEntity> iterable = bandRepository.findAll();
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(mapper::bandEntityToBand)
@@ -39,6 +43,7 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public Integer create(Band band) {
+        log.info("create()");
         BandEntity bandEntity = mapper.bandToBandEntity(band);
         bandRepository.save(bandEntity);
         return bandEntity.getBandId();
@@ -46,6 +51,7 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public Integer update(Band band) {
+        log.info("update()");
         Integer result = 1;
         if (!bandRepository.existsById(band.getBandId()))
             throw new BandNotFoundException(band.getBandId());
@@ -57,6 +63,7 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public Integer delete(Integer bandId) {
+        log.info("delete({})", bandId);
         BandEntity bandEntity = bandRepository
                 .findById(bandId)
                 .orElseThrow(() -> new BandNotFoundException(bandId));
@@ -68,6 +75,7 @@ public class BandServiceJpaImpl implements BandService {
 
     @Override
     public Integer count() {
+        log.info("count()");
         return Math.toIntExact(bandRepository.count());
     }
 }

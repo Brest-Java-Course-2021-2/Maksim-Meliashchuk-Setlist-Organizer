@@ -23,8 +23,10 @@ public class TrackEntity {
     @Column(name = "track_name", nullable = false)
     private String trackName;
 
-    @JoinColumn(name = "band_id")
-    private Integer trackBandId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "track_band_id")
+    @ToString.Exclude
+    private BandEntity band;
 
     @Column(name = "track_tempo")
     private Integer trackTempo;

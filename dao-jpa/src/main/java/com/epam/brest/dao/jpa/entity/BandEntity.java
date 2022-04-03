@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -24,6 +25,10 @@ public class BandEntity {
 
     @Column(name = "band_details")
     private String bandDetails;
+
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<TrackEntity> tracks;
 
     @Override
     public boolean equals(Object o) {
