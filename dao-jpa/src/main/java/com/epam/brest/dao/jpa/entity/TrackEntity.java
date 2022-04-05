@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Table(name = "track")
 public class TrackEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "track_id", nullable = false)
     private Integer trackId;
 

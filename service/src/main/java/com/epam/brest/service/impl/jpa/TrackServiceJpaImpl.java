@@ -1,7 +1,9 @@
 package com.epam.brest.service.impl.jpa;
 
+import com.epam.brest.dao.jpa.entity.BandEntity;
 import com.epam.brest.dao.jpa.entity.TrackEntity;
 import com.epam.brest.dao.jpa.mapper.TrackToEntityMapper;
+import com.epam.brest.dao.jpa.repository.BandRepository;
 import com.epam.brest.dao.jpa.repository.TrackRepository;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
@@ -22,6 +24,7 @@ import java.util.stream.StreamSupport;
 @Slf4j
 public class TrackServiceJpaImpl implements TrackService {
     private final TrackRepository trackRepository;
+    private final BandRepository bandRepository;
     private final TrackToEntityMapper mapper;
 
     @Override
@@ -37,6 +40,10 @@ public class TrackServiceJpaImpl implements TrackService {
     public Integer create(Track track) {
         log.info("create()");
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
+        BandEntity bandEntity = bandRepository
+                .findById(track.getTrackBandId())
+                .orElseThrow(() -> new BandNotFoundException(track.getTrackBandId()));
+        trackEntity.setBand(bandEntity);
         trackRepository.save(trackEntity);
         return trackEntity.getTrackId();
     }
@@ -47,8 +54,11 @@ public class TrackServiceJpaImpl implements TrackService {
         Integer result = 1;
         if (!trackRepository.existsById(track.getTrackId()))
             throw new BandNotFoundException(track.getTrackId());
-
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
+        BandEntity bandEntity = bandRepository
+                .findById(track.getTrackBandId())
+                .orElseThrow(() -> new BandNotFoundException(track.getTrackBandId()));
+        trackEntity.setBand(bandEntity);
         trackRepository.save(trackEntity);
         return result;
     }

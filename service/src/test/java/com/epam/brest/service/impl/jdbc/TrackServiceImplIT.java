@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @PropertySource({"classpath:sql-track.properties"})
 @Transactional
 @Rollback
-@ActiveProfiles("dev")
+@ActiveProfiles({"dev","jdbc"})
 class TrackServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackServiceImplIT.class);

@@ -1,6 +1,7 @@
 package com.epam.brest.dao.jpa.repository;
 
 import com.epam.brest.dao.jpa.entity.BandEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @EntityScan("com.epam.brest.*")
 @ContextConfiguration(classes=BandEntity.class)
 @ActiveProfiles("test")
+@Slf4j
 class BandRepositoryTest {
 
     @Autowired
@@ -32,17 +34,21 @@ class BandRepositoryTest {
 
     @Test
     void injectedComponentsAreNotNull(){
+        log.debug("injectedComponentsAreNotNull()");
         assertThat(entityManager).isNotNull();
         assertThat(repository).isNotNull();
     }
 
     @Test
     public void testFindAll() throws Exception {
-        BandEntity band1 = new BandEntity();
-        band1.setBandName("test band1");
+        log.debug("testFindAll()");
+        BandEntity band1 = BandEntity.builder()
+                .bandName("test band1")
+                .build();
         entityManager.persist(band1);
-        BandEntity band2 = new BandEntity();
-        band2.setBandName("test band2");
+        BandEntity band2 = BandEntity.builder()
+                .bandName("test band2")
+                .build();
         entityManager.persist(band2);
         Iterable<BandEntity> iterable = repository.findAll();
         assertThat(iterable).isNotNull();

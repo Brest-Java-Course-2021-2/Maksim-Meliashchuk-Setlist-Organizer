@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Table(name = "band")
 public class BandEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "band_id", nullable = false)
     private Integer bandId;
 

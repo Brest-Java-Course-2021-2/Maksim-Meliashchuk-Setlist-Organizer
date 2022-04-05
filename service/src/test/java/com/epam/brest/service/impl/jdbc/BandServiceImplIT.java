@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Import({BandServiceTestConfig.class})
 @Transactional
 @Rollback
-@ActiveProfiles("dev")
+@ActiveProfiles({"dev","jdbc"})
 class BandServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(BandServiceImplIT.class);

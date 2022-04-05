@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @PropertySource({"classpath:sql-band.properties"})
 @Transactional
 @Rollback
-@ActiveProfiles("dev")
+@ActiveProfiles({"dev","jdbc"})
 public class BandDtoServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceImplIT.class);
