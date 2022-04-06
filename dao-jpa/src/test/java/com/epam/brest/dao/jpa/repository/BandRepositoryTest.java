@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @EnableAutoConfiguration
-@EntityScan("com.epam.brest.*")
+@EntityScan("com.epam.brest.dao.jpa.*")
 @ContextConfiguration(classes=BandEntity.class)
 @ActiveProfiles("test")
 @Slf4j
@@ -40,7 +40,7 @@ class BandRepositoryTest {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         log.debug("testFindAll()");
         BandEntity band1 = BandEntity.builder()
                 .bandName("test band1")

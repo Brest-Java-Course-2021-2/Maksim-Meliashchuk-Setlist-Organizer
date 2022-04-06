@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @EnableAutoConfiguration
-@EntityScan("com.epam.brest.*")
-@ContextConfiguration(classes= TrackEntity.class)
+@EntityScan("com.epam.brest.dao.jpa.*")
+@ContextConfiguration(classes=TrackEntity.class)
 @ActiveProfiles("test")
 @Slf4j
 class TrackRepositoryTest {
