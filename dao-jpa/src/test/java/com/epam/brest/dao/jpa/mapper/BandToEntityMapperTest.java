@@ -4,11 +4,15 @@ import com.epam.brest.dao.jpa.entity.BandEntity;
 import com.epam.brest.model.Band;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 class BandToEntityMapperTest {
+
+    private BandToEntityMapper mapper
+            = Mappers.getMapper(BandToEntityMapper.class);
 
     @Test
     void bandToBandEntity() {
@@ -18,7 +22,7 @@ class BandToEntityMapperTest {
                 .bandName("Band")
                 .bandDetails("Details")
                 .build();
-        BandEntity bandEntity = BandToEntityMapper.MAPPER.bandToBandEntity(band);
+        BandEntity bandEntity = mapper.bandToBandEntity(band);
         assertEquals(band.getBandId(),bandEntity.getBandId());
         assertEquals(band.getBandName(),bandEntity.getBandName());
         assertEquals(band.getBandDetails(), bandEntity.getBandDetails());
@@ -32,7 +36,7 @@ class BandToEntityMapperTest {
                 .bandName("Band")
                 .bandDetails("Details")
                 .build();
-        Band band = BandToEntityMapper.MAPPER.bandEntityToBand(bandEntity);
+        Band band = mapper.bandEntityToBand(bandEntity);
         assertEquals(band.getBandId(), bandEntity.getBandId());
         assertEquals(band.getBandName(), bandEntity.getBandName());
         assertEquals(band.getBandDetails(), bandEntity.getBandDetails());

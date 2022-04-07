@@ -1,17 +1,25 @@
 package com.epam.brest.dao.jpa.mapper;
 
+import com.epam.brest.dao.jpa.entity.BandEntity;
 import com.epam.brest.dao.jpa.entity.TrackEntity;
+import com.epam.brest.dao.jpa.repository.BandRepository;
 import com.epam.brest.model.Track;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
-public interface TrackToEntityMapper {
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@RequiredArgsConstructor
+public abstract class TrackToEntityMapper {
 
-    TrackToEntityMapper MAPPER = Mappers.getMapper(TrackToEntityMapper.class);
+    protected BandRepository bandRepository;
 
-    TrackEntity trackToTrackEntity(Track track);
+    public abstract TrackEntity trackToTrackEntity(Track track);
+
     @Mapping(target = "trackBandId", expression = "java(trackEntity.getBand().getBandId())")
-    Track trackEntityToTrack(TrackEntity trackEntity);
+    public abstract Track trackEntityToTrack(TrackEntity trackEntity);
+
+    @AfterMapping
+    public void setBand(Track track, @MappingTarget TrackEntity.TrackEntityBuilder trackEntity) {
+        trackEntity.band(bandRepository.findById(track.getTrackBandId()).orElse(new BandEntity()));
+    }
 }

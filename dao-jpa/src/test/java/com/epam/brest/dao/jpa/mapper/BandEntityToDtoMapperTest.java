@@ -5,6 +5,7 @@ import com.epam.brest.dao.jpa.entity.TrackEntity;
 import com.epam.brest.model.BandDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Arrays;
 
@@ -12,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 class BandEntityToDtoMapperTest {
+
+    private BandEntityToDtoMapper mapper
+            = Mappers.getMapper(BandEntityToDtoMapper.class);
 
     @Test
     void bandEntityToDto() {
@@ -32,7 +36,7 @@ class BandEntityToDtoMapperTest {
                 .trackName("Test track2")
                 .build();
         band.setTracks(Arrays.asList(track1, track2));
-        BandDto bandDto = BandEntityToDtoMapper.MAPPER.bandEntityToDto(band);
+        BandDto bandDto = mapper.bandEntityToDto(band);
         assertEquals(bandDto.getBandId(), band.getBandId());
         assertEquals(bandDto.getBandName(), band.getBandName());
         assertEquals(bandDto.getBandDetails(), band.getBandDetails());

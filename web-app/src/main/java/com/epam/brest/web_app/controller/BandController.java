@@ -2,9 +2,9 @@ package com.epam.brest.web_app.controller;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.web_app.excel.BandsViewExportExcel;
 import com.epam.brest.web_app.validator.BandValidator;
 import org.apache.logging.log4j.LogManager;

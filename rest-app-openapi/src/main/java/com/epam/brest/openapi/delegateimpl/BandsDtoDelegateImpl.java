@@ -2,9 +2,9 @@ package com.epam.brest.openapi.delegateimpl;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.openapi.api.BandsDtoApiDelegate;
+import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.excel.BandDtoExportExcelService;
 import com.epam.brest.service.faker.BandDtoFakerService;
-import com.epam.brest.service.BandDtoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
