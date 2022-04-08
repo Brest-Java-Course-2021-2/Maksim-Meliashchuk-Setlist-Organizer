@@ -11,15 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,10 +57,15 @@ class BandDtoServiceJpaImplTest {
                 .bandDetails("test")
                 .tracks(List.of(track2))
                 .build();
-        when(bandRepository.findAll()).thenReturn(Arrays.asList(band1, band2));
+
+        when(bandRepository.findAll()).thenReturn(List.of(band1, band2));
+
         List<BandDto> bands = bandDtoService.findAllWithCountTrack();
+
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
         assertTrue(bands.get(0).getBandCountTrack() > 0);
+
+        verify(bandRepository).findAll();
     }
 }
