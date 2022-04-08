@@ -65,6 +65,7 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <pitest.version>1.7.5</pitest.version>
     </properties>
 
     <dependencyManagement>
@@ -272,6 +273,12 @@
                 <version>${poi-ooxml.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-parent</artifactId>
+                <version>${pitest.version}</version>
+                <type>pom</type>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -349,6 +356,32 @@
                     </includes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.14</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <failWhenNoMutations>false</failWhenNoMutations>
+                    <timestampedReports>false</timestampedReports>
+                    <targetClasses>
+                        <param>com.epam.brest.service.impl.jpa.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.epam.brest.service.impl.jpa.*</param>
+                    </targetTests>
+                    <outputFormats>
+                        <outputFormat>HTML</outputFormat>
+                    </outputFormats>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 </project>

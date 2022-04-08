@@ -89,6 +89,7 @@ API documentation with Swagger UI:
 - **Automated Testing:**
     - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
     - [Mockito](http://site.mockito.org/)
+- **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/pit.svg"/>
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
@@ -163,7 +164,7 @@ in the module [rest-app](rest-app).
 
 ## Rest app configure
 
-Setup [rest-app](/rest-app) in [application.properties](/rest-app/application.properties):
+Setup [rest-app](/rest-app) in [application.properties](/rest-app/src/main/resources/application.properties):
 
 | Profile    | Description                                                                    |
 |------------|--------------------------------------------------------------------------------|
@@ -220,6 +221,28 @@ The rest application will be accessible at [http://localhost:8088](http://localh
 $ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar 
 ```
 The web application will be accessible at [http://localhost:8080](http://localhost:8080).
+
+## Run mutation testing
+
+[PIT](https://pitest.org/) runs unit tests against automatically modified versions of the application code, 
+the most effective way to use mutation testing is to run it frequently against only the code that has been changed.
+TargetClasses and TargetTests to limit the tests available to be run added to parent project POM:
+
+```xml
+<targetClasses>
+    <param>com.epam.brest.service.impl.jpa.*</param>
+</targetClasses>
+<targetTests>
+    <param>com.epam.brest.service.impl.jpa.*</param>
+</targetTests>
+```
+
+Run directly from the commandline:
+```bash
+$ mvn test-compile org.pitest:pitest-maven:mutationCoverage
+```
+PIT Test Coverage Report will be accessible: [/service/target/pit-reports/index.html](/service/target/pit-reports/index.html)
+
 
 ## Run application with PostgreSQL
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
