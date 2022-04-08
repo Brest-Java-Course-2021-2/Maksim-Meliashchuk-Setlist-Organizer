@@ -2,7 +2,6 @@ package com.epam.brest.service.impl.jpa;
 
 import com.epam.brest.dao.jpa.entity.TrackEntity;
 import com.epam.brest.dao.jpa.mapper.TrackToEntityMapper;
-import com.epam.brest.dao.jpa.repository.BandRepository;
 import com.epam.brest.dao.jpa.repository.TrackRepository;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 @Profile("jpa")
 @Slf4j
 public class TrackServiceJpaImpl implements TrackService {
-
     private final TrackRepository trackRepository;
     private final TrackToEntityMapper mapper;
 
