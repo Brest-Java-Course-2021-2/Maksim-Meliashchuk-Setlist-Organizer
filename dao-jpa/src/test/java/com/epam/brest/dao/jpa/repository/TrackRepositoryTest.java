@@ -141,6 +141,7 @@ class TrackRepositoryTest {
 
     @Test
     void findByTrackReleaseDateAfter() {
+        log.debug("findByTrackReleaseDateAfter()");
         LocalDate from = LocalDate.parse("2020-01-01");
         BandEntity band1 = BandEntity.builder()
                 .bandName("test band1")
@@ -169,5 +170,22 @@ class TrackRepositoryTest {
         assertEquals(trackEntityList.size(), 1);
         assertThat(trackEntityList.contains(track1)).isFalse();
         assertThat(trackEntityList.contains(track2)).isTrue();
+    }
+
+    @Test
+    void deleteByTrackId() {
+        log.debug("deleteByTrackId()");
+        BandEntity band = BandEntity.builder()
+                .bandName("test band1")
+                .build();
+        entityManager.persist(band);
+        TrackEntity track = TrackEntity.builder()
+                .band(band)
+                .trackReleaseDate(LocalDate.parse("2019-02-02"))
+                .trackName("Test track1")
+                .build();
+        entityManager.persist(track);
+        Integer deletedTracksCount = repository.deleteByTrackId(track.getTrackId());
+        assertEquals(1, deletedTracksCount);
     }
 }

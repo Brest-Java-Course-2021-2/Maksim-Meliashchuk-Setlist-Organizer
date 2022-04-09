@@ -147,13 +147,11 @@ class TrackServiceJpaImplTest {
                 .build();
 
         when(trackRepository.findById(id)).thenReturn(Optional.of(trackEntity));
-        when(trackRepository.count()).thenReturn(Long.valueOf(1));
 
         trackService.delete(id);
 
-        verify(trackRepository).delete(trackEntity);
+        verify(trackRepository).deleteByTrackId(trackEntity.getTrackId());
         verify(trackRepository).findById(id);
-        verify(trackRepository, times(2)).count();
 
     }
 

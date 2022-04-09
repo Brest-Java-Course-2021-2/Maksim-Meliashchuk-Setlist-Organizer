@@ -27,7 +27,7 @@ public class BandEntity {
     @Column(name = "band_details")
     private String bandDetails;
 
-    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<TrackEntity> tracks;
 

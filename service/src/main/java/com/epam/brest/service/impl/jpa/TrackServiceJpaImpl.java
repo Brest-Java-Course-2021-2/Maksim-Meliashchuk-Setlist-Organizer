@@ -37,19 +37,16 @@ public class TrackServiceJpaImpl implements TrackService {
     public Integer create(Track track) {
         log.info("create()");
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
-        trackRepository.save(trackEntity);
-        return trackEntity.getTrackId();
+        return trackRepository.save(trackEntity).getTrackId();
     }
 
     @Override
     public Integer update(Track track) {
         log.info("update()");
-        Integer result = 1;
         if (!trackRepository.existsById(track.getTrackId()))
             throw new BandNotFoundException(track.getTrackId());
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
-        trackRepository.save(trackEntity);
-        return result;
+        return trackRepository.save(trackEntity).getTrackId();
     }
 
     @Override
@@ -58,10 +55,7 @@ public class TrackServiceJpaImpl implements TrackService {
         TrackEntity trackEntity = trackRepository
                 .findById(trackId)
                 .orElseThrow(() -> new BandNotFoundException(trackId));
-        Integer beforeCount = Math.toIntExact(trackRepository.count());
-        trackRepository.delete(trackEntity);
-        Integer afterCount = Math.toIntExact(trackRepository.count());
-        return beforeCount - afterCount;
+        return trackRepository.deleteByTrackId(trackEntity.getTrackId());
     }
 
     @Override

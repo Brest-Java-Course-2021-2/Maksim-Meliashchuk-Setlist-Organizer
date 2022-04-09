@@ -59,4 +59,15 @@ class BandRepositoryTest {
         assertThat(bands.contains(band2)).isTrue();
     }
 
+    @Test
+    void deleteByBandId() {
+        log.debug("deleteByBandId()");
+        BandEntity band = BandEntity.builder()
+                .bandName("test band1")
+                .build();
+        entityManager.persist(band);
+        Integer deletedBandsCount = repository.deleteByBandId(band.getBandId());
+        assertEquals(1, deletedBandsCount);
+    }
+
 }

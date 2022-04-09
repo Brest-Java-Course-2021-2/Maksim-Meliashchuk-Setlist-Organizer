@@ -131,7 +131,7 @@ public class TrackController {
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteTrack(@PathVariable Integer id) {
         logger.debug("delete({})", id);
-        int result =  trackService.delete(id);
+        int result = trackService.delete(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -45,20 +45,16 @@ public class BandServiceJpaImpl implements BandService {
     public Integer create(Band band) {
         log.info("create()");
         BandEntity bandEntity = mapper.bandToBandEntity(band);
-        bandRepository.save(bandEntity);
-        return bandEntity.getBandId();
+        return bandRepository.save(bandEntity).getBandId();
     }
 
     @Override
     public Integer update(Band band) {
         log.info("update()");
-        Integer result = 1;
         if (!bandRepository.existsById(band.getBandId()))
             throw new BandNotFoundException(band.getBandId());
-
         BandEntity bandEntity = mapper.bandToBandEntity(band);
-        bandRepository.save(bandEntity);
-        return result;
+        return bandRepository.save(bandEntity).getBandId();
     }
 
     @Override
@@ -67,10 +63,7 @@ public class BandServiceJpaImpl implements BandService {
         BandEntity bandEntity = bandRepository
                 .findById(bandId)
                 .orElseThrow(() -> new BandNotFoundException(bandId));
-        Integer beforeCount = Math.toIntExact(bandRepository.count());
-        bandRepository.delete(bandEntity);
-        Integer afterCount = Math.toIntExact(bandRepository.count());
-        return beforeCount - afterCount;
+        return bandRepository.deleteByBandId(bandEntity.getBandId());
     }
 
     @Override

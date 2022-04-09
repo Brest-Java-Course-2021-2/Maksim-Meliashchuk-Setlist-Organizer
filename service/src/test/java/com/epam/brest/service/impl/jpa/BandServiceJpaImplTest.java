@@ -90,7 +90,7 @@ class BandServiceJpaImplTest {
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);
         Band band = Band.builder()
-                .bandId(2)
+                .bandId(1)
                 .bandName("P.O.D.")
                 .build();
         Integer newBandId = bandService.create(band);
@@ -142,13 +142,11 @@ class BandServiceJpaImplTest {
                 .build();
 
         when(bandRepository.findById(id)).thenReturn(Optional.of(bandEntity));
-        when(bandRepository.count()).thenReturn(Long.valueOf(1));
 
         bandService.delete(id);
 
-        verify(bandRepository).delete(bandEntity);
+        verify(bandRepository).deleteByBandId(bandEntity.getBandId());
         verify(bandRepository).findById(id);
-        verify(bandRepository, times(2)).count();
     }
 
     @Test

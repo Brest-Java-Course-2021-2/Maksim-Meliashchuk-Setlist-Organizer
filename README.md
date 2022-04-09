@@ -88,7 +88,7 @@ API documentation with Swagger UI:
 - **Code Style:** [Codacy](https://www.codacy.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg"/>
 - **Automated Testing:**
     - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
-    - [Mockito](http://site.mockito.org/)
+    - [Mockito](http://site.mockito.org/) <img height="20" width="40" src="documentation/img/mokito.svg"/>
 - **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/pit.svg"/>
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
@@ -98,7 +98,7 @@ API documentation with Swagger UI:
   - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
   - [Grafana](https://grafana.com/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"/>
 - **Database:** 
-  - [H2](http://www.h2database.com/html/main.html)
+  - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/h2.svg"/>
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
 - **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
 - **JSON library:** 
@@ -107,8 +107,8 @@ API documentation with Swagger UI:
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
 - **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
 - **Annotation processor:**
-  - [Lombok](https://projectlombok.org/)
-  - [MapStruct](https://mapstruct.org/)
+  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/lombok.svg"/>
+  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/mapstruct.svg"/>
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
   - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>

@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@Transactional
 public class TrackControllerIT {
 
     private final Logger logger = LogManager.getLogger(TrackControllerIT.class);
@@ -77,7 +77,11 @@ public class TrackControllerIT {
         logger.debug("shouldFindAllTracks()");
 
         // given
-        Track track = new Track("Test track");
+        Track track = Track.builder()
+                .trackId(1)
+                .trackBandId(1)
+                .trackName("Test track")
+                .build();
         Integer id = trackService.create(track);
 
         // when
@@ -105,7 +109,11 @@ public class TrackControllerIT {
     public void shouldFindTrackById() throws Exception {
         logger.debug("shouldFindTrackById()");
         // given
-        Track track = new Track("Test track");
+        Track track = Track.builder()
+                .trackId(1)
+                .trackBandId(1)
+                .trackName("Test track")
+                .build();
         Integer id = trackService.create(track);
 
         assertNotNull(id);
@@ -123,7 +131,11 @@ public class TrackControllerIT {
     @Transactional
     public void shouldCreateTrack() throws Exception {
         logger.debug("shouldCreateTrack()");
-        Track track = new Track("Test track");
+        Track track = Track.builder()
+                .trackName("Test Track")
+                .trackId(1)
+                .trackBandId(1)
+                .build();
         Integer id = trackService.create(track);
         assertNotNull(id);
     }
@@ -173,39 +185,55 @@ public class TrackControllerIT {
         assertNotNull(response);
         assertTrue(response.getContentAsString().contains("Please provide track name!"));
     }
+
     @Test
     @Transactional
     public void shouldUpdateTrack() throws Exception {
         logger.debug("shouldUpdateTrack()");
         // given
-        List<Track> tracks = trackService.findAll();
-        Track trackSrc = tracks.get(0);
+        Track trackSrc = Track.builder()
+                .trackName("Test Track")
+                .trackId(1)
+                .trackBandId(1)
+                .trackTempo(100)
+                .trackDuration(1000)
+                .trackLink("https://youtube.com/test")
+                .trackReleaseDate(LocalDate.parse("2022-12-01"))
+                .build();
+
         Integer id = trackService.create(trackSrc);
+
         assertNotNull(id);
+
+        List<Track> tracks = trackService.findAll();
 
         Optional<Track> trackOptionalSrc = trackService.findById(id);
         assertTrue(trackOptionalSrc.isPresent());
 
-        trackOptionalSrc.get().setTrackName("Test track#");
         trackOptionalSrc.get().setTrackName(trackSrc.getTrackName() + "#");
         trackOptionalSrc.get().setTrackDetails(trackSrc.getTrackDetails() + "#");
         trackOptionalSrc.get().setTrackTempo(trackSrc.getTrackTempo() + 1);
         trackOptionalSrc.get().setTrackLink(trackSrc.getTrackLink() + "#");
         trackOptionalSrc.get().setTrackDuration(trackSrc.getTrackDuration() + 1);
         trackOptionalSrc.get().setTrackReleaseDate(trackSrc.getTrackReleaseDate().plusMonths(1));
-        trackOptionalSrc.get().setTrackBandId(trackSrc.getTrackBandId() - 1);
+        trackOptionalSrc.get().setTrackBandId(trackSrc.getTrackBandId() + 1);
 
         // when
         int result = trackService.update(trackOptionalSrc.get());
-        trackService.update(trackSrc);
-        Optional<Track> trackOptionalDst = trackService.findById(trackSrc.getTrackId());
-        assertEquals(trackSrc.getTrackName(), trackOptionalDst.get().getTrackName());
-        assertEquals(trackSrc.getTrackDetails(), trackOptionalDst.get().getTrackDetails());
-        assertEquals(trackSrc.getTrackTempo(), trackOptionalDst.get().getTrackTempo());
-        assertEquals(trackSrc.getTrackLink(), trackOptionalDst.get().getTrackLink());
-        assertEquals(trackSrc.getTrackDuration(), trackOptionalDst.get().getTrackDuration());
-        assertEquals(trackSrc.getTrackReleaseDate(), trackOptionalDst.get().getTrackReleaseDate());
-        assertEquals(trackSrc.getTrackBandId(), trackOptionalDst.get().getTrackBandId());
+
+        // then
+        assertEquals(1, result);
+        Optional<Track> updateOptional = trackService.findById(id);
+        assertTrue(updateOptional.isPresent());
+
+        assertEquals(updateOptional.get().getTrackId(), id);
+        assertEquals(updateOptional.get().getTrackName(), trackOptionalSrc.get().getTrackName());
+        assertEquals(updateOptional.get().getTrackDetails(), trackOptionalSrc.get().getTrackDetails());
+        assertEquals(updateOptional.get().getTrackTempo(), trackOptionalSrc.get().getTrackTempo());
+        assertEquals(updateOptional.get().getTrackLink(), trackOptionalSrc.get().getTrackLink());
+        assertEquals(updateOptional.get().getTrackDuration(), trackOptionalSrc.get().getTrackDuration());
+        assertEquals(updateOptional.get().getTrackReleaseDate(), trackOptionalSrc.get().getTrackReleaseDate());
+        assertEquals(updateOptional.get().getTrackBandId(), trackOptionalSrc.get().getTrackBandId());
 
         // then
         assertEquals(1, result);
@@ -219,13 +247,24 @@ public class TrackControllerIT {
     @Test
     @Transactional
     public void shouldDeleteTrack() throws Exception {
+        //TODO JPA fixing
         logger.debug("shouldDeleteTrack()");
         // given
-        Track track = new Track("Test track");
-        Integer id = trackService.create(track);
+        Track trackSrc = Track.builder()
+                .trackName("Test Track")
+                .trackId(5)
+                .trackBandId(1)
+                .trackTempo(100)
+                .trackDuration(1000)
+                .trackLink("https://youtube.com/test")
+                .trackReleaseDate(LocalDate.parse("2022-12-01"))
+                .build();
+
+        Integer id = trackService.create(trackSrc);
+        assertNotNull(id);
 
         List<Track> tracks = trackService.findAll();
-        assertNotNull(tracks);
+        assertTrue(tracks.size() > 0);
 
         // when
         int result = trackService.delete(id);
