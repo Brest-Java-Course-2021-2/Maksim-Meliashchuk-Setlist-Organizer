@@ -1,4 +1,4 @@
-package com.epam.brest.openapi;
+package com.epam.brest;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

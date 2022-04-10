@@ -1,8 +1,8 @@
-package com.epam.brest.openapi.delegateimpl;
+package com.epam.brest.delegateimpl;
 
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.openapi.api.RepertoireApiDelegate;
+import com.epam.brest.api.RepertoireApiDelegate;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;

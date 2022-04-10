@@ -66,6 +66,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <pitest.version>1.7.5</pitest.version>
+        <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -364,7 +365,7 @@
                     <dependency>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>0.14</version>
+                        <version>${pitest-junit5-plugin.version}</version>
                     </dependency>
                 </dependencies>
                 <configuration>

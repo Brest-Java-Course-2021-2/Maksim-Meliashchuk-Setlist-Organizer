@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class ApplicationConfig /*extends SpringJdbcConfig*/ {
+public class ApplicationConfig {
 
     @Value("${spring.jackson.date-format}")
     private String dateFormat;

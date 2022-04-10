@@ -13,10 +13,10 @@
     <artifactId>rest-app-openapi</artifactId>
 
     <properties>
-        <project-base-package>com.epam.brest.openapi</project-base-package>
+        <project-base-package>com.epam.brest</project-base-package>
         <swagger-annotations.version>2.1.13</swagger-annotations.version>
         <jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
-        <spring.boot.mainclass>com.epam.brest.openapi.RestApplicationOpenAPI</spring.boot.mainclass>
+        <spring.boot.mainclass>com.epam.brest.RestApplicationOpenAPI</spring.boot.mainclass>
         <openapi-generator-maven-plugin.version>5.4.0</openapi-generator-maven-plugin.version>
     </properties>
 

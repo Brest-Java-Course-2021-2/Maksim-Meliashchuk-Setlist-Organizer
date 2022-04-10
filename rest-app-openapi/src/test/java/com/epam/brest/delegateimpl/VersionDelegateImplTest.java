@@ -1,6 +1,6 @@
-package com.epam.brest.openapi.delegateimpl;
+package com.epam.brest.delegateimpl;
 
-import com.epam.brest.openapi.api.VersionApiController;
+import com.epam.brest.api.VersionApiController;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
-package com.epam.brest.openapi.delegateimpl;
+package com.epam.brest.delegateimpl;
 
-import com.epam.brest.openapi.api.VersionApiDelegate;
+import com.epam.brest.api.VersionApiDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

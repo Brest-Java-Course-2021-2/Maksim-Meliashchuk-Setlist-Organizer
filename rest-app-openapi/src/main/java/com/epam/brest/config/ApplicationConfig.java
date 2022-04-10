@@ -1,4 +1,4 @@
-package com.epam.brest.openapi.config;
+package com.epam.brest.config;
 
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.springframework.beans.factory.annotation.Value;

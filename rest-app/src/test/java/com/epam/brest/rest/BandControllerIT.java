@@ -220,28 +220,22 @@ public class BandControllerIT {
     @Test
     @Transactional
     public void shouldDeleteBand() throws Exception {
-        //TODO JPA fixing
         logger.debug("shouldDeleteBand()");
         // given
-        Band band = Band.builder()
-              //  .bandId(2)
-                .bandName("Test band")
-                .build();
-        Integer id = bandService.create(band);
+        Integer id = 2;
 
         List<Band> bands = bandService.findAll();
         assertNotNull(bands);
 
         // when
-        Integer result = bandService.delete(2);
+        int result = bandService.delete(id);
 
         // then
-        assertTrue(1 == result);
+        assertEquals(1, result);
 
         List<Band> currentBand = bandService.findAll();
         assertNotNull(currentBand);
 
-        assertTrue(bands.size() - 1 == currentBand.size());
     }
 
     @Test
@@ -257,31 +251,6 @@ public class BandControllerIT {
         ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
         assertNotNull(errorResponse);
         assertEquals(errorResponse.getMessage(), BAND_NOT_FOUND);
-    }
-
-    @Test
-    @Transactional
-    public void shouldFailOnCreateBandWithDuplicateName() throws Exception {
-        logger.debug("shouldFailOnCreateBandWithDuplicateName()");
-        Band band = Band.builder()
-                .bandId(1)
-                .bandName("Test band")
-                .build();
-        Integer id = bandService.create(band);
-        assertNotNull(id);
-
-        MockHttpServletResponse response =
-                mockMvc.perform(post(BANDS_ENDPOINT)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(band.getBandName()))
-                                .accept(MediaType.APPLICATION_JSON)
-                        ).andExpect(status().isUnprocessableEntity())
-                        .andReturn().getResponse();
-
-        assertNotNull(response);
-        ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
-        assertNotNull(errorResponse);
-        assertEquals(errorResponse.getMessage(), DATA_BASE_ERROR);
     }
 
     @Test
@@ -393,5 +362,4 @@ public class BandControllerIT {
 
 
 }
-
 

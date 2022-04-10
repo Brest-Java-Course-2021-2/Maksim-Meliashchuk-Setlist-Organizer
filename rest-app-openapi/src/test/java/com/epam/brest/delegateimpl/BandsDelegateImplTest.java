@@ -1,8 +1,8 @@
-package com.epam.brest.openapi.delegateimpl;
+package com.epam.brest.delegateimpl;
 
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
-import com.epam.brest.openapi.api.BandsApiController;
+import com.epam.brest.api.BandsApiController;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;

@@ -1,7 +1,7 @@
-package com.epam.brest.openapi.delegateimpl;
+package com.epam.brest.delegateimpl;
 
+import com.epam.brest.api.BandsDtoApiDelegate;
 import com.epam.brest.model.BandDto;
-import com.epam.brest.openapi.api.BandsDtoApiDelegate;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.excel.BandDtoExportExcelService;
 import com.epam.brest.service.faker.BandDtoFakerService;

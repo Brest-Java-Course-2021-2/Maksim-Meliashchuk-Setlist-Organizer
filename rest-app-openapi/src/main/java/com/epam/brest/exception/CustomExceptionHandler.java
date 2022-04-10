@@ -1,4 +1,4 @@
-package com.epam.brest.openapi.exception;
+package com.epam.brest.exception;
 
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.ErrorResponse;
