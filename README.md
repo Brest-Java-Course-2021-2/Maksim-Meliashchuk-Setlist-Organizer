@@ -16,22 +16,26 @@
 
 </div>
 
-## Table of content
+## Table of contents
 
 - [Project Information](#project-information)
+- [Running example](#running-example)
 - [Applications Demo](#applications-demo)
 - [Technology Stack](#technology-stack)
 - [Requirements](#requirements)
 - [Installation Information](#installation-information)
-- [OpenAPI generated server](#openapi-generated-server)
-- [Swagger generated client](#swagger-generated-client)
-- [Web clients configure](#web-clients-configure)
+- [Rest app configure](#rest-app-configure)
+- [Web app configure](#web-app-configure)
 - [Run local tests](#run-local-tests)
+- [Run mutation testing](#run-mutation-testing)
 - [Run application with PostgreSQL](#run-application-with-postgresql)
 - [Run with docker-compose](#run-with-docker-compose)
 - [Local tests with Postman](#local-tests-with-postman)
 - [Documenting a REST API](#documenting-a-rest-api)
+- [OpenAPI generated server](#openapi-generated-server)
+- [Swagger generated client](#swagger-generated-client)
 - [Excel Import and Export](#excel-import-and-export)
+- [Generate test data](#generate-test-data)
 
 ## Project Information
 
@@ -53,6 +57,9 @@ describe the basic version of the project.The project is constantly being improv
 The features of the current version of the project may differ from the information in this section.
 See the following sections in this README for up-to-date project information.</a>_
 
+## Running example
+
+![Setlist Organizer Demo](documentation/RunningExample.gif)
 
 ## Applications Demo
 
@@ -75,7 +82,12 @@ API documentation with Swagger UI:
 - **Programming Language:** [Java](https://www.java.com) 
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
-<a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+  <img height="20" width="20" src="documentation/img/springboot.svg"/>
+- **Data Access:** 
+  - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
+   <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+  - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
+  <a href="https://spring.io/projects/spring-data-jpa)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
 - **Build System:** [Maven](https://maven.apache.org/) <img height="20" width="20" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_maven.svg"/>
 - **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
@@ -83,7 +95,8 @@ API documentation with Swagger UI:
 - **Code Style:** [Codacy](https://www.codacy.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg"/>
 - **Automated Testing:**
     - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
-    - [Mockito](http://site.mockito.org/)
+    - [Mockito](http://site.mockito.org/) <img height="20" width="40" src="documentation/img/mokito.svg"/>
+- **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/pit.svg"/>
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
@@ -92,7 +105,7 @@ API documentation with Swagger UI:
   - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
   - [Grafana](https://grafana.com/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"/>
 - **Database:** 
-  - [H2](http://www.h2database.com/html/main.html)
+  - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/h2.svg"/>
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
 - **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
 - **JSON library:** 
@@ -100,7 +113,9 @@ API documentation with Swagger UI:
   - [GSON](https://github.com/google/gson)
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
 - **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
-- **Annotations:** [Lombok](https://projectlombok.org/)
+- **Annotation processor:**
+  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/lombok.svg"/>
+  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/mapstruct.svg"/>
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
   - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
@@ -130,31 +145,24 @@ The specified versions are the tested ones.
   $ mvn clean install
 ```
 
-## OpenAPI generated server
+## Rest app configure
 
-Automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project
-by using the [OpenAPI-Spec](https://openapis.org) and the [openapi-generator-maven-plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin/README.md).
+Setup [rest-app](/rest-app) in [application.properties](/rest-app/src/main/resources/application.properties):
 
-An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
-has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin) 
-in the module [rest-app](rest-app).
+| Profile    | Description                                                                    |
+|------------|--------------------------------------------------------------------------------|
+| *dev*      | Run application with embedded H2 database in memory                            |
+| *postgres* | Run application with PostgreSQL database                                       |
+| *test*     | Run application with embedded H2 database in memory, Flyway migration disabled |
+| *jdbc*     | Interact with a database by using Spring JDBC                                  |
+| *jpa*      | Interact with a database by using Spring Data JPA                              |
 
-*Refer to the module [rest-app-openapi](rest-app-openapi/README.md) for more information.*
+Example:
+```
+spring.profiles.active=dev, jpa
+```
 
-## Swagger generated client 
-<img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black"/>
-
-Automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
-[swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
-
-An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
-has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
-in the module [rest-app](rest-app).
-
-*Refer to the module [service-swagger-client](service-swagger-client/README.md) for more information.*
-
-
-## Web clients configure
+## Web app configure
 
 The web application has three web client implementations for making HTTP calls to 
 REST application services - RestTemplate, a new WebClient alternative and automatically generated by the 
@@ -198,6 +206,28 @@ $ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar
 ```
 The web application will be accessible at [http://localhost:8080](http://localhost:8080).
 
+## Run mutation testing
+
+[PIT](https://pitest.org/) runs unit tests against automatically modified versions of the application code, 
+the most effective way to use mutation testing is to run it frequently against only the code that has been changed.
+TargetClasses and TargetTests to limit the tests available to be run added to parent project POM:
+
+```xml
+<targetClasses>
+    <param>com.epam.brest.service.impl.jpa.*</param>
+</targetClasses>
+<targetTests>
+    <param>com.epam.brest.service.impl.jpa.*</param>
+</targetTests>
+```
+
+Run directly from the commandline:
+```bash
+$ mvn test-compile org.pitest:pitest-maven:mutationCoverage
+```
+PIT Test Coverage Report will be accessible: [/service/target/pit-reports/index.html](/service/target/pit-reports/index.html)
+
+
 ## Run application with PostgreSQL
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
 
@@ -225,7 +255,11 @@ The rest application will be accessible at [http://localhost:8088](http://localh
 
 Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
+<img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
+
 Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
+
+<img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
 
 Access the Grafana webUI on  [http://localhost:3000](http://localhost:3000)
 
@@ -244,7 +278,6 @@ To test the REST API, you can use the Postman collection to access the API endpo
 See the Postman [online documentation](https://learning.postman.com/docs/getting-started/installation-and-updates/).
 
 ## Documenting a REST API
-<img src="https://img.shields.io/badge/openapi-%236BA539.svg?&style=for-the-badge&logo=openapiinitiative&logoColor=black" />
 
 Using OpenAPI 3.0
 
@@ -257,6 +290,29 @@ The OpenAPI descriptions in YAML format will be available at the path:
 API documentation with Swagger UI: 
 [http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)
 
+## OpenAPI generated server
+<img src="https://img.shields.io/badge/openapi-%236BA539.svg?&style=for-the-badge&logo=openapiinitiative&logoColor=black" />
+
+Automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project
+by using the [OpenAPI-Spec](https://openapis.org) and the [openapi-generator-maven-plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin/README.md).
+
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
+in the module [rest-app](rest-app).
+
+*Refer to the module [rest-app-openapi](rest-app-openapi/README.md) for more information.*
+
+## Swagger generated client
+<img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black"/>
+
+Automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
+[swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
+
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
+in the module [rest-app](rest-app).
+
+*Refer to the module [service-swagger-client](service-swagger-client/README.md) for more information.*
 
 ## Excel Import and Export
 <img src="https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white"/>
@@ -268,8 +324,14 @@ These REST applications have several endpoints (`/export/excel` and `/import/exc
 
 Following are samples of Excel files that can be imported:
 
-[Band.xlsx](./documentation/Band.xlsx)
-
+[Band.xlsx](./documentation/Band.xlsx) 
 [Track.xlsx](./documentation/Track.xlsx)
 
+## Generate test data
+
+These REST applications have several endpoints (`/fill`) to generate fake data for showcase with uses [Java Faker](https://github.com/DiUS/java-faker).
+It is possible specify language for generated data (EN, DE, FR), default EN.
+It is possible specify count fakes data, use parameter to multiply default size (default value 1).
+
+*Please, after running the REST application, refer to the API documentation with [Swagger UI](http://localhost:8088/swagger-ui/index.html) for more information.*
 

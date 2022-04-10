@@ -2,7 +2,6 @@ package com.epam.brest.service.rest;
 
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoFakerServiceRest;
-import com.epam.brest.service.BandDtoServiceRest;
 import com.epam.brest.service.config.ServiceRestTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +23,8 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;

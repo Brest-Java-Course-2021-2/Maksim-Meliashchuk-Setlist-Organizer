@@ -19,7 +19,8 @@
         <module>test-db</module>
         <module>rest-app</module>
         <module>dao-api</module>
-        <module>dao</module>
+        <module>dao-jdbc</module>
+        <module>dao-jpa</module>
         <module>service-api</module>
         <module>service</module>
         <module>service-rest</module>
@@ -61,6 +62,11 @@
         <javafaker.version>1.0.2</javafaker.version>
         <spring-boot-maven-plugin.version>2.6.3</spring-boot-maven-plugin.version>
         <poi-ooxml.version>5.2.1</poi-ooxml.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <pitest.version>1.7.5</pitest.version>
+        <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +95,12 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
+                <artifactId>prod-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
                 <artifactId>model</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -101,9 +113,16 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
-                <artifactId>dao</artifactId>
+                <artifactId>dao-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
+                <artifactId>dao-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
@@ -217,6 +236,20 @@
             </dependency>
 
             <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${org.mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${projectlombok.version}</version>
@@ -241,6 +274,12 @@
                 <version>${poi-ooxml.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-parent</artifactId>
+                <version>${pitest.version}</version>
+                <type>pom</type>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -257,7 +296,30 @@
             </plugins>
         </pluginManagement>
         <plugins>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${projectlombok.version}</version>
+                        </path>
+                        <dependency>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok-mapstruct-binding.version}</version>
+                        </dependency>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -295,6 +357,32 @@
                     </includes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>${pitest-junit5-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <failWhenNoMutations>false</failWhenNoMutations>
+                    <timestampedReports>false</timestampedReports>
+                    <targetClasses>
+                        <param>com.epam.brest.service.impl.jpa.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.epam.brest.service.impl.jpa.*</param>
+                    </targetTests>
+                    <outputFormats>
+                        <outputFormat>HTML</outputFormat>
+                    </outputFormats>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 </project>

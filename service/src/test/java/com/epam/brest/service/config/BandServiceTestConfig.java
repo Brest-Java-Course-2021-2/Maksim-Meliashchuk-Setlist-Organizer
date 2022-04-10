@@ -1,23 +1,22 @@
 package com.epam.brest.service.config;
 
-import com.epam.brest.SpringJdbcConfig;
+import com.epam.brest.SpringDataSourceTestConfig;
 import com.epam.brest.dao.BandDao;
-import com.epam.brest.dao.BandDaoJdbcImpl;
 import com.epam.brest.dao.BandDtoDao;
-import com.epam.brest.dao.BandDtoDaoJdbcImpl;
+import com.epam.brest.dao.jdbc.BandDaoJdbcImpl;
+import com.epam.brest.dao.jdbc.BandDtoDaoJdbcImpl;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.*;
-import com.epam.brest.service.impl.BandDtoServiceImpl;
-import com.epam.brest.service.impl.BandServiceImpl;
+import com.epam.brest.service.impl.jdbc.BandDtoServiceImpl;
+import com.epam.brest.service.impl.jdbc.BandServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.multipart.MultipartFile;
 
 @TestConfiguration
 @ComponentScan("com.epam.brest.dao.annotation")
-public class BandServiceTestConfig extends SpringJdbcConfig {
+public class BandServiceTestConfig extends SpringDataSourceTestConfig {
 
     @Bean
     BandDtoDao bandDtoDao() {

@@ -11,6 +11,12 @@
 
     <artifactId>rest-app</artifactId>
 
+    <properties>
+        <springdoc-openapi-maven-plugin.version>0.3</springdoc-openapi-maven-plugin.version>
+        <springdoc-openapi-maven-plugin.apiDocsUrl>http://localhost:8088/v3/api-docs.yaml
+        </springdoc-openapi-maven-plugin.apiDocsUrl>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -55,12 +61,17 @@
 
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <profiles>
+                        <profile>test</profile>
+                        <profile>jdbc</profile>
+                    </profiles>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -86,7 +97,7 @@
             <plugin>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-maven-plugin</artifactId>
-                <version>0.3</version>
+                <version>${springdoc-openapi-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
@@ -97,7 +108,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <apiDocsUrl>http://localhost:8088/v3/api-docs.yaml</apiDocsUrl>
+                    <apiDocsUrl>${springdoc-openapi-maven-plugin.apiDocsUrl}</apiDocsUrl>
                     <outputFileName>openapi.yaml</outputFileName>
                     <outputDir>${project.parent.basedir}/rest-app-openapi/src/main/resources</outputDir>
                 </configuration>
