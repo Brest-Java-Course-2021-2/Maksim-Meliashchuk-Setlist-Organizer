@@ -97,6 +97,7 @@ API documentation with Swagger UI:
     - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
     - [Mockito](http://site.mockito.org/) <img height="20" width="40" src="documentation/img/mokito.svg"/>
 - **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/pit.svg"/>
+- **Load Testing:** [Gatling](https://gatling.io/) <img height="20" width="20" src="documentation/img/gatling.svg"/>
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
