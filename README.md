@@ -228,6 +228,14 @@ $ mvn test-compile org.pitest:pitest-maven:mutationCoverage
 ```
 PIT Test Coverage Report will be accessible: [/service/target/pit-reports/index.html](/service/target/pit-reports/index.html)
 
+## Run load testing
+
+Make sure the app is running and then run the test with:
+
+```bash
+$ sh gatling-test.sh
+```
+Gatling reports generated in: [/gatling-test/target/gatling/](/gatling-test/target/gatling/)
 
 ## Run application with PostgreSQL
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
