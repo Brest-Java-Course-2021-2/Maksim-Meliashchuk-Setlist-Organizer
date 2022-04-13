@@ -234,7 +234,7 @@ PIT Test Coverage Report will be accessible: [/service/target/pit-reports/index.
 <img src="https://img.shields.io/badge/gatling-FF9E2A?style=for-the-badge&logo=gatling&logoColor=white"/>
 
 Testing starts with 10 users per second making two requests to the repertoire, holding at that concurrency 
-for five seconds. Then [RestSimulationLocal](/gatling-test/src/test/scala/RestSimulationLocal.scala) test scenario increases 
+for five seconds. Then [RestSimulationLocal](/gatling-test/src/test/scala/simulation/RestSimulationLocal.scala) test scenario increases 
 the number of users per second by 5, 5 times, holding for 5 seconds each time. 
 Every request must return an HTTP 200 status code to pass the test.
 Run the test in the root directory of the project:
