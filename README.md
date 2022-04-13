@@ -28,6 +28,7 @@
 - [Web app configure](#web-app-configure)
 - [Run local tests](#run-local-tests)
 - [Run mutation testing](#run-mutation-testing)
+- [Run load testing](#run-load-testing)
 - [Run application with PostgreSQL](#run-application-with-postgresql)
 - [Run with docker-compose](#run-with-docker-compose)
 - [Local tests with Postman](#local-tests-with-postman)
@@ -82,7 +83,7 @@ API documentation with Swagger UI:
 - **Programming Language:** [Java](https://www.java.com) 
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
-  <img height="20" width="20" src="documentation/img/springboot.svg"/>
+  <img height="20" width="20" src="documentation/img/icons/springboot.svg"/>
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
@@ -94,9 +95,10 @@ API documentation with Swagger UI:
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 - **Code Style:** [Codacy](https://www.codacy.com/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/codacy.svg"/>
 - **Automated Testing:**
-    - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/junit5.svg"/>
-    - [Mockito](http://site.mockito.org/) <img height="20" width="40" src="documentation/img/mokito.svg"/>
-- **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/pit.svg"/>
+    - [JUnit5](https://junit.org/junit5/) <img height="20" width="20" src="documentation/img/icons/junit5.svg"/>
+    - [Mockito](http://site.mockito.org/) <img height="20" width="40" src="documentation/img/icons/mokito.svg"/>
+- **Mutation Testing:** [PIT](https://pitest.org/) <img height="20" width="20" src="documentation/img/icons/pit.svg"/>
+- **Load Testing:** [Gatling](https://gatling.io/) <img height="20" width="20" src="documentation/img/icons/gatling.svg"/>
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
@@ -105,7 +107,7 @@ API documentation with Swagger UI:
   - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
   - [Grafana](https://grafana.com/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"/>
 - **Database:** 
-  - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/h2.svg"/>
+  - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/icons/h2.svg"/>
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
 - **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
 - **JSON library:** 
@@ -114,15 +116,15 @@ API documentation with Swagger UI:
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
 - **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
 - **Annotation processor:**
-  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/lombok.svg"/>
-  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/mapstruct.svg"/>
+  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/icons/lombok.svg"/>
+  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/icons/mapstruct.svg"/>
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
   - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
 - **Code generation:**
   - [OpenAPI Generator](https://openapi-generator.tech) <img height="20" width="20" src="https://openapi-generator.tech/img/color-logo.svg"/>
   - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
-- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/) <img height="20" width="20" src="https://unpkg.com/simple-icons@v6/icons/thymeleaf.svg"/>
+- **Template Engine:** [Thymeleaf](https://www.thymeleaf.org/) <img height="20" width="20" src="documentation/img/icons/thymeleaf.svg"/>
 - **CSS Framework:** [Bootstrap](https://getbootstrap.com/) <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="20" height="20"/> </a>
 - **App containerization:** [Docker](https://www.docker.com/) <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="20" height="20"/> </a>
 
@@ -136,6 +138,7 @@ The specified versions are the tested ones.
 * Apache Maven 3.6.3+
 * Docker 20.10.12+
 * Docker-compose 1.29.2+
+* Scala-sdk 2.13.6+ (for load testing)
 
 ## Installation Information
 
@@ -227,6 +230,20 @@ $ mvn test-compile org.pitest:pitest-maven:mutationCoverage
 ```
 PIT Test Coverage Report will be accessible: [/service/target/pit-reports/index.html](/service/target/pit-reports/index.html)
 
+## Run load testing
+<img src="https://img.shields.io/badge/gatling-FF9E2A?style=for-the-badge&logo=gatling&logoColor=white"/>
+
+Testing starts with 10 users per second making two requests to the repertoire, holding at that concurrency 
+for five seconds. Then [RestSimulationLocal](/gatling-test/src/test/scala/simulation/RestSimulationLocal.scala) test scenario increases 
+the number of users per second by 5, 5 times, holding for 5 seconds each time. 
+Every request must return an HTTP 200 status code to pass the test.
+Run the test in the root directory of the project:
+
+```bash
+$ sh gatling-test.sh
+```
+Make sure the rest-app at [http://localhost:8088](http://localhost:8088) is running.
+Gatling reports generated in: [/gatling-test/target/gatling/](/gatling-test/target/gatling/)
 
 ## Run application with PostgreSQL
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
