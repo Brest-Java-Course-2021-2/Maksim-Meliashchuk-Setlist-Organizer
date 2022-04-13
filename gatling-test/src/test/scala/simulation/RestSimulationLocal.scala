@@ -14,17 +14,16 @@ class RestSimulationLocal extends Simulation{
       exec(http("getAllRepertoire")
         .get("repertoire")
         .check(status.is(200)))
+        .pause(1)
     }
   }
 
   def getTrack() = {
-    repeat(10) {
-      exec(http("getTrack")
+    repeat(5) {
+      exec(http("getTrack1")
         .get("repertoire/1")
         .check(status.is(200)))
-      exec(http("getTrack")
-        .get("repertoire/2")
-        .check(status.is(200)))
+        .pause(1)
     }
   }
 
