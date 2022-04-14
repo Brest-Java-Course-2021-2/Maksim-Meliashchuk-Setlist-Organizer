@@ -197,11 +197,11 @@ Embedded H2 in memory.
 
 In the root directory of the project:
 ```bash
-$ java -jar -Dspring.profiles.active=dev rest-app/target/rest-app-1.0-SNAPSHOT.jar
+$ java -jar -Dspring.profiles.active=dev,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
 ```
 To start the OpenAPI generated server:
 ```bash
-$ java -jar -Dspring.profiles.active=dev rest-app-openapi/target/rest-app-openapi-1.0-SNAPSHOT.jar
+$ java -jar -Dspring.profiles.active=dev,jpa rest-app-openapi/target/rest-app-openapi-1.0-SNAPSHOT.jar
 ```
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
 ```bash
@@ -256,7 +256,7 @@ PostgreSQL require(can be customized in application-postgres.properties file in 
   
 Run rest-app with PostgreSQL:
 ```bash
-$ java -jar -Dspring.profiles.active=postgres rest-app/target/rest-app-1.0-SNAPSHOT.jar
+$ java -jar -Dspring.profiles.active=postgres,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
 ```
 
 ## Run with docker-compose
@@ -270,7 +270,7 @@ The web application will be accessible at [http://localhost:8080](http://localho
 
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088)
 
-The PostgreSQL database can be accessed at: [http://localhost:5432](http://localhost:5432)
+The PostgreSQL database can be accessed in docker at: [http://localhost:5432](http://localhost:5432)
 
 Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
