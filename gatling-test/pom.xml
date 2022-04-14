@@ -49,13 +49,6 @@
                 <configuration>
                     <simulationClass>${className}</simulationClass>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

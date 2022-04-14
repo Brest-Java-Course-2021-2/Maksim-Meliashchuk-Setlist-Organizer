@@ -270,6 +270,8 @@ The web application will be accessible at [http://localhost:8080](http://localho
 
 The rest application will be accessible at [http://localhost:8088](http://localhost:8088)
 
+The PostgreSQL database can be accessed at: [http://localhost:5432](http://localhost:5432)
+
 Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
 <img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>

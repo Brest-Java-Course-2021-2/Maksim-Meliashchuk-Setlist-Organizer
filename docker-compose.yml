@@ -1,22 +1,41 @@
 version: "3"
 
 services:
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: setlistOrganizer
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - .:/var/lib/postgresql/data
+
   rest-app:
     build: ./rest-app
     image: docker-rest-app
     container_name: rest-app
     ports:
-      - "8088:8088"
+      - 8088:8088
+    environment:
+      POSTGRES_HOST: postgres
+    depends_on:
+      - postgres
 
   web-app:
     build: ./web-app
     image: docker-web-app
     container_name: web-app
     ports:
-      - "8080:8080"
+      - 8080:8080
+    environment:
+      HOST_NAME: rest-app
     depends_on:
       - rest-app
-
     network_mode: host
 
   grafana:
@@ -38,5 +57,4 @@ services:
     volumes:
       - ./rest-app/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
-
     network_mode: host
