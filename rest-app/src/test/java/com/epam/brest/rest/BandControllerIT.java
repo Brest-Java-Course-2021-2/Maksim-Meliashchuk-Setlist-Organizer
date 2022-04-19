@@ -283,6 +283,21 @@ public class BandControllerIT {
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
+    @Test
+    public void shouldBandsExportXml() throws Exception {
+        logger.debug("shouldBandsExportXml()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/xml")
+                                .accept(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/xml");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xml");
+    }
+
+
     class MockMvcBandService {
 
         public List<Band> findAll() throws Exception {

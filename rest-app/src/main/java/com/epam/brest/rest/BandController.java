@@ -5,6 +5,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
+import com.epam.brest.service.xml.BandExportXmlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,13 +40,16 @@ public class BandController {
     private final BandExportExcelService bandExportExcelService;
     private final BandFakerService bandFakerService;
     private final BandImportExcelService bandImportExcelService;
+    private final BandExportXmlService bandExportXmlService;
 
     public BandController(BandService bandService, BandExportExcelService bandExportExcelService,
-                          BandFakerService bandFakerService, BandImportExcelService bandImportExcelService) {
+                          BandFakerService bandFakerService, BandImportExcelService bandImportExcelService,
+                          BandExportXmlService bandExportXmlService) {
         this.bandService = bandService;
         this.bandExportExcelService = bandExportExcelService;
         this.bandFakerService = bandFakerService;
         this.bandImportExcelService = bandImportExcelService;
+        this.bandExportXmlService = bandExportXmlService;
     }
 
     @Operation(summary = "Get information for all bands based on their IDs")
@@ -167,5 +171,21 @@ public class BandController {
         logger.debug("importBandFromExcel({})", files.getName());
         int result =  bandImportExcelService.importBandsExcel(files).size();
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Export information for all bands based on their IDs to XML")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to XML",
+                    content = { @Content(mediaType = "application/xml",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
+    })
+    @GetMapping(value = "/bands/export/xml")
+    public final void exportToXmlAllBands(HttpServletResponse response) throws IOException {
+        logger.debug("exportToXmlAllBands()");
+        response.setContentType("application/xml");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Bands.xml";
+        response.setHeader(headerKey, headerValue);
+        bandExportXmlService.exportBandsXml(response);
     }
 }

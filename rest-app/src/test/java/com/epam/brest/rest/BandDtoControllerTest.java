@@ -4,9 +4,11 @@ import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.excel.BandDtoExportExcelService;
 import com.epam.brest.service.faker.BandDtoFakerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
+import org.hibernate.loader.collection.OneToManyJoinWalker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -64,7 +68,7 @@ public class BandDtoControllerTest {
         Mockito.when(bandDtoService.findAllWithCountTrack()).thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/bands_dto")
+                        MockMvcRequestBuilders.get("/bands_dto").accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -91,6 +95,7 @@ public class BandDtoControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/bands_dto/fill?size=" + FAKE_DATA_SIZE)
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))

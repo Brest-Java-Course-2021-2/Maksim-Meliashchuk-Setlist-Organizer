@@ -5,6 +5,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
+import com.epam.brest.service.xml.TrackExportXmlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,15 +38,18 @@ public class TrackController {
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
+    private final TrackExportXmlService trackExportXmlService;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, TrackFakerService trackFakerService,
-                           TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService) {
+                           TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService,
+                           TrackExportXmlService trackExportXmlService) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
+        this.trackExportXmlService = trackExportXmlService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -162,6 +166,22 @@ public class TrackController {
         logger.debug("importTrackFromExcel({})", files.getName());
         int result =  trackImportExcelService.importTrackExcel(files).size();
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Export information for all tracks based on their IDs to XML")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully export to XML",
+                    content = { @Content(mediaType = "application/xml",
+                            schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
+    })
+    @GetMapping(value = "/repertoire/export/xml")
+    public final void exportToXmlAlTracks(HttpServletResponse response) throws IOException {
+        logger.debug("exportToXmlAlTracks()");
+        response.setContentType("application/xml");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Tracks.xml";
+        response.setHeader(headerKey, headerValue);
+        trackExportXmlService.exportTracksXml(response);
     }
 
 }

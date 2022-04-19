@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -69,6 +70,7 @@ public class TrackDtoControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/tracks_dto")
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -110,6 +112,7 @@ public class TrackDtoControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/tracks_dto/fill?size=" + FAKE_DATA_SIZE)
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -151,6 +154,7 @@ public class TrackDtoControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get(String.format("/repertoire/filter/band/%d", id))
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -181,6 +185,7 @@ public class TrackDtoControllerTest {
         try {
             mockMvc.perform(
                             MockMvcRequestBuilders.get("/repertoire/filter")
+                                    .accept(MediaType.APPLICATION_JSON_VALUE)
                     ).andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType("application/json"))

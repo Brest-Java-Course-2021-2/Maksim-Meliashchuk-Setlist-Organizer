@@ -8,6 +8,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
+import com.epam.brest.service.xml.TrackExportXmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -35,15 +36,17 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
+    private final TrackExportXmlService trackExportXmlService;
 
     public RepertoireDelegateImpl(TrackService trackService, TrackDtoService trackDtoService,
                                   TrackFakerService trackFakerService, TrackExportExcelService trackExportExcelService,
-                                  TrackImportExcelService trackImportExcelService) {
+                                  TrackImportExcelService trackImportExcelService, TrackExportXmlService trackExportXmlService) {
         this.trackService = trackService;
         this.trackDtoService = trackDtoService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
+        this.trackExportXmlService = trackExportXmlService;
     }
 
     @Override
@@ -126,5 +129,23 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
             e.printStackTrace();
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Resource> exportToXmlAlTracks() {
+        LOGGER.debug("exportToXmlAllTracks()");
+        HttpHeaders headers = new HttpHeaders();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        headers.setContentType(MediaType.parseMediaType("application/xml"));
+        if (response != null) {
+            response.setHeader("Content-Disposition", "attachment; filename=Bands.xml");
+        }
+        try {
+            trackExportXmlService.exportTracksXml(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }

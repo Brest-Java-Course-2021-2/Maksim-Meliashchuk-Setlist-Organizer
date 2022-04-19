@@ -6,6 +6,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
+import com.epam.brest.service.xml.BandExportXmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -32,13 +33,16 @@ public class BandsDelegateImpl implements BandsApiDelegate {
     private final BandFakerService bandFakerService;
     private final BandExportExcelService bandExportExcelService;
     private final BandImportExcelService bandImportExcelService;
+    private final BandExportXmlService bandExportXmlService;
 
     public BandsDelegateImpl(BandService bandService, BandFakerService bandFakerService,
-                             BandExportExcelService bandExportExcelService, BandImportExcelService bandImportExcelService) {
+                             BandExportExcelService bandExportExcelService, BandImportExcelService bandImportExcelService,
+                             BandExportXmlService bandExportXmlService) {
         this.bandService = bandService;
         this.bandFakerService = bandFakerService;
         this.bandExportExcelService = bandExportExcelService;
         this.bandImportExcelService = bandImportExcelService;
+        this.bandExportXmlService = bandExportXmlService;
     }
 
     @Override
@@ -107,5 +111,23 @@ public class BandsDelegateImpl implements BandsApiDelegate {
             e.printStackTrace();
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Resource> exportToXmlAllBands() {
+        LOGGER.debug("exportToXmlAllBands()");
+        HttpHeaders headers = new HttpHeaders();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        headers.setContentType(MediaType.parseMediaType("application/xml"));
+        if (response != null) {
+            response.setHeader("Content-Disposition", "attachment; filename=Bands.xml");
+        }
+        try {
+            bandExportXmlService.exportBandsXml(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }

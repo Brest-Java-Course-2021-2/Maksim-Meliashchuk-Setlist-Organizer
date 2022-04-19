@@ -292,6 +292,20 @@ public class TrackControllerIT {
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
+    @Test
+    public void shouldTracksExportXml() throws Exception {
+        logger.debug("shouldBandsExportXml()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/xml")
+                                .accept(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/xml");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Tracks.xml");
+    }
+
 
     class MockMvcTrackService {
 

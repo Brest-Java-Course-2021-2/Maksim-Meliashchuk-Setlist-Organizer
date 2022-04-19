@@ -10,6 +10,8 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.*;
 import com.epam.brest.service.impl.jdbc.BandDtoServiceImpl;
 import com.epam.brest.service.impl.jdbc.BandServiceImpl;
+import com.epam.brest.service.xml.BandExportXmlService;
+import com.epam.brest.service.xml.BandExportXmlServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,6 +43,11 @@ public class BandServiceTestConfig extends SpringDataSourceTestConfig {
     @Bean
     BandExportExcelService bandExportExcelService() {
         return new BandExportExcelServiceImpl(bandService());
+    }
+
+    @Bean
+    BandExportXmlService bandExportXmlService() {
+        return new BandExportXmlServiceImpl(bandService());
     }
 
     @Bean
