@@ -1,7 +1,7 @@
 package com.epam.brest.delegateimpl;
 
-import com.epam.brest.model.Band;
 import com.epam.brest.api.BandsApiDelegate;
+import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BandsDelegateImpl implements BandsApiDelegate {
@@ -92,7 +93,7 @@ public class BandsDelegateImpl implements BandsApiDelegate {
         LOGGER.debug("exportToExcelAllBands()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(requestAttributes)).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=Bands.xlsx");
@@ -118,7 +119,7 @@ public class BandsDelegateImpl implements BandsApiDelegate {
         LOGGER.debug("exportToXmlAllBands()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(requestAttributes)).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/xml"));
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=Bands.xml");

@@ -9,4 +9,6 @@ import java.util.List;
 public interface TrackExportXmlService {
 
     List<Track> exportTracksXml(HttpServletResponse response) throws IOException;
+    String exportTracksXmlAsString() throws IOException;
+
 }

@@ -4,6 +4,7 @@ import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,18 +21,27 @@ import java.util.List;
 public class BandExportXmlServiceImpl implements BandExportXmlService {
 
     private final BandService bandService;
-
+    private final XmlMapper mapper = XmlMapper.xmlBuilder()
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .enable(ToXmlGenerator.Feature.WRITE_XML_DECLARATION)
+            .build();
     @Override
     public List<Band> exportBandsXml(HttpServletResponse response) throws IOException {
         log.debug("exportBandsXml()");
         List<Band> bandList = bandService.findAllBands();
-        XmlMapper mapper = new XmlMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write(mapper.writer().withRootName(Band.class.getSimpleName())
                 .writeValueAsString(bandList).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();
         return bandList;
+    }
+
+    @Override
+    public String exportBandsXmlAsString() throws IOException {
+        log.debug("exportBandsXmlAsString()");
+        List<Band> bandList = bandService.findAllBands();
+        return mapper.writer().withRootName(Band.class.getSimpleName())
+                .writeValueAsString(bandList);
     }
 }

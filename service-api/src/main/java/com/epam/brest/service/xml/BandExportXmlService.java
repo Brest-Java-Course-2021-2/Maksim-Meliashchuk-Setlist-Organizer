@@ -9,4 +9,5 @@ import java.util.List;
 public interface BandExportXmlService {
 
     List<Band> exportBandsXml(HttpServletResponse response) throws IOException;
+    String exportBandsXmlAsString() throws IOException;
 }

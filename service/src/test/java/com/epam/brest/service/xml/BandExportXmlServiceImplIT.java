@@ -12,8 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @Import({BandServiceTestConfig.class})
@@ -29,5 +28,11 @@ class BandExportXmlServiceImplIT {
         HttpServletResponse httpServletResponse = new MockHttpServletResponse();
         assertNotNull(bandExportXmlService.exportBandsXml(httpServletResponse));
         assertEquals(bandExportXmlService.exportBandsXml(httpServletResponse).size(), bandCount);
+    }
+
+    @Test
+    void exportBandsXmlAsStringTest() throws IOException {
+        log.debug("exportBandsXmlAsStringTest()");
+        assertTrue(bandExportXmlService.exportBandsXmlAsString().length() > 0);
     }
 }

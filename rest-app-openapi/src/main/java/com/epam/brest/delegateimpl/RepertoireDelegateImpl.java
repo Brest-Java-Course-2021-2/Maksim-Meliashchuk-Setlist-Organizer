@@ -1,8 +1,8 @@
 package com.epam.brest.delegateimpl;
 
+import com.epam.brest.api.RepertoireApiDelegate;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.api.RepertoireApiDelegate;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
@@ -110,6 +110,7 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
         LOGGER.debug("exportToExcelAllBandsDto()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
@@ -136,10 +137,11 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
         LOGGER.debug("exportToXmlAllTracks()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/xml"));
         if (response != null) {
-            response.setHeader("Content-Disposition", "attachment; filename=Bands.xml");
+            response.setHeader("Content-Disposition", "attachment; filename=Tracks.xml");
         }
         try {
             trackExportXmlService.exportTracksXml(response);

@@ -706,6 +706,38 @@ paths:
               schema:
                 type: string
                 format: binary
+  /downloadZipFile:
+    get:
+      tags:
+      - download-zip-controller
+      summary: Exporting the database as XML and stored as ZIP archive
+      operationId: downloadZipFile
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Successfully export the database as ZIP archive
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
   /bands_dto:
     get:
       tags:

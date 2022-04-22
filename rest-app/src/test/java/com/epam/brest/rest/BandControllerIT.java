@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
-import static com.epam.brest.exception.CustomExceptionHandler.DATA_BASE_ERROR;
 import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,11 +53,11 @@ public class BandControllerIT {
     @Autowired
     private CustomExceptionHandler customExceptionHandler;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private MockMvc mockMvc;
 
-    private MockMvcBandService bandService = new MockMvcBandService();
+    private final MockMvcBandService bandService = new MockMvcBandService();
 
     @BeforeEach
     public void before() {
@@ -308,7 +307,7 @@ public class BandControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Band>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 
@@ -320,7 +319,7 @@ public class BandControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Band>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 

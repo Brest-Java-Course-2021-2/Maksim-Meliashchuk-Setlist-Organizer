@@ -1,13 +1,14 @@
 package com.epam.brest.delegateimpl;
 
+import com.epam.brest.api.RepertoireApiController;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.api.RepertoireApiController;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
+import com.epam.brest.service.xml.TrackExportXmlService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -38,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -71,6 +73,9 @@ public class RepertoireDelegateImplTest {
 
     @Mock
     private TrackImportExcelService trackImportExcelService;
+
+    @Mock
+    private TrackExportXmlService trackExportXmlService;
 
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
@@ -191,7 +196,7 @@ public class RepertoireDelegateImplTest {
 
         LOGGER.debug("shouldUpdateTrackTest()");
 
-        Integer trackId = 1;
+        int trackId = 1;
         Track track = createTrack(trackId);
         when(trackService.update(any(Track.class))).thenReturn(trackId);
         String requestBody = objectMapper.writeValueAsString(track);
@@ -324,6 +329,23 @@ public class RepertoireDelegateImplTest {
                 .andExpect(status().isOk()).andReturn().getResponse();
         assertEquals(Integer.parseInt(response.getContentAsString()), trackList.size());
 
+    }
+
+    @Test
+    public void shouldTracksExportXml() throws Exception {
+        LOGGER.debug("shouldBandsExportXml()");
+        List<Track> trackList = Arrays.asList(createTrack(1), createTrack(2));
+
+        when(trackExportXmlService.exportTracksXml(any(HttpServletResponse.class))).thenReturn(trackList);
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get("/repertoire/export/xml")
+                                .accept(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/xml");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Tracks.xml");
     }
 
     private TrackDto createTrackDto(int index) {

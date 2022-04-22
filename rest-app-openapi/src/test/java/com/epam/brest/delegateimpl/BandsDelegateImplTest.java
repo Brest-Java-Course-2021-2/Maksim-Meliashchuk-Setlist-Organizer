@@ -1,12 +1,13 @@
 package com.epam.brest.delegateimpl;
 
+import com.epam.brest.api.BandsApiController;
 import com.epam.brest.model.Band;
 import com.epam.brest.model.Track;
-import com.epam.brest.api.BandsApiController;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
+import com.epam.brest.service.xml.BandExportXmlService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -32,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -60,6 +62,9 @@ class BandsDelegateImplTest {
 
     @Mock
     private BandImportExcelService bandImportExcelService;
+
+    @Mock
+    private BandExportXmlService bandExportXmlService;
 
     private MockMvc mockMvc;
 
@@ -109,7 +114,7 @@ class BandsDelegateImplTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        List<Track> responseList = objectMapper.readValue(
+        List<Band> responseList = objectMapper.readValue(
                 responseBody,
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Band.class));
 
@@ -132,7 +137,7 @@ class BandsDelegateImplTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        List<Track> responseList = objectMapper.readValue(
+        List<Band> responseList = objectMapper.readValue(
                 responseBody,
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Band.class));
 
@@ -228,6 +233,23 @@ class BandsDelegateImplTest {
 
         assertEquals(Integer.parseInt(response.getContentAsString()), bandList.size());
 
+    }
+
+    @Test
+    public void shouldBandsExportXml() throws Exception {
+        LOGGER.debug("shouldBandsExportXml()");
+        List<Band> bandList = Arrays.asList(createBand(1), createBand(2));
+
+        when(bandExportXmlService.exportBandsXml(any(HttpServletResponse.class))).thenReturn(bandList);
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get("/bands/export/xml")
+                                .accept(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/xml");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xml");
     }
 
     private Band createBand(int index) {
