@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Tracks>
+  <item trackId="1">
+    <trackName>Drones</trackName>
+    <trackBandId>3</trackBandId>
+    <trackTempo>104</trackTempo>
+    <trackDuration>135000</trackDuration>
+    <trackDetails>Tuning:EADGBe</trackDetails>
+    <trackLink>https://www.youtube.com/watch?v=rvX7lgrx47M&amp;ab_channel=Muse-Topic</trackLink>
+    <trackReleaseDate>2000-01-12</trackReleaseDate>
+  </item>
+  <item trackId="2">
+    <trackName>Uprising</trackName>
+    <trackBandId>3</trackBandId>
+    <trackTempo>129</trackTempo>
+    <trackDuration>200000</trackDuration>
+    <trackDetails>[SYNTH BASS]</trackDetails>
+    <trackLink>https://www.youtube.com/watch?v=w8KQmps-Sog&amp;ab_channel=Muse</trackLink>
+    <trackReleaseDate>2021-03-12</trackReleaseDate>
+  </item>
+  <item trackId="3">
+    <trackName>Absolution</trackName>
+    <trackBandId>3</trackBandId>
+    <trackTempo>90</trackTempo>
+    <trackDuration>117000</trackDuration>
+    <trackDetails>[Preset 51]</trackDetails>
+    <trackLink>https://www.youtube.com/watch?v=Mp6W0IzLlW8&amp;ab_channel=TheMuse</trackLink>
+    <trackReleaseDate>2012-02-12</trackReleaseDate>
+  </item>
+  <item trackId="4">
+    <trackName>Time Is Running Out</trackName>
+    <trackBandId>1</trackBandId>
+    <trackTempo>104</trackTempo>
+    <trackDuration>120000</trackDuration>
+    <trackDetails>with chords as replacement or the distorted guitar</trackDetails>
+    <trackLink>https://www.youtube.com/watch?v=O2IuJPh6h_A&amp;ab_channel=Muse</trackLink>
+    <trackReleaseDate>2012-07-12</trackReleaseDate>
+  </item>
+</Tracks>

@@ -31,8 +31,6 @@ public class TrackExportXmlServiceImpl implements TrackExportXmlService{
     @Value("${spring.jackson.date-format}")
     private String dateFormat;
 
- //   private final XmlMapper mapper;
-
     @Override
     public List<Track> exportTracksXml(HttpServletResponse response) throws IOException {
         log.debug("exportTracksXml()");
@@ -40,8 +38,8 @@ public class TrackExportXmlServiceImpl implements TrackExportXmlService{
         mapper.setDateFormat(new SimpleDateFormat(dateFormat));
         List<Track> trackList = trackService.findAllTracks();
         ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(mapper.writer().withRootName(Track.class.getSimpleName())
-                .writeValueAsString(trackList).getBytes(StandardCharsets.UTF_8));
+        outputStream.write(mapper.writer().withRootName("Tracks").writeValueAsString(trackList)
+                .getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();
         return trackList;
@@ -52,7 +50,6 @@ public class TrackExportXmlServiceImpl implements TrackExportXmlService{
         List<Track> trackList = trackService.findAllTracks();
         mapper.registerModule(new JavaTimeModule());
         mapper.setDateFormat(new SimpleDateFormat(dateFormat));
-        return mapper.writer().withRootName(Track.class.getSimpleName())
-                .writeValueAsString(trackList);
+        return mapper.writer().withRootName("Tracks").writeValueAsString(trackList);
     }
 }

@@ -363,6 +363,16 @@ class TrackControllerApiClientTest {
                 .andExpect(redirectedUrl("/repertoire"));
     }
 
+    @Test
+    void shouldExportTrackTableToXml() throws Exception {
+        LOGGER.debug("shouldExportTrackTableToXml()");
+        File file = new File("src/test/resources/Track.xml");
+        when(trackApi.exportToXmlAlTracks()).thenReturn(file);
+        mockMvc.perform(get("/track/export/xml"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/xml"));
+    }
+
     private TrackDto createTrackDto(int index) {
         TrackDto trackDto = new TrackDto();
         LocalDate releaseDate = LocalDate.parse("2012-03-12");

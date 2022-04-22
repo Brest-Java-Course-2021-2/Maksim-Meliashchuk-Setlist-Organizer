@@ -138,6 +138,36 @@
                                         </select>
                                     </div>
                                 </form>
+                                <div class="pt-3">
+                                    <img src="../static/img/xml.svg"
+                                         th:src="@{/img/xml.svg}" height="25" width="25" alt="XML">
+                                    <label class="form-label">Export data from selected
+                                        table to XML:</label>
+                                </div>
+                                <form name="exportXml" class="d-flex" onSubmit="actionOnSubmitExportXml()">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-dark" type="submit">
+                                            <i class="bi bi-box-arrow-down"></i> | Export</a>
+                                        </button>
+                                        <select class="form-select" id="dataBaseTablesExportXml">
+                                            <option th:value="@{/band/export/xml}">Band</option>
+                                            <option th:value="@{/track/export/xml}">Track</option>
+                                        </select>
+                                    </div>
+                                </form>
+
+                                <div class="pt-3">
+                                    <img src="../static/img/zip.svg"
+                                         th:src="@{/img/zip.svg}" height="25" width="25" alt="Zip">
+                                    <label class="form-label">Export database as Zip archive:</label>
+                                </div>
+                                <form name="exportZip" class="d-flex" th:action="@{/downloadZipFile}">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-dark" type="submit">
+                                            <i class="bi bi-box-arrow-down"></i> | Export</a>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

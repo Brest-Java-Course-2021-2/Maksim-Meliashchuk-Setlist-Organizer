@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Bands>
+  <item bandId="1">
+    <bandName>MY COVER BAND</bandName>
+    <bandDetails>Alternative&amp;Metal</bandDetails>
+  </item>
+  <item bandId="2">
+    <bandName>MY BAND</bandName>
+    <bandDetails>Metal</bandDetails>
+  </item>
+  <item bandId="3">
+    <bandName>MUSE</bandName>
+    <bandDetails>Rock</bandDetails>
+  </item>
+</Bands>

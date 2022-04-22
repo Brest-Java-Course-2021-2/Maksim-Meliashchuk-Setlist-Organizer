@@ -40,10 +40,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@AutoConfigureMockMvc
 @ComponentScan({"com.epam.brest.web_app.validator"})
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
-@AutoConfigureMockMvc
+
 class BandControllerApiClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BandControllerApiClient.class);
@@ -246,6 +246,16 @@ class BandControllerApiClientTest {
         mockMvc.perform(get("/band/export/excel"))
                 .andExpect(status().isOk()).andExpect(content()
                         .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+    }
+
+    @Test
+    void shouldExportBandTableToXml() throws Exception {
+        LOGGER.debug("shouldExportBandTableToXml()");
+        File file = new File("src/test/resources/Band.xml");
+        when(bandApi.exportToXmlAllBands()).thenReturn(file);
+        mockMvc.perform(get("/band/export/xml"))
+                .andExpect(status().isOk()).andExpect(content()
+                        .contentType("application/xml"));
     }
 
     private BandDto createBandDto(int index) {

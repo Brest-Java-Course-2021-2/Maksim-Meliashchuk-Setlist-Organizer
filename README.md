@@ -40,7 +40,7 @@
 
 ## Project Information
 
-'Setlist Organizer' is a web application for organizing repertoires of musical bands.
+:studio_microphone: 'Setlist Organizer' is a web application for organizing repertoires of musical bands. :studio_microphone:
 
 <details>
 <summary>Mind Map</summary>
@@ -53,10 +53,10 @@
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 - [Presentation](documentation/SetlistOrganizer.pdf)
 
-_<sub>Note: the Mind map, Software requirements specification, Available REST endpoints and Presentation 
+:warning: _<sub>Note: the Mind map, Software requirements specification, Available REST endpoints and Presentation 
 describe the basic version of the project.The project is constantly being improved and developed.
 The features of the current version of the project may differ from the information in this section.
-See the following sections in this README for up-to-date project information.</a>_
+See the following sections in this README for up-to-date project information.</a>_ :warning:
 
 ## Running example
 
@@ -188,8 +188,8 @@ app.httpClient = ApiClient
 
 **ApiClient** is a preferable choice.
 
-_<sub>Note: this Web application has endpoints for using create and import Excel files with 
-the 'ApiClient' property only.</a>_
+:warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files with 
+the 'ApiClient' property only.</a>_ :warning:
 
 ## Run local tests
 
@@ -280,7 +280,7 @@ Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
 
 <img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
 
-Access the Grafana webUI on  [http://localhost:3000](http://localhost:3000)
+Access the Grafana webUI with jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
 
 To stop the containers:
 ```bash

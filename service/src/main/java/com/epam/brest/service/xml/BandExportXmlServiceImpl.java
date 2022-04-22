@@ -30,8 +30,8 @@ public class BandExportXmlServiceImpl implements BandExportXmlService {
         log.debug("exportBandsXml()");
         List<Band> bandList = bandService.findAllBands();
         ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(mapper.writer().withRootName(Band.class.getSimpleName())
-                .writeValueAsString(bandList).getBytes(StandardCharsets.UTF_8));
+        outputStream.write(mapper.writer().withRootName("Bands").writeValueAsString(bandList)
+                .getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();
         return bandList;
@@ -41,7 +41,6 @@ public class BandExportXmlServiceImpl implements BandExportXmlService {
     public String exportBandsXmlAsString() throws IOException {
         log.debug("exportBandsXmlAsString()");
         List<Band> bandList = bandService.findAllBands();
-        return mapper.writer().withRootName(Band.class.getSimpleName())
-                .writeValueAsString(bandList);
+        return mapper.writer().withRootName("Bands").writeValueAsString(bandList);
     }
 }
