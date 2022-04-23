@@ -1,4 +1,4 @@
-package com.epam.brest.service.downloadzip;
+package com.epam.brest.service.zip;
 
 import com.epam.brest.service.config.BandServiceTestConfig;
 import com.epam.brest.service.config.TrackServiceTestConfig;

@@ -1,4 +1,4 @@
-package com.epam.brest.service.downloadzip;
+package com.epam.brest.service.zip;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

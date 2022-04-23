@@ -90,6 +90,9 @@ API documentation with Swagger UI:
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
   <a href="https://spring.io/projects/spring-data-jpa)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
+- **Annotation processor:**
+  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/icons/lombok.svg"/>
+  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/icons/mapstruct.svg"/>
 - **Build System:** [Maven](https://maven.apache.org/) <img height="20" width="20" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_maven.svg"/>
 - **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
@@ -102,6 +105,7 @@ API documentation with Swagger UI:
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
+  - [SLF4J](https://www.slf4j.org/)
 - **Monitoring:**
   - [Micrometer](https://micrometer.io/)
   - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
@@ -115,9 +119,6 @@ API documentation with Swagger UI:
   - [GSON](https://github.com/google/gson)
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
 - **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
-- **Annotation processor:**
-  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/icons/lombok.svg"/>
-  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/icons/mapstruct.svg"/>
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
   - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
@@ -219,6 +220,7 @@ TargetClasses and TargetTests to limit the tests available to be run added to pa
 <targetClasses>
     <param>com.epam.brest.service.impl.jpa.*</param>
 </targetClasses>
+
 <targetTests>
     <param>com.epam.brest.service.impl.jpa.*</param>
 </targetTests>

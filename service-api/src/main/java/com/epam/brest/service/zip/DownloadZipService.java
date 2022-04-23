@@ -1,4 +1,4 @@
-package com.epam.brest.service.downloadzip;
+package com.epam.brest.service.zip;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;

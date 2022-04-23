@@ -1,8 +1,7 @@
 package com.epam.brest.delegateimpl;
 
-import com.epam.brest.api.BandsApiController;
 import com.epam.brest.api.DownloadZipFileApiController;
-import com.epam.brest.service.downloadzip.DownloadZipService;
+import com.epam.brest.service.zip.DownloadZipService;
 import com.epam.brest.service.xml.BandExportXmlService;
 import com.epam.brest.service.xml.TrackExportXmlService;
 import lombok.SneakyThrows;
