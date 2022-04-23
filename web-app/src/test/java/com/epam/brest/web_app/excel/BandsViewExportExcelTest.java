@@ -22,7 +22,6 @@ class BandsViewExportExcelTest {
     private final MockHttpServletResponse response = new MockHttpServletResponse();
 
     @Test
-    @SuppressWarnings("resource")
     void buildExcelDocument() throws Exception {
         ModelAndView mav = new ModelAndView();
         mav.setView(new BandsViewExportExcel());

@@ -19,7 +19,7 @@ public class TrackDtoServiceImpl implements TrackDtoService {
 
     private final Logger logger = LogManager.getLogger(TrackDtoServiceImpl.class);
 
-    private TrackDtoDao trackDtoDao;
+    private final TrackDtoDao trackDtoDao;
 
     public TrackDtoServiceImpl(TrackDtoDao trackDtoDao) {
         this.trackDtoDao = trackDtoDao;

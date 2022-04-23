@@ -41,7 +41,7 @@ class BandServiceRestTest {
 
     private MockRestServiceServer mockServer;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private BandServiceRest bandServiceRest;
 
@@ -149,7 +149,7 @@ class BandServiceRestTest {
 
         // then
         mockServer.verify();
-        assertTrue(1 == result);
+        assertEquals(1, result);
         assertNotNull(resultBand);
         assertEquals(resultBand.getBandId(), id);
         assertEquals(resultBand.getBandName(), band.getBandName());
@@ -173,7 +173,7 @@ class BandServiceRestTest {
 
         // then
         mockServer.verify();
-        assertTrue(1 == result);
+        assertEquals(1, result);
     }
 
     @Test

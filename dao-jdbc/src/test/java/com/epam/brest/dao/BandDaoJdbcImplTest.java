@@ -142,8 +142,8 @@ public class BandDaoJdbcImplTest {
         Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(bandList);
 
-        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any(),
-                ArgumentMatchers.<KeyHolder>any(), any())).thenAnswer(invocation ->  {
+        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.any(),
+                ArgumentMatchers.any(), any())).thenAnswer(invocation ->  {
             Object[] args = invocation.getArguments();
             Map<String, Object> keyMap = new HashMap<>();
             keyMap.put("", id);

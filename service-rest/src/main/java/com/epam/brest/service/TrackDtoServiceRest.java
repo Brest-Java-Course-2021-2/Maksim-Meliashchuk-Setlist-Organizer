@@ -18,9 +18,9 @@ public class TrackDtoServiceRest implements TrackDtoService {
 
     private final Logger logger = LogManager.getLogger(TrackDtoServiceRest.class);
 
-    private String url;
+    private final String url;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public TrackDtoServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;

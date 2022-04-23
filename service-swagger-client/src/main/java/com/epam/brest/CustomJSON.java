@@ -3,6 +3,7 @@ package com.epam.brest;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -60,11 +61,7 @@ public class CustomJSON extends JSON {
      */
     @Override
     public <T> T deserialize(String body, Type returnType) {
-        try {
-                return gson.fromJson(body, returnType);
-        } catch (JsonParseException e) {
-            throw (e);
-        }
+        return gson.fromJson(body, returnType);
     }
 
     /**
@@ -80,14 +77,12 @@ public class CustomJSON extends JSON {
 
         @Override
         public LocalDate read(JsonReader in) throws IOException {
-            switch (in.peek()) {
-                case NULL:
-                    in.nextNull();
-                    return null;
-                default:
-                    String date = in.nextString();
-                    return LocalDate.parse(date, deserializeFormatter);
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
             }
+            String date = in.nextString();
+            return LocalDate.parse(date, deserializeFormatter);
         }
     }
 

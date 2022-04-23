@@ -21,7 +21,7 @@ public class TrackDtoDaoJdbcImpl implements TrackDtoDao {
 
     private final Logger logger = LogManager.getLogger(TrackDtoDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @InjectSql("/sql/track/findAllTracksWithBandName.sql")
     private String sqlFindAllTracksWithBandName;

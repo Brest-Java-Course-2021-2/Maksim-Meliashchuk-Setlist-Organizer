@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 class TrackEntityToDtoMapperTest {
 
-    private TrackEntityToDtoMapper mapper
+    private final TrackEntityToDtoMapper mapper
             = Mappers.getMapper(TrackEntityToDtoMapper.class);
 
     @Test

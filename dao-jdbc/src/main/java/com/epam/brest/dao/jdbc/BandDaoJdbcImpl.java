@@ -25,7 +25,7 @@ public class BandDaoJdbcImpl implements BandDao {
 
     private final Logger logger = LogManager.getLogger(BandDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @InjectSql("/sql/band/selectCountFromBand.sql")
     private String sqlSelectCountFromBand;

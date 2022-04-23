@@ -20,7 +20,7 @@ public class TrackServiceImpl implements TrackService {
 
     private final Logger logger = LogManager.getLogger(TrackServiceImpl.class);
 
-    private TrackDao trackDao;
+    private final TrackDao trackDao;
 
 
     public TrackServiceImpl(TrackDao trackDao) {

@@ -15,8 +15,8 @@ import java.util.List;
 public class SaxParserCustom {
 
     @Getter
-    private BandXmlHandler bandXmlHandler;
-    private SAXParser bandSaxParser;
+    private final BandXmlHandler bandXmlHandler;
+    private final SAXParser bandSaxParser;
     private SAXParser trackSaxParser;
 
     public SaxParserCustom() throws ParserConfigurationException, SAXException {

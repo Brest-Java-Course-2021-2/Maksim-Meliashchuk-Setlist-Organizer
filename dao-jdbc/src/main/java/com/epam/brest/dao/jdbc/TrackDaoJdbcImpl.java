@@ -23,7 +23,7 @@ public class TrackDaoJdbcImpl implements TrackDao {
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
 
