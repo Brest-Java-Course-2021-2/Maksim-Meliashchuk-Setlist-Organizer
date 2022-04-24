@@ -3,7 +3,6 @@ package com.epam.brest.web_app.controller;
 import com.epam.brest.ApiException;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import io.swagger.client.api.DownloadZipControllerApi;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;

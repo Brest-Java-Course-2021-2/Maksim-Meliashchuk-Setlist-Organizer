@@ -21,7 +21,7 @@ public class DownloadZipServiceImpl implements DownloadZipService {
     @Override
     public Integer downloadZipFile(HttpServletResponse response, Map<String, String> listOfFiles) {
         log.debug("downloadZipFile()");
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream())) {
+        try (var zipOutputStream = new ZipOutputStream(response.getOutputStream())) {
             for (String fileName : listOfFiles.keySet()) {
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zipOutputStream.putNextEntry(zipEntry);

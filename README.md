@@ -217,13 +217,14 @@ the most effective way to use mutation testing is to run it frequently against o
 TargetClasses and TargetTests to limit the tests available to be run added to parent project POM:
 
 ```xml
-<targetClasses>
-    <param>com.epam.brest.service.impl.jpa.*</param>
-</targetClasses>
-
-<targetTests>
-    <param>com.epam.brest.service.impl.jpa.*</param>
-</targetTests>
+<configuration>
+  <targetClasses>
+      <param>com.epam.brest.service.impl.jpa.*</param>
+  </targetClasses>
+  <targetTests>
+      <param>com.epam.brest.service.impl.jpa.*</param>
+  </targetTests>
+</configuration>
 ```
 
 Run directly from the commandline:

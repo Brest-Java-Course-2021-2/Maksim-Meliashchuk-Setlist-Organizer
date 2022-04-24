@@ -1,9 +1,9 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.DownloadZipFileApiDelegate;
-import com.epam.brest.service.zip.DownloadZipService;
 import com.epam.brest.service.xml.BandExportXmlService;
 import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.zip.DownloadZipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;

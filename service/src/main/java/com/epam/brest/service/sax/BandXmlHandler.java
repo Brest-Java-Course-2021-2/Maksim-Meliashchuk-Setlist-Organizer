@@ -3,7 +3,6 @@ package com.epam.brest.service.sax;
 import com.epam.brest.model.Band;
 import lombok.Getter;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.List;
 
 public class BandXmlHandler extends DefaultHandler {
 
+    private static final String BAND_ID = "bandId";
     private static final String BAND_NAME = "bandName";
     private static final String BAND_DETAILS = "bandDetails";
     private static final String BANDS = "Bands";
@@ -36,17 +36,16 @@ public class BandXmlHandler extends DefaultHandler {
                 bandList = new ArrayList<>();
                 break;
             case ITEM:
-                bandList.add(new Band());
+                bandList.add(Band.builder()
+                        .bandId(Integer.valueOf(attributes.getValue(BAND_ID)))
+                        .bandName("temp")
+                        .build());
                 break;
             case BAND_NAME:
             case BAND_DETAILS:
                 elementValue = new StringBuilder();
                 break;
         }
-    }
-
-    @Override
-    public void startDocument() throws SAXException {
     }
 
     @Override

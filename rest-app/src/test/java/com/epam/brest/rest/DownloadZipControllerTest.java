@@ -1,8 +1,8 @@
 package com.epam.brest.rest;
 
-import com.epam.brest.service.zip.DownloadZipService;
 import com.epam.brest.service.xml.BandExportXmlService;
 import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.zip.DownloadZipService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

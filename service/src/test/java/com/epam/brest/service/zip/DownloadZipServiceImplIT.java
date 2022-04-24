@@ -37,7 +37,7 @@ class DownloadZipServiceImplIT {
         Field dateFormatField = trackExportXmlService.getClass()
                 .getDeclaredField("dateFormat");
         dateFormatField.setAccessible(true);
-        String dateFormat= "yyyy/MM/dd";
+        String dateFormat = "yyyy/MM/dd";
         dateFormatField.set(trackExportXmlService, dateFormat);
     }
 

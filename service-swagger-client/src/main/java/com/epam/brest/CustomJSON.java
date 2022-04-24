@@ -1,7 +1,6 @@
 package com.epam.brest;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 

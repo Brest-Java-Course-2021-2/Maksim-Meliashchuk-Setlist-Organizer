@@ -1,7 +1,5 @@
 package com.epam.brest.web_app.controller;
 
-import com.epam.brest.ApiException;
-import com.epam.brest.service.BandDtoService;
 import io.swagger.client.api.DownloadZipControllerApi;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
