@@ -1,8 +1,8 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.DownloadZipFileApiDelegate;
-import com.epam.brest.service.xml.BandExportXmlService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import com.epam.brest.service.zip.DownloadZipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +27,15 @@ public class DownloadZipFileDelegateImpl implements DownloadZipFileApiDelegate {
     private static final Logger LOGGER = LoggerFactory.getLogger(DownloadZipFileDelegateImpl.class);
 
     private final DownloadZipService downloadZipService;
-    private final BandExportXmlService bandExportXmlService;
-    private final TrackExportXmlService trackExportXmlService;
+    private final BandXmlService bandXmlService;
+    private final TrackXmlService trackXmlService;
 
 
-    public DownloadZipFileDelegateImpl(DownloadZipService downloadZipService, BandExportXmlService bandExportXmlService,
-                                       TrackExportXmlService trackExportXmlService) {
+    public DownloadZipFileDelegateImpl(DownloadZipService downloadZipService, BandXmlService bandXmlService,
+                                       TrackXmlService trackXmlService) {
         this.downloadZipService = downloadZipService;
-        this.bandExportXmlService = bandExportXmlService;
-        this.trackExportXmlService = trackExportXmlService;
+        this.bandXmlService = bandXmlService;
+        this.trackXmlService = trackXmlService;
     }
 
     @Override
@@ -48,12 +48,12 @@ public class DownloadZipFileDelegateImpl implements DownloadZipFileApiDelegate {
         response.setHeader("Content-Disposition", "attachment; filename=download.zip");
         Map<String, String> listOfFiles = new HashMap<>();
         try {
-            listOfFiles.put("Bands.xml", bandExportXmlService.exportBandsXmlAsString());
+            listOfFiles.put("Bands.xml", bandXmlService.exportBandsXmlAsString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            listOfFiles.put("Tracks.xml", trackExportXmlService.exportTracksXmlAsString());
+            listOfFiles.put("Tracks.xml", trackXmlService.exportTracksXmlAsString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

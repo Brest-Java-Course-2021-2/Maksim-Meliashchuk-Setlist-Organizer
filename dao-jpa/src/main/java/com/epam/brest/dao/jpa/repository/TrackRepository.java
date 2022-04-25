@@ -2,6 +2,7 @@ package com.epam.brest.dao.jpa.repository;
 
 import com.epam.brest.dao.jpa.entity.TrackEntity;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,5 +22,9 @@ public interface TrackRepository extends CrudRepository<TrackEntity, Integer> {
     @Modifying
     @Transactional
     Integer deleteByTrackId(Integer trackId);
+
+    @Modifying
+    @Query(value="ALTER TABLE track ALTER COLUMN track_id RESTART WITH 1", nativeQuery=true)
+    void resetStartTrackId();
 
 }

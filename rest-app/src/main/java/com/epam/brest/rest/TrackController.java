@@ -5,7 +5,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,18 +38,18 @@ public class TrackController {
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
-    private final TrackExportXmlService trackExportXmlService;
+    private final TrackXmlService trackXmlService;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, TrackFakerService trackFakerService,
                            TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService,
-                           TrackExportXmlService trackExportXmlService) {
+                           TrackXmlService trackXmlService) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
-        this.trackExportXmlService = trackExportXmlService;
+        this.trackXmlService = trackXmlService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -146,7 +146,7 @@ public class TrackController {
                             schema = @Schema(implementation = MultipartFile.class, format = "binary"))})
     })
     @GetMapping(value = "/repertoire/export/excel")
-    public final void exportToExcelAllTracks(HttpServletResponse response) throws IOException {
+    public final void exportToExcelAllTracks(HttpServletResponse response) {
         logger.debug("exportToExcelAllTracks()");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";
@@ -181,7 +181,7 @@ public class TrackController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=Tracks.xml";
         response.setHeader(headerKey, headerValue);
-        trackExportXmlService.exportTracksXml(response);
+        trackXmlService.exportTracksXml(response);
     }
 
 }

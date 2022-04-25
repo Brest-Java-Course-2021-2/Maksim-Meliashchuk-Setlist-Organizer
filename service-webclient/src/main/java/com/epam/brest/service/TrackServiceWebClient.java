@@ -96,4 +96,9 @@ public class TrackServiceWebClient implements TrackService {
                 .bodyToMono(typeReference)
                 .block();
     }
+
+    @Override
+    public void deleteAllTracks() {
+
+    }
 }

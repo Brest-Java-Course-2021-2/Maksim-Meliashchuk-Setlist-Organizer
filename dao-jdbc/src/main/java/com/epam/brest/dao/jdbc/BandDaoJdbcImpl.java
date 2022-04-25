@@ -41,6 +41,11 @@ public class BandDaoJdbcImpl implements BandDao {
     private String sqlUpdateBandById;
     @InjectSql("/sql/band/deleteBandById.sql")
     private String sqlDeleteBandById;
+    @InjectSql("/sql/band/deleteAllBands.sql")
+    private String sqlDeleteAllBands;
+    @InjectSql("/sql/band/resetStartBandId.sql")
+    private String sqlResetStartBandId;
+
 
     public BandDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -94,6 +99,14 @@ public class BandDaoJdbcImpl implements BandDao {
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandId", bandId);
         return namedParameterJdbcTemplate.update(sqlDeleteBandById, sqlParameterSource);
+    }
+
+    @Override
+    public Integer deleteAllBands() {
+        logger.debug("Delete all Bands()");
+        Integer count = namedParameterJdbcTemplate.getJdbcTemplate().update(sqlDeleteAllBands);
+        namedParameterJdbcTemplate.getJdbcTemplate().execute(sqlResetStartBandId);
+        return count;
     }
 
     @Override

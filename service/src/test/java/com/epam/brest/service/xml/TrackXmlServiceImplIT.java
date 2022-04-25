@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,18 +20,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @Import({TrackServiceTestConfig.class})
 @Slf4j
-class TrackExportXmlServiceImplIT {
+@Sql({"/create-db.sql", "/init-db.sql"})
+class TrackXmlServiceImplIT {
 
     @Autowired
-    private TrackExportXmlService trackExportXmlService;
+    private TrackXmlService trackXmlService;
 
     @BeforeEach
     void setup() throws NoSuchFieldException, IllegalAccessException {
-        Field dateFormatField = trackExportXmlService.getClass()
+        Field dateFormatField = trackXmlService.getClass()
                 .getDeclaredField("dateFormat");
         dateFormatField.setAccessible(true);
         String dateFormat= "yyyy/MM/dd";
-        dateFormatField.set(trackExportXmlService, dateFormat);
+        dateFormatField.set(trackXmlService, dateFormat);
     }
 
     @Test
@@ -38,14 +40,14 @@ class TrackExportXmlServiceImplIT {
         log.debug("exportBandsXmlTest()");
         int trackCount = 4;
         HttpServletResponse httpServletResponse = new MockHttpServletResponse();
-        assertNotNull(trackExportXmlService.exportTracksXml(httpServletResponse));
-        assertEquals(trackExportXmlService.exportTracksXml(httpServletResponse).size(), trackCount);
+        assertNotNull(trackXmlService.exportTracksXml(httpServletResponse));
+        assertEquals(trackXmlService.exportTracksXml(httpServletResponse).size(), trackCount);
     }
 
     @Test
     void exportTracksXmlAsStringTest() throws IOException {
         log.debug("exportTracksXmlAsStringTest()");
-        assertTrue(trackExportXmlService.exportTracksXmlAsString().length() > 0);
+        assertTrue(trackXmlService.exportTracksXmlAsString().length() > 0);
     }
 
 }

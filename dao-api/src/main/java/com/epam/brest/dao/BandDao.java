@@ -17,4 +17,6 @@ public interface BandDao {
     Integer delete(Integer bandId);
 
     Integer count();
+
+    Integer deleteAllBands();
 }

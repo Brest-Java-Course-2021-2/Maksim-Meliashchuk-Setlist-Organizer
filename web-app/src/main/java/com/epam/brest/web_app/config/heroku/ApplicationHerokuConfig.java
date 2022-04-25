@@ -7,10 +7,7 @@ import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import com.epam.brest.web_app.condition.RestTemplateCondition;
 import com.epam.brest.web_app.condition.WebClientCondition;
-import io.swagger.client.api.BandApi;
-import io.swagger.client.api.BandsApi;
-import io.swagger.client.api.TrackApi;
-import io.swagger.client.api.TracksApi;
+import io.swagger.client.api.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -153,5 +150,14 @@ public class ApplicationHerokuConfig {
         apiClient.setBasePath(url);
         trackApi.setApiClient(apiClient);
         return trackApi;
+    }
+
+    @Bean
+    @Conditional(ApiClientCondition.class)
+    public ImportExportDatabaseApi importExportDatabaseApi() {
+        ImportExportDatabaseApi importExportDatabaseApi = new ImportExportDatabaseApi();
+        apiClient.setBasePath(url);
+        importExportDatabaseApi.setApiClient(apiClient);
+        return importExportDatabaseApi;
     }
 }

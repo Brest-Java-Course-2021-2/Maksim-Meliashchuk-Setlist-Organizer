@@ -150,10 +150,10 @@ public class ApplicationConfig {
 
     @Bean
     @Conditional(ApiClientCondition.class)
-    public DownloadZipControllerApi downloadZipControllerApi() {
-        DownloadZipControllerApi downloadZipControllerApi = new DownloadZipControllerApi();
-        downloadZipControllerApi.setApiClient(apiClient);
-        return downloadZipControllerApi;
+    public ImportExportDatabaseApi importExportDatabaseApi() {
+        ImportExportDatabaseApi importExportDatabaseApi = new ImportExportDatabaseApi();
+        importExportDatabaseApi.setApiClient(apiClient);
+        return importExportDatabaseApi;
     }
 
 }

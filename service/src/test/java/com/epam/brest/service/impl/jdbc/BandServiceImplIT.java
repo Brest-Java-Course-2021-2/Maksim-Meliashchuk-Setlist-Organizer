@@ -3,15 +3,20 @@ package com.epam.brest.service.impl.jdbc;
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
+import com.epam.brest.service.TrackService;
 import com.epam.brest.service.config.BandServiceTestConfig;
+import com.epam.brest.service.config.TrackServiceTestConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +25,21 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@Import({BandServiceTestConfig.class})
+@Import({BandServiceTestConfig.class, TrackServiceTestConfig.class})
 @Transactional
 @Rollback
-@ActiveProfiles({"dev","jdbc"})
+@ActiveProfiles({"test","jdbc"})
+@Sql({"/create-db.sql", "/init-db.sql"})
 class BandServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(BandServiceImplIT.class);
 
     @Autowired
     private BandService bandService;
+
+    @Autowired
+    private TrackService trackService;
+
 
     @Test
     void testGetBandById () {
@@ -101,6 +111,17 @@ class BandServiceImplIT {
         List<Band> bands = bandService.findAllBands();
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
+    }
+
+    @Test
+    void testDeleteAllBands() {
+        logger.debug("Band service execute test: testDeleteAllBands()");
+        assertNotNull(bandService);
+        List<Band> bandsBefore = bandService.findAllBands();
+        assertTrue(bandsBefore.size() > 0);
+        trackService.deleteAllTracks();
+        bandService.deleteAllBands();
+        assertEquals(0, bandService.findAllBands().size());
     }
 
     @Test

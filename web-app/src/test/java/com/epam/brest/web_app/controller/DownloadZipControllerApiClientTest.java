@@ -1,6 +1,6 @@
 package com.epam.brest.web_app.controller;
 
-import io.swagger.client.api.DownloadZipControllerApi;
+import io.swagger.client.api.ImportExportDatabaseApi;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ class DownloadZipControllerApiClientTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DownloadZipControllerApi downloadZipControllerApi;
+    private ImportExportDatabaseApi importExportDatabaseApi;
 
     @Test
     void downloadZipFile() throws Exception {
         File file = new File("src/test/resources/database.zip");
-        when(downloadZipControllerApi.downloadZipFile()).thenReturn(file);
+        when(importExportDatabaseApi.downloadZipFile()).thenReturn(file);
         mockMvc.perform(get("/downloadZipFile"))
                 .andExpect(status().isOk()).andExpect(content()
                         .contentType("application/zip"));

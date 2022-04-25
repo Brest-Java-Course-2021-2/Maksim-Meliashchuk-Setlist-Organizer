@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,22 +18,23 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @Import({BandServiceTestConfig.class})
 @Slf4j
-class BandExportXmlServiceImplIT {
+@Sql({"/create-db.sql", "/init-db.sql"})
+class BandXmlServiceImplIT {
     @Autowired
-    private BandExportXmlService bandExportXmlService;
+    private BandXmlService bandXmlService;
 
     @Test
     void exportBandsXmlTest() throws IOException {
         log.debug("exportBandsXmlTest()");
         int bandCount = 3;
         HttpServletResponse httpServletResponse = new MockHttpServletResponse();
-        assertNotNull(bandExportXmlService.exportBandsXml(httpServletResponse));
-        assertEquals(bandExportXmlService.exportBandsXml(httpServletResponse).size(), bandCount);
+        assertNotNull(bandXmlService.exportBandsXml(httpServletResponse));
+        assertEquals(bandXmlService.exportBandsXml(httpServletResponse).size(), bandCount);
     }
 
     @Test
     void exportBandsXmlAsStringTest() throws IOException {
         log.debug("exportBandsXmlAsStringTest()");
-        assertTrue(bandExportXmlService.exportBandsXmlAsString().length() > 0);
+        assertTrue(bandXmlService.exportBandsXmlAsString().length() > 0);
     }
 }

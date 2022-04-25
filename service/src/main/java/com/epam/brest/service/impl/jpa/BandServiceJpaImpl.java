@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,5 +71,13 @@ public class BandServiceJpaImpl implements BandService {
     public Integer count() {
         log.info("count()");
         return Math.toIntExact(bandRepository.count());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllBands() {
+        log.info("deleteAllBands()");
+        bandRepository.deleteAll();
+        bandRepository.resetStartBandId();
     }
 }

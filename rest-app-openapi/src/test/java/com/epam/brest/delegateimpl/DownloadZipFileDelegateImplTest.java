@@ -1,8 +1,8 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.DownloadZipFileApiController;
-import com.epam.brest.service.xml.BandExportXmlService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import com.epam.brest.service.zip.DownloadZipService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +34,10 @@ class DownloadZipFileDelegateImplTest {
     private DownloadZipFileDelegateImpl downloadZipFileDelegate;
 
     @Mock
-    private BandExportXmlService bandExportXmlService;
+    private BandXmlService bandXmlService;
 
     @Mock
-    private TrackExportXmlService trackExportXmlService;
+    private TrackXmlService trackXmlService;
 
     @Mock
     private DownloadZipService downloadZipService;
@@ -55,9 +55,9 @@ class DownloadZipFileDelegateImplTest {
     void downloadZipFileTest() {
         log.debug("downloadZipFileTest()");
 
-        Mockito.when(bandExportXmlService.exportBandsXmlAsString())
+        Mockito.when(bandXmlService.exportBandsXmlAsString())
                 .thenReturn("Bands.xml");
-        Mockito.when(trackExportXmlService.exportTracksXmlAsString())
+        Mockito.when(trackXmlService.exportTracksXmlAsString())
                 .thenReturn("Tracks.xml");
         Mockito.when(downloadZipService.downloadZipFile(any(HttpServletResponse.class), any(HashMap.class)))
                 .thenReturn(2);
@@ -70,8 +70,8 @@ class DownloadZipFileDelegateImplTest {
         assertEquals(response.getContentType(), "application/zip");
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=download.zip");
 
-        Mockito.verify(bandExportXmlService).exportBandsXmlAsString();
-        Mockito.verify(trackExportXmlService).exportTracksXmlAsString();
+        Mockito.verify(bandXmlService).exportBandsXmlAsString();
+        Mockito.verify(trackXmlService).exportTracksXmlAsString();
         Mockito.verify(downloadZipService).downloadZipFile(any(HttpServletResponse.class), any(HashMap.class));
     }
 }

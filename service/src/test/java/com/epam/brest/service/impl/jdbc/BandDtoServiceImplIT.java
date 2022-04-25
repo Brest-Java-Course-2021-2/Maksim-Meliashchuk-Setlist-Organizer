@@ -26,17 +26,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @PropertySource({"classpath:sql-band.properties"})
 @Transactional
 @Rollback
-@ActiveProfiles({"dev","jdbc"})
+@ActiveProfiles({"test","jdbc"})
 public class BandDtoServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(BandDtoServiceImplIT.class);
 
     @Autowired
     private BandDtoService bandDtoService;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     public void testShouldFindAllWithCountTrack() {

@@ -5,7 +5,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
-import com.epam.brest.service.xml.BandExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,16 +40,16 @@ public class BandController {
     private final BandExportExcelService bandExportExcelService;
     private final BandFakerService bandFakerService;
     private final BandImportExcelService bandImportExcelService;
-    private final BandExportXmlService bandExportXmlService;
+    private final BandXmlService bandXmlService;
 
     public BandController(BandService bandService, BandExportExcelService bandExportExcelService,
                           BandFakerService bandFakerService, BandImportExcelService bandImportExcelService,
-                          BandExportXmlService bandExportXmlService) {
+                          BandXmlService bandXmlService) {
         this.bandService = bandService;
         this.bandExportExcelService = bandExportExcelService;
         this.bandFakerService = bandFakerService;
         this.bandImportExcelService = bandImportExcelService;
-        this.bandExportXmlService = bandExportXmlService;
+        this.bandXmlService = bandXmlService;
     }
 
     @Operation(summary = "Get information for all bands based on their IDs")
@@ -151,7 +151,7 @@ public class BandController {
                             schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
     })
     @GetMapping(value = "/bands/export/excel")
-    public final void exportToExcelAllBands(HttpServletResponse response) throws IOException {
+    public final void exportToExcelAllBands(HttpServletResponse response) {
         logger.debug("exportToExcelAllBands()");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";
@@ -186,6 +186,6 @@ public class BandController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=Bands.xml";
         response.setHeader(headerKey, headerValue);
-        bandExportXmlService.exportBandsXml(response);
+        bandXmlService.exportBandsXml(response);
     }
 }

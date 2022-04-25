@@ -22,6 +22,8 @@ tags:
   description: the Band API
 - name: Bands
   description: the Bands API
+- name: Import/Export database
+  description: create database archive / restore database from archive
 - name: Tracks
   description: the Tracks API
 paths:
@@ -215,6 +217,46 @@ paths:
               schema:
                 type: integer
                 format: int32
+  /uploadZipFile:
+    post:
+      tags:
+      - Import/Export database
+      summary: Restore database from ZIP archive
+      operationId: uploadingZipFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Database have been restored.
+          content:
+            application/zip: {}
   /repertoire/import/excel:
     post:
       tags:
@@ -709,7 +751,7 @@ paths:
   /downloadZipFile:
     get:
       tags:
-      - download-zip-controller
+      - Import/Export database
       summary: Exporting the database as XML and stored as ZIP archive
       operationId: downloadZipFile
       responses:

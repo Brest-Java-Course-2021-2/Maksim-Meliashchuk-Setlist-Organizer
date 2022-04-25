@@ -96,4 +96,9 @@ public class BandServiceWebClient implements BandService {
                 .bodyToMono(Integer.class)
                 .block();
     }
+
+    @Override
+    public void deleteAllBands() {
+
+    }
 }

@@ -73,4 +73,9 @@ public class TrackServiceRest implements TrackService {
         ResponseEntity responseEntity = restTemplate.getForEntity(url, List.class);
         return (List<Track>) responseEntity.getBody();
     }
+
+    @Override
+    public void deleteAllTracks() {
+
+    }
 }

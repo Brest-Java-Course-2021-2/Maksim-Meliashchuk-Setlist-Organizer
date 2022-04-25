@@ -6,7 +6,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
-import com.epam.brest.service.xml.BandExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -34,16 +34,16 @@ public class BandsDelegateImpl implements BandsApiDelegate {
     private final BandFakerService bandFakerService;
     private final BandExportExcelService bandExportExcelService;
     private final BandImportExcelService bandImportExcelService;
-    private final BandExportXmlService bandExportXmlService;
+    private final BandXmlService bandXmlService;
 
     public BandsDelegateImpl(BandService bandService, BandFakerService bandFakerService,
                              BandExportExcelService bandExportExcelService, BandImportExcelService bandImportExcelService,
-                             BandExportXmlService bandExportXmlService) {
+                             BandXmlService bandXmlService) {
         this.bandService = bandService;
         this.bandFakerService = bandFakerService;
         this.bandExportExcelService = bandExportExcelService;
         this.bandImportExcelService = bandImportExcelService;
-        this.bandExportXmlService = bandExportXmlService;
+        this.bandXmlService = bandXmlService;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class BandsDelegateImpl implements BandsApiDelegate {
             response.setHeader("Content-Disposition", "attachment; filename=Bands.xml");
         }
         try {
-            bandExportXmlService.exportBandsXml(response);
+            bandXmlService.exportBandsXml(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

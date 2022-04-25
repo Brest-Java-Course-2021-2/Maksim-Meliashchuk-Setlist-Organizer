@@ -2,8 +2,8 @@ package com.epam.brest.service.zip;
 
 import com.epam.brest.service.config.BandServiceTestConfig;
 import com.epam.brest.service.config.TrackServiceTestConfig;
-import com.epam.brest.service.xml.BandExportXmlService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,17 +28,17 @@ class DownloadZipServiceImplIT {
 
     private final DownloadZipService downloadZipService = new DownloadZipServiceImpl();
     @Autowired
-    private BandExportXmlService bandExportXmlService;
+    private BandXmlService bandXmlService;
     @Autowired
-    private TrackExportXmlService trackExportXmlService;
+    private TrackXmlService trackXmlService;
 
     @BeforeEach
     void setup() throws NoSuchFieldException, IllegalAccessException {
-        Field dateFormatField = trackExportXmlService.getClass()
+        Field dateFormatField = trackXmlService.getClass()
                 .getDeclaredField("dateFormat");
         dateFormatField.setAccessible(true);
         String dateFormat = "yyyy/MM/dd";
-        dateFormatField.set(trackExportXmlService, dateFormat);
+        dateFormatField.set(trackXmlService, dateFormat);
     }
 
     @SneakyThrows
@@ -47,8 +47,8 @@ class DownloadZipServiceImplIT {
         log.debug("downloadZipFileTest()");
         HttpServletResponse httpServletResponse = new MockHttpServletResponse();
         Map<String, String> listOfFiles = new HashMap<>();
-        listOfFiles.put("Bands.xml", bandExportXmlService.exportBandsXmlAsString());
-        listOfFiles.put("Tracks.xml", trackExportXmlService.exportTracksXmlAsString());
+        listOfFiles.put("Bands.xml", bandXmlService.exportBandsXmlAsString());
+        listOfFiles.put("Tracks.xml", trackXmlService.exportTracksXmlAsString());
         assertEquals(downloadZipService.downloadZipFile(httpServletResponse, listOfFiles), listOfFiles.keySet().size());
     }
 }

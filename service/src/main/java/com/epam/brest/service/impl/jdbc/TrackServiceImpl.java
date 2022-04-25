@@ -82,4 +82,10 @@ public class TrackServiceImpl implements TrackService {
         logger.debug("TrackService findAllTracks()");
         return this.trackDao.findAll();
     }
+
+    @Override
+    public void deleteAllTracks() {
+        logger.debug("deleteAllTracks()");
+        trackDao.deleteAllTracks();
+    }
 }

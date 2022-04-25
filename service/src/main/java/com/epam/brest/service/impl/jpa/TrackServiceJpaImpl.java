@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,5 +72,13 @@ public class TrackServiceJpaImpl implements TrackService {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(mapper::trackEntityToTrack)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllTracks() {
+        log.info("deleteAllTracks()");
+        trackRepository.deleteAll();
+        trackRepository.resetStartTrackId();
     }
 }

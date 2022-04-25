@@ -8,7 +8,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -75,7 +75,7 @@ public class RepertoireDelegateImplTest {
     private TrackImportExcelService trackImportExcelService;
 
     @Mock
-    private TrackExportXmlService trackExportXmlService;
+    private TrackXmlService trackXmlService;
 
     @Captor
     private ArgumentCaptor<LocalDate> captorDate;
@@ -336,7 +336,7 @@ public class RepertoireDelegateImplTest {
         LOGGER.debug("shouldBandsExportXml()");
         List<Track> trackList = Arrays.asList(createTrack(1), createTrack(2));
 
-        when(trackExportXmlService.exportTracksXml(any(HttpServletResponse.class))).thenReturn(trackList);
+        when(trackXmlService.exportTracksXml(any(HttpServletResponse.class))).thenReturn(trackList);
 
         MockHttpServletResponse response =
                 mockMvc.perform(MockMvcRequestBuilders.get("/repertoire/export/xml")

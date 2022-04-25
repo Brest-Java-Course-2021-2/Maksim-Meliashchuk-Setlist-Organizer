@@ -81,4 +81,10 @@ public class BandServiceImpl implements BandService {
         logger.debug("findAll()");
         return this.bandDao.findAll();
     }
+
+    @Override
+    public void deleteAllBands() {
+        logger.debug("deleteAllBands()");
+        bandDao.deleteAllBands();
+    }
 }

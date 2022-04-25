@@ -6,7 +6,7 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.BandExportExcelService;
 import com.epam.brest.service.excel.BandImportExcelService;
 import com.epam.brest.service.faker.BandFakerService;
-import com.epam.brest.service.xml.BandExportXmlService;
+import com.epam.brest.service.xml.BandXmlService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -63,7 +63,7 @@ class BandsDelegateImplTest {
     private BandImportExcelService bandImportExcelService;
 
     @Mock
-    private BandExportXmlService bandExportXmlService;
+    private BandXmlService bandXmlService;
 
     private MockMvc mockMvc;
 
@@ -239,7 +239,7 @@ class BandsDelegateImplTest {
         LOGGER.debug("shouldBandsExportXml()");
         List<Band> bandList = Arrays.asList(createBand(1), createBand(2));
 
-        when(bandExportXmlService.exportBandsXml(any(HttpServletResponse.class))).thenReturn(bandList);
+        when(bandXmlService.exportBandsXml(any(HttpServletResponse.class))).thenReturn(bandList);
 
         MockHttpServletResponse response =
                 mockMvc.perform(MockMvcRequestBuilders.get("/bands/export/xml")

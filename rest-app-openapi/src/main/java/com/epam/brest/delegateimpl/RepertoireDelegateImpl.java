@@ -8,7 +8,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
-import com.epam.brest.service.xml.TrackExportXmlService;
+import com.epam.brest.service.xml.TrackXmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -36,17 +36,17 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
-    private final TrackExportXmlService trackExportXmlService;
+    private final TrackXmlService trackXmlService;
 
     public RepertoireDelegateImpl(TrackService trackService, TrackDtoService trackDtoService,
                                   TrackFakerService trackFakerService, TrackExportExcelService trackExportExcelService,
-                                  TrackImportExcelService trackImportExcelService, TrackExportXmlService trackExportXmlService) {
+                                  TrackImportExcelService trackImportExcelService, TrackXmlService trackXmlService) {
         this.trackService = trackService;
         this.trackDtoService = trackDtoService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
-        this.trackExportXmlService = trackExportXmlService;
+        this.trackXmlService = trackXmlService;
     }
 
     @Override
@@ -144,7 +144,7 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
             response.setHeader("Content-Disposition", "attachment; filename=Tracks.xml");
         }
         try {
-            trackExportXmlService.exportTracksXml(response);
+            trackXmlService.exportTracksXml(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -72,4 +72,9 @@ public class BandServiceRest implements BandService {
         ResponseEntity<Integer> responseEntity = restTemplate.getForEntity(url + "/count" , Integer.class);
         return responseEntity.getBody();
     }
+
+    @Override
+    public void deleteAllBands() {
+
+    }
 }

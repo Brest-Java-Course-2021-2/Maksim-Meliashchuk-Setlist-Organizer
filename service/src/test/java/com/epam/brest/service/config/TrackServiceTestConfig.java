@@ -10,11 +10,15 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.*;
 import com.epam.brest.service.impl.jdbc.TrackDtoServiceImpl;
 import com.epam.brest.service.impl.jdbc.TrackServiceImpl;
-import com.epam.brest.service.xml.TrackExportXmlService;
-import com.epam.brest.service.xml.TrackExportXmlServiceImpl;
+import com.epam.brest.service.sax.SaxParserCustom;
+import com.epam.brest.service.xml.TrackXmlService;
+import com.epam.brest.service.xml.TrackXmlServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 @TestConfiguration
 @ComponentScan("com.epam.brest.dao.annotation")
@@ -46,8 +50,12 @@ public class TrackServiceTestConfig extends SpringDataSourceTestConfig {
     }
 
     @Bean
-    TrackExportXmlService trackExportXmlService() {
-        return new TrackExportXmlServiceImpl(trackService());
+    SaxParserCustom saxParserCustom() throws ParserConfigurationException, SAXException {
+        return new SaxParserCustom();
+    }
+    @Bean
+    TrackXmlService trackExportXmlService() throws ParserConfigurationException, SAXException {
+        return new TrackXmlServiceImpl(trackService(), saxParserCustom());
     }
 
     @Bean
@@ -57,6 +65,6 @@ public class TrackServiceTestConfig extends SpringDataSourceTestConfig {
 
     @Bean
     TrackImportExcelService trackImportExcel() {
-        return new TrackImportExcelServiceServiceImpl(trackService());
+        return new TrackImportExcelServiceImpl(trackService());
     }
 }

@@ -10,11 +10,15 @@ import com.epam.brest.service.BandService;
 import com.epam.brest.service.excel.*;
 import com.epam.brest.service.impl.jdbc.BandDtoServiceImpl;
 import com.epam.brest.service.impl.jdbc.BandServiceImpl;
-import com.epam.brest.service.xml.BandExportXmlService;
-import com.epam.brest.service.xml.BandExportXmlServiceImpl;
+import com.epam.brest.service.sax.SaxParserCustom;
+import com.epam.brest.service.xml.BandXmlService;
+import com.epam.brest.service.xml.BandXmlServiceImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 @TestConfiguration
 @ComponentScan("com.epam.brest.dao.annotation")
@@ -46,8 +50,13 @@ public class BandServiceTestConfig extends SpringDataSourceTestConfig {
     }
 
     @Bean
-    BandExportXmlService bandExportXmlService() {
-        return new BandExportXmlServiceImpl(bandService());
+    SaxParserCustom saxParserCustom() throws ParserConfigurationException, SAXException {
+        return new SaxParserCustom();
+    }
+
+    @Bean
+    BandXmlService bandExportXmlService() throws ParserConfigurationException, SAXException {
+        return new BandXmlServiceImpl(bandService(), saxParserCustom());
     }
 
     @Bean

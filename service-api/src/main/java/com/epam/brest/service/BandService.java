@@ -18,4 +18,6 @@ public interface BandService {
 
     Integer count();
 
+    void deleteAllBands();
+
 }
