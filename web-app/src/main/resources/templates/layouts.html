@@ -202,6 +202,26 @@
                                     </select>
                                 </div>
                             </form>
+
+
+                            <form name="restoreDatabaseFromZip" method="post" enctype="multipart/form-data"
+                                  th:action="@{/uploadZipFile}">
+                                <div class="pt-3">
+                                    <img src="../static/img/zip.svg"
+                                         th:src="@{/img/zip.svg}" height="25" width="25" alt="ZIP">
+                                    <label for="uploadfile" class="form-label">Restore database from ZIP archive:
+                                       </label>
+                                    <input type="file" name="uploadfile" class="form-control form-control-sm"
+                                           id="uploadzipfile" accept=".zip">
+                                </div>
+                                <div class="input-group input-group-sm pt-3">
+                                    <button class="btn btn-dark" type="submit">
+                                        <i class="bi bi-box-arrow-in-up"></i> | Import
+                                    </button>
+                                </div>
+                            </form>
+
+
                         </div>
                     </div>
                 </div>

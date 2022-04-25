@@ -165,6 +165,7 @@ public class BandControllerApiClient {
         fos.write(file.getBytes());
         fos.close();
         bandApi.importBandFromExcel(convertFile);
+        convertFile.delete();
         return "redirect:/bands";
     }
 

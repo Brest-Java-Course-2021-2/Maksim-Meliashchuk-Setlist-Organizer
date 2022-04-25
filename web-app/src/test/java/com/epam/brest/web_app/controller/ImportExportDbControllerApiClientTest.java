@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @AutoConfigureMockMvc
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
-class DownloadZipControllerApiClientTest {
+class ImportExportDbControllerApiClientTest {
 
     @Autowired
     private MockMvc mockMvc;

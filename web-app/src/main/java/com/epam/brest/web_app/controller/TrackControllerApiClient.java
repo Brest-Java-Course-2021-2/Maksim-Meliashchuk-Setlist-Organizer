@@ -215,6 +215,7 @@ public class TrackControllerApiClient {
         fos.write(file.getBytes());
         fos.close();
         trackApi.importTrackFromExcel(convertFile);
+        convertFile.delete();
         return "redirect:/repertoire";
     }
 
