@@ -130,10 +130,9 @@ public class BandDaoJdbcImplTest {
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlCreateBand", sql);
         String sqlCheck = "check";
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlCheckBand", sqlCheck);
-        int id = 0;
+        int id = 1;
         int count = 1;
         Band band = Band.builder()
-                .bandId(id)
                 .bandName("Gods Tower")
                 .bandDetails("Band of metal")
                 .build();
@@ -147,6 +146,7 @@ public class BandDaoJdbcImplTest {
             Object[] args = invocation.getArguments();
             Map<String, Object> keyMap = new HashMap<>();
             keyMap.put("", id);
+            band.setBandId(id);
             ((KeyHolder)args[2]).getKeyList().add(keyMap);
             return count;
         });

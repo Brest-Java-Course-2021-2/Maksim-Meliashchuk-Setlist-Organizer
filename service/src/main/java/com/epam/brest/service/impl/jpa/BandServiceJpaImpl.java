@@ -45,8 +45,13 @@ public class BandServiceJpaImpl implements BandService {
     @Override
     public Integer create(Band band) {
         log.info("create()");
+        if (band.getBandId() != null) {
+            bandRepository.saveWithId(band.getBandId(), band.getBandName(), band.getBandDetails());
+            return band.getBandId();
+        }
         BandEntity bandEntity = mapper.bandToBandEntity(band);
         return bandRepository.save(bandEntity).getBandId();
+
     }
 
     @Override

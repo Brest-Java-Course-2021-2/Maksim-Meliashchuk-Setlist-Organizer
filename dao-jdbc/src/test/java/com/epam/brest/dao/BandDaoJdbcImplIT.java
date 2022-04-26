@@ -1,7 +1,6 @@
 package com.epam.brest.dao;
 
 import com.epam.brest.SpringDataSourceTestConfig;
-import com.epam.brest.SpringJdbcConfig;
 import com.epam.brest.dao.exception.NotUniqueException;
 import com.epam.brest.dao.jdbc.BandDaoJdbcImpl;
 import com.epam.brest.model.Band;

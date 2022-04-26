@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS band(
 );
 
 CREATE TABLE IF NOT EXISTS track (
-    track_id int NOT NULL AUTO_INCREMENT,
+    track_id INT NOT NULL AUTO_INCREMENT,
     track_name VARCHAR(100) NOT NULL,
     track_tempo INT,
     track_duration INT,

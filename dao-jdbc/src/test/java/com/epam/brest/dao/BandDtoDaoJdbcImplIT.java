@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.SpringJdbcConfig;
+import com.epam.brest.SpringDataSourceTestConfig;
 import com.epam.brest.dao.jdbc.BandDtoDaoJdbcImpl;
 import com.epam.brest.model.BandDto;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,11 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJdbcTest
 @Import({BandDtoDaoJdbcImpl.class})
-@ContextConfiguration(classes = SpringJdbcConfig.class)
+@ContextConfiguration(classes = SpringDataSourceTestConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 @Rollback
-@ActiveProfiles({"dev", "jdbc"})
+@ActiveProfiles({"test", "jdbc"})
+@Sql({"/create-db.sql", "/init-db.sql"})
 class BandDtoDaoJdbcImplIT {
 
     private final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImplIT.class);

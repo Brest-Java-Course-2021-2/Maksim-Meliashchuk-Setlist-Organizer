@@ -77,9 +77,7 @@ class BandServiceJpaImplTest {
     @Test
     void createBandTest() {
         log.debug("createBandTest()");
-        Integer id = 1;
         BandEntity bandEntity = BandEntity.builder()
-                .bandId(id)
                 .bandName("test band1")
                 .bandDetails("test")
                 .build();
@@ -90,7 +88,6 @@ class BandServiceJpaImplTest {
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);
         Band band = Band.builder()
-                .bandId(1)
                 .bandName("P.O.D.")
                 .build();
         Integer newBandId = bandService.create(band);

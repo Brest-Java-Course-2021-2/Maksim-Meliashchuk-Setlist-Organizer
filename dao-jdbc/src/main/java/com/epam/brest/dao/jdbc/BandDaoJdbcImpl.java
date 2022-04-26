@@ -45,6 +45,8 @@ public class BandDaoJdbcImpl implements BandDao {
     private String sqlDeleteAllBands;
     @InjectSql("/sql/band/resetStartBandId.sql")
     private String sqlResetStartBandId;
+    @InjectSql("/sql/band/createBandWithId.sql")
+    private String sqlCreateBandWithId;
 
 
     public BandDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -72,7 +74,14 @@ public class BandDaoJdbcImpl implements BandDao {
             logger.warn("Band {} already exists in DB!", band.getBandName().toUpperCase());
             throw new NotUniqueException("Band '" + band.getBandName().toUpperCase() +"' already exists in Data Base!");
         }
-
+        if (band.getBandId() != null){
+            SqlParameterSource sqlParameterSource =
+                    new MapSqlParameterSource("bandId", band.getBandId())
+                            .addValue( "bandName", band.getBandName().toUpperCase())
+                            .addValue("bandDetails", band.getBandDetails());
+            namedParameterJdbcTemplate.update(sqlCreateBandWithId, sqlParameterSource);
+            return band.getBandId();
+        }
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandDetails", band.getBandDetails());

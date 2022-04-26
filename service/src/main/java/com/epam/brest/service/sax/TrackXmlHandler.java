@@ -6,8 +6,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.commons.lang3.math.NumberUtils.isParsable;
 
 public class TrackXmlHandler extends DefaultHandler {
 
@@ -56,13 +59,16 @@ public class TrackXmlHandler extends DefaultHandler {
                 trackList.get(trackList.size() - 1).setTrackName(elementValue.toString());
                 break;
             case TRACK_BAND_ID:
-                trackList.get(trackList.size() - 1).setTrackBandId(Integer.parseInt(elementValue.toString()));
+                trackList.get(trackList.size() - 1)
+                        .setTrackBandId(isParsable(elementValue.toString()) ? Integer.parseInt(elementValue.toString()) : 0);
                 break;
             case TRACK_TEMPO:
-                trackList.get(trackList.size() - 1).setTrackTempo(Integer.parseInt(elementValue.toString()));
+                trackList.get(trackList.size() - 1)
+                        .setTrackTempo(isParsable(elementValue.toString()) ? Integer.parseInt(elementValue.toString()) : 0);
                 break;
             case TRACK_DURATION:
-                trackList.get(trackList.size() - 1).setTrackDuration(Integer.parseInt(elementValue.toString()));
+                trackList.get(trackList.size() - 1)
+                        .setTrackDuration(isParsable(elementValue.toString()) ? Integer.parseInt(elementValue.toString()) : 0);
                 break;
             case TRACK_DETAILS:
                 trackList.get(trackList.size() - 1).setTrackDetails(elementValue.toString());
@@ -71,8 +77,13 @@ public class TrackXmlHandler extends DefaultHandler {
                 trackList.get(trackList.size() - 1).setTrackLink(elementValue.toString());
                 break;
             case TRACK_RELEASE_DATE:
-                trackList.get(trackList.size() - 1).setTrackReleaseDate(LocalDate.parse(elementValue.toString()));
-                elementValue = new StringBuilder();
+                try {
+                    trackList.get(trackList.size() - 1).setTrackReleaseDate(LocalDate.parse(elementValue.toString()));
+                }
+                    catch(DateTimeParseException x){
+                        trackList.get(trackList.size() - 1).setTrackReleaseDate(null);
+                    }
+             //   elementValue = new StringBuilder();
                 break;
         }
     }

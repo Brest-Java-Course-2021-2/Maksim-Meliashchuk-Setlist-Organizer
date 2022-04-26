@@ -23,8 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
@@ -73,14 +74,6 @@ public class BandControllerIT {
     public void shouldFindAllBands() throws Exception {
         logger.debug("shouldFindAllBands()");
 
-        // given
-        Band band = Band.builder()
-                .bandId(1)
-                .bandName("Test band")
-                .build();
-
-        Integer id = bandService.create(band);
-
         // when
         List<Band> bands = bandService.findAll();
 
@@ -102,11 +95,11 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void shouldCreateBand() throws Exception {
         logger.debug("shouldCreateBand()");
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(4)
                 .bandName("Test band")
                 .build();
         Integer id = bandService.create(band);
@@ -165,14 +158,7 @@ public class BandControllerIT {
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
-        Band band = Band.builder()
-                .bandId(1)
-                .bandName("Test band")
-                .build();
-
-        Integer id = bandService.create(band);
-
-        assertNotNull(id);
+        int id = 1;
 
         // when
         Optional<Band> optionalBand = bandService.findById(id);
@@ -180,7 +166,6 @@ public class BandControllerIT {
         // then
         assertTrue(optionalBand.isPresent());
         assertEquals(optionalBand.get().getBandId(), id);
-        assertEquals(band.getBandName().toUpperCase(), optionalBand.get().getBandName().toUpperCase());
     }
 
     @Test
@@ -188,14 +173,9 @@ public class BandControllerIT {
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
-        Band band = Band.builder()
-                .bandId(1)
-                .bandName("Test band")
-                .build();
-        Integer id = bandService.create(band);
-        assertNotNull(id);
+        int id = 1;
 
-        Optional<Band> bandOptional = bandService.findById(id);
+        Optional<Band> bandOptional = bandService.findById(1);
         assertTrue(bandOptional.isPresent());
 
         bandOptional.get().
@@ -296,7 +276,7 @@ public class BandControllerIT {
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xml");
     }
 
-
+    @Transactional
     class MockMvcBandService {
 
         public List<Band> findAll() throws Exception {
