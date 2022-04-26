@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class TrackControllerIT {
 
     private final Logger logger = LogManager.getLogger(TrackControllerIT.class);
@@ -317,7 +319,7 @@ public class TrackControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 
@@ -329,7 +331,7 @@ public class TrackControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 

@@ -18,12 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class BandControllerIT {
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
@@ -74,6 +75,14 @@ public class BandControllerIT {
     public void shouldFindAllBands() throws Exception {
         logger.debug("shouldFindAllBands()");
 
+        // given
+        Band band = Band.builder()
+                .bandId(4)
+                .bandName("Test band")
+                .build();
+
+        Integer id = bandService.create(band);
+
         // when
         List<Band> bands = bandService.findAll();
 
@@ -95,7 +104,7 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void shouldCreateBand() throws Exception {
         logger.debug("shouldCreateBand()");
         Band band = Band.builder()
@@ -137,7 +146,7 @@ public class BandControllerIT {
     public void shouldCreateNotValidEmptyNameBand() throws Exception {
         logger.debug("shouldCreateNotValidEmptyNameBand()");
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(4)
                 .bandName("")
                 .build();
 
@@ -158,7 +167,14 @@ public class BandControllerIT {
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
-        int id = 1;
+        Band band = Band.builder()
+                .bandId(4)
+                .bandName("Test band")
+                .build();
+
+        Integer id = bandService.create(band);
+
+        assertNotNull(id);
 
         // when
         Optional<Band> optionalBand = bandService.findById(id);
@@ -166,6 +182,7 @@ public class BandControllerIT {
         // then
         assertTrue(optionalBand.isPresent());
         assertEquals(optionalBand.get().getBandId(), id);
+        assertEquals(band.getBandName().toUpperCase(), optionalBand.get().getBandName().toUpperCase());
     }
 
     @Test
@@ -173,9 +190,14 @@ public class BandControllerIT {
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
-        int id = 1;
+        Band band = Band.builder()
+                .bandId(4)
+                .bandName("Test band")
+                .build();
+        Integer id = bandService.create(band);
+        assertNotNull(id);
 
-        Optional<Band> bandOptional = bandService.findById(1);
+        Optional<Band> bandOptional = bandService.findById(id);
         assertTrue(bandOptional.isPresent());
 
         bandOptional.get().
@@ -262,21 +284,6 @@ public class BandControllerIT {
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
-    @Test
-    public void shouldBandsExportXml() throws Exception {
-        logger.debug("shouldBandsExportXml()");
-
-        MockHttpServletResponse response =
-                mockMvc.perform(MockMvcRequestBuilders.get(BANDS_ENDPOINT + "/export/xml")
-                                .accept(MediaType.APPLICATION_XML))
-                        .andExpect(status().isOk())
-                        .andReturn().getResponse();
-        assertNotNull(response);
-        assertEquals(response.getContentType(), "application/xml");
-        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Bands.xml");
-    }
-
-    @Transactional
     class MockMvcBandService {
 
         public List<Band> findAll() throws Exception {
