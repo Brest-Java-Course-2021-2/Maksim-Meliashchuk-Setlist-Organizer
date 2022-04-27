@@ -37,6 +37,7 @@
 - [Swagger generated client](#swagger-generated-client)
 - [Excel Import and Export](#excel-import-and-export)
 - [Generate test data](#generate-test-data)
+- [Create and restore database archive](#create-and-restore-database-archive)
 
 ## Project Information
 
@@ -351,9 +352,19 @@ Following are samples of Excel files that can be imported:
 
 ## Generate test data
 
-These REST applications have several endpoints (`/fill`) to generate fake data for showcase with uses [Java Faker](https://github.com/DiUS/java-faker).
+These REST applications have several endpoints `/fill` to generate fake data for showcase with uses [Java Faker](https://github.com/DiUS/java-faker).
 It is possible specify language for generated data (EN, DE, FR), default EN.
 It is possible specify count fakes data, use parameter to multiply default size (default value 1).
 
 *Please, after running the REST application, refer to the API documentation with [Swagger UI](http://localhost:8088/swagger-ui/index.html) for more information.*
 
+## Create and restore database archive
+
+The database archive can be created and exported in XML format and saved as a ZIP archive.
+These REST applications have a `/downloadZipFile` endpoint with the ability to create a database archive and a `/uploadZipFile` endpoint
+with the ability to restore the database from the archive.
+The Simple API for XML (SAX) is used to parse XML documents.
+
+The following is an example of a ZIP file that is the result of an export that can be imported:
+
+[database.zip](./documentation/database.zip)
