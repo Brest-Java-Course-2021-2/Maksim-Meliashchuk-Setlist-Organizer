@@ -160,6 +160,6 @@ class BandServiceJpaImplTest {
         assertEquals(Integer.valueOf(count), quantity);
 
         verify(bandRepository).count();
-
     }
+
 }

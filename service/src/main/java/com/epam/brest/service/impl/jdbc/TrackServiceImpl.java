@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @Profile({"jdbc"})
 public class TrackServiceImpl implements TrackService {
 
@@ -84,6 +83,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public void deleteAllTracks() {
         logger.debug("deleteAllTracks()");
         trackDao.deleteAllTracks();

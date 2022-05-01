@@ -253,6 +253,11 @@ public class TrackControllerIT {
         // given
         Integer id = 1;
 
+        trackService.create(Track.builder()
+                        .trackName("test")
+                        .trackId(5)
+                        .trackBandId(1)
+                .build());
         List<Track> tracks = trackService.findAll();
         assertTrue(tracks.size() > 0);
 

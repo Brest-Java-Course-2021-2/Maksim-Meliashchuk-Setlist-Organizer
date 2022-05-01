@@ -17,7 +17,7 @@ import java.util.Objects;
 @Table(name = "band")
 public class BandEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "band_id", nullable = false)
     private Integer bandId;
 

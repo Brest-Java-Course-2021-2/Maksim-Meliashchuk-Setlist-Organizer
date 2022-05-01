@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 @Profile("jpa")
 @Slf4j
+@Transactional(readOnly = true)
 public class BandServiceJpaImpl implements BandService {
     private final BandRepository bandRepository;
     private final BandToEntityMapper mapper;
@@ -43,6 +45,7 @@ public class BandServiceJpaImpl implements BandService {
     }
 
     @Override
+    @Transactional
     public Integer create(Band band) {
         log.info("create()");
         if (band.getBandId() != null) {
@@ -51,10 +54,10 @@ public class BandServiceJpaImpl implements BandService {
         }
         BandEntity bandEntity = mapper.bandToBandEntity(band);
         return bandRepository.save(bandEntity).getBandId();
-
     }
 
     @Override
+    @Transactional
     public Integer update(Band band) {
         log.info("update()");
         if (!bandRepository.existsById(band.getBandId()))
@@ -64,6 +67,7 @@ public class BandServiceJpaImpl implements BandService {
     }
 
     @Override
+    @Transactional
     public Integer delete(Integer bandId) {
         log.info("delete({})", bandId);
         BandEntity bandEntity = bandRepository

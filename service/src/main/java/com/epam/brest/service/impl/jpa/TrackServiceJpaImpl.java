@@ -21,6 +21,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 @Profile("jpa")
 @Slf4j
+@Transactional(readOnly = true)
 public class TrackServiceJpaImpl implements TrackService {
     private final TrackRepository trackRepository;
     private final TrackToEntityMapper mapper;
@@ -35,6 +36,7 @@ public class TrackServiceJpaImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public Integer create(Track track) {
         log.info("create()");
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
@@ -42,6 +44,7 @@ public class TrackServiceJpaImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public Integer update(Track track) {
         log.info("update()");
         if (!trackRepository.existsById(track.getTrackId()))
@@ -51,6 +54,7 @@ public class TrackServiceJpaImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public Integer delete(Integer trackId) {
         log.info("getTrackById({})", trackId);
         TrackEntity trackEntity = trackRepository

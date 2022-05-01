@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -41,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@AutoConfigureMockMvc
+@Transactional
 public class BandControllerIT {
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
@@ -71,13 +74,12 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldFindAllBands() throws Exception {
         logger.debug("shouldFindAllBands()");
 
         // given
         Band band = Band.builder()
-                .bandId(4)
+        //        .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -85,6 +87,7 @@ public class BandControllerIT {
 
         // when
         List<Band> bands = bandService.findAll();
+        System.out.println(bands);
 
         // then
         assertNotNull(bands);
@@ -104,7 +107,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateBand() throws Exception {
         logger.debug("shouldCreateBand()");
         Band band = Band.builder()
@@ -116,7 +118,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateNotValidBand() throws Exception {
         logger.debug("shouldCreateNotValidBand()");
         Band band = Band.builder()
@@ -142,7 +143,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateNotValidEmptyNameBand() throws Exception {
         logger.debug("shouldCreateNotValidEmptyNameBand()");
         Band band = Band.builder()
@@ -163,12 +163,11 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
         Band band = Band.builder()
-                .bandId(4)
+        //        .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -186,7 +185,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
@@ -219,7 +217,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldDeleteBand() throws Exception {
         logger.debug("shouldDeleteBand()");
         // given
@@ -240,7 +237,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldReturnBandNotFoundError() throws Exception {
         logger.debug("shouldReturnBandNotFoundError()");
         MockHttpServletResponse response =
@@ -268,7 +264,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldImportBandExcel() throws Exception {
         logger.debug("shouldImportBandExcel()");
 

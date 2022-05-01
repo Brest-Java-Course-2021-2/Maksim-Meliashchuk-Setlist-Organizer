@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @Profile({"jdbc"})
 public class BandServiceImpl implements BandService {
 
@@ -83,6 +82,7 @@ public class BandServiceImpl implements BandService {
     }
 
     @Override
+    @Transactional
     public void deleteAllBands() {
         logger.debug("deleteAllBands()");
         bandDao.deleteAllBands();
