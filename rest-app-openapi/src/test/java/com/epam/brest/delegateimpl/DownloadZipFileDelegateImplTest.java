@@ -19,11 +19,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
@@ -55,11 +57,11 @@ class DownloadZipFileDelegateImplTest {
     void downloadZipFileTest() {
         log.debug("downloadZipFileTest()");
 
-        Mockito.when(bandXmlService.exportBandsXmlAsString())
+        when(bandXmlService.exportBandsXmlAsString())
                 .thenReturn("Bands.xml");
-        Mockito.when(trackXmlService.exportTracksXmlAsString())
+        when(trackXmlService.exportTracksXmlAsString())
                 .thenReturn("Tracks.xml");
-        Mockito.when(downloadZipService.downloadZipFile(any(HttpServletResponse.class), any(HashMap.class)))
+        when(downloadZipService.downloadZipFile(any(HttpServletResponse.class), anyMap()))
                 .thenReturn(2);
 
         MockHttpServletResponse response =
@@ -70,8 +72,8 @@ class DownloadZipFileDelegateImplTest {
         assertEquals(response.getContentType(), "application/zip");
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=download.zip");
 
-        Mockito.verify(bandXmlService).exportBandsXmlAsString();
-        Mockito.verify(trackXmlService).exportTracksXmlAsString();
-        Mockito.verify(downloadZipService).downloadZipFile(any(HttpServletResponse.class), any(HashMap.class));
+        verify(bandXmlService).exportBandsXmlAsString();
+        verify(trackXmlService).exportTracksXmlAsString();
+        verify(downloadZipService).downloadZipFile(any(HttpServletResponse.class), anyMap());
     }
 }

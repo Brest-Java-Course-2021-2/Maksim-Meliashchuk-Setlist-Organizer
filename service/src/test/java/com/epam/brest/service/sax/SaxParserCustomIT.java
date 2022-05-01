@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
-class SaxParserCustomTest {
+class SaxParserCustomIT {
 
     @Test
     void parseBandXmlTest() throws ParserConfigurationException, SAXException, IOException {

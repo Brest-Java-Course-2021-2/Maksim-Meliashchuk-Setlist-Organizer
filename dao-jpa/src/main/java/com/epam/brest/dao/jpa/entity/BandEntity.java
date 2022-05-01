@@ -2,6 +2,7 @@ package com.epam.brest.dao.jpa.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.Objects;
 @Table(name = "band")
 public class BandEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "custom_gen",
+            strategy = "com.epam.brest.dao.jpa.generator.id.CustomIdentityGenerator")
+    @GeneratedValue(generator = "custom_gen")
     @Column(name = "band_id", nullable = false)
     private Integer bandId;
 
@@ -43,4 +47,5 @@ public class BandEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

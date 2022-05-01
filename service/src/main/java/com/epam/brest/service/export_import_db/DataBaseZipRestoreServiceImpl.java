@@ -25,7 +25,6 @@ public class DataBaseZipRestoreServiceImpl implements DataBaseZipRestoreService{
     private final BandXmlService bandXmlService;
     private final TrackXmlService trackXmlService;
     private final DownloadZipService downloadZipService;
-
     private final UploadZipService uploadZipService;
     private final BandService bandService;
     private final TrackService trackService;

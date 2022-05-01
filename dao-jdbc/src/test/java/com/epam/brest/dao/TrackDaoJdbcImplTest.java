@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -33,6 +34,9 @@ public class TrackDaoJdbcImplTest {
 
     @Mock
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Mock
+    private JdbcTemplate jdbcTemplate;
 
     @Captor
     private ArgumentCaptor<RowMapper<Track>> captorMapper;
@@ -177,6 +181,27 @@ public class TrackDaoJdbcImplTest {
         Assertions.assertNotNull(source);
         Assertions.assertNotNull(result);
         Assertions.assertSame(result, id);
+    }
+
+    @Test
+    public void testDeleteAllTracks() {
+        String sql = "deleteAllBands";
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlDeleteAllTracks", sql);
+        ReflectionTestUtils.setField(trackDaoJdbc, "sqlResetStartTrackId", sql);
+        int count = 3;
+
+        Mockito.when(namedParameterJdbcTemplate.getJdbcTemplate())
+                .thenReturn(jdbcTemplate);
+
+        Mockito.when(jdbcTemplate.update(eq(sql))).thenReturn(count);
+
+        Integer result = trackDaoJdbc.deleteAllTracks();
+
+        Mockito.verify(jdbcTemplate).update(eq(sql));
+        Mockito.verify(jdbcTemplate).execute(eq(sql));
+
+        Assertions.assertNotNull(result);
+        Assertions.assertSame(result, count);
     }
 
     @Test

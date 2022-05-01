@@ -60,4 +60,7 @@ public class DownloadZipFileDelegateImpl implements DownloadZipFileApiDelegate {
         downloadZipService.downloadZipFile(response ,listOfFiles);
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
+
+
+
 }

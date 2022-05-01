@@ -79,7 +79,7 @@ public class BandControllerIT {
 
         // given
         Band band = Band.builder()
-        //        .bandId(5)
+                .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -167,7 +167,7 @@ public class BandControllerIT {
         logger.debug("shouldFindBandById()");
         // given
         Band band = Band.builder()
-        //        .bandId(5)
+                .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -188,13 +188,7 @@ public class BandControllerIT {
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
-        Band band = Band.builder()
-                .bandId(4)
-                .bandName("Test band")
-                .build();
-        Integer id = bandService.create(band);
-        assertNotNull(id);
-
+        int id = 3;
         Optional<Band> bandOptional = bandService.findById(id);
         assertTrue(bandOptional.isPresent());
 
@@ -204,11 +198,11 @@ public class BandControllerIT {
 
         // when
         int result = bandService.update(bandOptional.get());
+        Optional<Band> updatedBandOptional = bandService.findById(id);
 
         // then
-        assertEquals(1, result);
 
-        Optional<Band> updatedBandOptional = bandService.findById(id);
+
         assertTrue(updatedBandOptional.isPresent());
         assertEquals(updatedBandOptional.get().getBandId(), id);
         assertEquals(updatedBandOptional.get().getBandName().toUpperCase(), bandOptional.get().getBandName().toUpperCase());
