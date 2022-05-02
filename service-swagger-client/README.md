@@ -2,7 +2,7 @@
 
 Setlist Organizer API
 - API version: 1.0.0
-  - Build date: 2022-03-25T23:36:05.819161+03:00[Europe/Minsk]
+  - Build date: 2022-05-02T21:56:13.532626+03:00[Europe/Minsk]
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
@@ -198,6 +198,28 @@ public class BandApiExample {
     public static void main(String[] args) {
         
         BandApi apiInstance = new BandApi();
+        try {
+            File result = apiInstance.exportToXmlAllBands();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BandApi#exportToXmlAllBands");
+            e.printStackTrace();
+        }
+    }
+}
+import com.epam.brest.*;
+import com.epam.brest.auth.*;
+
+import io.swagger.client.api.BandApi;
+
+import java.io.File;
+import java.util.*;
+
+public class BandApiExample {
+
+    public static void main(String[] args) {
+        
+        BandApi apiInstance = new BandApi();
         Integer id = 56; // Integer | 
         try {
             Band result = apiInstance.getBandById(id);
@@ -267,15 +289,19 @@ Class | Method | HTTP request | Description
 *BandApi* | [**createBand**](docs/BandApi.md#createBand) | **POST** /bands | Create a new band
 *BandApi* | [**deleteBand**](docs/BandApi.md#deleteBand) | **DELETE** /bands/{id} | Delete a band
 *BandApi* | [**exportToExcelAllBands**](docs/BandApi.md#exportToExcelAllBands) | **GET** /bands/export/excel | Export information for all bands based on their IDs to Excel
+*BandApi* | [**exportToXmlAllBands**](docs/BandApi.md#exportToXmlAllBands) | **GET** /bands/export/xml | Export information for all bands based on their IDs to XML
 *BandApi* | [**getBandById**](docs/BandApi.md#getBandById) | **GET** /bands/{id} | Get information for a single band identified by its unique ID
 *BandApi* | [**importBandFromExcel**](docs/BandApi.md#importBandFromExcel) | **POST** /bands/import/excel | Import information in the table &#x27;Band&#x27; from Excel
 *BandApi* | [**updateBand**](docs/BandApi.md#updateBand) | **PUT** /bands | Update a band
 *BandsApi* | [**bandsDto**](docs/BandsApi.md#bandsDto) | **GET** /bands_dto | Get information for all bands with their repertoire duration and track count
 *BandsApi* | [**exportToExcelAllBandsDto**](docs/BandsApi.md#exportToExcelAllBandsDto) | **GET** /bands_dto/export/excel | Export information for all bands with their repertoire duration and track count to Excel
 *BandsApi* | [**fillBandsDtoFake**](docs/BandsApi.md#fillBandsDtoFake) | **GET** /bands_dto/fill | Filled fake bands with their repertoire duration and number of tracks
+*ImportExportDatabaseApi* | [**downloadZipFile**](docs/ImportExportDatabaseApi.md#downloadZipFile) | **GET** /downloadZipFile | Exporting the database as XML and stored as ZIP archive
+*ImportExportDatabaseApi* | [**uploadingZipFile**](docs/ImportExportDatabaseApi.md#uploadingZipFile) | **POST** /uploadZipFile | Restore database from ZIP archive
 *TrackApi* | [**createTrack**](docs/TrackApi.md#createTrack) | **POST** /repertoire | Create a new track
 *TrackApi* | [**deleteTrack**](docs/TrackApi.md#deleteTrack) | **DELETE** /repertoire/{id} | Delete a track
 *TrackApi* | [**exportToExcelAllTracks**](docs/TrackApi.md#exportToExcelAllTracks) | **GET** /repertoire/export/excel | Export information for all tracks based on their IDs to Excel
+*TrackApi* | [**exportToXmlAlTracks**](docs/TrackApi.md#exportToXmlAlTracks) | **GET** /repertoire/export/xml | Export information for all tracks based on their IDs to XML
 *TrackApi* | [**getTrackById**](docs/TrackApi.md#getTrackById) | **GET** /repertoire/{id} | Get information for a single track identified by its unique ID
 *TrackApi* | [**importTrackFromExcel**](docs/TrackApi.md#importTrackFromExcel) | **POST** /repertoire/import/excel | Import information in the table &#x27;Track&#x27; from Excel
 *TrackApi* | [**tracks**](docs/TrackApi.md#tracks) | **GET** /repertoire | Get information for all tracks based on their IDs

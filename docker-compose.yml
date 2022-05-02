@@ -25,6 +25,7 @@ services:
       POSTGRES_HOST: postgres
     depends_on:
       - postgres
+    command: [ "java", "-jar", "-Dspring.profiles.active=postgres, jpa", "rest-app.jar" ]
 
   web-app:
     build: ./web-app
