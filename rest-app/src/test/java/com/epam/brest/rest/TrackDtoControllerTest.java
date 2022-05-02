@@ -23,8 +23,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TrackDtoControllerTest {
@@ -65,7 +68,7 @@ public class TrackDtoControllerTest {
     public void shouldFindAllTracksWithBandName() throws Exception {
         logger.debug("findAllTracksWithBandName()");
 
-        Mockito.when(trackDtoService.findAllTracksWithBandName())
+        when(trackDtoService.findAllTracksWithBandName())
                 .thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
@@ -100,14 +103,14 @@ public class TrackDtoControllerTest {
                         Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
-        Mockito.verify(trackDtoService).findAllTracksWithBandName();
+        verify(trackDtoService).findAllTracksWithBandName();
     }
 
     @Test
     public void shouldFillFakeTracksWithBandName() throws Exception {
         logger.debug("shouldFillFakeTracksWithBandName()");
 
-        Mockito.when(trackDtoFakerService.fillFakeTracksDto(FAKE_DATA_SIZE, "EN"))
+        when(trackDtoFakerService.fillFakeTracksDto(FAKE_DATA_SIZE, "EN"))
                 .thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
@@ -142,15 +145,15 @@ public class TrackDtoControllerTest {
                         Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
-        Mockito.verify(trackDtoFakerService).fillFakeTracksDto(FAKE_DATA_SIZE, "EN");
+        verify(trackDtoFakerService).fillFakeTracksDto(FAKE_DATA_SIZE, "EN");
     }
 
     @Test
     public void shouldFindAllTracksWithBandNameByBandId() throws Exception {
         logger.debug("shouldFindAllTracksWithBandNameByBandId()");
         int id = 1;
-        Mockito.when(trackDtoService.findAllTracksWithBandNameByBandId(id))
-                .thenReturn(Arrays.asList(create(id)));
+        when(trackDtoService.findAllTracksWithBandNameByBandId(id))
+                .thenReturn(List.of(create(id)));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get(String.format("/repertoire/filter/band/%d", id))
@@ -172,14 +175,14 @@ public class TrackDtoControllerTest {
                         Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
-        Mockito.verify(trackDtoService).findAllTracksWithBandNameByBandId(id);
+        verify(trackDtoService).findAllTracksWithBandNameByBandId(id);
     }
 
     @Test
     void shouldFindAllTracksWithReleaseDateFilter() {
         logger.debug("shouldFindAllTracksWithReleaseDateFilter()");
 
-        Mockito.when(trackDtoService.findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture()))
+        when(trackDtoService.findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture()))
                 .thenReturn(Arrays.asList(create(0), create(1)));
 
         try {
@@ -218,14 +221,14 @@ public class TrackDtoControllerTest {
         }
 
 
-        Mockito.verify(trackDtoService).findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture());
+        verify(trackDtoService).findAllTracksWithReleaseDateFilter(captorDate.capture(), captorDate.capture());
 
     }
 
     @Test
     public void shouldExportTracksDtoToExcel() throws Exception {
         logger.debug("shouldExportTracksDtoToExcel()");
-        Mockito.when(trackDtoExportExcelService.exportTracksDtoExcel(any(HttpServletResponse.class)))
+        when(trackDtoExportExcelService.exportTracksDtoExcel(any(HttpServletResponse.class)))
                 .thenReturn(Arrays.asList(create(0), create(1)));
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/tracks_dto/export/excel")
@@ -235,7 +238,7 @@ public class TrackDtoControllerTest {
                 .andExpect(MockMvcResultMatchers.header()
                         .string("Content-disposition", "attachment; filename=TracksDto.xlsx"));
 
-        Mockito.verify(trackDtoExportExcelService).exportTracksDtoExcel(any(HttpServletResponse.class));
+        verify(trackDtoExportExcelService).exportTracksDtoExcel(any(HttpServletResponse.class));
     }
 
     private TrackDto create(int index) {

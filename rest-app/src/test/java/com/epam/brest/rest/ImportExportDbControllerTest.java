@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -23,6 +22,7 @@ import java.io.FileInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,7 +34,7 @@ class ImportExportDbControllerTest {
     private ImportExportDbController downloadZipController;
 
     @Mock
-    DataBaseZipRestoreService dataBaseZipRestoreService;
+    private DataBaseZipRestoreService dataBaseZipRestoreService;
 
     private MockMvc mockMvc;
 
@@ -56,7 +56,7 @@ class ImportExportDbControllerTest {
         assertEquals(response.getContentType(), "application/zip");
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=download.zip");
 
-        Mockito.verify(dataBaseZipRestoreService).exportData(any(HttpServletResponse.class));
+        verify(dataBaseZipRestoreService).exportData(any(HttpServletResponse.class));
     }
 
     @Test
@@ -76,6 +76,6 @@ class ImportExportDbControllerTest {
 
         assertNotNull(response);
 
-        Mockito.verify(dataBaseZipRestoreService).importData(any(MockMultipartFile.class));
+       verify(dataBaseZipRestoreService).importData(any(MockMultipartFile.class));
     }
 }

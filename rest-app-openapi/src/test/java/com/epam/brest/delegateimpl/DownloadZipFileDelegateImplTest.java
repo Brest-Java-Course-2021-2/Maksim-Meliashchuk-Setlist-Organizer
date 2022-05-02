@@ -1,9 +1,7 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.DownloadZipFileApiController;
-import com.epam.brest.service.xml.BandXmlService;
-import com.epam.brest.service.xml.TrackXmlService;
-import com.epam.brest.service.zip.DownloadZipService;
+import com.epam.brest.service.export_import_db.DataBaseZipRestoreService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
@@ -34,16 +29,8 @@ class DownloadZipFileDelegateImplTest {
 
     @InjectMocks
     private DownloadZipFileDelegateImpl downloadZipFileDelegate;
-
     @Mock
-    private BandXmlService bandXmlService;
-
-    @Mock
-    private TrackXmlService trackXmlService;
-
-    @Mock
-    private DownloadZipService downloadZipService;
-
+    private DataBaseZipRestoreService dataBaseZipRestoreService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -57,23 +44,15 @@ class DownloadZipFileDelegateImplTest {
     void downloadZipFileTest() {
         log.debug("downloadZipFileTest()");
 
-        when(bandXmlService.exportBandsXmlAsString())
-                .thenReturn("Bands.xml");
-        when(trackXmlService.exportTracksXmlAsString())
-                .thenReturn("Tracks.xml");
-        when(downloadZipService.downloadZipFile(any(HttpServletResponse.class), anyMap()))
-                .thenReturn(2);
-
         MockHttpServletResponse response =
                 mockMvc.perform(MockMvcRequestBuilders.get("/downloadZipFile"))
                         .andExpect(status().isOk())
                         .andReturn().getResponse();
+
         assertNotNull(response);
         assertEquals(response.getContentType(), "application/zip");
         assertEquals(response.getHeader("Content-disposition"), "attachment; filename=download.zip");
 
-        verify(bandXmlService).exportBandsXmlAsString();
-        verify(trackXmlService).exportTracksXmlAsString();
-        verify(downloadZipService).downloadZipFile(any(HttpServletResponse.class), anyMap());
+        verify(dataBaseZipRestoreService).exportData(any(HttpServletResponse.class));
     }
 }

@@ -1,16 +1,14 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.UploadZipFileApiDelegate;
-import com.epam.brest.service.xml.BandXmlService;
-import com.epam.brest.service.xml.TrackXmlService;
-import com.epam.brest.service.zip.DownloadZipService;
-import com.epam.brest.service.zip.UploadZipService;
+import com.epam.brest.service.export_import_db.DataBaseZipRestoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
@@ -19,21 +17,20 @@ public class UploadZipFileDelegateImpl implements UploadZipFileApiDelegate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DownloadZipFileDelegateImpl.class);
 
-    private final UploadZipService uploadZipService;
+    private final DataBaseZipRestoreService dataBaseZipRestoreService;
 
-    public UploadZipFileDelegateImpl(UploadZipService uploadZipService) {
-        this.uploadZipService = uploadZipService;
+    public UploadZipFileDelegateImpl(DataBaseZipRestoreService dataBaseZipRestoreService) {
+        this.dataBaseZipRestoreService = dataBaseZipRestoreService;
     }
 
     @Override
     public ResponseEntity<Void> uploadingZipFile(MultipartFile file) {
         LOGGER.debug("uploadingZipFile({})", file.getName());
         try {
-            uploadZipService.uploadZipFile(file);
-        } catch (IOException e) {
+            dataBaseZipRestoreService.importData(file);
+        } catch (IOException | SAXException e) {
             throw new RuntimeException(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 }

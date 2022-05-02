@@ -24,6 +24,7 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 public class TrackDaoJdbcImplTest {
@@ -49,7 +50,7 @@ public class TrackDaoJdbcImplTest {
 
     @AfterEach
     public void check() {
-        Mockito.verifyNoMoreInteractions(namedParameterJdbcTemplate);
+        verifyNoMoreInteractions(namedParameterJdbcTemplate);
     }
 
     @Test

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 public class BandDtoControllerTest {
@@ -56,7 +57,7 @@ public class BandDtoControllerTest {
 
     @AfterEach
     public void end() {
-        Mockito.verifyNoMoreInteractions(bandDtoService);
+        verifyNoMoreInteractions(bandDtoService);
     }
 
     @Test

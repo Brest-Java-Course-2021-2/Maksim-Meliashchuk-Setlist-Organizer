@@ -1,8 +1,7 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.UploadZipFileApiController;
-import com.epam.brest.model.Band;
-import com.epam.brest.service.zip.UploadZipService;
+import com.epam.brest.service.export_import_db.DataBaseZipRestoreService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -13,23 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,10 +31,8 @@ class UploadZipFileDelegateImplTest {
 
     @InjectMocks
     private UploadZipFileDelegateImpl uploadZipFileDelegate;
-
     @Mock
-    private UploadZipService uploadZipService;
-
+    private DataBaseZipRestoreService dataBaseZipRestoreService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -67,7 +57,7 @@ class UploadZipFileDelegateImplTest {
 
         assertNotNull(response);
 
-        verify(uploadZipService).uploadZipFile(any(MockMultipartFile.class));
+        Mockito.verify(dataBaseZipRestoreService).importData(any(MockMultipartFile.class));
 
     }
 }

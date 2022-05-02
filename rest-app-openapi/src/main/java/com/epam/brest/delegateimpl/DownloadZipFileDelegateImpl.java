@@ -1,9 +1,7 @@
 package com.epam.brest.delegateimpl;
 
 import com.epam.brest.api.DownloadZipFileApiDelegate;
-import com.epam.brest.service.xml.BandXmlService;
-import com.epam.brest.service.xml.TrackXmlService;
-import com.epam.brest.service.zip.DownloadZipService;
+import com.epam.brest.service.export_import_db.DataBaseZipRestoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -17,8 +15,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -26,16 +22,10 @@ public class DownloadZipFileDelegateImpl implements DownloadZipFileApiDelegate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DownloadZipFileDelegateImpl.class);
 
-    private final DownloadZipService downloadZipService;
-    private final BandXmlService bandXmlService;
-    private final TrackXmlService trackXmlService;
+    private final DataBaseZipRestoreService dataBaseZipRestoreService;
 
-
-    public DownloadZipFileDelegateImpl(DownloadZipService downloadZipService, BandXmlService bandXmlService,
-                                       TrackXmlService trackXmlService) {
-        this.downloadZipService = downloadZipService;
-        this.bandXmlService = bandXmlService;
-        this.trackXmlService = trackXmlService;
+    public DownloadZipFileDelegateImpl(DataBaseZipRestoreService dataBaseZipRestoreService) {
+        this.dataBaseZipRestoreService = dataBaseZipRestoreService;
     }
 
     @Override
@@ -46,18 +36,11 @@ public class DownloadZipFileDelegateImpl implements DownloadZipFileApiDelegate {
         HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(requestAttributes)).getResponse();
         Objects.requireNonNull(response).setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=download.zip");
-        Map<String, String> listOfFiles = new HashMap<>();
         try {
-            listOfFiles.put("Bands.xml", bandXmlService.exportBandsXmlAsString());
+            dataBaseZipRestoreService.exportData(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try {
-            listOfFiles.put("Tracks.xml", trackXmlService.exportTracksXmlAsString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        downloadZipService.downloadZipFile(response ,listOfFiles);
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 

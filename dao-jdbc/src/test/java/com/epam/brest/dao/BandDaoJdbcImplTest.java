@@ -21,6 +21,7 @@ import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BandDaoJdbcImplTest {
@@ -46,7 +47,7 @@ public class BandDaoJdbcImplTest {
 
     @AfterEach
     public void check() {
-        Mockito.verifyNoMoreInteractions(namedParameterJdbcTemplate);
+        verifyNoMoreInteractions(namedParameterJdbcTemplate);
     }
 
     @Test
@@ -57,12 +58,12 @@ public class BandDaoJdbcImplTest {
         Band band = new Band();
         List<Band> list = Collections.singletonList(band);
 
-        Mockito.when(namedParameterJdbcTemplate.query(any(),
+       when(namedParameterJdbcTemplate.query(any(),
                 ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(list);
 
         List<Band> result = bandDaoJdbc.findAll();
 
-        Mockito.verify(namedParameterJdbcTemplate).query(eq(sql), captorMapper.capture());
+        verify(namedParameterJdbcTemplate).query(eq(sql), captorMapper.capture());
 
         RowMapper<Band> mapper = captorMapper.getValue();
         Assertions.assertNotNull(mapper);
@@ -80,12 +81,12 @@ public class BandDaoJdbcImplTest {
         int id = 0;
         Band band = new Band();
 
-        Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
+        when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(band);
 
         Band result = bandDaoJdbc.getBandById(id);
 
-        Mockito.verify(namedParameterJdbcTemplate)
+        verify(namedParameterJdbcTemplate)
                 .queryForObject(eq(sql), captorSource.capture(), captorMapper.capture());
 
         SqlParameterSource source = captorSource.getValue();
@@ -111,12 +112,12 @@ public class BandDaoJdbcImplTest {
                 .build();
         List<Band> bandList = new ArrayList<>();
 
-        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
+        when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
 
         Integer resultId = bandDaoJdbc.update(band);
 
-        Mockito.verify(namedParameterJdbcTemplate)
+        verify(namedParameterJdbcTemplate)
                 .update(eq(sql), captorSource.capture());
 
        SqlParameterSource source = captorSource.getValue();
@@ -142,10 +143,10 @@ public class BandDaoJdbcImplTest {
                 .build();
         List<Band> bandList = new ArrayList<>();
 
-        Mockito.when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
+        when(namedParameterJdbcTemplate.query(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 ArgumentMatchers.<RowMapper<Band>>any())).thenReturn(bandList);
 
-        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.any(),
+        when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.any(),
                 ArgumentMatchers.any(), any())).thenAnswer(invocation ->  {
             Object[] args = invocation.getArguments();
             Map<String, Object> keyMap = new HashMap<>();
@@ -157,9 +158,9 @@ public class BandDaoJdbcImplTest {
 
         Integer result = bandDaoJdbc.create(band);
 
-        Mockito.verify(namedParameterJdbcTemplate).query(eq(sqlCheck), captorSource.capture(), captorMapper.capture());
+        verify(namedParameterJdbcTemplate).query(eq(sqlCheck), captorSource.capture(), captorMapper.capture());
 
-        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture(), any());
+        verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture(), captorKeyHolder.capture(), any());
 
         SqlParameterSource source = captorSource.getValue();
         KeyHolder keyHolder = captorKeyHolder.getValue();
@@ -177,12 +178,12 @@ public class BandDaoJdbcImplTest {
         String sql = "delete";
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlDeleteBandById", sql);
         int id = 0;
-        Mockito.when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
+        when(namedParameterJdbcTemplate.update(any(), ArgumentMatchers.<SqlParameterSource>any()))
                 .thenReturn(id);
 
         Integer result = bandDaoJdbc.delete(id);
 
-        Mockito.verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture());
+        verify(namedParameterJdbcTemplate).update(eq(sql), captorSource.capture());
 
         SqlParameterSource source = captorSource.getValue();
         Assertions.assertNotNull(source);
@@ -197,15 +198,15 @@ public class BandDaoJdbcImplTest {
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlResetStartBandId", sql);
         int count = 3;
 
-        Mockito.when(namedParameterJdbcTemplate.getJdbcTemplate())
+        when(namedParameterJdbcTemplate.getJdbcTemplate())
                 .thenReturn(jdbcTemplate);
 
-        Mockito.when(jdbcTemplate.update(eq(sql))).thenReturn(count);
+        when(jdbcTemplate.update(eq(sql))).thenReturn(count);
 
         Integer result = bandDaoJdbc.deleteAllBands();
 
-        Mockito.verify(jdbcTemplate).update(eq(sql));
-        Mockito.verify(jdbcTemplate).execute(eq(sql));
+        verify(jdbcTemplate).update(eq(sql));
+        verify(jdbcTemplate).execute(eq(sql));
 
         Assertions.assertNotNull(result);
         Assertions.assertSame(result, count);
@@ -217,12 +218,12 @@ public class BandDaoJdbcImplTest {
         String sql = "count";
         ReflectionTestUtils.setField(bandDaoJdbc, "sqlSelectCountFromBand", sql);
         int count = 1;
-        Mockito.when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
+        when(namedParameterJdbcTemplate.queryForObject(any(), ArgumentMatchers.<SqlParameterSource>any(),
                 eq(Integer.class))).thenReturn(count);
 
         Integer result = bandDaoJdbc.count();
 
-        Mockito.verify(namedParameterJdbcTemplate).queryForObject(eq(sql), captorSource.capture(), eq(Integer.class));
+        verify(namedParameterJdbcTemplate).queryForObject(eq(sql), captorSource.capture(), eq(Integer.class));
 
         SqlParameterSource source = captorSource.getValue();
         Assertions.assertNotNull(source);
