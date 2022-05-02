@@ -1,7 +1,7 @@
 # <div align="center"> <img width="30" alt="logo" src="documentation/logo.svg"> SETLIST ORGANIZER </div>
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?size=10&duration=6000&color=000000&center=true&vCenter=true&lines=An+easy+way+to+organize+your+repertoire!)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?size=14&duration=6000&color=000000&center=true&vCenter=true&lines=An+easy+way+to+organize+your+repertoire!)](https://git.io/typing-svg)
 
 [![Java CI with Maven](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml)
 [![Codacy Security Scan](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml)
