@@ -14,13 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @Profile({"jdbc"})
 public class TrackServiceImpl implements TrackService {
 
     private final Logger logger = LogManager.getLogger(TrackServiceImpl.class);
 
-    private TrackDao trackDao;
+    private final TrackDao trackDao;
 
 
     public TrackServiceImpl(TrackDao trackDao) {
@@ -81,5 +80,12 @@ public class TrackServiceImpl implements TrackService {
     public List<Track> findAllTracks() {
         logger.debug("TrackService findAllTracks()");
         return this.trackDao.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllTracks() {
+        logger.debug("deleteAllTracks()");
+        trackDao.deleteAllTracks();
     }
 }

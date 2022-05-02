@@ -25,7 +25,7 @@ public class BandDaoJdbcImpl implements BandDao {
 
     private final Logger logger = LogManager.getLogger(BandDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @InjectSql("/sql/band/selectCountFromBand.sql")
     private String sqlSelectCountFromBand;
@@ -41,6 +41,13 @@ public class BandDaoJdbcImpl implements BandDao {
     private String sqlUpdateBandById;
     @InjectSql("/sql/band/deleteBandById.sql")
     private String sqlDeleteBandById;
+    @InjectSql("/sql/band/deleteAllBands.sql")
+    private String sqlDeleteAllBands;
+    @InjectSql("/sql/band/resetStartBandId.sql")
+    private String sqlResetStartBandId;
+    @InjectSql("/sql/band/createBandWithId.sql")
+    private String sqlCreateBandWithId;
+
 
     public BandDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -67,7 +74,14 @@ public class BandDaoJdbcImpl implements BandDao {
             logger.warn("Band {} already exists in DB!", band.getBandName().toUpperCase());
             throw new NotUniqueException("Band '" + band.getBandName().toUpperCase() +"' already exists in Data Base!");
         }
-
+        if (band.getBandId() != null){
+            SqlParameterSource sqlParameterSource =
+                    new MapSqlParameterSource("bandId", band.getBandId())
+                            .addValue( "bandName", band.getBandName().toUpperCase())
+                            .addValue("bandDetails", band.getBandDetails());
+            namedParameterJdbcTemplate.update(sqlCreateBandWithId, sqlParameterSource);
+            return band.getBandId();
+        }
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandName", band.getBandName().toUpperCase())
                         .addValue("bandDetails", band.getBandDetails());
@@ -94,6 +108,14 @@ public class BandDaoJdbcImpl implements BandDao {
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("bandId", bandId);
         return namedParameterJdbcTemplate.update(sqlDeleteBandById, sqlParameterSource);
+    }
+
+    @Override
+    public Integer deleteAllBands() {
+        logger.debug("Delete all Bands()");
+        Integer count = namedParameterJdbcTemplate.getJdbcTemplate().update(sqlDeleteAllBands);
+        namedParameterJdbcTemplate.getJdbcTemplate().execute(sqlResetStartBandId);
+        return count;
     }
 
     @Override

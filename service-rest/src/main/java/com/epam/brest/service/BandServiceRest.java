@@ -14,9 +14,9 @@ public class BandServiceRest implements BandService {
 
     private final Logger logger = LogManager.getLogger(BandServiceRest.class);
 
-    private String url;
+    private final String url;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public BandServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
@@ -71,5 +71,10 @@ public class BandServiceRest implements BandService {
         logger.debug("count()");
         ResponseEntity<Integer> responseEntity = restTemplate.getForEntity(url + "/count" , Integer.class);
         return responseEntity.getBody();
+    }
+
+    @Override
+    public void deleteAllBands() {
+
     }
 }

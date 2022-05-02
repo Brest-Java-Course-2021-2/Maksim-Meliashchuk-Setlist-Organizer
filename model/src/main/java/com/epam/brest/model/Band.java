@@ -1,5 +1,6 @@
 package com.epam.brest.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -20,6 +21,7 @@ import javax.validation.constraints.Size;
 public class Band {
 
     @Schema(name = "bandId", description = "ID of the band", example = "1")
+    @JacksonXmlProperty(isAttribute = true)
     private Integer bandId;
 
     @NonNull

@@ -147,8 +147,9 @@ class TrackServiceJpaImplTest {
                 .build();
 
         when(trackRepository.findById(id)).thenReturn(Optional.of(trackEntity));
+        when(trackRepository.deleteByTrackId(id)).thenReturn(id);
 
-        trackService.delete(id);
+        assertTrue(trackService.delete(id) > 0);
 
         verify(trackRepository).deleteByTrackId(trackEntity.getTrackId());
         verify(trackRepository).findById(id);
@@ -189,6 +190,16 @@ class TrackServiceJpaImplTest {
         assertTrue(tracks.size() > 0);
 
         verify(trackRepository).findAll();
-
     }
+
+    @Test
+    void deleteAllTracksTest() {
+        log.debug("deleteAllTracksTest()");
+
+        trackService.deleteAllTracks();
+
+        verify(trackRepository).deleteAll();
+        verify(trackRepository).resetStartTrackId();
+    }
+
 }

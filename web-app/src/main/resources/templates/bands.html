@@ -34,7 +34,7 @@
                                role="button">
                                 <i class="bi bi-file-earmark-excel"></i> | Export</a>
                             <a href="band.html" th:href="@{/band}" class="btn btn-dark" role="button">
-                                <i class="bi bi-plus-square"></i> | Add</a></a>
+                                <i class="bi bi-plus-square"></i> | Add</a>
                         </strong>
                     </div>
                 </div>
@@ -85,7 +85,6 @@
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                         </span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -107,7 +106,7 @@
             </div>
             <div class="modal-footer">
                 <a href="bands.html" th:href="@{/bands}" button type="button" class="btn btn-secondary"
-                   data-dismiss="modal">Cancel</button></a>
+                   data-dismiss="modal">Cancel</a>
                 <a id="deleteUrl" href="#" class="btn btn-dark">Delete</a>
             </div>
         </div>
@@ -124,8 +123,6 @@
     })
 
     window.onload = secondsToTime();
-
-
 </script>
 
 

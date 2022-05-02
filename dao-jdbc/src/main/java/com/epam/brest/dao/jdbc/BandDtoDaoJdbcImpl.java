@@ -21,7 +21,7 @@ public class BandDtoDaoJdbcImpl implements BandDtoDao {
 
     private final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @InjectSql("/sql/band/findAllWithCountTrack.sql")
     private String sqlFindAllWithCountTrack;

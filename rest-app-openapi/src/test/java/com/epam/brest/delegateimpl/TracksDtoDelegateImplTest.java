@@ -1,7 +1,7 @@
 package com.epam.brest.delegateimpl;
 
-import com.epam.brest.model.TrackDto;
 import com.epam.brest.api.TracksDtoApiController;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.excel.TrackDtoExportExcelService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
@@ -10,7 +10,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -62,8 +64,8 @@ public class TracksDtoDelegateImplTest {
 
     @AfterEach
     public void end() {
-        Mockito.verifyNoMoreInteractions(trackDtoService);
-        Mockito.verifyNoMoreInteractions(trackDtoFakerService);
+        verifyNoMoreInteractions(trackDtoService);
+        verifyNoMoreInteractions(trackDtoFakerService);
 
     }
 
@@ -71,7 +73,7 @@ public class TracksDtoDelegateImplTest {
     public void shouldFindAllTracksWithBandName() throws Exception {
         LOGGER.debug("findAllTracksWithBandName()");
 
-        Mockito.when(trackDtoService.findAllTracksWithBandName())
+        when(trackDtoService.findAllTracksWithBandName())
                 .thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
@@ -105,7 +107,7 @@ public class TracksDtoDelegateImplTest {
                         Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
-        Mockito.verify(trackDtoService).findAllTracksWithBandName();
+        verify(trackDtoService).findAllTracksWithBandName();
     }
 
     @Test
@@ -115,7 +117,7 @@ public class TracksDtoDelegateImplTest {
 
         Integer size = 2;
 
-        Mockito.when(trackDtoFakerService.fillFakeTracksDto(size, "EN"))
+        when(trackDtoFakerService.fillFakeTracksDto(size, "EN"))
                 .thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
@@ -149,7 +151,7 @@ public class TracksDtoDelegateImplTest {
                         Matchers.is(LocalDate.parse("2013-03-12").getDayOfMonth())));
 
 
-        Mockito.verify(trackDtoFakerService).fillFakeTracksDto(size, "EN");
+        verify(trackDtoFakerService).fillFakeTracksDto(size, "EN");
     }
 
     @Test

@@ -18,7 +18,7 @@ class VersionControllerTest {
 
     private final Logger logger = LogManager.getLogger(VersionControllerTest.class);
 
-    private VersionController controller = new VersionController();
+    private final VersionController controller = new VersionController();
 
     private MockMvc mockMvc;
 

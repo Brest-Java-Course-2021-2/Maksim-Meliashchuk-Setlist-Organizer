@@ -1,6 +1,6 @@
 package com.epam.brest.dao;
 
-import com.epam.brest.SpringJdbcConfig;
+import com.epam.brest.SpringDataSourceTestConfig;
 import com.epam.brest.dao.jdbc.TrackDaoJdbcImpl;
 import com.epam.brest.model.Track;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -22,11 +23,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJdbcTest
 @Import({TrackDaoJdbcImpl.class})
-@ContextConfiguration(classes = SpringJdbcConfig.class)
+@ContextConfiguration(classes = SpringDataSourceTestConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 @Rollback
-@ActiveProfiles({"dev", "jdbc"})
+@ActiveProfiles({"test", "jdbc"})
+@Sql({"/create-db.sql", "/init-db.sql"})
 public class TrackDaoJdbcImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImplIT.class);
@@ -110,6 +112,16 @@ public class TrackDaoJdbcImplIT {
         assertNotNull(tracks);
         trackDaoJDBC.delete(tracks.get(tracks.size() - 1).getTrackId());
         assertEquals(tracks.size() - 1, trackDaoJDBC.findAll().size());
+    }
+
+    @Test
+    void testDeleteAllTracks() {
+        logger.debug("Track execute test: testDeleteAllTracks()");
+        List<Track> tracksBefore = trackDaoJDBC.findAll();
+        assertEquals(trackDaoJDBC.deleteAllTracks(), tracksBefore.size());
+        List<Track> tracksAfter = trackDaoJDBC.findAll();
+        assertNotNull(tracksAfter);
+        assertEquals(tracksAfter.size(), 0);
     }
 
     @Test

@@ -39,12 +39,10 @@ import java.util.Objects;
 public class TrackControllerApiClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrackControllerApiClient.class);
-
     private final TrackValidator trackValidator;
     private final TracksApi tracksApi;
     private final TrackApi trackApi;
     private final BandApi bandApi;
-
     private List<TrackDto> trackDtoList;
 
     public TrackControllerApiClient(TrackValidator trackValidator, TracksApi tracksApi, TrackApi trackApi,
@@ -213,12 +211,21 @@ public class TrackControllerApiClient {
     public final String importInTrackTableFromExcel(@RequestParam("uploadfile") final MultipartFile file) throws ApiException, IOException {
         LOGGER.debug("importInTrackTableFromExcel()");
         File convertFile = new File ("Track.xlsx");
-        convertFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convertFile);
         fos.write(file.getBytes());
         fos.close();
         trackApi.importTrackFromExcel(convertFile);
         convertFile.delete();
         return "redirect:/repertoire";
+    }
+
+    @GetMapping(value = "/track/export/xml")
+    public void exportFromTrackTableToXml(HttpServletResponse response) throws ApiException, IOException {
+        LOGGER.debug("exportFromTrackTableToXml()");
+        InputStream is = new FileInputStream(trackApi.exportToXmlAlTracks());
+        response.setContentType("application/xml");
+        response.setHeader("Content-Disposition", "attachment; filename=Tracks.xml");
+        IOUtils.copy(is, response.getOutputStream());
+        response.flushBuffer();
     }
 }

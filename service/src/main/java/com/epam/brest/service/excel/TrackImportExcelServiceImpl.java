@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TrackImportExcelServiceServiceImpl implements TrackImportExcelService {
+public class TrackImportExcelServiceImpl implements TrackImportExcelService {
 
-    private final Logger logger = LogManager.getLogger(TrackImportExcelServiceServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(TrackImportExcelServiceImpl.class);
 
     private final TrackService trackService;
 
-    public TrackImportExcelServiceServiceImpl(TrackService trackService) {
+    public TrackImportExcelServiceImpl(TrackService trackService) {
         this.trackService = trackService;
     }
 

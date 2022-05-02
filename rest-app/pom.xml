@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
@@ -101,7 +107,6 @@
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
-
                         <goals>
                             <goal>generate</goal>
                         </goals>

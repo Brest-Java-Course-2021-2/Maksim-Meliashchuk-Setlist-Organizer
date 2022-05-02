@@ -1,13 +1,16 @@
 # <div align="center"> <img width="30" alt="logo" src="documentation/logo.svg"> SETLIST ORGANIZER </div>
-
 <div align="center">
+
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?size=14&duration=6000&color=000000&center=true&vCenter=true&lines=An+easy+way+to+organize+your+repertoire!)](https://git.io/typing-svg)
 
 [![Java CI with Maven](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/maven.yml)
 [![Codacy Security Scan](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer/actions/workflows/codacy-analysis.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=Maxxx873.Maksim-Meliashchuk-Setlist-Organizer&left_color=gray&right_color=blue)
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6?action=collection%2Ffork&collection-url=entityId%3D18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6%26entityType%3Dcollection%26workspaceId%3D56c614c7-7bb5-44fe-b171-746dba387b30)
 <img src="https://validator.swagger.io/validator?url=https://setlist-organizer-rest.herokuapp.com/v3/api-docs">
+![Spring boot](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
 [![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black)](https://setlist-organizer-rest.herokuapp.com/swagger-ui/index.html)
 [![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://setlist-organizer-web.herokuapp.com/)
 
@@ -37,10 +40,11 @@
 - [Swagger generated client](#swagger-generated-client)
 - [Excel Import and Export](#excel-import-and-export)
 - [Generate test data](#generate-test-data)
+- [Create and restore database archive](#create-and-restore-database-archive)
 
 ## Project Information
 
-'Setlist Organizer' is a web application for organizing repertoires of musical bands.
+:studio_microphone: 'Setlist Organizer' is a web application for organizing repertoires of musical bands. :studio_microphone:
 
 <details>
 <summary>Mind Map</summary>
@@ -53,10 +57,10 @@
 - [Available REST endpoints](documentation/SetlistOrganizerEndpoints.md)
 - [Presentation](documentation/SetlistOrganizer.pdf)
 
-_<sub>Note: the Mind map, Software requirements specification, Available REST endpoints and Presentation 
+:warning: _<sub>Note: the Mind map, Software requirements specification, Available REST endpoints and Presentation 
 describe the basic version of the project.The project is constantly being improved and developed.
 The features of the current version of the project may differ from the information in this section.
-See the following sections in this README for up-to-date project information.</a>_
+See the following sections in this README for up-to-date project information.</a>_ :warning:
 
 ## Running example
 
@@ -90,6 +94,9 @@ API documentation with Swagger UI:
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
   <a href="https://spring.io/projects/spring-data-jpa)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
+- **Annotation processor:**
+  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/icons/lombok.svg"/>
+  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/icons/mapstruct.svg"/>
 - **Build System:** [Maven](https://maven.apache.org/) <img height="20" width="20" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_maven.svg"/>
 - **Control System:** [Git](https://git-scm.com/) <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="18" height="18"/> </a>
 - **License:** [Apache license, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
@@ -102,6 +109,7 @@ API documentation with Swagger UI:
 - **Log:** 
   - [Log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Logback](https://logback.qos.ch/)
+  - [SLF4J](https://www.slf4j.org/)
 - **Monitoring:**
   - [Micrometer](https://micrometer.io/)
   - [Prometheus](https://prometheus.io/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg"/>
@@ -115,9 +123,6 @@ API documentation with Swagger UI:
   - [GSON](https://github.com/google/gson)
 - **Generate test data:** [Java Faker](https://github.com/DiUS/java-faker)
 - **Java API for Microsoft Excel:** [Apache POI](https://poi.apache.org/components/spreadsheet/)
-- **Annotation processor:**
-  - [Lombok](https://projectlombok.org/) <img height="20" width="20" src="documentation/img/icons/lombok.svg"/>
-  - [MapStruct](https://mapstruct.org/) <img height="20" width="30" src="documentation/img/icons/mapstruct.svg"/>
 - **API documentation generation:**
   - [Springdoc-openapi](https://springdoc.org/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/openapis/openapis-icon.svg"/>
   - [Swagger UI](https://swagger.io/tools/swagger-ui/) <img height="20" width="20" src="https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/drivers/webextension/images/icons/Swagger%20UI.svg"/>
@@ -188,8 +193,8 @@ app.httpClient = ApiClient
 
 **ApiClient** is a preferable choice.
 
-_<sub>Note: this Web application has endpoints for using create and import Excel files with 
-the 'ApiClient' property only.</a>_
+:warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files with 
+the 'ApiClient' property only.</a>_ :warning:
 
 ## Run local tests
 
@@ -216,12 +221,14 @@ the most effective way to use mutation testing is to run it frequently against o
 TargetClasses and TargetTests to limit the tests available to be run added to parent project POM:
 
 ```xml
-<targetClasses>
-    <param>com.epam.brest.service.impl.jpa.*</param>
-</targetClasses>
-<targetTests>
-    <param>com.epam.brest.service.impl.jpa.*</param>
-</targetTests>
+<configuration>
+  <targetClasses>
+      <param>com.epam.brest.service.impl.jpa.*</param>
+  </targetClasses>
+  <targetTests>
+      <param>com.epam.brest.service.impl.jpa.*</param>
+  </targetTests>
+</configuration>
 ```
 
 Run directly from the commandline:
@@ -280,7 +287,7 @@ Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
 
 <img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
 
-Access the Grafana webUI on  [http://localhost:3000](http://localhost:3000)
+Access the Grafana webUI with jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
 
 To stop the containers:
 ```bash
@@ -348,9 +355,19 @@ Following are samples of Excel files that can be imported:
 
 ## Generate test data
 
-These REST applications have several endpoints (`/fill`) to generate fake data for showcase with uses [Java Faker](https://github.com/DiUS/java-faker).
+These REST applications have several endpoints `/fill` to generate fake data for showcase with uses [Java Faker](https://github.com/DiUS/java-faker).
 It is possible specify language for generated data (EN, DE, FR), default EN.
 It is possible specify count fakes data, use parameter to multiply default size (default value 1).
 
 *Please, after running the REST application, refer to the API documentation with [Swagger UI](http://localhost:8088/swagger-ui/index.html) for more information.*
 
+## Create and restore database archive
+
+The database archive can be created and exported in XML format and saved as a ZIP archive.
+These REST applications have a `/downloadZipFile` endpoint with the ability to create a database archive and a `/uploadZipFile` endpoint
+with the ability to restore the database from the archive.
+The Simple API for XML (SAX) is used to parse XML documents.
+
+The following is an example of a ZIP file that is the result of an export that can be imported:
+
+[database.zip](./documentation/database.zip)

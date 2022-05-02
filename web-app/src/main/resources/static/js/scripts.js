@@ -58,4 +58,11 @@ function actionOnSubmitImportExcel()
     document.importExcel.action = formAction;
 }
 
+function actionOnSubmitExportXml()
+{
+    var e = document.getElementById("dataBaseTablesExportXml");
+    var formAction = e.options[e.selectedIndex].value;
+    document.exportXml.action = formAction;
+}
+
 

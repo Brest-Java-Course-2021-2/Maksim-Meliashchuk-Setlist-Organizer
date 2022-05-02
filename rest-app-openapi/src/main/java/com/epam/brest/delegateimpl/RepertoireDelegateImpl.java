@@ -1,13 +1,14 @@
 package com.epam.brest.delegateimpl;
 
+import com.epam.brest.api.RepertoireApiDelegate;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
-import com.epam.brest.api.RepertoireApiDelegate;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
+import com.epam.brest.service.xml.TrackXmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -35,15 +36,17 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
+    private final TrackXmlService trackXmlService;
 
     public RepertoireDelegateImpl(TrackService trackService, TrackDtoService trackDtoService,
                                   TrackFakerService trackFakerService, TrackExportExcelService trackExportExcelService,
-                                  TrackImportExcelService trackImportExcelService) {
+                                  TrackImportExcelService trackImportExcelService, TrackXmlService trackXmlService) {
         this.trackService = trackService;
         this.trackDtoService = trackDtoService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
+        this.trackXmlService = trackXmlService;
     }
 
     @Override
@@ -107,6 +110,7 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
         LOGGER.debug("exportToExcelAllBandsDto()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
@@ -126,5 +130,24 @@ public class RepertoireDelegateImpl implements RepertoireApiDelegate {
             e.printStackTrace();
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Resource> exportToXmlAlTracks() {
+        LOGGER.debug("exportToXmlAllTracks()");
+        HttpHeaders headers = new HttpHeaders();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
+        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        headers.setContentType(MediaType.parseMediaType("application/xml"));
+        if (response != null) {
+            response.setHeader("Content-Disposition", "attachment; filename=Tracks.xml");
+        }
+        try {
+            trackXmlService.exportTracksXml(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class TrackControllerIT {
 
     private final Logger logger = LogManager.getLogger(TrackControllerIT.class);
@@ -251,6 +253,11 @@ public class TrackControllerIT {
         // given
         Integer id = 1;
 
+        trackService.create(Track.builder()
+                        .trackName("test")
+                        .trackId(5)
+                        .trackBandId(1)
+                .build());
         List<Track> tracks = trackService.findAll();
         assertTrue(tracks.size() > 0);
 
@@ -292,6 +299,20 @@ public class TrackControllerIT {
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
+    @Test
+    public void shouldTracksExportXml() throws Exception {
+        logger.debug("shouldBandsExportXml()");
+
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/xml")
+                                .accept(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        assertEquals(response.getContentType(), "application/xml");
+        assertEquals(response.getHeader("Content-disposition"), "attachment; filename=Tracks.xml");
+    }
+
 
     class MockMvcTrackService {
 
@@ -303,7 +324,7 @@ public class TrackControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 
@@ -315,7 +336,7 @@ public class TrackControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Track>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 

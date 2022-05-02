@@ -26,7 +26,7 @@ import org.springframework.context.annotation.PropertySource;
         externalDocs = @ExternalDocumentation(
                 description = "Setlist Organizer github",
                 url = "https://github.com/Brest-Java-Course-2021-2/Maksim-Meliashchuk-Setlist-Organizer"
-))
+        ))
 public class RestApplicationOpenAPI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestApplicationOpenAPI.class);

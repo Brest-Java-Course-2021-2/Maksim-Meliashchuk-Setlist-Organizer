@@ -25,7 +25,7 @@ class TrackToEntityMapperTest {
     @Mock
     protected BandRepository bandRepository;
 
-    private TrackToEntityMapper mapper
+    private final TrackToEntityMapper mapper
             = Mappers.getMapper(TrackToEntityMapper.class);
 
     @BeforeEach

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 class BandToEntityMapperTest {
 
-    private BandToEntityMapper mapper
+    private final BandToEntityMapper mapper
             = Mappers.getMapper(BandToEntityMapper.class);
 
     @Test

@@ -23,7 +23,7 @@ public class TrackDaoJdbcImpl implements TrackDao {
 
     private final Logger logger = LogManager.getLogger(TrackDaoJdbcImpl.class);
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<Track> trackRowMapper = BeanPropertyRowMapper.newInstance(Track.class);
 
@@ -44,6 +44,12 @@ public class TrackDaoJdbcImpl implements TrackDao {
 
     @InjectSql("/sql/track/createTrack.sql")
     private String sqlCreateTrack;
+
+    @InjectSql("/sql/track/deleteAllTracks.sql")
+    private String sqlDeleteAllTracks;
+
+    @InjectSql("/sql/track/resetStartTrackId.sql")
+    private String sqlResetStartTrackId;
 
     public TrackDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -99,6 +105,14 @@ public class TrackDaoJdbcImpl implements TrackDao {
         SqlParameterSource sqlParameterSource =
                 new MapSqlParameterSource("trackId", trackId);
         return namedParameterJdbcTemplate.update(sqlDeleteTrackById, sqlParameterSource);
+    }
+
+    @Override
+    public Integer deleteAllTracks() {
+        logger.debug("Delete all tracks()");
+        Integer count = namedParameterJdbcTemplate.getJdbcTemplate().update(sqlDeleteAllTracks);
+        namedParameterJdbcTemplate.getJdbcTemplate().execute(sqlResetStartTrackId);
+        return count;
     }
 
     @Override

@@ -77,9 +77,7 @@ class BandServiceJpaImplTest {
     @Test
     void createBandTest() {
         log.debug("createBandTest()");
-        Integer id = 1;
         BandEntity bandEntity = BandEntity.builder()
-                .bandId(id)
                 .bandName("test band1")
                 .bandDetails("test")
                 .build();
@@ -90,7 +88,6 @@ class BandServiceJpaImplTest {
         Integer bandsSizeBefore = bandService.count();
         assertNotNull(bandsSizeBefore);
         Band band = Band.builder()
-                .bandId(1)
                 .bandName("P.O.D.")
                 .build();
         Integer newBandId = bandService.create(band);
@@ -142,8 +139,9 @@ class BandServiceJpaImplTest {
                 .build();
 
         when(bandRepository.findById(id)).thenReturn(Optional.of(bandEntity));
+        when(bandRepository.deleteByBandId(id)).thenReturn(id);
 
-        bandService.delete(id);
+        assertTrue(bandService.delete(id) > 0);
 
         verify(bandRepository).deleteByBandId(bandEntity.getBandId());
         verify(bandRepository).findById(id);
@@ -163,6 +161,16 @@ class BandServiceJpaImplTest {
         assertEquals(Integer.valueOf(count), quantity);
 
         verify(bandRepository).count();
-
     }
+
+    @Test
+    void deleteAllBandsTest() {
+        log.debug("deleteAllBandsTest()");
+
+        bandService.deleteAllBands();
+
+        verify(bandRepository).deleteAll();
+        verify(bandRepository).resetStartBandId();
+    }
+
 }

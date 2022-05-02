@@ -13,25 +13,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
-import static com.epam.brest.exception.CustomExceptionHandler.DATA_BASE_ERROR;
 import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@AutoConfigureMockMvc
+@Transactional
 public class BandControllerIT {
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
@@ -54,11 +58,11 @@ public class BandControllerIT {
     @Autowired
     private CustomExceptionHandler customExceptionHandler;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private MockMvc mockMvc;
 
-    private MockMvcBandService bandService = new MockMvcBandService();
+    private final MockMvcBandService bandService = new MockMvcBandService();
 
     @BeforeEach
     public void before() {
@@ -70,13 +74,12 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldFindAllBands() throws Exception {
         logger.debug("shouldFindAllBands()");
 
         // given
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -84,6 +87,7 @@ public class BandControllerIT {
 
         // when
         List<Band> bands = bandService.findAll();
+        System.out.println(bands);
 
         // then
         assertNotNull(bands);
@@ -103,11 +107,10 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateBand() throws Exception {
         logger.debug("shouldCreateBand()");
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(4)
                 .bandName("Test band")
                 .build();
         Integer id = bandService.create(band);
@@ -115,7 +118,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateNotValidBand() throws Exception {
         logger.debug("shouldCreateNotValidBand()");
         Band band = Band.builder()
@@ -141,11 +143,10 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldCreateNotValidEmptyNameBand() throws Exception {
         logger.debug("shouldCreateNotValidEmptyNameBand()");
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(4)
                 .bandName("")
                 .build();
 
@@ -162,12 +163,11 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldFindBandById() throws Exception {
         logger.debug("shouldFindBandById()");
         // given
         Band band = Band.builder()
-                .bandId(1)
+                .bandId(5)
                 .bandName("Test band")
                 .build();
 
@@ -185,17 +185,10 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldUpdateBand() throws Exception {
         logger.debug("shouldUpdateBand()");
         // given
-        Band band = Band.builder()
-                .bandId(1)
-                .bandName("Test band")
-                .build();
-        Integer id = bandService.create(band);
-        assertNotNull(id);
-
+        int id = 3;
         Optional<Band> bandOptional = bandService.findById(id);
         assertTrue(bandOptional.isPresent());
 
@@ -205,11 +198,11 @@ public class BandControllerIT {
 
         // when
         int result = bandService.update(bandOptional.get());
+        Optional<Band> updatedBandOptional = bandService.findById(id);
 
         // then
-        assertEquals(1, result);
 
-        Optional<Band> updatedBandOptional = bandService.findById(id);
+
         assertTrue(updatedBandOptional.isPresent());
         assertEquals(updatedBandOptional.get().getBandId(), id);
         assertEquals(updatedBandOptional.get().getBandName().toUpperCase(), bandOptional.get().getBandName().toUpperCase());
@@ -218,7 +211,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldDeleteBand() throws Exception {
         logger.debug("shouldDeleteBand()");
         // given
@@ -239,7 +231,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldReturnBandNotFoundError() throws Exception {
         logger.debug("shouldReturnBandNotFoundError()");
         MockHttpServletResponse response =
@@ -267,7 +258,6 @@ public class BandControllerIT {
     }
 
     @Test
-    @Transactional
     public void shouldImportBandExcel() throws Exception {
         logger.debug("shouldImportBandExcel()");
 
@@ -293,7 +283,7 @@ public class BandControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Band>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 
@@ -305,7 +295,7 @@ public class BandControllerIT {
                     .andReturn().getResponse();
             assertNotNull(response);
 
-            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Band>>() {
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<>() {
             });
         }
 

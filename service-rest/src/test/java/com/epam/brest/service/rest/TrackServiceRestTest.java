@@ -45,7 +45,7 @@ class TrackServiceRestTest {
 
     private MockRestServiceServer mockServer;
 
-    private ObjectMapper objectMapper = JsonMapper.builder()
+    private final ObjectMapper objectMapper = JsonMapper.builder()
             .addModule(new JavaTimeModule())
             .build();
 
@@ -183,7 +183,7 @@ class TrackServiceRestTest {
 
         // then
         mockServer.verify();
-        assertTrue(1 == result);
+        assertEquals(1, result);
     }
 
     @Test

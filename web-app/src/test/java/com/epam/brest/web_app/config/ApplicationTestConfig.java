@@ -4,10 +4,7 @@ import com.epam.brest.ApiClient;
 import com.epam.brest.service.*;
 import com.epam.brest.service.faker.BandDtoFakerService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
-import io.swagger.client.api.BandApi;
-import io.swagger.client.api.BandsApi;
-import io.swagger.client.api.TrackApi;
-import io.swagger.client.api.TracksApi;
+import io.swagger.client.api.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -98,6 +95,13 @@ public class ApplicationTestConfig {
         TrackApi trackApi = new TrackApi();
         trackApi.setApiClient(apiClient);
         return trackApi;
+    }
+
+    @Bean
+    public ImportExportDatabaseApi importExportDatabaseApi() {
+        ImportExportDatabaseApi importExportDatabaseApi = new ImportExportDatabaseApi();
+        importExportDatabaseApi.setApiClient(apiClient);
+        return importExportDatabaseApi;
     }
 
 }

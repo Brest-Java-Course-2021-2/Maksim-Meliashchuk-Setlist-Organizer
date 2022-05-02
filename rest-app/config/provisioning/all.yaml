@@ -1,0 +1,11 @@
+# grafana/provisioning/dashboards/all.yaml
+apiVersion: 1
+
+providers:
+  - name: 'default'
+    folder: 'default'
+    type: file
+    allowUiUpdates: true
+    updateIntervalSeconds: 15
+    options:
+folder: '/var/lib/grafana/dashboards'

@@ -5,12 +5,12 @@ import com.epam.brest.dao.jpa.mapper.TrackToEntityMapper;
 import com.epam.brest.dao.jpa.repository.TrackRepository;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
-import com.epam.brest.service.exception.BandNotFoundException;
 import com.epam.brest.service.exception.TrackNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +20,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 @Profile("jpa")
 @Slf4j
+@Transactional(readOnly = true)
 public class TrackServiceJpaImpl implements TrackService {
     private final TrackRepository trackRepository;
     private final TrackToEntityMapper mapper;
@@ -34,6 +35,7 @@ public class TrackServiceJpaImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public Integer create(Track track) {
         log.info("create()");
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
@@ -41,20 +43,22 @@ public class TrackServiceJpaImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public Integer update(Track track) {
         log.info("update()");
         if (!trackRepository.existsById(track.getTrackId()))
-            throw new BandNotFoundException(track.getTrackId());
+            throw new TrackNotFoundException(track.getTrackId());
         TrackEntity trackEntity = mapper.trackToTrackEntity(track);
         return trackRepository.save(trackEntity).getTrackId();
     }
 
     @Override
+    @Transactional
     public Integer delete(Integer trackId) {
         log.info("getTrackById({})", trackId);
         TrackEntity trackEntity = trackRepository
                 .findById(trackId)
-                .orElseThrow(() -> new BandNotFoundException(trackId));
+                .orElseThrow(() -> new TrackNotFoundException(trackId));
         return trackRepository.deleteByTrackId(trackEntity.getTrackId());
     }
 
@@ -71,5 +75,13 @@ public class TrackServiceJpaImpl implements TrackService {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(mapper::trackEntityToTrack)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllTracks() {
+        log.info("deleteAllTracks()");
+        trackRepository.deleteAll();
+        trackRepository.resetStartTrackId();
     }
 }

@@ -18,4 +18,7 @@ public interface TrackService {
 
     List<Track> findAllTracks();
 
+    void deleteAllTracks();
+
+
 }

@@ -1,7 +1,7 @@
 package com.epam.brest.delegateimpl;
 
-import com.epam.brest.model.TrackDto;
 import com.epam.brest.api.TracksDtoApiDelegate;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.excel.TrackDtoExportExcelService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TracksDtoDelegateImpl implements TracksDtoApiDelegate {
@@ -58,7 +59,7 @@ public class TracksDtoDelegateImpl implements TracksDtoApiDelegate {
         LOGGER.debug("exportToExcelAllTracksWithBandName()");
         HttpHeaders headers = new HttpHeaders();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(requestAttributes)).getResponse();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         if (response != null) {
             response.setHeader("Content-Disposition", "attachment; filename=TracksDto.xlsx");

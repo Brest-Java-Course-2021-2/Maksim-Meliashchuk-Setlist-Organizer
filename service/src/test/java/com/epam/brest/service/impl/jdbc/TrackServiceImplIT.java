@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @PropertySource({"classpath:sql-track.properties"})
 @Transactional
 @Rollback
-@ActiveProfiles({"dev","jdbc"})
+@ActiveProfiles({"test","jdbc"})
+@Sql({"/create-db.sql", "/init-db.sql"})
 class TrackServiceImplIT {
 
     private final Logger logger = LogManager.getLogger(TrackServiceImplIT.class);
@@ -98,10 +100,21 @@ class TrackServiceImplIT {
     void testDelete() {
         logger.debug("TrackService execute test: testDelete()");
         assertNotNull(trackService);
-        Integer bandsSizeBefore = trackService.count();
-        assertNotNull(bandsSizeBefore);
+        Integer tracksSizeBefore = trackService.count();
+        assertNotNull(tracksSizeBefore);
         trackService.delete(trackService.count() - 1);
-        assertEquals(bandsSizeBefore, trackService.count() + 1);
+        assertEquals(tracksSizeBefore, trackService.count() + 1);
+    }
+
+    @Test
+    void testDeleteAllTracks() {
+        logger.debug("TrackService execute test: testDeleteAllTracks()");
+        assertNotNull(trackService);
+        Integer tracksSizeBefore = trackService.count();
+        assertTrue(tracksSizeBefore > 0);
+        assertNotNull(tracksSizeBefore);
+        trackService.deleteAllTracks();
+        assertEquals(0, trackService.count());
     }
 
     @Test

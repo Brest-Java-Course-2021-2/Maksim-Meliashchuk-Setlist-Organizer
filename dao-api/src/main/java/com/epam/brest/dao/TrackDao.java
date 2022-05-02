@@ -17,4 +17,6 @@ public interface TrackDao {
     Integer delete(Integer trackId);
 
     Integer count();
+
+    Integer deleteAllTracks();
 }

@@ -1,5 +1,6 @@
 package com.epam.brest.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 public class Track {
 
     @Schema(name = "trackId", description = "ID of the track", example = "1")
+    @JacksonXmlProperty(isAttribute = true)
     private Integer trackId;
 
     @NonNull

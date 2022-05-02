@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 public class BandDtoControllerTest {
@@ -55,7 +57,7 @@ public class BandDtoControllerTest {
 
     @AfterEach
     public void end() {
-        Mockito.verifyNoMoreInteractions(bandDtoService);
+        verifyNoMoreInteractions(bandDtoService);
     }
 
     @Test
@@ -64,7 +66,7 @@ public class BandDtoControllerTest {
         Mockito.when(bandDtoService.findAllWithCountTrack()).thenReturn(Arrays.asList(create(0), create(1)));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/bands_dto")
+                        MockMvcRequestBuilders.get("/bands_dto").accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -91,6 +93,7 @@ public class BandDtoControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/bands_dto/fill?size=" + FAKE_DATA_SIZE)
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
                 ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
