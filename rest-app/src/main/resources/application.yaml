@@ -1,13 +1,4 @@
 ## REST server configuration
-management:
-  endpoints:
-    web:
-      exposure:
-        include: prometheus, health, info, metric
-metrics:
-  export:
-    prometheus:
-      enabled: true
 
 server:
   error:
@@ -17,15 +8,42 @@ server:
   port: ${PORT:8088}
 
 spring:
+
   flyway:
     enabled: true
+
   jackson:
     date-format: yyyy/MM/dd
     serialization:
       INDENT_OUTPUT: true
   jpa:
     show-sql: true
+
   main:
     allow-bean-definition-overriding: true
+
   profiles:
     active: dev, jpa
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8484/auth/realms/setlist_organizer_realm
+        registration:
+          keycloak:
+            client-id: setlist_organizer_client
+            client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
+            use-resource-role-mappings: true
+            principal-attribute: preferred_username
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info, metric
+metrics:
+  export:
+    prometheus:
+      enabled: true

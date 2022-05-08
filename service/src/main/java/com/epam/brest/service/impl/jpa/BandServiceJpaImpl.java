@@ -35,6 +35,7 @@ public class BandServiceJpaImpl implements BandService {
     }
 
     @Override
+   // @PreAuthorize("hasAnyRole('user', 'admin')")
     public List<Band> findAllBands() {
         log.info("findAllBands()");
         Iterable<BandEntity> iterable = bandRepository.findAll();
