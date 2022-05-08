@@ -41,14 +41,14 @@ public class ApplicationHerokuConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoService bandDtoServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands_dto", protocol, host);
+        String url = String.format("%s://%s/bands_dto", protocol, host);
         return new BandDtoServiceRest(url, restTemplate);
     }
 
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandDtoFakerService bandDtoFakerServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands_dto/fill", protocol, host);
+        String url = String.format("%s://%s/bands_dto/fill", protocol, host);
         return new BandDtoFakerServiceRest(url, restTemplate);
     }
 
@@ -67,7 +67,7 @@ public class ApplicationHerokuConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     BandService bandServiceRestTemplate() {
-        String url = String.format("%s://%s:%d/bands", protocol, host);
+        String url = String.format("%s://%s/bands", protocol, host);
         return new BandServiceRest(url, restTemplate);
     }
 
@@ -80,7 +80,7 @@ public class ApplicationHerokuConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackService trackService() {
-        String url = String.format("%s://%s:%d/repertoire", protocol, host);
+        String url = String.format("%s://%s/repertoire", protocol, host);
         return new TrackServiceRest(url, restTemplate);
     }
 
@@ -93,14 +93,14 @@ public class ApplicationHerokuConfig {
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackDtoService trackDtoService() {
-        String url = String.format("%s://%s:%d/repertoire/filter", protocol, host);
+        String url = String.format("%s://%s/repertoire/filter", protocol, host);
         return new TrackDtoServiceRest(url, restTemplate);
     }
 
     @Bean
     @Conditional(RestTemplateCondition.class)
     TrackDtoFakerService trackDtoFakerService() {
-        String url = String.format("%s://%s:%d/tracks_dto/fill", protocol, host);
+        String url = String.format("%s://%s/tracks_dto/fill", protocol, host);
         return new TrackDtoFakerServiceRest(url, restTemplate);
     }
 

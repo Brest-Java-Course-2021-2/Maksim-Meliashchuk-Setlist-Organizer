@@ -18,7 +18,6 @@ import java.util.Objects;
 @Table(name = "band")
 public class BandEntity {
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "custom_gen",
             strategy = "com.epam.brest.dao.jpa.generator.id.CustomIdentityGenerator")
     @GeneratedValue(generator = "custom_gen")
