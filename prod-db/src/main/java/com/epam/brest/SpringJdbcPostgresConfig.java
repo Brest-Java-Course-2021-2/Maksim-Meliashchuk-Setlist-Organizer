@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Profile("postgres")
-@PropertySource("classpath:application-postgres.properties")
+@PropertySource("classpath:application-postgres.yaml")
 public class SpringJdbcPostgresConfig {
 
     @Value("${spring.datasource.driver-class-name}")

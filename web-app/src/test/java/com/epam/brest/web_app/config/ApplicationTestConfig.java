@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @TestConfiguration
 @Profile("dev")
-@PropertySource("classpath:application-dev.properties")
+@PropertySource("classpath:application-dev.yaml")
 public class ApplicationTestConfig {
 
     @Value("${rest.server.protocol}")

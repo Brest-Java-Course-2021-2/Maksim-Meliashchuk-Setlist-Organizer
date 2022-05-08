@@ -1,0 +1,32 @@
+## REST server configuration
+logging:
+  level:
+    org:
+      apache:
+        catalina: DEBUG
+        tomcat: DEBUG
+
+server:
+  error:
+    include-binding-errors: always
+    include-exception: true
+    include-message: always
+  port: ${PORT:8088}
+  tomcat:
+    accesslog:
+      enabled: true
+      file-date-format: .yyyy-MM-dd
+      pattern: common
+      prefix: access_log
+      suffix: .log
+
+spring:
+  jackson:
+    date-format: yyyy/MM/dd
+    serialization:
+      INDENT_OUTPUT: true
+  jpa:
+    show-sql: true
+  profiles:
+    active: dev, jpa
+

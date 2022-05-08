@@ -1,0 +1,10 @@
+##Application deploy to Heroku configuration
+base:
+  url: https://setlist-organizer-rest.herokuapp.com
+rest:
+  server:
+    host: setlist-organizer-rest.herokuapp.com
+    protocol: https
+server:
+  port: ${PORT:8080}
+

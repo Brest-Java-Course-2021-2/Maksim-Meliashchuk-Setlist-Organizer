@@ -1,0 +1,10 @@
+##Application dev configuration
+base:
+  url: http://${HOST_NAME:localhost}:8088
+rest:
+  server:
+    host: ${HOST_NAME:localhost}
+    port: 8088
+    protocol: http
+server:
+  port: ${PORT:8080}

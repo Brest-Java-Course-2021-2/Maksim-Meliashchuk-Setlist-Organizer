@@ -1,0 +1,21 @@
+##Application configuration
+app:
+  httpClient: ApiClient
+spring:
+  http:
+    multipart:
+      enabled: true
+  jackson:
+    date-format: yyyy/MM/dd
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB

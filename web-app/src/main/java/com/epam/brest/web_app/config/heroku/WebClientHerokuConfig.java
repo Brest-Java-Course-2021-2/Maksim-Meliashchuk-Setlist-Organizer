@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatterBuilder;
 
 @Configuration
 @Profile("heroku")
-@PropertySource("classpath:application-heroku.properties")
+@PropertySource("classpath:application-heroku.yaml")
 public class WebClientHerokuConfig {
 
     @Value("${spring.jackson.date-format}")

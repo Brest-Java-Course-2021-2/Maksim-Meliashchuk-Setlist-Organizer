@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 @Configuration
-@PropertySource("classpath:application-dev.properties")
+@PropertySource("classpath:application-dev.yaml")
 public class WebClientConfig {
 
     @Value("${spring.jackson.date-format}")

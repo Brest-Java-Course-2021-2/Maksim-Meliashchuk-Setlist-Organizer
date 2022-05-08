@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @ComponentScan
 @Profile("heroku")
-@PropertySource("classpath:application-heroku.properties")
+@PropertySource("classpath:application-heroku.yaml")
 public class ApplicationHerokuConfig {
 
     @Value("${rest.server.protocol}")
