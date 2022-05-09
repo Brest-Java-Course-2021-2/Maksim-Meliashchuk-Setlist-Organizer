@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Import/Export database", description = "create database archive / restore database from archive")
+@SecurityRequirement(name = "keycloakAuth")
 public class ImportExportDbController {
 
     private final DataBaseZipRestoreService dataBaseZipRestoreService;

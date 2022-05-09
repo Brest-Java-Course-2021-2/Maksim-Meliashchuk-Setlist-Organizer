@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ import java.util.Collection;
 @Tag(name = "Bands", description = "the Bands API")
 @RestController
 @CrossOrigin
+@SecurityRequirement(name = "keycloakAuth")
 public class BandDtoController {
 
     private static final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImpl.class);
@@ -76,7 +78,7 @@ public class BandDtoController {
                             schema = @Schema(implementation = MultipartFile.class, format = "binary")) }),
     })
     @GetMapping(value = "bands_dto/export/excel")
-    public final void exportToExcelAllBandsDto(HttpServletResponse response) throws IOException {
+    public final void exportToExcelAllBandsDto(HttpServletResponse response) {
         logger.debug("exportToExcelAllBands()");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";

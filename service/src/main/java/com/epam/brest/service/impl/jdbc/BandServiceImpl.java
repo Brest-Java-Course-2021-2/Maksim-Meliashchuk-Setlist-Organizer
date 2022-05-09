@@ -76,7 +76,6 @@ public class BandServiceImpl implements BandService {
 
     @Override
     @Transactional(readOnly = true)
-   // @PreAuthorize("hasAnyRole('user', 'admin')")
     public List<Band> findAllBands() {
         logger.debug("findAll()");
         return this.bandDao.findAll();

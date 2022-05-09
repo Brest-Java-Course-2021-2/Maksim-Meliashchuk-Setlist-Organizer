@@ -60,6 +60,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Track'
+      security:
+      - keycloakAuth: []
     put:
       tags:
       - Track
@@ -91,6 +93,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
     post:
       tags:
       - Track
@@ -125,6 +129,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /bands:
     get:
       tags:
@@ -158,6 +164,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Band'
+      security:
+      - keycloakAuth: []
     put:
       tags:
       - Band
@@ -186,6 +194,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
     post:
       tags:
       - Band
@@ -217,6 +227,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /uploadZipFile:
     post:
       tags:
@@ -257,6 +269,8 @@ paths:
           description: Database have been restored.
           content:
             application/zip: {}
+      security:
+      - keycloakAuth: []
   /repertoire/import/excel:
     post:
       tags:
@@ -300,6 +314,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /bands/import/excel:
     post:
       tags:
@@ -343,6 +359,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /version:
     get:
       tags:
@@ -374,6 +392,8 @@ paths:
             application/json:
               schema:
                 type: string
+      security:
+      - keycloakAuth: []
   /tracks_dto:
     get:
       tags:
@@ -407,6 +427,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+      security:
+      - keycloakAuth: []
   /tracks_dto/fill:
     get:
       tags:
@@ -454,6 +476,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+      security:
+      - keycloakAuth: []
   /tracks_dto/export/excel:
     get:
       tags:
@@ -486,6 +510,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /repertoire/{id}:
     get:
       tags:
@@ -521,6 +547,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Track'
+      security:
+      - keycloakAuth: []
     delete:
       tags:
       - Track
@@ -556,6 +584,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /repertoire/filter:
     get:
       tags:
@@ -603,6 +633,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+      security:
+      - keycloakAuth: []
   /repertoire/filter/band/{bandId}:
     get:
       tags:
@@ -637,6 +669,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+      security:
+      - keycloakAuth: []
   /repertoire/fill:
     get:
       tags:
@@ -684,6 +718,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Track'
+      security:
+      - keycloakAuth: []
   /repertoire/export/xml:
     get:
       tags:
@@ -716,6 +752,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /repertoire/export/excel:
     get:
       tags:
@@ -748,6 +786,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /downloadZipFile:
     get:
       tags:
@@ -780,6 +820,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /bands_dto:
     get:
       tags:
@@ -814,6 +856,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BandDto'
+      security:
+      - keycloakAuth: []
   /bands_dto/fill:
     get:
       tags:
@@ -861,6 +905,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BandDto'
+      security:
+      - keycloakAuth: []
   /bands_dto/export/excel:
     get:
       tags:
@@ -894,6 +940,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /bands/{id}:
     get:
       tags:
@@ -929,6 +977,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Band'
+      security:
+      - keycloakAuth: []
     delete:
       tags:
       - Band
@@ -961,6 +1011,8 @@ paths:
               schema:
                 type: integer
                 format: int32
+      security:
+      - keycloakAuth: []
   /bands/fill:
     get:
       tags:
@@ -1008,6 +1060,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Band'
+      security:
+      - keycloakAuth: []
   /bands/export/xml:
     get:
       tags:
@@ -1040,6 +1094,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
   /bands/export/excel:
     get:
       tags:
@@ -1072,6 +1128,8 @@ paths:
               schema:
                 type: string
                 format: binary
+      security:
+      - keycloakAuth: []
 components:
   schemas:
     ErrorResponse:
@@ -1197,3 +1255,7 @@ components:
         bandDetails:
           type: string
       description: Band with the count of tracks and the duration of the repertoire
+  securitySchemes:
+    keycloakAuth:
+      type: openIdConnect
+      openIdConnectUrl: http://localhost:8484/auth/realms/setlist_organizer_realm/.well-known/openid-configuration
