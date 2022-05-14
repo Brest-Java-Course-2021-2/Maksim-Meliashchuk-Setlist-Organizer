@@ -66,6 +66,7 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <pitest.version>1.7.5</pitest.version>
         <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
+        <springdoc-openapi-security.version>1.6.8</springdoc-openapi-security.version>
     </properties>
 
     <dependencyManagement>
@@ -198,6 +199,12 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc-openapi-ui.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc-openapi-security.version}</version>
             </dependency>
 
             <dependency>

@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
     };
@@ -52,22 +53,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter() {
         JwtGrantedAuthoritiesConverter delegate = new JwtGrantedAuthoritiesConverter();
 
-        return jwt -> {
-            Collection<GrantedAuthority> grantedAuthorities = delegate.convert(jwt);
+        return new Converter<>() {
+            @Override
+            public Collection<GrantedAuthority> convert(Jwt jwt) {
+                Collection<GrantedAuthority> grantedAuthorities = delegate.convert(jwt);
 
-            if (jwt.getClaim("realm_access") == null) {
+                if (jwt.getClaim("realm_access") == null) {
+                    return grantedAuthorities;
+                }
+                JSONObject realmAccess = jwt.getClaim("realm_access");
+                if (realmAccess.get("roles") == null) {
+                    return grantedAuthorities;
+                }
+                JSONArray roles = (JSONArray) realmAccess.get("roles");
+
+                final List<SimpleGrantedAuthority> keycloakAuthorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
+                grantedAuthorities.addAll(keycloakAuthorities);
+
                 return grantedAuthorities;
             }
-            JSONObject realmAccess = jwt.getClaim("realm_access");
-            if (realmAccess.get("roles") == null) {
-                return grantedAuthorities;
-            }
-            JSONArray roles = (JSONArray) realmAccess.get("roles");
-
-            final List<SimpleGrantedAuthority> keycloakAuthorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
-            grantedAuthorities.addAll(keycloakAuthorities);
-
-            return grantedAuthorities;
         };
     }
 

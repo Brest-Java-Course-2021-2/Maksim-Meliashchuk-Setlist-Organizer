@@ -21,7 +21,7 @@ public class SwaggerConfig {
     private String tokenUri;
 
     @Bean
-    public OpenAPI setlistOrganizerOpenAPI() {
+    public OpenAPI springSetlistOrganizerOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Setlist Organizer API")
                         .description("'Setlist Organizer' is a web application for organizing repertoires of musical bands.")

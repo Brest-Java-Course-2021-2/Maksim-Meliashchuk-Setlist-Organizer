@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @ComponentScan
 @Profile("dev")
 @PropertySource("classpath:application-dev.yaml")
+@Import(WebSecurityConfig.class)
 public class ApplicationConfig {
 
     @Value("${rest.server.protocol}")
