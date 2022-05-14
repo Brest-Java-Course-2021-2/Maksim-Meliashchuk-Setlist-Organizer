@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers(SWAGGER_WHITELIST).permitAll()
+                        .antMatchers("/version").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer

@@ -394,8 +394,6 @@ paths:
             application/json:
               schema:
                 type: string
-      security:
-      - keycloakOAuth: []
   /tracks_dto:
     get:
       tags:
