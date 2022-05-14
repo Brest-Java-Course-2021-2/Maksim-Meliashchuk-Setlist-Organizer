@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
+@PreAuthorize("hasAnyRole('user', 'admin')")
 public interface BandDtoService {
 
     /**
@@ -12,7 +13,7 @@ public interface BandDtoService {
      *
      * @return list of band Dto.
      */
-    @PreAuthorize("hasAnyRole('user', 'admin')")
+
     List<BandDto> findAllWithCountTrack();
 
 }

@@ -33,7 +33,7 @@ import java.util.Collection;
 @Tag(name = "Track", description = "the Track API")
 @RestController
 @CrossOrigin
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class TrackController {
 
     private final TrackService trackService;

@@ -33,7 +33,7 @@ import java.util.Collection;
 @Tag(name = "Band", description = "the Band API")
 @RestController
 @CrossOrigin
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class BandController {
 
     private final Logger logger = LogManager.getLogger(BandController.class);

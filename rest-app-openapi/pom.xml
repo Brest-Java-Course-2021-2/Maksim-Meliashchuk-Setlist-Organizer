@@ -105,6 +105,7 @@
                         <oas3>true</oas3>
                         <useSpringController>true</useSpringController>
                         <useSpringfox>false</useSpringfox>
+                        <ignoreFileOverride>true</ignoreFileOverride>
                     </configOptions>
                 </configuration>
                 <executions>

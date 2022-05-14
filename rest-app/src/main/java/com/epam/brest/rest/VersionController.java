@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Version", description = "the version Setlist Organizer API")
 @RestController
 @CrossOrigin
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class VersionController {
     private final static String VERSION = "1.0.0";
 
@@ -26,7 +26,7 @@ public class VersionController {
                             schema = @Schema(implementation = String.class)) })
     })
     @GetMapping(value = "/version")
-    @PreAuthorize("hasAnyRole('user', 'admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public String version() {
         return VERSION;
     }

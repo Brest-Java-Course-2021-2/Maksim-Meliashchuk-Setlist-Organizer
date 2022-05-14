@@ -26,24 +26,20 @@ spring:
     active: dev, jpa
 
   security:
-    config:
-      authcode-flow: false
     oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_REALM_CERT_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/certs}
       client:
         provider:
           keycloak:
-            issuer-uri: http://localhost:8484/auth/realms/setlist_organizer_realm
+            issuer-uri: ${KEYCLOAK_REALM_ISSUER_URL:http://localhost:8484/auth/realms/setlist_organizer_realm}
+            token-uri: ${KEYCLOAK_REALM_TOKEN_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/token}
+
         registration:
           keycloak:
             client-id: setlist_organizer_client
-            client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
-            use-resource-role-mappings: true
-            principal-attribute: preferred_username
-
-springdoc:
-  swagger-ui:
-    csrf:
-      enabled: true
+           # client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
 
 management:
   endpoints:

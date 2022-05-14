@@ -19,6 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,12 +39,14 @@ import java.util.Optional;
 import static com.epam.brest.model.constant.TrackConstant.TRACK_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.TrackConstant.TRACK_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.yaml")
+@WithMockUser(username = "admin", roles = { "admin" })
 public class TrackControllerIT {
 
     private final Logger logger = LogManager.getLogger(TrackControllerIT.class);
@@ -49,6 +54,9 @@ public class TrackControllerIT {
     public static final String REPERTOIRE_ENDPOINT = "/repertoire";
 
     public static final int FAKE_DATA_SIZE = 15;
+
+    @Autowired
+    private FilterChainProxy springSecurityFilterChain;
 
     @Autowired
     private TrackController trackController;
@@ -70,6 +78,7 @@ public class TrackControllerIT {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .setControllerAdvice(customExceptionHandler)
                 .alwaysDo(MockMvcResultHandlers.print())
+                .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain))
                 .build();
     }
 
@@ -153,7 +162,7 @@ public class TrackControllerIT {
         track.setTrackBandId(-1);
         track.setTrackLink("test");
         MockHttpServletResponse response =
-                mockMvc.perform(post(REPERTOIRE_ENDPOINT)
+                mockMvc.perform(post(REPERTOIRE_ENDPOINT).with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(track))
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -177,7 +186,7 @@ public class TrackControllerIT {
         Track track = new Track("");
 
         MockHttpServletResponse response =
-                mockMvc.perform(post(REPERTOIRE_ENDPOINT)
+                mockMvc.perform(post(REPERTOIRE_ENDPOINT).with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(track))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -274,7 +283,7 @@ public class TrackControllerIT {
         logger.debug("shouldTracksExportExcel()");
 
         MockHttpServletResponse response =
-                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel"))
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/excel").with(csrf()))
                         .andExpect(status().isOk())
                         .andReturn().getResponse();
         assertNotNull(response);
@@ -294,7 +303,7 @@ public class TrackControllerIT {
                 IOUtils.toByteArray(input));
 
         MockHttpServletResponse response = mockMvc.perform(multipart("/repertoire/import/excel")
-                        .file(multipartFile))
+                        .file(multipartFile).with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
@@ -304,7 +313,7 @@ public class TrackControllerIT {
         logger.debug("shouldBandsExportXml()");
 
         MockHttpServletResponse response =
-                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/xml")
+                mockMvc.perform(MockMvcRequestBuilders.get(REPERTOIRE_ENDPOINT + "/export/xml").with(csrf())
                                 .accept(MediaType.APPLICATION_XML))
                         .andExpect(status().isOk())
                         .andReturn().getResponse();
@@ -318,7 +327,7 @@ public class TrackControllerIT {
 
         public List<Track> findAll() throws Exception {
             logger.debug("findAll()");
-            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT)
+            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -330,7 +339,7 @@ public class TrackControllerIT {
 
         public List<Track> fillFakeTracks() throws Exception {
             logger.debug("fillFakeTracks()");
-            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE)
+            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -343,7 +352,7 @@ public class TrackControllerIT {
         public Optional<Track> findById(Integer id) throws Exception {
 
             logger.debug("findById({})", id);
-            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT + "/" + id)
+            MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT + "/" + id).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -354,7 +363,7 @@ public class TrackControllerIT {
             logger.debug("create({})", track);
             String json = objectMapper.writeValueAsString(track);
             MockHttpServletResponse response =
-                    mockMvc.perform(post(REPERTOIRE_ENDPOINT)
+                    mockMvc.perform(post(REPERTOIRE_ENDPOINT).with(csrf())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(json)
                                     .accept(MediaType.APPLICATION_JSON)
@@ -367,7 +376,7 @@ public class TrackControllerIT {
 
             logger.debug("update({})", track);
             MockHttpServletResponse response =
-                    mockMvc.perform(put(REPERTOIRE_ENDPOINT)
+                    mockMvc.perform(put(REPERTOIRE_ENDPOINT).with(csrf())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(track))
                                     .accept(MediaType.APPLICATION_JSON)
@@ -381,7 +390,7 @@ public class TrackControllerIT {
             logger.debug("delete(id:{})", trackId);
             MockHttpServletResponse response = mockMvc.perform(
                             MockMvcRequestBuilders.delete(REPERTOIRE_ENDPOINT + "/" +
-                                            trackId)
+                                            trackId).with(csrf())
                                     .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();

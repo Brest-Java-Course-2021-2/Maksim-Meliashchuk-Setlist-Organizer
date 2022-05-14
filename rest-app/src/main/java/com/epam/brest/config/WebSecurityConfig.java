@@ -1,65 +1,74 @@
 package com.epam.brest.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.nimbusds.jose.shaded.json.JSONArray;
+import com.nimbusds.jose.shaded.json.JSONObject;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.security.oauth2.client.provider.keycloak.issuer-uri}")
-    private String issuer;
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .oauth2Login(oauth2 -> oauth2.userInfoEndpoint(
-                        userInfo -> userInfo.userService(this.oidcUserService()))
+                .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .antMatchers(SWAGGER_WHITELIST).permitAll()
+                        .anyRequest().authenticated())
+                .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
+                        .jwt(jwtConfigurer -> jwtConfigurer
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 );
     }
 
-    private OAuth2UserService<OAuth2UserRequest, OAuth2User> oidcUserService() {
-        final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
+    @Bean
+    public Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationConverter() {
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter());
+        return jwtAuthenticationConverter;
+    }
 
-        return (userRequest) -> {
-            OAuth2User oAuth2User = delegate.loadUser(userRequest);
-            OAuth2AccessToken accessToken = userRequest.getAccessToken();
-            Jwt jwt = JwtDecoders.fromIssuerLocation(issuer).decode(accessToken.getTokenValue());
-            Converter<Jwt, Collection<GrantedAuthority>> converter = new KeycloakRealmRoleConverter();
-            Set<GrantedAuthority> mappedAuthorities = (Set<GrantedAuthority>) converter.convert(jwt);
-            return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), "preferred_username");
+    @Bean
+    public Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter() {
+        JwtGrantedAuthoritiesConverter delegate = new JwtGrantedAuthoritiesConverter();
+
+        return jwt -> {
+            Collection<GrantedAuthority> grantedAuthorities = delegate.convert(jwt);
+
+            if (jwt.getClaim("realm_access") == null) {
+                return grantedAuthorities;
+            }
+            JSONObject realmAccess = jwt.getClaim("realm_access");
+            if (realmAccess.get("roles") == null) {
+                return grantedAuthorities;
+            }
+            JSONArray roles = (JSONArray) realmAccess.get("roles");
+
+            final List<SimpleGrantedAuthority> keycloakAuthorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
+            grantedAuthorities.addAll(keycloakAuthorities);
+
+            return grantedAuthorities;
         };
     }
 
-    public static class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
-        @Override
-        public Collection<GrantedAuthority> convert(Jwt jwt) {
-            final Map<String, Object> realmAccess = (Map<String, Object>) jwt.getClaims().get("realm_access");
-            return ((List<String>) realmAccess.get("roles")).stream()
-                    .map(roleName -> "ROLE_" + roleName)
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
-        }
-    }
 }

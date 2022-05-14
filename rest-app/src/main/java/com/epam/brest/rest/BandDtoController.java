@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collection;
 
 @Tag(name = "Bands", description = "the Bands API")
 @RestController
 @CrossOrigin
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class BandDtoController {
 
     private static final Logger logger = LogManager.getLogger(BandDtoDaoJdbcImpl.class);

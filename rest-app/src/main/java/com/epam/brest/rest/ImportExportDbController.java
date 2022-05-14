@@ -25,7 +25,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Import/Export database", description = "create database archive / restore database from archive")
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class ImportExportDbController {
 
     private final DataBaseZipRestoreService dataBaseZipRestoreService;

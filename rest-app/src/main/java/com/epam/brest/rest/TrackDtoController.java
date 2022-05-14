@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -29,7 +28,7 @@ import java.util.Collection;
 @Tag(name = "Tracks", description = "the Tracks API")
 @RestController
 @CrossOrigin
-@SecurityRequirement(name = "keycloakAuth")
+@SecurityRequirement(name = "keycloakOAuth")
 public class TrackDtoController {
 
     private static final Logger logger = LogManager.getLogger(TrackDtoController.class);
