@@ -7,6 +7,7 @@ import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import com.epam.brest.web_app.condition.RestTemplateCondition;
 import com.epam.brest.web_app.condition.WebClientCondition;
+import com.epam.brest.web_app.security.config.WebSecurityConfig;
 import io.swagger.client.api.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;

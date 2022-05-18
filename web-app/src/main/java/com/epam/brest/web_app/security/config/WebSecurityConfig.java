@@ -1,6 +1,8 @@
-package com.epam.brest.web_app.config;
+package com.epam.brest.web_app.security.config;
 
+import com.epam.brest.web_app.security.CustomLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,6 +18,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,15 +29,21 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Value("${spring.security.oauth2.client.provider.keycloak.issuer-uri}")
     private String issuer;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .oauth2Login(oauth2 -> oauth2.userInfoEndpoint(
-                        userInfo -> userInfo.userService(this.oidcUserService()))
-                );
+        http
+                .oauth2Login(oauth2 -> {
+                            oauth2.userInfoEndpoint(
+                                    userInfo -> userInfo.userService(this.oidcUserService()));
+                            oauth2.loginPage("/login");
+                        }
+                ).logout(logout -> logout
+                        .logoutSuccessHandler(logoutSuccessHandler()));
+
     }
 
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oidcUserService() {
@@ -60,4 +69,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .collect(Collectors.toSet());
         }
     }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
+    }
+
 }
