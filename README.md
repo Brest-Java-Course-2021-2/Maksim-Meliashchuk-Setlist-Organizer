@@ -202,8 +202,9 @@ the 'ApiClient' property only.</a>_ :warning:
 ## Security
 <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white"/>
 
-This project uses the OpenID Connect support in Spring Security 5 and KeyCloak as the OpenId Connect Identity Provider 
-without using the Keycloak adapter.  
+This project uses the [OpenID Connect](https://openid.net/connect/)  support in [Spring Security 5](https://spring.io/projects/spring-security) 
+and [Keycloak](https://www.keycloak.org/) as the OpenId Connect Identity Provider 
+without using the [Keycloak adapter](https://www.keycloak.org/2022/02/adapter-deprecation).  
 Only authenticated users can call secured endpoints available through Swagger UI and the web-app UI.
 
 You can run the `Keycloak` container with the following commands in the root directory of the project:
