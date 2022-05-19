@@ -74,5 +74,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
     }
-
 }

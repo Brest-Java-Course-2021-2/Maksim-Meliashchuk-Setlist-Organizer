@@ -29,6 +29,7 @@
 - [Installation Information](#installation-information)
 - [Rest app configure](#rest-app-configure)
 - [Web app configure](#web-app-configure)
+- [Security](#security)
 - [Run local tests](#run-local-tests)
 - [Run mutation testing](#run-mutation-testing)
 - [Run load testing](#run-load-testing)
@@ -93,7 +94,7 @@ API documentation with Swagger UI:
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
   <a href="https://spring.io/projects/spring-data-jpa)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
-- **Security:** [Spring Security OAuth](https://spring.io/projects/spring-security-oauth)  <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+- **Security:** [Spring Security](https://spring.io/projects/spring-security)  <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
 - **Identity Management:** [Keycloak](https://www.keycloak.org/) <img height="20" width="20" src="documentation/img/icons/keycloak.svg"/>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
 - **Annotation processor:**
@@ -197,6 +198,29 @@ app.httpClient = ApiClient
 
 :warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files with 
 the 'ApiClient' property only.</a>_ :warning:
+
+## Security
+<img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white"/>
+
+This project uses the OpenID Connect support in Spring Security 5 and KeyCloak as the OpenId Connect Identity Provider 
+without using the Keycloak adapter.  
+Only authenticated users can call secured endpoints available through Swagger UI and the web-app UI.
+
+You can run the `Keycloak` container with the following commands in the root directory of the project:
+
+```bash
+cd keycloak
+sudo docker-compose -f keycloak.yml up
+```
+
+`Keycloak` is assumed to run on port 8484 on localhost.
+The `Keycloak` service starts with the default realm imported from the [keycloak/realm-export.json](keycloak/realm-export.json) 
+file that specifies all the default users.
+For example users of this project:
+- available usernames: `admin1`, `user1`
+- password: `123`
+
+`admin1` has the `admin` realm role that is required to call the POST and DELETE.
 
 ## Run local tests
 
@@ -317,6 +341,9 @@ The OpenAPI descriptions in YAML format will be available at the path:
 
 API documentation with Swagger UI: 
 [http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)
+
+Click the `Authorize` button and log in as an example user of the `setlist_organizer_client` client to test secured
+endpoints, the client is `public` so you don't need to fill the `client_secret` field.
 
 ## OpenAPI generated server
 <img src="https://img.shields.io/badge/openapi-%236BA539.svg?&style=for-the-badge&logo=openapiinitiative&logoColor=black" />

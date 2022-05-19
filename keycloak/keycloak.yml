@@ -23,6 +23,9 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin_password
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+    volumes:
+      - realm-export.json:/tmp/realm-export.json
     ports:
       - "8484:8080"
     depends_on:
