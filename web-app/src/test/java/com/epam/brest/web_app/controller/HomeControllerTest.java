@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -13,8 +14,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(HomeController.class)
+@AutoConfigureMockMvc
 @WithMockUser(username = "admin", roles = { "admin" })
+@SpringBootTest
 class HomeControllerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeControllerTest.class);
@@ -26,7 +28,7 @@ class HomeControllerTest {
     private HomeController controller;
 
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(controller).isNotNull();
     }
 

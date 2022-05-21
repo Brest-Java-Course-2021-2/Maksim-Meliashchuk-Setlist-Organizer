@@ -4,7 +4,6 @@ import com.epam.brest.ApiException;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import io.swagger.client.api.ImportExportDatabaseApi;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Conditional;
