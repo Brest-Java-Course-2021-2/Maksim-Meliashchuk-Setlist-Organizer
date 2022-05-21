@@ -3,6 +3,7 @@ package com.epam.brest.web_app.controller;
 import com.epam.brest.ApiException;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import io.swagger.client.api.ImportExportDatabaseApi;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -20,7 +21,7 @@ import java.io.*;
 import static com.epam.brest.web_app.security.AccessTokenValueExtractor.getAccessTokenValue;
 
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Controller
 @Conditional(ApiClientCondition.class)
 public class ImportExportDbControllerApiClient {
@@ -44,7 +45,8 @@ public class ImportExportDbControllerApiClient {
         FileOutputStream fos = new FileOutputStream(convertFile);
         fos.write(file.getBytes());
         fos.close();
-        if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
+        String token = getAccessTokenValue(auth2AuthorizedClientService);
+        if (token != null) {
             importExportDatabaseApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
         } else {
             return "login";

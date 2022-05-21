@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgres:
-    container_name: postgres_keycloak
+    container_name: postgres
     image: library/postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -17,15 +17,12 @@ services:
     container_name: keycloak
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres_keycloak
+      DB_ADDR: postgres
       DB_DATABASE: keycloak_db
       DB_USER: ${POSTGRES_USER:-postgres}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin_password
-      KEYCLOAK_IMPORT: /tmp/realm-export.json
-    volumes:
-      - ./realms/realm-export.json:/tmp/realm-export.json
     ports:
       - "8484:8080"
     depends_on:

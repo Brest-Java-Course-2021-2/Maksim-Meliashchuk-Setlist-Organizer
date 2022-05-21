@@ -93,8 +93,8 @@ API documentation with Swagger UI:
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-  <a href="https://spring.io/projects/spring-data-jpa)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
-- **Security:** [Spring Security](https://spring.io/projects/spring-security)  <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
+    <img height="20" width="20" src="documentation/img/icons/springdata.svg"/>
+- **Security:** [Spring Security](https://spring.io/projects/spring-security)  <img height="20" width="20" src="documentation/img/icons/springsecurity.svg"/>
 - **Identity Management:** [Keycloak](https://www.keycloak.org/) <img height="20" width="20" src="documentation/img/icons/keycloak.svg"/>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
 - **Annotation processor:**
@@ -203,19 +203,19 @@ the 'ApiClient' property only.</a>_ :warning:
 <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white"/>
 
 This project uses the [OpenID Connect](https://openid.net/connect/)  support in [Spring Security 5](https://spring.io/projects/spring-security) 
-and [Keycloak](https://www.keycloak.org/) as the OpenId Connect Identity Provider 
+and [Keycloak](https://www.keycloak.org/) as the OpenID Connect Identity Provider 
 without using the [Keycloak adapter](https://www.keycloak.org/2022/02/adapter-deprecation).  
 Only authenticated users can call secured endpoints available through Swagger UI and the web-app UI.
 
 You can run the `Keycloak` container with the following commands in the root directory of the project:
 
 ```bash
-cd keycloak
-sudo docker-compose -f keycloak.yml up
+$ cd keycloak
+$ sudo docker-compose -f keycloak.yml up
 ```
 
 `Keycloak` is assumed to run on port 8484 on localhost.
-The `Keycloak` service starts with the default realm imported from the [keycloak/realm-export.json](keycloak/realm-export.json) 
+The `Keycloak` service starts with the default realm imported from the [keycloak/realm-export.json](keycloak/realms/realm-export.json) 
 file that specifies all the default users.
 For example users of this project:
 - available usernames: `admin1`, `user1`

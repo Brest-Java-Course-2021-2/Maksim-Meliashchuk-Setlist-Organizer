@@ -27,26 +27,21 @@
 
                 <div sec:authorize="isAuthenticated()">
                     <h5 class="fw-normal mb-1 pb-1" style="letter-spacing: 1px;">Hello,
-                    <strong th:text="${#authentication.name}"></strong>!</h5>
+                        <strong th:text="${#authentication.name}"></strong>!</h5>
+                    <div class="pt-1 mb-4">
+                        <a th:href="@{/bands}" class="btn btn-dark btn-lg btn-block w-100" role="button">
+                            GO TO APP</a>
+                    </div>
                 </div>
 
                 <form>
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-                    <div class="pt-1 mb-4">
-                        <a href="/oauth2/authorization/keycloak" class="btn btn-dark btn-lg btn-block w-100" role="button">
-                            SIGN IN</a>
-                    </div>
-<!--
-                    <div class="pt-1 mb-4" sec:authorize="isAuthenticated()">
-                        <form method="post" th:action="@{/logout}">
-                            <input type="submit" class="btn btn-dark btn-lg btn-block w-100" value="LOGOUT"/>
-                        </form>
-                    </div>-->
-
-                    <div class="pt-1 mb-4" sec:authorize="isAuthenticated()">
-                        <form method="post" th:action="@{/logout}">
-                            <input type="submit" class="btn btn-dark btn-lg btn-block w-100" value="LOGOUT"/>
-                        </form>
+                    <div sec:authorize="isAnonymous()">
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                        <div class="pt-1 mb-4">
+                            <a th:href="@{/oauth2/authorization/keycloak}" class="btn btn-dark btn-lg btn-block w-100"
+                               role="button">
+                                SIGN IN</a>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -62,7 +57,6 @@
 
 
 </div>
-
 
 
 <div th:insert="layouts :: footer"></div>

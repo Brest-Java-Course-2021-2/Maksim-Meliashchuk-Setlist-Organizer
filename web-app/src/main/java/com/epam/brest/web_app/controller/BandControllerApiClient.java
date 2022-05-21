@@ -12,7 +12,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +53,6 @@ public class BandControllerApiClient {
     }
 
     @GetMapping(value = "/bands")
-    @PreAuthorize("hasRole('user')")
     public String bands(Model model) {
         LOGGER.debug("go to page bands");
         try {
@@ -99,7 +97,7 @@ public class BandControllerApiClient {
     public String gotoAddBandPage(Model model) {
         LOGGER.debug("gotoAddBandPage({})", model);
         if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-            bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+            bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
         } else {
             return "login";
         }
@@ -114,7 +112,7 @@ public class BandControllerApiClient {
         model.addAttribute("isNew", false);
         try {
             if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+                bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
             } else {
                 return "login";
             }
@@ -134,7 +132,7 @@ public class BandControllerApiClient {
         }
         try {
             if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+                bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
             } else {
                 return "login";
             }
@@ -154,7 +152,7 @@ public class BandControllerApiClient {
         }
         try {
             if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+                bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
             } else {
                 return "login";
             }
@@ -166,18 +164,14 @@ public class BandControllerApiClient {
     }
 
     @GetMapping(value = "/band/{id}/delete")
-    public final String deleteBandById(@PathVariable Integer id, Model model) {
+    public final String deleteBandById(@PathVariable Integer id, Model model) throws ApiException {
         LOGGER.debug("delete({},{})", id, model);
-        try {
-            if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
-            } else {
-                return "login";
-            }
-            bandApi.deleteBand(id);
-        } catch (ApiException e) {
-            e.printStackTrace();
+        if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
+            bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+        } else {
+            return "login";
         }
+        bandApi.deleteBand(id);
         return "redirect:/bands";
     }
 
@@ -208,7 +202,7 @@ public class BandControllerApiClient {
         fos.write(file.getBytes());
         fos.close();
         if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-            bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+            bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
         } else {
             return "login";
         }

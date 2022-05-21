@@ -1,8 +1,6 @@
 package com.epam.brest.web_app.security.config;
 
-import com.epam.brest.web_app.security.CustomLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,7 +16,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,8 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     userInfo -> userInfo.userService(this.oidcUserService()));
                             oauth2.loginPage("/login");
                         }
-                ).logout(logout -> logout
-                        .logoutSuccessHandler(logoutSuccessHandler()));
+                );
 
     }
 
@@ -70,8 +66,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
     }
 
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new CustomLogoutSuccessHandler();
-    }
 }

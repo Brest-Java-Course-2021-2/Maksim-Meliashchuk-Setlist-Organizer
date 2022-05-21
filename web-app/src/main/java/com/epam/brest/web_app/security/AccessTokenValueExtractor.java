@@ -19,14 +19,18 @@ public class AccessTokenValueExtractor {
 
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
 
-        OAuth2AuthorizedClient client = auth2AuthorizedClientService
-                .loadAuthorizedClient(oauthToken.getAuthorizedClientRegistrationId(),
-                        authentication.getName());
+        if (oauthToken != null) {
+            OAuth2AuthorizedClient client = auth2AuthorizedClientService
+                    .loadAuthorizedClient(oauthToken.getAuthorizedClientRegistrationId(),
+                            authentication.getName());
 
-        if (client != null) {
-            return client.getAccessToken().getTokenValue();
-        } else {
-            return null;
+            if (client != null) {
+                log.debug(client.getAccessToken().getTokenValue());
+                return client.getAccessToken().getTokenValue();
+            } else {
+                return null;
+            }
         }
+        return null;
     }
 }

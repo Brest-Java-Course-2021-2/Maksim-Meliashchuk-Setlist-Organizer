@@ -15,11 +15,9 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String defaultPageRedirect(Authentication authentication) {
-
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:bands";
         }
-
         return "redirect:login";
     }
 
