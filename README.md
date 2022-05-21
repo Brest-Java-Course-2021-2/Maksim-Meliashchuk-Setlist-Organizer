@@ -210,13 +210,12 @@ Only authenticated users can call secured endpoints available through Swagger UI
 You can run the `Keycloak` container with the following commands in the root directory of the project:
 
 ```bash
-$ cd keycloak
 $ sudo docker-compose -f keycloak.yml up
 ```
 
 `Keycloak` is assumed to run on port 8484 on localhost.
-The `Keycloak` service starts with the default realm imported from the [keycloak/realm-export.json](keycloak/realms/realm-export.json) 
-file that specifies all the default users.
+The `Keycloak` service can be started with a default realm by importing it from the [keycloak/realm-export.json](keycloak/realms/realm-export.json) 
+file which lists default users.
 For example users of this project:
 - available usernames: `admin1`, `user1`
 - password: `123`

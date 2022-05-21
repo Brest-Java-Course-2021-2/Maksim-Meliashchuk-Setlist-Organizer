@@ -1,6 +1,7 @@
 {
   "id": "setlist_organizer_realm",
   "realm": "setlist_organizer_realm",
+  "displayName": "Setlist Organizer",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -1316,6 +1317,7 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
+  "loginTheme": "keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1351,14 +1353,6 @@
         }
       },
       {
-        "id": "00ca33dd-494f-42a3-9192-763a78d477ae",
-        "name": "Consent Required",
-        "providerId": "consent-required",
-        "subType": "anonymous",
-        "subComponents": {},
-        "config": {}
-      },
-      {
         "id": "13acf736-4eba-4d31-8a32-59a5698eb226",
         "name": "Allowed Protocol Mapper Types",
         "providerId": "allowed-protocol-mappers",
@@ -1376,6 +1370,33 @@
             "saml-user-property-mapper"
           ]
         }
+      },
+      {
+        "id": "13ffa83f-925e-4615-aef9-768d360a70d6",
+        "name": "Allowed Protocol Mapper Types",
+        "providerId": "allowed-protocol-mappers",
+        "subType": "anonymous",
+        "subComponents": {},
+        "config": {
+          "allowed-protocol-mapper-types": [
+            "oidc-usermodel-property-mapper",
+            "oidc-full-name-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper",
+            "saml-role-list-mapper",
+            "saml-user-property-mapper",
+            "oidc-address-mapper",
+            "oidc-sha256-pairwise-sub-mapper"
+          ]
+        }
+      },
+      {
+        "id": "00ca33dd-494f-42a3-9192-763a78d477ae",
+        "name": "Consent Required",
+        "providerId": "consent-required",
+        "subType": "anonymous",
+        "subComponents": {},
+        "config": {}
       },
       {
         "id": "c88d55e8-4636-46ac-9f79-b29cbd75f8fa",
@@ -1402,25 +1423,6 @@
         }
       },
       {
-        "id": "13ffa83f-925e-4615-aef9-768d360a70d6",
-        "name": "Allowed Protocol Mapper Types",
-        "providerId": "allowed-protocol-mappers",
-        "subType": "anonymous",
-        "subComponents": {},
-        "config": {
-          "allowed-protocol-mapper-types": [
-            "oidc-usermodel-property-mapper",
-            "oidc-full-name-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "saml-user-attribute-mapper",
-            "saml-role-list-mapper",
-            "saml-user-property-mapper",
-            "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper"
-          ]
-        }
-      },
-      {
         "id": "f7212873-0ae1-4200-ab33-7eae9806ec61",
         "name": "Allowed Client Scopes",
         "providerId": "allowed-client-templates",
@@ -1431,6 +1433,14 @@
             "true"
           ]
         }
+      }
+    ],
+    "org.keycloak.userprofile.UserProfileProvider": [
+      {
+        "id": "6d4aede5-90de-401f-b38a-7e40a80f4492",
+        "providerId": "declarative-user-profile",
+        "subComponents": {},
+        "config": {}
       }
     ],
     "org.keycloak.keys.KeyProvider": [
@@ -1460,17 +1470,6 @@
         }
       },
       {
-        "id": "030911f4-c020-4332-98f8-2b0974da76ed",
-        "name": "aes-generated",
-        "providerId": "aes-generated",
-        "subComponents": {},
-        "config": {
-          "priority": [
-            "100"
-          ]
-        }
-      },
-      {
         "id": "b67ccf46-dc02-42ba-938e-0bab8fd509f5",
         "name": "rsa-enc-generated",
         "providerId": "rsa-enc-generated",
@@ -1483,11 +1482,24 @@
             "RSA-OAEP"
           ]
         }
+      },
+      {
+        "id": "030911f4-c020-4332-98f8-2b0974da76ed",
+        "name": "aes-generated",
+        "providerId": "aes-generated",
+        "subComponents": {},
+        "config": {
+          "priority": [
+            "100"
+          ]
+        }
       }
     ]
   },
   "internationalizationEnabled": false,
-  "supportedLocales": [],
+  "supportedLocales": [
+    ""
+  ],
   "authenticationFlows": [
     {
       "id": "c517e702-01fd-4f35-a988-1f3e2755e004",
@@ -2164,6 +2176,7 @@
     "clientOfflineSessionMaxLifespan": "0",
     "oauth2DevicePollingInterval": "5",
     "clientSessionIdleTimeout": "0",
+    "userProfileEnabled": "false",
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
     "clientOfflineSessionIdleTimeout": "0",
