@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.security.web.FilterChainProxy;
@@ -94,11 +95,23 @@ public class BandControllerIT {
 
         // when
         List<Band> bands = bandService.findAll();
-        System.out.println(bands);
 
         // then
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void shouldNotFindAllBands() throws Exception {
+        logger.debug("shouldNotFindAllBands()");
+
+        MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE).with(csrf())
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().is4xxClientError())
+                .andReturn().getResponse();
+        assertNotNull(response);
+
     }
 
     @Test
@@ -122,6 +135,24 @@ public class BandControllerIT {
                 .build();
         Integer id = bandService.create(band);
         assertNotNull(id);
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = { "user" })
+    public void shouldNotCreateBand() throws Exception {
+        logger.debug("shouldNotCreateBand()");
+        Band band = Band.builder()
+                .bandId(4)
+                .bandName("Test band")
+                .build();
+        String json = objectMapper.writeValueAsString(band);
+        MockHttpServletResponse response =
+                mockMvc.perform(post(BANDS_ENDPOINT).with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().is4xxClientError())
+                        .andReturn().getResponse();
     }
 
     @Test

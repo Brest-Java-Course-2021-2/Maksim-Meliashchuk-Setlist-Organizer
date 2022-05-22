@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.security.web.FilterChainProxy;
@@ -104,6 +105,19 @@ public class TrackControllerIT {
     }
 
     @Test
+    @Transactional
+    @WithAnonymousUser
+    public void shouldNotFindAllTracks() throws Exception {
+        logger.debug("shouldNotFindAllTracks()");
+        MockHttpServletResponse response = mockMvc.perform(get(REPERTOIRE_ENDPOINT)
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().is4xxClientError())
+                .andReturn().getResponse();
+        assertNotNull(response);
+
+    }
+
+    @Test
     public void shouldFillFakeTracks() throws Exception {
         logger.debug("shouldFillFakeBands()");
 
@@ -150,6 +164,27 @@ public class TrackControllerIT {
         Integer id = trackService.create(track);
         assertNotNull(id);
     }
+
+    @Test
+    @Transactional
+    @WithMockUser(username = "user", roles = { "user" })
+    public void shouldNotCreateTrack() throws Exception {
+        logger.debug("shouldNotCreateTrack()");
+        Track track = Track.builder()
+                .trackName("Test Track")
+                .trackId(1)
+                .trackBandId(1)
+                .build();
+        String json = objectMapper.writeValueAsString(track);
+        MockHttpServletResponse response =
+                mockMvc.perform(post(REPERTOIRE_ENDPOINT).with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().is4xxClientError())
+                        .andReturn().getResponse();
+    }
+
 
     @Test
     @Transactional
