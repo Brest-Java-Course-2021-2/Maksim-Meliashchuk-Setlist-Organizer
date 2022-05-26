@@ -134,7 +134,7 @@
                 <configuration>
                     <apiDocsUrl>${springdoc-openapi-maven-plugin.apiDocsUrl}</apiDocsUrl>
                     <outputFileName>openapi.yaml</outputFileName>
-                    <outputDir>${project.parent.basedir}/rest-app-openapi/src/main/resources</outputDir>
+                    <outputDir>${project.parent.basedir}/documentation</outputDir>
                 </configuration>
             </plugin>
         </plugins>

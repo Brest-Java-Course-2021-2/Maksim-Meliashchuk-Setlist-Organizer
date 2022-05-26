@@ -30,11 +30,11 @@
 - [Rest app configure](#rest-app-configure)
 - [Web app configure](#web-app-configure)
 - [Security](#security)
-- [Run local tests](#run-local-tests)
-- [Run mutation testing](#run-mutation-testing)
-- [Run load testing](#run-load-testing)
+- [Run applications](#run-applications)
 - [Run application with PostgreSQL](#run-application-with-postgresql)
 - [Run with docker-compose](#run-with-docker-compose)
+- [Run mutation testing](#run-mutation-testing)
+- [Run load testing](#run-load-testing)
 - [Local tests with Postman](#local-tests-with-postman)
 - [Documenting a REST API](#documenting-a-rest-api)
 - [OpenAPI generated server](#openapi-generated-server)
@@ -196,7 +196,7 @@ app.httpClient = ApiClient
 
 **ApiClient** is a preferable choice.
 
-:warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files with 
+:warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files, Security support with 
 the 'ApiClient' property only.</a>_ :warning:
 
 ## Security
@@ -222,9 +222,11 @@ For example users of this project:
 
 `admin1` has the `admin` realm role that is required to call the POST and DELETE.
 
-## Run local tests
+## Run applications
 
 Embedded H2 in memory.
+
+:warning: _<sub>Note: before launching the applications with Security support, the `Keycloak` service must be started </a>_ :warning:
 
 In the root directory of the project:
 ```bash
@@ -240,9 +242,60 @@ $ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar
 ```
 The web application will be accessible at [http://localhost:8080](http://localhost:8080).
 
+
+## Run application with PostgreSQL
+<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
+
+:warning: _<sub>Note: before launching the application with `PostgreSQL`, the `PostgreSQL` must be started </a>_ :warning:
+
+
+PostgreSQL require(can be customized in application-postgres.yaml file in prod-db module):
+* `driver` - org.postgresql.Driver
+* `url` - jdbc:postgresql://localhost:5432/setlistOrganizer
+* `user` - postgres
+* `password` - password
+  
+Run rest-app with PostgreSQL:
+```bash
+$ java -jar -Dspring.profiles.active=postgres,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
+```
+
+## Run with docker-compose
+<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
+
+In the root directory of the project, run the rest-app with monitoring and web-app in one go:
+```bash
+$ sudo docker-compose up --build
+```
+The `WEB` application will be accessible at [http://localhost:8080](http://localhost:8080)
+
+The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
+
+The `PostgreSQL` database can be accessed in docker at: [http://localhost:5432](http://localhost:5432)
+
+`Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
+
+<img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
+
+Access the `Prometheus` webUI on  [http://localhost:9090](http://localhost:9090)
+
+<img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
+
+Access the `Grafana` webUI with jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
+
+<img height="25" width="125" src="documentation/img/icons/keycloak_logo.svg"/>
+
+* Admin panel: [http://localhost:8484/auth](http://localhost:8484/auth) (log in as the Keycloak admin [`admin:admin_password`])
+* As an admin you can see a list of users associated with the `setlist_organizer_realm` realm by clicking
+
+To stop the containers:
+```bash
+$ sudo docker-compose down
+```
+
 ## Run mutation testing
 
-[PIT](https://pitest.org/) runs unit tests against automatically modified versions of the application code, 
+[PIT](https://pitest.org/) runs unit tests against automatically modified versions of the application code,
 the most effective way to use mutation testing is to run it frequently against only the code that has been changed.
 TargetClasses and TargetTests to limit the tests available to be run added to parent project POM:
 
@@ -266,9 +319,9 @@ PIT Test Coverage Report will be accessible: ```/service/target/pit-reports/inde
 ## Run load testing
 <img src="https://img.shields.io/badge/gatling-FF9E2A?style=for-the-badge&logo=gatling&logoColor=white"/>
 
-Testing starts with 10 users per second making two requests to the repertoire, holding at that concurrency 
-for five seconds. Then [RestSimulationLocal](/gatling-test/src/test/scala/simulation/RestSimulationLocal.scala) test scenario increases 
-the number of users per second by 5, 5 times, holding for 5 seconds each time. 
+Testing starts with 10 users per second making two requests to the repertoire, holding at that concurrency
+for five seconds. Then [RestSimulationLocal](/gatling-test/src/test/scala/simulation/RestSimulationLocal.scala) test scenario increases
+the number of users per second by 5, 5 times, holding for 5 seconds each time.
 Every request must return an HTTP 200 status code to pass the test.
 Run the test in the root directory of the project:
 
@@ -277,48 +330,6 @@ $ sh gatling-test.sh
 ```
 Make sure the rest-app at [http://localhost:8088](http://localhost:8088) is running.
 Gatling reports generated in: ```/gatling-test/target/gatling/```
-
-## Run application with PostgreSQL
-<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
-
-PostgreSQL require(can be customized in application-postgres.yaml file in prod-db module):
-* `driver` - org.postgresql.Driver
-* `url` - jdbc:postgresql://localhost:5432/setlistOrganizer
-* `user` - postgres
-* `password` - password
-  
-Run rest-app with PostgreSQL:
-```bash
-$ java -jar -Dspring.profiles.active=postgres,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
-```
-
-## Run with docker-compose
-<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
-
-In the root directory of the project, run the rest-app with monitoring and web-app in one go:
-```bash
-$ sudo docker-compose up --build
-```
-The web application will be accessible at [http://localhost:8080](http://localhost:8080)
-
-The rest application will be accessible at [http://localhost:8088](http://localhost:8088)
-
-The PostgreSQL database can be accessed in docker at: [http://localhost:5432](http://localhost:5432)
-
-Micrometer by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
-
-<img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
-
-Access the Prometheus webUI on  [http://localhost:9090](http://localhost:9090)
-
-<img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
-
-Access the Grafana webUI with jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
-
-To stop the containers:
-```bash
-$ sudo docker-compose down
-```
 
 ## Local tests with Postman
 <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/>
@@ -336,7 +347,7 @@ Using OpenAPI 3.0
 The OpenAPI descriptions in JSON format will be available at the path: 
 [http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
 
-The OpenAPI descriptions in YAML format will be available at the path:
+The [OpenAPI spec](./documentation/openapi.yaml) will be available at the path:
 [http://localhost:8088/v3/api-docs.yaml](http://localhost:8088/v3/api-docs.yaml)
 
 API documentation with Swagger UI: 
@@ -351,11 +362,13 @@ endpoints, the client is `public` so you don't need to fill the `client_secret` 
 Automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project
 by using the [OpenAPI-Spec](https://openapis.org) and the [openapi-generator-maven-plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin/README.md).
 
-An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](./documentation/openapi.yaml)
 has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
 in the module [rest-app](rest-app).
 
 *Refer to the module [rest-app-openapi](rest-app-openapi/README.md) for more information.*
+
+:warning: _<sub>Note: Security not supported in rest-app-openapi app</a>_ :warning:
 
 ## Swagger generated client
 <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black"/>
@@ -363,7 +376,7 @@ in the module [rest-app](rest-app).
 Automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
 [swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
 
-An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](rest-app-openapi/src/main/resources/openapi.yaml)
+An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](./documentation/openapi.yaml)
 has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
 in the module [rest-app](rest-app).
 

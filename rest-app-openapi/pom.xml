@@ -114,7 +114,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+                            <inputSpec>${project.parent.basedir}/documentation/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <apiPackage>${project-base-package}.api</apiPackage>
                             <modelPackage>com.epam.brest.model</modelPackage>

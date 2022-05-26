@@ -31,6 +31,7 @@ spring:
         registration:
           keycloak:
             client-id: setlist_organizer_client
-            client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
+           # client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
             use-resource-role-mappings: true
             principal-attribute: preferred_username
+            #redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
