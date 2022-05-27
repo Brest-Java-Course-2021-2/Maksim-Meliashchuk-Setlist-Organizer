@@ -9,8 +9,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: keycloak_db
-    ports:
-      - 5431:5432
     restart: unless-stopped
 
   keycloak:
@@ -37,13 +35,12 @@ services:
   postgres:
     image: postgres:14
     container_name: postgres
-    ports:
-      - 5433:5432
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
       POSTGRES_DB: setlistOrganizer
       PGDATA: /var/lib/postgresql/data/pgdata
+      PGPORT: 5431
     volumes:
       - .:/var/lib/postgresql/data
     network_mode: host
@@ -56,8 +53,10 @@ services:
       - 8088:8088
     environment:
       SPRING_PROFILES_ACTIVE: dev, jpa
-      POSTGRES_HOST: localhost
-      POSTGRES_PORT: 5433
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5431/setlistOrganizer
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       KEYCLOAK_REALM_CERT_URL: "${KEYCLOAK_REALM_CERT_URL}"
       KEYCLOAK_REALM_ISSUER_URL: "${KEYCLOAK_REALM_ISSUER_URL}"
       KEYCLOAK_REALM_TOKEN_URL: "${KEYCLOAK_REALM_TOKEN_URL}"
