@@ -1,4 +1,7 @@
 ##Application dev configuration
+app:
+  httpClient: ApiClient
+
 base:
   url: http://${HOST_NAME:localhost}:8088
 rest:
@@ -28,10 +31,11 @@ spring:
             end_session_endpoint: ${KEYCLOAK_REALM_LOGOUT_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/logout}
             issuer-uri: ${KEYCLOAK_REALM_ISSUER_URL:http://localhost:8484/auth/realms/setlist_organizer_realm}
             token-uri: ${KEYCLOAK_REALM_TOKEN_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/token}
+            number-of-connection-attempts: ${KEYCLOAK_NUMBER_OF_CONNECTION_ATTEMPTS:5}
+            timeout-between-connection-attempts: ${KEYCLOAK_TIMEOUT_BETWEEN_CONNECTION_ATTEMPTS:3}
         registration:
           keycloak:
             client-id: setlist_organizer_client
            # client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
             use-resource-role-mappings: true
             principal-attribute: preferred_username
-            #redirect-uri: http://localhost:8080/login/oauth2/code/keycloak

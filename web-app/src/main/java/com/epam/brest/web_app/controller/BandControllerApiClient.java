@@ -71,9 +71,9 @@ public class BandControllerApiClient {
 
     @GetMapping(value = "/bands/fill")
     public String fillFakeBands(@RequestParam(value = "size", required = false)
-                                   Integer size,
+                                Integer size,
                                 @RequestParam(value = "language", required = false)
-                                    String language,
+                                String language,
                                 Model model) {
         LOGGER.debug("fillFakeBands({},{})", size, language);
         try {

@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.epam.brest.web_app.starter.CustomEnvironmentPostProcessor
+org.springframework.context.ApplicationContextInitializer=com.epam.brest.web_app.starter.CustomContextInitializer
