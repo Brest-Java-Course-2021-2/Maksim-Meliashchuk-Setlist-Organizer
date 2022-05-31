@@ -31,6 +31,7 @@ spring:
             end_session_endpoint: ${KEYCLOAK_REALM_LOGOUT_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/logout}
             issuer-uri: ${KEYCLOAK_REALM_ISSUER_URL:http://localhost:8484/auth/realms/setlist_organizer_realm}
             token-uri: ${KEYCLOAK_REALM_TOKEN_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/token}
+            pre-connection-check: ${KEYCLOAK_PRE_CONNECTION_CHECK:true}
             number-of-connection-attempts: ${KEYCLOAK_NUMBER_OF_CONNECTION_ATTEMPTS:5}
             timeout-between-connection-attempts: ${KEYCLOAK_TIMEOUT_BETWEEN_CONNECTION_ATTEMPTS:3}
         registration:

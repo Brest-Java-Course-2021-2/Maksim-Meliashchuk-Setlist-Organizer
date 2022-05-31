@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -14,6 +15,7 @@ import org.springframework.validation.Validator;
 import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 
+@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 class BandValidatorTest {
 
     private static Validator testValidator;
