@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     password: password
-    url: jdbc:postgresql:localhost:5432/setlistOrganizer
+    url: jdbc:postgresql://localhost:5433/setlistOrganizer
     username: postgres
   flyway:
     baselineOnMigrate: true

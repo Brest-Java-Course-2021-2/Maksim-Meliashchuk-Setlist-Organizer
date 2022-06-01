@@ -199,6 +199,13 @@ app.httpClient = ApiClient
 :warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files, Security support with 
 the 'ApiClient' property only.</a>_ :warning:
 
+The web application  has the following properties to check if the `Keycloak` container is ready: 
+* `pre-connection-check` boolean
+* `number-of-connection-attempts` integer
+* `timeout-between-connection-attempts` integer seconds
+
+These properties are useful to wait until the `Keycloak` container becomes available.
+
 ## Security
 <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white"/>
 
@@ -210,7 +217,7 @@ Only authenticated users can call secured endpoints available through Swagger UI
 You can run the `Keycloak` container with the following commands in the root directory of the project:
 
 ```bash
-$ sudo docker-compose -f keycloak.yml up
+$ sudo docker-compose -f keycloak/keycloak.yml up
 ```
 
 `Keycloak` is assumed to run on port 8484 on localhost.
@@ -242,16 +249,20 @@ $ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar
 ```
 The web application will be accessible at [http://localhost:8080](http://localhost:8080).
 
-
 ## Run application with PostgreSQL
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
 
-:warning: _<sub>Note: before launching the application with `PostgreSQL`, the `PostgreSQL` must be started </a>_ :warning:
+:warning: _<sub>Note: before launching the application with `PostgreSQL`, the `PostgreSQL` and the `Keycloak` service must be started </a>_ :warning:
 
+You can run the `PostgreSQL` container with the following commands in the root directory of the project:
+
+```bash
+$ sudo docker-compose -f prod-db/postgresql.yml up
+```
 
 PostgreSQL require(can be customized in application-postgres.yaml file in prod-db module):
 * `driver` - org.postgresql.Driver
-* `url` - jdbc:postgresql://localhost:5432/setlistOrganizer
+* `url` - jdbc:postgresql://localhost:5433/setlistOrganizer
 * `user` - postgres
 * `password` - password
   
@@ -326,7 +337,7 @@ Every request must return an HTTP 200 status code to pass the test.
 Run the test in the root directory of the project:
 
 ```bash
-$ sh gatling-test.sh
+$ sh ./gatling-test/gatling-test.sh
 ```
 Make sure the rest-app at [http://localhost:8088](http://localhost:8088) is running.
 Gatling reports generated in: ```/gatling-test/target/gatling/```

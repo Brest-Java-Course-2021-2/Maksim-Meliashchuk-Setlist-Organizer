@@ -26,7 +26,6 @@ spring:
       client:
         provider:
           keycloak:
-            #http://localhost:8484/auth/realms/setlist_organizer_realm/.well-known/openid-configuration
             authorization-uri: ${KEYCLOAK_REALM_AUTH_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/auth}
             end_session_endpoint: ${KEYCLOAK_REALM_LOGOUT_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/logout}
             issuer-uri: ${KEYCLOAK_REALM_ISSUER_URL:http://localhost:8484/auth/realms/setlist_organizer_realm}
@@ -37,6 +36,5 @@ spring:
         registration:
           keycloak:
             client-id: setlist_organizer_client
-           # client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
             use-resource-role-mappings: true
             principal-attribute: preferred_username
