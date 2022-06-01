@@ -2,7 +2,7 @@
 
 Setlist Organizer API
 - API version: 1.0.0
-  - Build date: 2022-05-02T21:56:13.532626+03:00[Europe/Minsk]
+  - Build date: 2022-05-22T10:17:00.128406+03:00[Europe/Minsk]
 
 'Setlist Organizer' is a web application for organizing repertoires of musical bands.
 
@@ -82,7 +82,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         try {
             List<Band> result = apiInstance.bands();
@@ -104,7 +109,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         Integer size = 1; // Integer | 
         String language = "EN"; // String | 
@@ -128,7 +138,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         Band body = new Band(); // Band | 
         try {
@@ -151,7 +166,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         Integer id = 56; // Integer | 
         try {
@@ -174,7 +194,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         try {
             File result = apiInstance.exportToExcelAllBands();
@@ -196,7 +221,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         try {
             File result = apiInstance.exportToXmlAllBands();
@@ -218,7 +248,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         Integer id = 56; // Integer | 
         try {
@@ -241,7 +276,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         File file = new File("file_example"); // File | 
         try {
@@ -264,7 +304,12 @@ import java.util.*;
 public class BandApiExample {
 
     public static void main(String[] args) {
-        
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure OAuth2 access token for authorization: keycloakOAuth
+        OAuth keycloakOAuth = (OAuth) defaultClient.getAuthentication("keycloakOAuth");
+        keycloakOAuth.setAccessToken("YOUR ACCESS TOKEN");
+
         BandApi apiInstance = new BandApi();
         Band body = new Band(); // Band | 
         try {
@@ -319,8 +364,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
 Authentication schemes defined for the API:
+### keycloakOAuth
+
+- **Type**: OAuth
+- **Flow**: password
+- **Authorization URL**: 
+- **Scopes**: 
+
 
 ## Recommendation
 

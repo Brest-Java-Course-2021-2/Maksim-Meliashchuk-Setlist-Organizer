@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+
+  postgres:
+    image: postgres:14
+    container_name: postgresql
+    ports:
+      - 5433:5433
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: setlistOrganizer
+      PGDATA: /var/lib/postgresql/data/pgdata
+      PGPORT: 5433
+    volumes:
+      - .:/var/lib/postgresql/data

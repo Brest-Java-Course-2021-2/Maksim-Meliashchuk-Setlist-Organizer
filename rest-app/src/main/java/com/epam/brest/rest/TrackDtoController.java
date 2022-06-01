@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -28,6 +28,7 @@ import java.util.Collection;
 @Tag(name = "Tracks", description = "the Tracks API")
 @RestController
 @CrossOrigin
+@SecurityRequirement(name = "keycloakOAuth")
 public class TrackDtoController {
 
     private static final Logger logger = LogManager.getLogger(TrackDtoController.class);
@@ -109,7 +110,7 @@ public class TrackDtoController {
                             schema = @Schema(implementation = MultipartFile.class, format = "binary"))})
     })
     @GetMapping(value = "tracks_dto/export/excel")
-    public final void exportToExcelAllTracksWithBandName(HttpServletResponse response) throws IOException {
+    public final void exportToExcelAllTracksWithBandName(HttpServletResponse response) {
         logger.debug("exportToExcelAllTracksWithBandName()");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         String headerKey = "Content-Disposition";

@@ -6,6 +6,7 @@ import com.epam.brest.dao.jpa.repository.BandRepository;
 import com.epam.brest.model.Band;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.exception.BandNotFoundException;
+import com.epam.brest.service.exception.BandNotUniqueException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -48,6 +49,9 @@ public class BandServiceJpaImpl implements BandService {
     public Integer create(Band band) {
         log.info("create()");
         BandEntity bandEntity = mapper.bandToBandEntity(band);
+        bandEntity.setBandName(bandEntity.getBandName().toUpperCase());
+        if (bandRepository.existsByBandNameEquals(bandEntity.getBandName()))
+            throw new BandNotUniqueException(bandEntity.getBandName());
         return bandRepository.save(bandEntity).getBandId();
     }
 
@@ -58,7 +62,9 @@ public class BandServiceJpaImpl implements BandService {
         if (!bandRepository.existsById(band.getBandId()))
             throw new BandNotFoundException(band.getBandId());
         BandEntity bandEntity = mapper.bandToBandEntity(band);
-        return bandRepository.save(bandEntity).getBandId();
+        bandEntity.setBandName(bandEntity.getBandName().toUpperCase());
+        bandRepository.save(bandEntity);
+        return bandEntity.getBandId();
     }
 
     @Override

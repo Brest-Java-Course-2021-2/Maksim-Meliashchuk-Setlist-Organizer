@@ -10,11 +10,21 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
 
 @TestConfiguration
 @Profile("dev")
 @PropertySource("classpath:application-dev.yaml")
+@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 public class ApplicationTestConfig {
 
     @Value("${rest.server.protocol}")
@@ -102,6 +112,30 @@ public class ApplicationTestConfig {
         ImportExportDatabaseApi importExportDatabaseApi = new ImportExportDatabaseApi();
         importExportDatabaseApi.setApiClient(apiClient);
         return importExportDatabaseApi;
+    }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        return new InMemoryClientRegistrationRepository(this.keycloakClientRegistration());
+    }
+
+    @Bean
+    public OAuth2AuthorizedClientService authorizedClientService(
+            ClientRegistrationRepository clientRegistrationRepository) {
+        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+    }
+
+    @Bean
+    public OAuth2AuthorizedClientRepository authorizedClientRepository(
+            OAuth2AuthorizedClientService authorizedClientService) {
+        return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+    }
+
+    private ClientRegistration keycloakClientRegistration() {
+        return CommonOAuth2Provider.GOOGLE.getBuilder("keycloak")
+                .clientId("keycloak-client-id")
+                .clientSecret("keycloak-client-secret")
+                .build();
     }
 
 }

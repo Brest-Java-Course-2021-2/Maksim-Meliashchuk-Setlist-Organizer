@@ -17,13 +17,26 @@ public class GlobalDefaultExceptionHandler {
 
     private final Logger logger = LogManager.getLogger(GlobalDefaultExceptionHandler.class);
 
-    @ExceptionHandler({Exception.class, ApiException.class})
+    @ExceptionHandler({ApiException.class})
+    public ModelAndView handleDApiException(HttpServletRequest req, Exception e) {
+        logger.error("Request: " + req.getRequestURL() + " raised " + e);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", "ApiException");
+        mav.addObject("url", req.getRequestURL());
+        mav.addObject("timestamp", LocalDateTime.now());
+        mav.addObject("stackTrace",e.getStackTrace());
+        mav.setViewName(DEFAULT_ERROR_VIEW);
+        return mav;
+    }
+
+    @ExceptionHandler({Exception.class})
     public ModelAndView handleDataIntegrityViolationException(HttpServletRequest req, Exception e) {
         logger.error("Request: " + req.getRequestURL() + " raised " + e);
         ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", e);
+        mav.addObject("exception", e.getMessage());
         mav.addObject("url", req.getRequestURL());
         mav.addObject("timestamp", LocalDateTime.now());
+        mav.addObject("stackTrace",e.getStackTrace());
         mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
     }

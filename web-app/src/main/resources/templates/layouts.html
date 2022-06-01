@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Layouts</title>
@@ -53,6 +53,34 @@
 <div th:fragment="offcanvas">
     <div class="container-fluid">
         <div class="d-grid justify-content-end">
+
+            <div id="loggedUser" class="dropdown text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../static/img/user.svg"
+                         th:src="@{/img/user.svg}" alt="mdo" width="38" height="38" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
+                    <li>
+                        <div class="dropdown-item text-wrap" sec:authorize="isAuthenticated()">
+                            <p>You logged as <strong th:text="${#authentication.name}"></strong></p>
+                            <p>Your authorities are: <strong th:each="authority : ${#authentication.authorities}"><span
+                                    th:text="${authority.authority} + ' '"></span></strong></p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <div class="dropdown-item" sec:authorize="isAuthenticated()">
+                            <form method="post" th:action="@{/logout}">
+                                <input type="submit" class="btn" value="Logout"/>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <img src="../static/img/grid.svg"
                  th:src="@{/img/grid.svg}" height="40" width="40" alt="service" type="button" data-bs-toggle="offcanvas"
                  data-bs-target="#offcanvasRight"
@@ -207,7 +235,7 @@
                                     <img src="../static/img/zip.svg"
                                          th:src="@{/img/zip.svg}" height="25" width="25" alt="ZIP">
                                     <label for="uploadfile" class="form-label">Restore database from ZIP archive:
-                                       </label>
+                                    </label>
                                     <input type="file" name="uploadfile" class="form-control form-control-sm"
                                            id="uploadzipfile" accept=".zip" required>
                                 </div>

@@ -7,4 +7,3 @@ rest:
     protocol: https
 server:
   port: ${PORT:8080}
-

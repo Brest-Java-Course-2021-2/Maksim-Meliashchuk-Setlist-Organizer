@@ -83,7 +83,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.parent.basedir}/rest-app-openapi/src/main/resources/openapi.yaml</inputSpec>
+                            <inputSpec>${project.parent.basedir}/documentation/openapi.yaml</inputSpec>
                             <language>java</language>
                             <modelPackage>com.epam.brest.model</modelPackage>
                             <generateModels>false</generateModels>

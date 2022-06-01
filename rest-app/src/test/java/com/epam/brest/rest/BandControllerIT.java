@@ -13,12 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,14 +39,15 @@ import static com.epam.brest.exception.CustomExceptionHandler.BAND_NOT_FOUND;
 import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(locations = "classpath:application-integrationtest.properties")
-@AutoConfigureMockMvc
+@TestPropertySource(locations = "classpath:application-integrationtest.yaml")
 @Transactional
+@WithMockUser(username = "admin", roles = { "admin" })
 public class BandControllerIT {
 
     private final Logger logger = LogManager.getLogger(BandControllerIT.class);
@@ -51,6 +55,9 @@ public class BandControllerIT {
     public static final String BANDS_ENDPOINT = "/bands";
 
     public static final int FAKE_DATA_SIZE = 15;
+
+    @Autowired
+    private FilterChainProxy springSecurityFilterChain;
 
     @Autowired
     private BandController bandController;
@@ -70,6 +77,7 @@ public class BandControllerIT {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .setControllerAdvice(customExceptionHandler)
                 .alwaysDo(MockMvcResultHandlers.print())
+                .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain))
                 .build();
     }
 
@@ -87,11 +95,23 @@ public class BandControllerIT {
 
         // when
         List<Band> bands = bandService.findAll();
-        System.out.println(bands);
 
         // then
         assertNotNull(bands);
         assertTrue(bands.size() > 0);
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void shouldNotFindAllBands() throws Exception {
+        logger.debug("shouldNotFindAllBands()");
+
+        MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE).with(csrf())
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().is4xxClientError())
+                .andReturn().getResponse();
+        assertNotNull(response);
+
     }
 
     @Test
@@ -118,6 +138,24 @@ public class BandControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = { "user" })
+    public void shouldNotCreateBand() throws Exception {
+        logger.debug("shouldNotCreateBand()");
+        Band band = Band.builder()
+                .bandId(4)
+                .bandName("Test band")
+                .build();
+        String json = objectMapper.writeValueAsString(band);
+        MockHttpServletResponse response =
+                mockMvc.perform(post(BANDS_ENDPOINT).with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                                .accept(MediaType.APPLICATION_JSON)
+                        ).andExpect(status().is4xxClientError())
+                        .andReturn().getResponse();
+    }
+
+    @Test
     public void shouldCreateNotValidBand() throws Exception {
         logger.debug("shouldCreateNotValidBand()");
         Band band = Band.builder()
@@ -127,7 +165,7 @@ public class BandControllerIT {
                 .build();
 
         MockHttpServletResponse response =
-                mockMvc.perform(post(BANDS_ENDPOINT)
+                mockMvc.perform(post(BANDS_ENDPOINT).with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(band))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -151,7 +189,7 @@ public class BandControllerIT {
                 .build();
 
         MockHttpServletResponse response =
-                mockMvc.perform(post(BANDS_ENDPOINT)
+                mockMvc.perform(post(BANDS_ENDPOINT).with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(band))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -201,7 +239,6 @@ public class BandControllerIT {
         Optional<Band> updatedBandOptional = bandService.findById(id);
 
         // then
-
 
         assertTrue(updatedBandOptional.isPresent());
         assertEquals(updatedBandOptional.get().getBandId(), id);
@@ -267,17 +304,16 @@ public class BandControllerIT {
                 files.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 IOUtils.toByteArray(input));
 
-        MockHttpServletResponse response = mockMvc.perform(multipart("/bands/import/excel").file(multipartFile))
+        MockHttpServletResponse response = mockMvc.perform(multipart("/bands/import/excel").file(multipartFile).with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
 
         assertTrue(Integer.parseInt(response.getContentAsString()) > 0);
     }
 
     class MockMvcBandService {
-
         public List<Band> findAll() throws Exception {
             logger.debug("findAll()");
-            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT)
+            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -289,7 +325,7 @@ public class BandControllerIT {
 
         public List<Band> fillFakeBands() throws Exception {
             logger.debug("fillFakeBands()");
-            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE)
+            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/fill?size=" + FAKE_DATA_SIZE).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -302,7 +338,7 @@ public class BandControllerIT {
         public Optional<Band> findById(Integer id) throws Exception {
 
             logger.debug("findById({})", id);
-            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/" + id)
+            MockHttpServletResponse response = mockMvc.perform(get(BANDS_ENDPOINT + "/" + id).with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();
@@ -314,7 +350,7 @@ public class BandControllerIT {
             logger.debug("create({})", band);
             String json = objectMapper.writeValueAsString(band);
             MockHttpServletResponse response =
-                    mockMvc.perform(post(BANDS_ENDPOINT)
+                    mockMvc.perform(post(BANDS_ENDPOINT).with(csrf())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(json)
                                     .accept(MediaType.APPLICATION_JSON)
@@ -327,7 +363,7 @@ public class BandControllerIT {
 
             logger.debug("update({})", band);
             MockHttpServletResponse response =
-                    mockMvc.perform(put(BANDS_ENDPOINT)
+                    mockMvc.perform(put(BANDS_ENDPOINT).with(csrf())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(band))
                                     .accept(MediaType.APPLICATION_JSON)
@@ -341,7 +377,7 @@ public class BandControllerIT {
             logger.debug("delete(id:{})", bandId);
             MockHttpServletResponse response = mockMvc.perform(
                             MockMvcRequestBuilders.delete(BANDS_ENDPOINT + "/" +
-                                            bandId)
+                                            bandId).with(csrf())
                                     .accept(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk())
                     .andReturn().getResponse();

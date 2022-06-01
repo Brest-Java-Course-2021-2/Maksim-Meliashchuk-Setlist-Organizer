@@ -1,17 +1,21 @@
 package com.epam.brest.web_app.controller;
 
+import com.epam.brest.ApiClient;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.TrackDto;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.TrackDtoService;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
+import com.epam.brest.web_app.security.AccessTokenValueExtractor;
 import com.epam.brest.web_app.validator.TrackValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -37,7 +43,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,6 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ComponentScan({"com.epam.brest.web_app.validator"})
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 class TrackControllerApiClientTest {
 
     @Autowired
@@ -59,6 +68,15 @@ class TrackControllerApiClientTest {
 
     @MockBean
     private BandApi bandApi;
+
+    @MockBean
+    private ApiClient apiClient;
+
+    @MockBean
+    private OAuth2AuthorizedClientService auth2AuthorizedClientService;
+
+    @Mock
+    private AccessTokenValueExtractor accessTokenValueExtractor;
 
     @MockBean
     private TrackDtoService trackDtoService;
@@ -80,12 +98,19 @@ class TrackControllerApiClientTest {
     @Test
     void gotoAddTrackPage() throws Exception {
         LOGGER.debug("gotoAddTrackPage()");
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        this.mockMvc.perform(get("/track")).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("isNew", is(true)))
-                .andExpect(content().string(containsString("New track")));
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+
+            this.mockMvc.perform(get("/track")).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("isNew", is(true)))
+                    .andExpect(content().string(containsString("New track")));
+        }
     }
 
     @Test
@@ -99,18 +124,25 @@ class TrackControllerApiClientTest {
                 .trackName("Test track")
                 .trackReleaseDate(LocalDate.parse("2005-12-02"))
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(trackApi.getTrackById(id)).thenReturn(track);
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
 
-        this.mockMvc.perform(get("/track/{id}", id)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("track", track))
-                .andExpect(model().attribute("isNew", is(false)))
-                .andExpect(content().string(containsString(track.getTrackId().toString())))
-                .andExpect(content().string(containsString(track.getTrackName())))
-                .andExpect(content().string(containsString(track.getTrackReleaseDate().toString())));
+            when(trackApi.getApiClient()).thenReturn(apiClient);
+            when(trackApi.getTrackById(id)).thenReturn(track);
 
+            this.mockMvc.perform(get("/track/{id}", id)).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("track", track))
+                    .andExpect(model().attribute("isNew", is(false)))
+                    .andExpect(content().string(containsString(track.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track.getTrackName())))
+                    .andExpect(content().string(containsString(track.getTrackReleaseDate().toString())));
+        }
     }
 
     @Test
@@ -124,14 +156,20 @@ class TrackControllerApiClientTest {
                 .trackName("Test track")
                 .trackReleaseDate(LocalDate.parse("2005-12-02"))
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(trackApi.createTrack(track)).thenReturn(track.getTrackId());
+            when(trackApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
 
-        this.mockMvc.perform(post("/track").contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/repertoire"))
-                .andExpect(redirectedUrl("/repertoire"));
+            when(trackApi.createTrack(track)).thenReturn(track.getTrackId());
 
+            this.mockMvc.perform(post("/track").contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())).andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/repertoire"))
+                    .andExpect(redirectedUrl("/repertoire"));
+        }
     }
 
     @Test
@@ -145,15 +183,21 @@ class TrackControllerApiClientTest {
                 .trackName("Test track")
                 .trackReleaseDate(LocalDate.parse("2005-12-02"))
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(trackApi.updateTrack(track)).thenReturn(track.getTrackId());
+            when(trackApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
 
-        this.mockMvc.perform(post("/track/{id}", track.getTrackId())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/repertoire"))
-                .andExpect(redirectedUrl("/repertoire"));
+            when(trackApi.updateTrack(track)).thenReturn(track.getTrackId());
 
+            this.mockMvc.perform(post("/track/{id}", track.getTrackId()).with(csrf())
+                            .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/repertoire"))
+                    .andExpect(redirectedUrl("/repertoire"));
+        }
     }
 
     @Test
@@ -167,15 +211,20 @@ class TrackControllerApiClientTest {
                 .trackName("Test track")
                 .trackReleaseDate(LocalDate.parse("2005-12-02"))
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(trackApi.updateTrack(track)).thenReturn(track.getTrackId());
+            when(trackApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(trackApi.updateTrack(track)).thenReturn(track.getTrackId());
 
-        this.mockMvc.perform(get("/track/{id}/delete", track.getTrackId())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/repertoire"))
-                .andExpect(redirectedUrl("/repertoire"));
-
+            this.mockMvc.perform(get("/track/{id}/delete", track.getTrackId())
+                            .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+                    .andExpect(status().isFound())
+                    .andExpect(view().name("redirect:/repertoire"))
+                    .andExpect(redirectedUrl("/repertoire"));
+        }
     }
 
     @Test
@@ -185,31 +234,36 @@ class TrackControllerApiClientTest {
         TrackDto track1 = createTrackDto(1);
         TrackDto track2 = createTrackDto(2);
         List<TrackDto> trackDtoList = Arrays.asList(track1, track2);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(tracksApi.findAllTracksWithBandName()).thenReturn(trackDtoList);
+            when(tracksApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(tracksApi.findAllTracksWithBandName()).thenReturn(trackDtoList);
 
-        this.mockMvc.perform(get("/repertoire")).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("tracks", trackDtoList))
-                .andExpect(content().string(containsString(track1.getTrackName())))
-                .andExpect(content().string(containsString(track1.getTrackId().toString())))
-                .andExpect(content().string(containsString(track1.getTrackLink())))
-                .andExpect(content().string(containsString(track1.getTrackDetails())))
-                .andExpect(content().string(containsString(track1.getTrackBandName())))
-                .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
+            this.mockMvc.perform(get("/repertoire")).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("tracks", trackDtoList))
+                    .andExpect(content().string(containsString(track1.getTrackName())))
+                    .andExpect(content().string(containsString(track1.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackLink())))
+                    .andExpect(content().string(containsString(track1.getTrackDetails())))
+                    .andExpect(content().string(containsString(track1.getTrackBandName())))
+                    .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
 
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackId().toString())))
-                .andExpect(content().string(containsString(track2.getTrackLink())))
-                .andExpect(content().string(containsString(track2.getTrackDetails())))
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
-
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackLink())))
+                    .andExpect(content().string(containsString(track2.getTrackDetails())))
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+        }
     }
 
     @Test
@@ -221,31 +275,36 @@ class TrackControllerApiClientTest {
         TrackDto track1 = createTrackDto(1);
         TrackDto track2 = createTrackDto(2);
         List<TrackDto> trackDtoList = Arrays.asList(track1, track2);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(tracksApi.fillTracksDtoFake(size, language)).thenReturn(trackDtoList);
+            when(tracksApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(tracksApi.fillTracksDtoFake(size, language)).thenReturn(trackDtoList);
 
-        this.mockMvc.perform(get("/repertoire/fill?size={size}&language={language}", size, language)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("tracks", trackDtoList))
-                .andExpect(content().string(containsString(track1.getTrackName())))
-                .andExpect(content().string(containsString(track1.getTrackId().toString())))
-                .andExpect(content().string(containsString(track1.getTrackLink())))
-                .andExpect(content().string(containsString(track1.getTrackDetails())))
-                .andExpect(content().string(containsString(track1.getTrackBandName())))
-                .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
+            this.mockMvc.perform(get("/repertoire/fill?size={size}&language={language}", size, language)).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("tracks", trackDtoList))
+                    .andExpect(content().string(containsString(track1.getTrackName())))
+                    .andExpect(content().string(containsString(track1.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackLink())))
+                    .andExpect(content().string(containsString(track1.getTrackDetails())))
+                    .andExpect(content().string(containsString(track1.getTrackBandName())))
+                    .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
 
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackId().toString())))
-                .andExpect(content().string(containsString(track2.getTrackLink())))
-                .andExpect(content().string(containsString(track2.getTrackDetails())))
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
-
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackLink())))
+                    .andExpect(content().string(containsString(track2.getTrackDetails())))
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+        }
     }
 
     @Test
@@ -256,31 +315,36 @@ class TrackControllerApiClientTest {
         TrackDto track1 = createTrackDto(1);
         TrackDto track2 = createTrackDto(2);
         List<TrackDto> trackDtoList = Arrays.asList(track1, track2);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(tracksApi.findAllTracksWithBandNameByBandId(id)).thenReturn(trackDtoList);
+            when(tracksApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(tracksApi.findAllTracksWithBandNameByBandId(id)).thenReturn(trackDtoList);
 
-        this.mockMvc.perform(get("/repertoire/filter/band/{id}", id)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("tracks", trackDtoList))
-                .andExpect(content().string(containsString(track1.getTrackName())))
-                .andExpect(content().string(containsString(track1.getTrackId().toString())))
-                .andExpect(content().string(containsString(track1.getTrackLink())))
-                .andExpect(content().string(containsString(track1.getTrackDetails())))
-                .andExpect(content().string(containsString(track1.getTrackBandName())))
-                .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
+            this.mockMvc.perform(get("/repertoire/filter/band/{id}", id)).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("tracks", trackDtoList))
+                    .andExpect(content().string(containsString(track1.getTrackName())))
+                    .andExpect(content().string(containsString(track1.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackLink())))
+                    .andExpect(content().string(containsString(track1.getTrackDetails())))
+                    .andExpect(content().string(containsString(track1.getTrackBandName())))
+                    .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
 
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackId().toString())))
-                .andExpect(content().string(containsString(track2.getTrackLink())))
-                .andExpect(content().string(containsString(track2.getTrackDetails())))
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
-
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackLink())))
+                    .andExpect(content().string(containsString(track2.getTrackDetails())))
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+        }
     }
 
     @Test
@@ -293,32 +357,38 @@ class TrackControllerApiClientTest {
         String fromDate = "2000-10-10";
         String toDate = "2021-10-10";
 
-        when(tracksApi.findAllTracksWithReleaseDateFilter(LocalDate.parse(fromDate), LocalDate.parse(toDate)))
-                .thenReturn(trackDtoList);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        this.mockMvc.perform(get("/repertoire/filter?fromDate={fromDate}&toDate={toDate}", fromDate, toDate))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("tracks", trackDtoList))
-                .andExpect(content().string(containsString(track1.getTrackName())))
-                .andExpect(content().string(containsString(track1.getTrackId().toString())))
-                .andExpect(content().string(containsString(track1.getTrackLink())))
-                .andExpect(content().string(containsString(track1.getTrackDetails())))
-                .andExpect(content().string(containsString(track1.getTrackBandName())))
-                .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
+            when(tracksApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(tracksApi.findAllTracksWithReleaseDateFilter(LocalDate.parse(fromDate), LocalDate.parse(toDate)))
+                    .thenReturn(trackDtoList);
 
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackId().toString())))
-                .andExpect(content().string(containsString(track2.getTrackLink())))
-                .andExpect(content().string(containsString(track2.getTrackDetails())))
-                .andExpect(content().string(containsString(track2.getTrackBandName())))
-                .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
-                .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
-                .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+            this.mockMvc.perform(get("/repertoire/filter?fromDate={fromDate}&toDate={toDate}", fromDate, toDate))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("tracks", trackDtoList))
+                    .andExpect(content().string(containsString(track1.getTrackName())))
+                    .andExpect(content().string(containsString(track1.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackLink())))
+                    .andExpect(content().string(containsString(track1.getTrackDetails())))
+                    .andExpect(content().string(containsString(track1.getTrackBandName())))
+                    .andExpect(content().string(containsString(track1.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track1.getTrackTempo().toString())))
 
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackId().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackLink())))
+                    .andExpect(content().string(containsString(track2.getTrackDetails())))
+                    .andExpect(content().string(containsString(track2.getTrackBandName())))
+                    .andExpect(content().string(containsString(track2.getTrackDuration().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackReleaseDate().toString())))
+                    .andExpect(content().string(containsString(track2.getTrackTempo().toString())));
+        }
     }
 
     @Test
@@ -356,11 +426,18 @@ class TrackControllerApiClientTest {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
                 file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 IOUtils.toByteArray(input));
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/track/import/excel")
-                        .file(mockMultipartFile))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/repertoire"))
-                .andExpect(redirectedUrl("/repertoire"));
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
+            when(trackApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(trackApi.importTrackFromExcel(file)).thenReturn(anyInt());
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/track/import/excel")
+                            .file(mockMultipartFile).with(csrf()))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/repertoire"))
+                    .andExpect(redirectedUrl("/repertoire"));
+        }
     }
 
     @Test

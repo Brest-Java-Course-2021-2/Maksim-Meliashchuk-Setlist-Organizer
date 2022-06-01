@@ -1,15 +1,19 @@
 package com.epam.brest.web_app.controller;
 
+import com.epam.brest.ApiClient;
 import com.epam.brest.model.Band;
 import com.epam.brest.model.BandDto;
 import com.epam.brest.service.BandDtoService;
 import com.epam.brest.service.BandService;
 import com.epam.brest.service.faker.BandDtoFakerService;
+import com.epam.brest.web_app.security.AccessTokenValueExtractor;
 import com.epam.brest.web_app.validator.BandValidator;
 import io.swagger.client.api.BandApi;
 import io.swagger.client.api.BandsApi;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -34,7 +40,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ComponentScan({"com.epam.brest.web_app.validator"})
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
-
+@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 class BandControllerApiClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BandControllerApiClient.class);
@@ -61,6 +69,15 @@ class BandControllerApiClientTest {
     private BandDtoService bandDtoService;
 
     @MockBean
+    private ApiClient apiClient;
+
+    @MockBean
+    private OAuth2AuthorizedClientService auth2AuthorizedClientService;
+
+    @Mock
+    private AccessTokenValueExtractor accessTokenValueExtractor;
+
+    @MockBean
     private BandService bandService;
 
     @MockBean
@@ -76,16 +93,21 @@ class BandControllerApiClientTest {
         BandDto band1 = createBandDto(1);
         BandDto band2 = createBandDto(2);
         List<BandDto> bandDtoList = Arrays.asList(band1, band2);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(bandsApi.bandsDto()).thenReturn(bandDtoList);
+            when(bandsApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandsApi.bandsDto()).thenReturn(bandDtoList);
 
-        this.mockMvc.perform(get("/bands")).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("bands", bandDtoList))
-                .andExpect(content().string(containsString(band1.getBandName())))
-                .andExpect(content().string(containsString(band2.getBandName())));
-
+            this.mockMvc.perform(get("/bands")).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("bands", bandDtoList))
+                    .andExpect(content().string(containsString(band1.getBandName())))
+                    .andExpect(content().string(containsString(band2.getBandName())));
+        }
     }
 
     @Test
@@ -98,27 +120,41 @@ class BandControllerApiClientTest {
         Integer size = 2;
         String language = "EN";
 
-        when(bandsApi.fillBandsDtoFake(size, language)).thenReturn(bandDtoList);
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        this.mockMvc.perform(get("/bands/fill?size={size}&language={language}", size, language)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("bands", bandDtoList))
-                .andExpect(content().string(containsString(band1.getBandName())))
-                .andExpect(content().string(containsString(band2.getBandName())));
+            when(bandsApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
 
+            when(bandsApi.fillBandsDtoFake(size, language)).thenReturn(bandDtoList);
+
+            this.mockMvc.perform(get("/bands/fill?size={size}&language={language}", size, language)).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("bands", bandDtoList))
+                    .andExpect(content().string(containsString(band1.getBandName())))
+                    .andExpect(content().string(containsString(band2.getBandName())));
+        }
     }
 
     @Test
     void gotoAddBandPage() throws Exception {
         LOGGER.debug("gotoAddBandPage()");
 
-        this.mockMvc.perform(get("/band")).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("isNew", is(true)))
-                .andExpect(content().string(containsString("New band")));
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+
+            this.mockMvc.perform(get("/band")).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("isNew", is(true)))
+                    .andExpect(content().string(containsString("New band")));
+        }
     }
 
     @Test
@@ -131,18 +167,24 @@ class BandControllerApiClientTest {
                 .bandName("Test band")
                 .bandDetails("Test band details")
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(bandApi.getBandById(id)).thenReturn(band);
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
 
-        this.mockMvc.perform(get("/band/{id}", id)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(model().attribute("band", band))
-                .andExpect(model().attribute("isNew", is(false)))
-                .andExpect(content().string(containsString(band.getBandId().toString())))
-                .andExpect(content().string(containsString(band.getBandName())))
-                .andExpect(content().string(containsString(band.getBandDetails())));
+            when(bandApi.getBandById(id)).thenReturn(band);
 
+            this.mockMvc.perform(get("/band/{id}", id).with(csrf())).andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("text/html;charset=UTF-8"))
+                    .andExpect(model().attribute("band", band))
+                    .andExpect(model().attribute("isNew", is(false)))
+                    .andExpect(content().string(containsString(band.getBandId().toString())))
+                    .andExpect(content().string(containsString(band.getBandName())))
+                    .andExpect(content().string(containsString(band.getBandDetails())));
+        }
     }
 
     @Test
@@ -155,13 +197,19 @@ class BandControllerApiClientTest {
                 .bandName("Test band")
                 .bandDetails("Test band details")
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(bandApi.createBand(band)).thenReturn(band.getBandId());
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandApi.createBand(band)).thenReturn(band.getBandId());
 
-        this.mockMvc.perform(post("/band").contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/bands"))
-                .andExpect(redirectedUrl("/bands"));
+            this.mockMvc.perform(post("/band").with(csrf()).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/bands"))
+                    .andExpect(redirectedUrl("/bands"));
+        }
     }
 
     @Test
@@ -174,15 +222,20 @@ class BandControllerApiClientTest {
                 .bandName("Test band")
                 .bandDetails("Test band details")
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(bandApi.updateBand(band)).thenReturn(band.getBandId());
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandApi.updateBand(band)).thenReturn(band.getBandId());
 
-        this.mockMvc.perform(post("/band/{id}", band.getBandId())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/bands"))
-                .andExpect(redirectedUrl("/bands"));
-
+            this.mockMvc.perform(post("/band/{id}", band.getBandId()).with(csrf())
+                            .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/bands"))
+                    .andExpect(redirectedUrl("/bands"));
+        }
     }
 
     @Test
@@ -195,15 +248,20 @@ class BandControllerApiClientTest {
                 .bandName("Test band")
                 .bandDetails("Test band details")
                 .build();
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
 
-        when(bandApi.updateBand(band)).thenReturn(band.getBandId());
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandApi.updateBand(band)).thenReturn(band.getBandId());
 
-        this.mockMvc.perform(get("/band/{id}/delete", band.getBandId())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/bands"))
-                .andExpect(redirectedUrl("/bands"));
-
+            this.mockMvc.perform(get("/band/{id}/delete", band.getBandId())
+                            .contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+                    .andExpect(status().isFound())
+                    .andExpect(view().name("redirect:/bands"))
+                    .andExpect(redirectedUrl("/bands"));
+        }
     }
 
     @Test
@@ -231,21 +289,36 @@ class BandControllerApiClientTest {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("uploadfile",
                 file.getName(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 IOUtils.toByteArray(input));
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/band/import/excel")
-                        .file(mockMultipartFile))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/bands"))
-                .andExpect(redirectedUrl("/bands"));
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
+
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandApi.importBandFromExcel(file)).thenReturn(anyInt());
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/band/import/excel")
+                            .file(mockMultipartFile).with(csrf()))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/bands"))
+                    .andExpect(redirectedUrl("/bands"));
+        }
     }
 
     @Test
     void shouldExportBandTableToExcel() throws Exception {
         LOGGER.debug("shouldExportBandTableToExcel()");
         File file = new File("src/test/resources/Band.xlsx");
-        when(bandApi.exportToExcelAllBands()).thenReturn(file);
-        mockMvc.perform(get("/band/export/excel"))
-                .andExpect(status().isOk()).andExpect(content()
-                        .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        try (MockedStatic<AccessTokenValueExtractor> mocked = mockStatic(AccessTokenValueExtractor.class)) {
+            mocked.when(() -> AccessTokenValueExtractor.getAccessTokenValue(auth2AuthorizedClientService))
+                    .thenReturn("token");
+
+            when(bandApi.getApiClient()).thenReturn(apiClient);
+            doNothing().when(apiClient).setAccessToken(anyString());
+            when(bandApi.exportToExcelAllBands()).thenReturn(file);
+            mockMvc.perform(get("/band/export/excel"))
+                    .andExpect(status().isOk()).andExpect(content()
+                            .contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        }
     }
 
     @Test
