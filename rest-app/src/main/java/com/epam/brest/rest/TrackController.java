@@ -26,6 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * REST controller.
@@ -63,7 +67,13 @@ public class TrackController {
     @GetMapping(value = "/repertoire")
     public final Collection<Track> tracks() {
         logger.debug("tracks()");
-        return trackService.findAllTracks();
+        List<Track> trackList = trackService.findAllTracks();
+        trackList.forEach(track ->
+                track.add(linkTo(methodOn(TrackController.class).getTrackById(track.getTrackId())).withSelfRel(),
+                linkTo(methodOn(TrackController.class).createTrack(track)).withRel("createTrack"),
+                linkTo(methodOn(TrackController.class).updateTrack(track)).withRel("updateTrack"),
+                linkTo(methodOn(TrackController.class).deleteTrack(track.getTrackId())).withRel("deleteTrack")));
+        return trackList;
     }
 
     @Operation(summary = "Fill information for fake tracks based on their IDs")
@@ -89,9 +99,14 @@ public class TrackController {
             @ApiResponse(responseCode = "404", description = "Trying to get a non-existent track",
                     content = @Content)})
     @GetMapping(value = "/repertoire/{id}")
-    public final Track getTrackById(@PathVariable Integer id) {
+    public ResponseEntity<Track> getTrackById(@PathVariable Integer id) {
         logger.debug("getTrackById()");
-        return trackService.getTrackById(id);
+        Track track = trackService.getTrackById(id);
+        track.add(linkTo(methodOn(TrackController.class).getTrackById(track.getTrackId())).withSelfRel(),
+                linkTo(methodOn(TrackController.class).createTrack(track)).withRel("createTrack"),
+                linkTo(methodOn(TrackController.class).updateTrack(track)).withRel("updateTrack"),
+                linkTo(methodOn(TrackController.class).deleteTrack(track.getTrackId())).withRel("deleteTrack"));
+        return ResponseEntity.ok(track);
     }
 
     @Operation(summary = "Create a new track")

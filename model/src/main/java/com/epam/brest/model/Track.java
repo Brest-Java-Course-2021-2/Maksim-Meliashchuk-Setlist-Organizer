@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -23,7 +24,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Schema(name="Track", description = "Track")
-public class Track {
+public class Track extends RepresentationModel<Track>{
 
     @Schema(name = "trackId", description = "ID of the track", example = "1")
     @JacksonXmlProperty(isAttribute = true)

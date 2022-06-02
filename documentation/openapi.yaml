@@ -1142,6 +1142,27 @@ components:
           items:
             type: string
       description: ErrorResponse
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+        href:
+          type: string
+        hreflang:
+          type: string
+        media:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
     Track:
       required:
       - trackName
@@ -1189,6 +1210,10 @@ components:
           description: track release date
           format: date
           example: 2020-12-01
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
       description: Track
     Band:
       required:
@@ -1210,6 +1235,10 @@ components:
           minLength: 0
           type: string
           description: details about the band
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
       description: Band
     TrackDto:
       type: object

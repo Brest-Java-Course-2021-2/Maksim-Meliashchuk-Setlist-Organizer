@@ -3,6 +3,7 @@ package com.epam.brest.model;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -18,7 +19,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Schema(name="Band", description = "Band")
-public class Band {
+public class Band extends RepresentationModel<Band>{
 
     @Schema(name = "bandId", description = "ID of the band", example = "1")
     @JacksonXmlProperty(isAttribute = true)

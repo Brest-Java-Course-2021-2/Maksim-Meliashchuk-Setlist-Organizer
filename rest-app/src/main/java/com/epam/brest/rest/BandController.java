@@ -26,6 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 /**
  * REST controller.
@@ -89,9 +94,14 @@ public class BandController {
             @ApiResponse(responseCode = "404", description = "Trying to get a non-existent band",
                     content = @Content)})
     @GetMapping(value = "/bands/{id}")
-    public final Band getBandById(@PathVariable Integer id) {
+    public ResponseEntity<Band> getBandById(@PathVariable Integer id) {
         logger.debug("getBandById()");
-        return bandService.getBandById(id);
+        Band band = bandService.getBandById(id);
+        band.add(linkTo(methodOn(BandController.class).getBandById(band.getBandId())).withSelfRel(),
+                linkTo(methodOn(BandController.class).createBand(band)).withRel("createBand"),
+                linkTo(methodOn(BandController.class).updateBand(band)).withRel("updateBand"),
+                linkTo(methodOn(BandController.class).deleteBand(band.getBandId())).withRel("deleteBand"));
+        return ResponseEntity.ok(band);
     }
 
     @Operation(summary = "Create a new band")

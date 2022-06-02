@@ -282,7 +282,7 @@ The `WEB` application will be accessible at [http://localhost:8080](http://local
 
 The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
 
-The `PostgreSQL` database can be accessed in docker at: [http://localhost:5432](http://localhost:5432)
+The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
 
 `Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
