@@ -1,0 +1,52 @@
+server:
+  error:
+    include-binding-errors: always
+    include-exception: true
+    include-message: always
+  port: ${PORT:8088}
+
+spring:
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: password
+    url: jdbc:postgresql://localhost:5433/setlistOrganizer
+    username: postgres
+
+  flyway:
+    enabled: true
+
+  jackson:
+    date-format: yyyy/MM/dd
+    serialization:
+      INDENT_OUTPUT: true
+  jpa:
+    show-sql: true
+
+  main:
+    allow-bean-definition-overriding: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_REALM_CERT_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/certs}
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${KEYCLOAK_REALM_ISSUER_URL:http://localhost:8484/auth/realms/setlist_organizer_realm}
+            token-uri: ${KEYCLOAK_REALM_TOKEN_URL:http://localhost:8484/auth/realms/setlist_organizer_realm/protocol/openid-connect/token}
+
+        registration:
+          keycloak:
+            client-id: setlist_organizer_client
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info, metric
+metrics:
+  export:
+    prometheus:
+      enabled: true

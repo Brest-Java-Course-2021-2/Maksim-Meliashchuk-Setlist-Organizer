@@ -28,6 +28,7 @@
         <module>rest-app-openapi</module>
         <module>service-swagger-client</module>
         <module>gatling-test</module>
+        <module>configserver</module>
     </modules>
 
     <properties>
