@@ -68,7 +68,12 @@ public class BandController {
     @GetMapping(value = "/bands")
     public final Collection<Band> bands() {
         logger.debug("bands()");
-        return bandService.findAllBands();
+        List<Band> bandList = bandService.findAllBands();
+        bandList.forEach(band -> band.add(linkTo(methodOn(BandController.class).getBandById(band.getBandId())).withSelfRel(),
+                linkTo(methodOn(BandController.class).createBand(band)).withRel("createBand"),
+                linkTo(methodOn(BandController.class).updateBand(band)).withRel("updateBand"),
+                linkTo(methodOn(BandController.class).deleteBand(band.getBandId())).withRel("deleteBand")));
+        return bandList;
     }
 
     @Operation(summary = "Get information for fake bands based on their IDs")

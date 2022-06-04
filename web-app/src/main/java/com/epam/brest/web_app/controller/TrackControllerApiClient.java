@@ -6,7 +6,7 @@ import com.epam.brest.model.TrackDto;
 import com.epam.brest.web_app.condition.ApiClientCondition;
 import com.epam.brest.web_app.excel.RepertoireViewExportExcel;
 import com.epam.brest.web_app.validator.TrackValidator;
-import io.swagger.client.api.BandApi;
+import io.swagger.client.api.BandsApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
 import org.apache.commons.compress.utils.IOUtils;
@@ -45,17 +45,16 @@ public class TrackControllerApiClient {
     private final TrackValidator trackValidator;
     private final TracksApi tracksApi;
     private final TrackApi trackApi;
-    private final BandApi bandApi;
+    private final BandsApi bandsApi;
     private List<TrackDto> trackDtoList;
-
-    private OAuth2AuthorizedClientService auth2AuthorizedClientService;
+    private final OAuth2AuthorizedClientService auth2AuthorizedClientService;
 
     public TrackControllerApiClient(TrackValidator trackValidator, TracksApi tracksApi, TrackApi trackApi,
-                                    BandApi bandApi, OAuth2AuthorizedClientService auth2AuthorizedClientService) {
+                                   BandsApi bandsApi, OAuth2AuthorizedClientService auth2AuthorizedClientService) {
         this.trackValidator = trackValidator;
         this.tracksApi = tracksApi;
         this.trackApi = trackApi;
-        this.bandApi = bandApi;
+        this.bandsApi = bandsApi;
         this.auth2AuthorizedClientService = auth2AuthorizedClientService;
     }
 
@@ -66,11 +65,11 @@ public class TrackControllerApiClient {
         model.addAttribute("track", new Track());
         try {
             if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
             } else {
                 return "login";
             }
-            model.addAttribute("bands", bandApi.bands());
+            model.addAttribute("bands", bandsApi.bandsDto());
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -94,11 +93,11 @@ public class TrackControllerApiClient {
         }
         try {
             if (getAccessTokenValue(auth2AuthorizedClientService) != null) {
-                bandApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
+                bandsApi.getApiClient().setAccessToken(getAccessTokenValue(auth2AuthorizedClientService));
             } else {
                 return "login";
             }
-            model.addAttribute("bands", bandApi.bands());
+            model.addAttribute("bands", bandsApi.bandsDto());
         } catch (ApiException e) {
             e.printStackTrace();
         }

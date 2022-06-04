@@ -9,7 +9,7 @@ import com.epam.brest.service.TrackService;
 import com.epam.brest.service.faker.TrackDtoFakerService;
 import com.epam.brest.web_app.security.AccessTokenValueExtractor;
 import com.epam.brest.web_app.validator.TrackValidator;
-import io.swagger.client.api.BandApi;
+import io.swagger.client.api.BandsApi;
 import io.swagger.client.api.TrackApi;
 import io.swagger.client.api.TracksApi;
 import org.apache.commons.io.IOUtils;
@@ -67,7 +67,7 @@ class TrackControllerApiClientTest {
     private TrackApi trackApi;
 
     @MockBean
-    private BandApi bandApi;
+    private BandsApi bandApi;
 
     @MockBean
     private ApiClient apiClient;
