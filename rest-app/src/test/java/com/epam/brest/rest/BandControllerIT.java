@@ -46,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.yaml")
+@TestPropertySource(properties = {"spring.cloud.config.import-check.enabled=false"})
 @Transactional
 @WithMockUser(username = "admin", roles = { "admin" })
 public class BandControllerIT {

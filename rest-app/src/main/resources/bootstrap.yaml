@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: rest-service
+  profiles:
+    active: dev, jpa
+  cloud:
+    config:
+      uri: http://localhost:8071

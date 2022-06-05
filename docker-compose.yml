@@ -45,6 +45,14 @@ services:
       - .:/var/lib/postgresql/data
     network_mode: host
 
+  configserver:
+    build: ./configserver
+    image: configserver
+    container_name: configserver
+    ports:
+      - 8071:8071
+    network_mode: host
+
   rest-app:
     build: ./rest-app
     image: docker-rest-app
@@ -53,6 +61,7 @@ services:
       - 8088:8088
     environment:
       SPRING_PROFILES_ACTIVE: postgres, jpa
+      SPRING_CLOUD_CONFIG_URI: http://localhost:8071
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:${PGPORT}/setlistOrganizer
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
@@ -63,6 +72,7 @@ services:
     depends_on:
       - postgres
       - keycloak
+      - configserver
     network_mode: host
 
   web-app:

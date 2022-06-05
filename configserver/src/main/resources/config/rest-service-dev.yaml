@@ -1,3 +1,6 @@
+example:
+  property: example property
+
 server:
   error:
     include-binding-errors: always
