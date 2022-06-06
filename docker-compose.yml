@@ -61,7 +61,7 @@ services:
       - 8088:8088
     environment:
       SPRING_PROFILES_ACTIVE: postgres, jpa
-      SPRING_CLOUD_CONFIG_URI: http://localhost:8071
+      SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:${PGPORT}/setlistOrganizer
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
@@ -82,6 +82,7 @@ services:
     ports:
       - 8080:8080
     environment:
+      SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
       HOST_NAME: localhost
       KEYCLOAK_REALM_CERT_URL: "${KEYCLOAK_REALM_CERT_URL}"
       KEYCLOAK_REALM_ISSUER_URL: "${KEYCLOAK_REALM_ISSUER_URL}"
@@ -89,6 +90,7 @@ services:
     depends_on:
       - keycloak
       - rest-app
+      - configserver
     network_mode: host
 
   grafana:
