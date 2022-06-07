@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.yaml")
-@TestPropertySource(properties = {"spring.cloud.config.import-check.enabled=false"})
+@TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
 @WithMockUser(username = "admin", roles = { "admin" })
 public class TrackControllerIT {
 

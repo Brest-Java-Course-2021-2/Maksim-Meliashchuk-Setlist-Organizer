@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ConfigServerApplicationTests {
 
 	@Value("${local.server.port}")
-	private final int port = 0;
+	private int port = 0;
 
 	@Test
 	void contextLoads() {

@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "admin", roles = { "admin" })
 @SpringBootTest
 @TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
+@TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
 class HomeControllerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeControllerTest.class);
