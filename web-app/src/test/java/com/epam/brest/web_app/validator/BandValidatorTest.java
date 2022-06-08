@@ -15,7 +15,6 @@ import org.springframework.validation.Validator;
 import static com.epam.brest.model.constant.BandConstant.BAND_DETAILS_MAX_SIZE;
 import static com.epam.brest.model.constant.BandConstant.BAND_NAME_MAX_SIZE;
 
-@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 class BandValidatorTest {
 
     private static Validator testValidator;

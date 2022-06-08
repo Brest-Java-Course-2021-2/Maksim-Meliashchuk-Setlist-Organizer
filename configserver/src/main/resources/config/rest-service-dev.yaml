@@ -1,4 +1,5 @@
-## REST server configuration
+example:
+  property: example property
 
 server:
   error:
@@ -13,6 +14,13 @@ spring:
     level:
       org.springframework.security: DEBUG
 
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: "{cipher}a491026b1dce27ae3b20f9db63eb6152098dfba1a988e9a58e85e2a5dc5c1c4e"
+    url: jdbc:postgresql://localhost:5433/setlistOrganizer
+    username: postgres
+
   flyway:
     enabled: true
 
@@ -25,9 +33,6 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
-
-  profiles:
-    active: dev, jpa
 
   security:
     oauth2:
@@ -48,7 +53,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus, health, info, metric
+        include: prometheus, health, info, metric, env
 metrics:
   export:
     prometheus:

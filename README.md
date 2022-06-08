@@ -27,6 +27,7 @@
 - [Technology Stack](#technology-stack)
 - [Requirements](#requirements)
 - [Installation Information](#installation-information)
+- [Microservices](#microservices)
 - [Rest app configure](#rest-app-configure)
 - [Web app configure](#web-app-configure)
 - [Security](#security)
@@ -89,6 +90,8 @@ API documentation with Swagger UI:
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
   <img height="20" width="20" src="documentation/img/icons/springboot.svg"/>
+- **Tools for distributed systems:**
+  - [Spring Cloud](https://spring.io/projects/spring-cloud#overview) <img height="20" width="20" src="documentation/img/icons/springcloud.svg"/>
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
@@ -155,6 +158,11 @@ The specified versions are the tested ones.
   $ cd Maksim-Meliashchuk-Setlist-Organizer
   $ mvn clean install
 ```
+
+## Microservices
+
+* A [Spring Cloud Config server](/configserver)  can manage a services configuration information using a file system/ classpath 
+or GitHub-based [repository](/https://github.com/Maxxx873/setlist-organizer-configuration).
 
 ## Rest app configure
 

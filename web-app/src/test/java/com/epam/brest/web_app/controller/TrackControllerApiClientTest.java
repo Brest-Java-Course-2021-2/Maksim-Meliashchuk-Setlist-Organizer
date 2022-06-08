@@ -55,6 +55,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
+@TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
 class TrackControllerApiClientTest {
 
     @Autowired

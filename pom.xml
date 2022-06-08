@@ -28,6 +28,7 @@
         <module>rest-app-openapi</module>
         <module>service-swagger-client</module>
         <module>gatling-test</module>
+        <module>configserver</module>
     </modules>
 
     <properties>
@@ -35,6 +36,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>11</java.version>
         <spring-boot.version>2.6.1</spring-boot.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <spring.version>5.3.13</spring.version>
         <log4j2.version>2.15</log4j2.version>
@@ -84,6 +86,14 @@
                 <artifactId>spring-boot-dependencies</artifactId>
                 <type>pom</type>
                 <version>${spring-boot.version}</version>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
 

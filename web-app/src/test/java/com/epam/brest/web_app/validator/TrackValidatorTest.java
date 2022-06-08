@@ -16,9 +16,6 @@ import org.springframework.validation.Validator;
 
 import static com.epam.brest.model.constant.TrackConstant.*;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-@TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 class TrackValidatorTest {
 
     private static Validator testValidator;
