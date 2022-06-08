@@ -90,7 +90,7 @@ API documentation with Swagger UI:
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
   <img height="20" width="20" src="documentation/img/icons/springboot.svg"/>
-- **Tools for distributed systems:** [Spring Cloud](https://spring.io/projects/spring-cloud#overview) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
+- **Tools for distributed systems:** [Spring Cloud](https://spring.io/projects/spring-cloud) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
   - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
