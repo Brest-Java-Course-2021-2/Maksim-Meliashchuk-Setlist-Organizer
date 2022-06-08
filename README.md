@@ -27,6 +27,7 @@
 - [Technology Stack](#technology-stack)
 - [Requirements](#requirements)
 - [Installation Information](#installation-information)
+- [Microservices](#microservices)
 - [Rest app configure](#rest-app-configure)
 - [Web app configure](#web-app-configure)
 - [Security](#security)
@@ -157,6 +158,11 @@ The specified versions are the tested ones.
   $ cd Maksim-Meliashchuk-Setlist-Organizer
   $ mvn clean install
 ```
+
+## Microservices
+
+* A [Spring Cloud Config server](/configserver)  can manage a services configuration information using a file system/ classpath 
+or GitHub-based [repository](/https://github.com/Maxxx873/setlist-organizer-configuration).
 
 ## Rest app configure
 

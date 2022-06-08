@@ -1,24 +1,16 @@
 example:
-  property: example property dev
+  property: example property heroku
 
 app:
   httpClient: ApiClient
 
 base:
-  url: http://${HOST_NAME:localhost}:8088
+  url: https://setlist-organizer-rest.herokuapp.com
 rest:
   server:
-    host: ${HOST_NAME:localhost}
-    port: 8088
-    protocol: http
-logging:
-  level:
-    org.springframework.security: DEBUG
+    host: setlist-organizer-rest.herokuapp.com
+    protocol: https
 server:
-  error:
-    include-binding-errors: always
-    include-exception: true
-    include-message: always
   port: ${PORT:8080}
 
 

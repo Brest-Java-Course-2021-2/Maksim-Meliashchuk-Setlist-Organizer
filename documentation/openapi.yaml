@@ -42,18 +42,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of tracks
           content:
@@ -79,15 +79,15 @@ paths:
         "404":
           description: Trying to update a non-existent track
           content: {}
+        "400":
+          description: Trying to update track with invalid fields
+          content: {}
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "400":
-          description: Trying to update track with invalid fields
-          content: {}
         "200":
           description: Track(s) have been updated. Returns the number of tracks affected
           content:
@@ -115,15 +115,15 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: An attempt to create track with invalid fields
+          content: {}
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "400":
-          description: An attempt to create track with invalid fields
-          content: {}
         "200":
           description: Track have been created. Returns the ID of the new track
           content:
@@ -146,18 +146,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of bands
           content:
@@ -183,11 +183,11 @@ paths:
         "404":
           description: Trying to update a non-existent band
           content: {}
-        "422":
-          description: An attempt to create a non-unique band
-          content: {}
         "400":
           description: An attempt to create band with invalid fields
+          content: {}
+        "422":
+          description: An attempt to create a non-unique band
           content: {}
         "200":
           description: Band(s) have been updated. Returns the number of bands affected
@@ -216,11 +216,11 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: An attempt to create a non-unique band
-          content: {}
         "400":
           description: An attempt to create band with invalid fields
+          content: {}
+        "422":
+          description: An attempt to create a non-unique band
           content: {}
         "200":
           description: Band have been created. Returns the ID of the new band
@@ -255,18 +255,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Database have been restored.
           content:
@@ -297,18 +297,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Track(s) have been imported. Returns the number of tracks imported.
           content:
@@ -342,18 +342,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Band(s) have been imported. Returns the number of bands imported.
           content:
@@ -376,18 +376,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A version
           content:
@@ -407,18 +407,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of tracks
           content:
@@ -456,18 +456,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of fake tracks
           content:
@@ -491,18 +491,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to Excel
           content:
@@ -529,18 +529,18 @@ paths:
         "404":
           description: Trying to get a non-existent track
           content: {}
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A track
           content:
@@ -565,18 +565,18 @@ paths:
         "404":
           description: Trying to delete a non-existent track
           content: {}
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Track(s) have been removed. Returns the number of tracks affected
           content:
@@ -613,18 +613,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of tracks
           content:
@@ -652,15 +652,15 @@ paths:
         "404":
           description: Band not found
           content: {}
+        "400":
+          description: Invalid band id supplied
+          content: {}
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "400":
-          description: Invalid band id supplied
-          content: {}
         "200":
           description: A set of tracks
           content:
@@ -698,18 +698,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of fake tracks
           content:
@@ -733,18 +733,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to XML
           content:
@@ -767,18 +767,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to Excel
           content:
@@ -801,18 +801,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export the database as ZIP archive
           content:
@@ -836,18 +836,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of bands
           content:
@@ -885,18 +885,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of fake bands
           content:
@@ -921,18 +921,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to Excel
           content:
@@ -959,18 +959,18 @@ paths:
         "404":
           description: Trying to get a non-existent band
           content: {}
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A band
           content:
@@ -995,15 +995,15 @@ paths:
         "404":
           description: Trying to delete a non-existent band
           content: {}
-        "422":
-          description: Attempting to delete a band with linked tracks
-          content: {}
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Attempting to delete a band with linked tracks
+          content: {}
         "200":
           description: Band(s) have been removed. Returns the number of bands affected
           content:
@@ -1040,18 +1040,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: A set of fake bands
           content:
@@ -1075,18 +1075,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to XML
           content:
@@ -1109,18 +1109,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "422":
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         "400":
           description: Bad Request
           content:
             '*/*':
               schema:
                 type: object
+        "422":
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         "200":
           description: Successfully export to Excel
           content:

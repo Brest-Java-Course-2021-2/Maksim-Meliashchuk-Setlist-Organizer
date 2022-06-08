@@ -2,11 +2,23 @@ spring:
   application:
     name: config-server
   profiles:
-    active: native
+    active: native, git
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config
+        git:
+          uri: https://github.com/Maxxx873/setlist-organizer-configuration.git
+          default-label: main
 server:
   port: 8071
+
+encrypt:
+  key: setlist-organizer-secret-key
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -9,6 +9,10 @@ server:
 
 spring:
 
+  logging:
+    level:
+      org.springframework.security: DEBUG
+
   flyway:
     enabled: true
 
@@ -39,7 +43,6 @@ spring:
         registration:
           keycloak:
             client-id: setlist_organizer_client
-           # client-secret: 2kciSwPQuIRhABJWMq4o6wJV01z5Cmss
 
 management:
   endpoints:

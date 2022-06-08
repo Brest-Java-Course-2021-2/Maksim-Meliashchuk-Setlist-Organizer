@@ -96,6 +96,16 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -108,6 +118,9 @@
                         <profile>test</profile>
                         <profile>jdbc</profile>
                     </profiles>
+                    <systemPropertyVariables>
+                        <spring.cloud.config.fail-fast>false</spring.cloud.config.fail-fast>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
