@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "admin", roles = { "admin" })
 @TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
+@TestPropertySource(properties = {"eureka.client.enabled=false"})
 class ImportExportDbControllerApiClientTest {
 
     @Autowired

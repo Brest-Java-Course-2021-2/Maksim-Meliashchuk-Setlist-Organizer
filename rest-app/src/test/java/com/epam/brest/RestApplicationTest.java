@@ -6,6 +6,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
+@TestPropertySource(properties = {"eureka.client.enabled=false"})
 class RestApplicationTest {
     @Test
     public void contextLoads() {
