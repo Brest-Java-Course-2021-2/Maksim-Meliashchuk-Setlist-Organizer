@@ -29,6 +29,7 @@
         <module>service-swagger-client</module>
         <module>gatling-test</module>
         <module>configserver</module>
+        <module>eurekaserver</module>
     </modules>
 
     <properties>

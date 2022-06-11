@@ -55,6 +55,18 @@ services:
       ENCRYPT_KEY: setlist-organizer-secret-key
     network_mode: host
 
+  eurekaserver:
+    build: ./eurekaserver
+    image: eurekaserver
+    container_name: eurekaserver
+    ports:
+      - 8070:8070
+    environment:
+      SPRING_CLOUD_CONFIG_FAIL_FAST: "${SPRING_CLOUD_CONFIG_FAIL_FAST}"
+    depends_on:
+      - configserver
+    network_mode: host
+
   rest-app:
     build: ./rest-app
     image: docker-rest-app
