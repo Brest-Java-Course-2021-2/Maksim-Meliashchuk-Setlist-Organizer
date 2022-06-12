@@ -1,4 +1,4 @@
-package com.epam.brest;
+package com.epam.brest.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,10 +6,10 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
-@TestPropertySource(properties = {"eureka.client.enabled=false"})
-class RestApplicationTest {
-    @Test
-    public void contextLoads() {
-    }
+class EurekaserverApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
 
 }

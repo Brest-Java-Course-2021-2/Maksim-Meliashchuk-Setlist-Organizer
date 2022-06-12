@@ -90,8 +90,10 @@ API documentation with Swagger UI:
 <a href="https://www.java.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="20" height="20"/> </a>
 - **Core Framework:** [Spring boot](https://spring.io/projects/spring-boot)
   <img height="20" width="20" src="documentation/img/icons/springboot.svg"/>
-- **Tools for distributed systems:** [Spring Cloud](https://spring.io/projects/spring-cloud) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
-  - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
+- **Tools for distributed systems:** 
+  - [Spring Cloud](https://spring.io/projects/spring-cloud) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
+    - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
+    - [Spring Cloud](https://spring.io/projects/spring-cloud-netflix) <img height="10" width="40" src="documentation/img/icons/netflix.svg"/>
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
@@ -161,8 +163,25 @@ The specified versions are the tested ones.
 
 ## Microservices
 
-* A [Spring Cloud Config server](/configserver)  can manage a services configuration information using a file system/ classpath 
+#### [Config server](/configserver)
+
+* Stores [configs](/configserver/src/main/resources/config)  of all microservices. A Spring Cloud [Config server](/configserver)
+can manage a services configuration information using a file system/ classpath 
 or GitHub-based [repository](/https://github.com/Maxxx873/setlist-organizer-configuration).
+
+#### [Service discovery server](/eurekaserver)
+
+* Performs Service registry function. A [Eureka server](/eurekaserver) running as a Spring-Cloud based service. 
+This service will allow multiple service instances to register with it. 
+Clients that need to call a service will use Eureka to lookup the physical location of the target service.
+
+#### [REST service](/rest-app)
+
+* A Spring Boot app (REST API).
+
+#### [WEB service](/web-app)
+
+* A Spring Boot app (UI) that uses REST API. Uses Thymeleaf to render HTML pages and Bootstrap CSS framework.
 
 ## Rest app configure
 
@@ -292,6 +311,10 @@ The `REST` application will be accessible at [http://localhost:8088](http://loca
 
 The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
 
+The `Config Server`will be accessible at [http://localhost:8071](http://localhost:8071)
+
+The `Service Discovery Server`will be accessible at [http://localhost:8761](http://localhost:8761)
+
 `Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
 <img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
@@ -304,7 +327,7 @@ Access the `Grafana` webUI with jvm-micrometer dashboard on  [http://localhost:3
 
 <img height="25" width="125" src="documentation/img/icons/keycloak_logo.svg"/>
 
-* Admin panel: [http://localhost:8484/auth](http://localhost:8484/auth) (log in as the Keycloak admin [`admin:admin_password`])
+* Admin panel: [http://localhost:8484/auth](http://localhost:8484/auth) (log in as the Keycloak admin `admin:admin_password`)
 * As an admin you can see a list of users associated with the `setlist_organizer_realm` realm by clicking
 
 To stop the containers:

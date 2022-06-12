@@ -52,6 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "admin", roles = { "admin" })
 @TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
+@TestPropertySource(properties = {"eureka.client.enabled=false"})
 class BandControllerIT {
 
     private static final String BANDS_DTO_URL = "http://localhost:8088/bands_dto";

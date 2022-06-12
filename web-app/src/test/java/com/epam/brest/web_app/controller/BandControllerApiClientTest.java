@@ -53,6 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = { "app.httpClient = ApiClient" })
 @TestPropertySource(properties = {"spring.security.oauth2.client.provider.keycloak.pre-connection-check: false"})
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
+@TestPropertySource(properties = {"eureka.client.enabled=false"})
 class BandControllerApiClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BandControllerApiClient.class);
