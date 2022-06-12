@@ -163,10 +163,25 @@ The specified versions are the tested ones.
 
 ## Microservices
 
-* A [Spring Cloud` Config server](/configserver)  can manage a services configuration information using a file system/ classpath 
+#### [Config server](/configserver)
+
+* Stores [configs](/configserver/src/main/resources/config)  of all microservices. A Spring Cloud [Config server](/configserver)
+can manage a services configuration information using a file system/ classpath 
 or GitHub-based [repository](/https://github.com/Maxxx873/setlist-organizer-configuration).
-* A Eureka server running as a Spring-Cloud based service. This service will allow multiple service instances to register with it. 
+
+#### [Service discovery server](/eurekaserver)
+
+* Performs Service registry function. A [Eureka server](/eurekaserver) running as a Spring-Cloud based service. 
+This service will allow multiple service instances to register with it. 
 Clients that need to call a service will use Eureka to lookup the physical location of the target service.
+
+#### [REST service](/rest-app)
+
+* A Spring Boot app (REST API).
+
+#### [WEB service](/web-app)
+
+* A Spring Boot app (UI) that uses REST API. Uses Thymeleaf to render HTML pages and Bootstrap CSS framework.
 
 ## Rest app configure
 
@@ -295,6 +310,10 @@ The `WEB` application will be accessible at [http://localhost:8080](http://local
 The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
 
 The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
+
+The `Config Server`will be accessible at [http://localhost:8071](http://localhost:8071)
+
+The `Service Discovery Server`will be accessible at [http://localhost:8761](http://localhost:8761)
 
 `Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
