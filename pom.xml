@@ -30,6 +30,7 @@
         <module>gatling-test</module>
         <module>configserver</module>
         <module>eurekaserver</module>
+        <module>notification-app</module>
     </modules>
 
     <properties>
