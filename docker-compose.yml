@@ -17,11 +17,18 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "Topic1:1:1"
+      KAFKA_CREATE_TOPICS: "notification:1:1:compact"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
       - zookeeper
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - 1025:1025 # SMTP server ports
+      - 8025:8025 # Web UI ports
 
   postgres-keycloak:
     container_name: postgres-keycloak
@@ -129,17 +136,6 @@ services:
       - configserver
     network_mode: host
 
-  grafana:
-    build: ./rest-app/config
-    container_name: grafana
-    ports:
-      - 3000:3000
-    volumes:
-      - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
-    environment:
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/var/lib/grafana/dashboards/jvm-micrometer_rev9.json"
-    network_mode: host
-
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -149,4 +145,16 @@ services:
     volumes:
       - ./rest-app/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
+    network_mode: host
+
+
+  grafana:
+    build: ./rest-app/config
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+    environment:
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/var/lib/grafana/dashboards/jvm-micrometer_rev9.json"
     network_mode: host

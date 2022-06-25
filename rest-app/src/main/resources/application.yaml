@@ -53,3 +53,8 @@ metrics:
   export:
     prometheus:
       enabled: true
+
+kafka:
+  bootstrap-servers: ${KAFKA_HOST_NAME:localhost}:${KAFKA_PORT:9092}
+  topics:
+    repertoire-changed:  repertoire_changed
