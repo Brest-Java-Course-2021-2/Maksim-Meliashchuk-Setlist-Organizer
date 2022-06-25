@@ -1,6 +1,8 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.exception.CustomExceptionHandler;
+import com.epam.brest.kafka.model.EventType;
+import com.epam.brest.kafka.model.RepertoireEvent;
 import com.epam.brest.model.Track;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,11 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.errors.TopicExistsException;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +24,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,7 +48,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.epam.brest.model.constant.TrackConstant.TRACK_DETAILS_MAX_SIZE;
@@ -45,13 +61,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@DirtiesContext
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.yaml")
 @TestPropertySource(properties = {"spring.cloud.config.enabled:false"})
 @TestPropertySource(properties = {"eureka.client.enabled=false"})
-@WithMockUser(username = "admin", roles = { "admin" })
+@WithMockUser(username = "admin", roles = {"admin"})
+@EmbeddedKafka(partitions = 1, topics = {"repertoire_changed"}, ports = 9092)
 public class TrackControllerIT {
 
+    private static final String TOPIC_NAME = "repertoire_changed";
+    private static final long TIMEOUT = 10000;
+
+    private static final int EVENT_COUNT = 2;
+    @Autowired
+    private EmbeddedKafkaBroker embeddedKafkaBroker;
     private final Logger logger = LogManager.getLogger(TrackControllerIT.class);
 
     public static final String REPERTOIRE_ENDPOINT = "/repertoire";
@@ -77,6 +101,7 @@ public class TrackControllerIT {
 
     @BeforeEach
     public void before() {
+
         mockMvc = MockMvcBuilders.standaloneSetup(trackController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .setControllerAdvice(customExceptionHandler)
@@ -158,6 +183,11 @@ public class TrackControllerIT {
     @Transactional
     public void shouldCreateTrack() throws Exception {
         logger.debug("shouldCreateTrack()");
+
+        embeddedKafkaBroker.destroy();
+        embeddedKafkaBroker.afterPropertiesSet();
+
+        Consumer<String, RepertoireEvent> consumer = configureConsumer();
         Track track = Track.builder()
                 .trackName("Test Track")
                 .trackId(1)
@@ -165,11 +195,21 @@ public class TrackControllerIT {
                 .build();
         Integer id = trackService.create(track);
         assertNotNull(id);
+
+
+        ConsumerRecords<String, RepertoireEvent> records = KafkaTestUtils.getRecords(consumer, TIMEOUT);
+        List<RepertoireEvent> recordValues = new ArrayList<>();
+        records.forEach(singleRecord -> recordValues.add(singleRecord.value()));
+
+        assertEquals(recordValues.get(0).getEventType(), EventType.CREATE_TRACK);
+        assertEquals(recordValues.get(0).getTrack().getTrackName(), track.getTrackName());
+        consumer.close();
+
     }
 
     @Test
     @Transactional
-    @WithMockUser(username = "user", roles = { "user" })
+    @WithMockUser(username = "user", roles = {"user"})
     public void shouldNotCreateTrack() throws Exception {
         logger.debug("shouldNotCreateTrack()");
         Track track = Track.builder()
@@ -185,6 +225,7 @@ public class TrackControllerIT {
                                 .accept(MediaType.APPLICATION_JSON)
                         ).andExpect(status().is4xxClientError())
                         .andReturn().getResponse();
+        assertNotNull(response);
     }
 
 
@@ -239,6 +280,11 @@ public class TrackControllerIT {
     public void shouldUpdateTrack() throws Exception {
         logger.debug("shouldUpdateTrack()");
         // given
+
+        embeddedKafkaBroker.destroy();
+        embeddedKafkaBroker.afterPropertiesSet();
+
+        Consumer<String, RepertoireEvent> consumer = configureConsumer();
         Track trackSrc = Track.builder()
                 .trackName("Test Track")
                 .trackId(1)
@@ -252,8 +298,6 @@ public class TrackControllerIT {
         Integer id = trackService.create(trackSrc);
 
         assertNotNull(id);
-
-        List<Track> tracks = trackService.findAll();
 
         Optional<Track> trackOptionalSrc = trackService.findById(id);
         assertTrue(trackOptionalSrc.isPresent());
@@ -289,7 +333,22 @@ public class TrackControllerIT {
         Optional<Track> updatedTrackOptional = trackService.findById(id);
         assertTrue(updatedTrackOptional.isPresent());
         assertEquals(updatedTrackOptional.get().getTrackId(), id);
-        assertEquals(updatedTrackOptional.get().getTrackName(),trackOptionalSrc.get().getTrackName());
+        assertEquals(updatedTrackOptional.get().getTrackName(), trackOptionalSrc.get().getTrackName());
+
+        ConsumerRecords<String, RepertoireEvent> records = KafkaTestUtils.getRecords(consumer, TIMEOUT);
+        List<RepertoireEvent> recordValues = new ArrayList<>();
+        records.forEach(singleRecord -> recordValues.add(singleRecord.value()));
+        if (recordValues.size() < EVENT_COUNT) {
+            records = KafkaTestUtils.getRecords(consumer, TIMEOUT);
+            records.forEach(singleRecord -> recordValues.add(singleRecord.value()));
+        }
+        assertEquals(EVENT_COUNT, recordValues.size());
+        assertEquals(recordValues.get(0).getEventType(), EventType.CREATE_TRACK);
+        assertEquals(recordValues.get(0).getTrack().getTrackName(), trackSrc.getTrackName());
+        assertEquals(recordValues.get(1).getEventType(), EventType.UPDATE_TRACK);
+        assertEquals(recordValues.get(1).getTrack().getTrackName(), trackOptionalSrc.get().getTrackName());
+
+        consumer.close();
     }
 
     @Test
@@ -297,12 +356,17 @@ public class TrackControllerIT {
     public void shouldDeleteTrack() throws Exception {
         logger.debug("shouldDeleteTrack()");
         // given
-        Integer id = 1;
 
+        embeddedKafkaBroker.destroy();
+        embeddedKafkaBroker.afterPropertiesSet();
+
+        Consumer<String, RepertoireEvent> consumer = configureConsumer();
+        Integer id = 1;
+        String trackName = "test";
         trackService.create(Track.builder()
-                        .trackName("test")
-                        .trackId(5)
-                        .trackBandId(1)
+                .trackName(trackName)
+                .trackId(5)
+                .trackBandId(1)
                 .build());
         List<Track> tracks = trackService.findAll();
         assertTrue(tracks.size() > 0);
@@ -312,6 +376,20 @@ public class TrackControllerIT {
 
         // then
         assertEquals(1, result);
+
+        ConsumerRecords<String, RepertoireEvent> records = KafkaTestUtils.getRecords(consumer, TIMEOUT);
+        List<RepertoireEvent> recordValues = new ArrayList<>();
+        records.forEach(singleRecord -> recordValues.add(singleRecord.value()));
+        if (recordValues.size() < EVENT_COUNT) {
+            records = KafkaTestUtils.getRecords(consumer, TIMEOUT);
+            records.forEach(singleRecord -> recordValues.add(singleRecord.value()));
+        }
+        assertEquals(EVENT_COUNT, recordValues.size());
+        assertEquals(recordValues.get(0).getEventType(), EventType.CREATE_TRACK);
+        assertEquals(recordValues.get(0).getTrack().getTrackName(), trackName);
+        assertEquals(recordValues.get(1).getEventType(), EventType.DELETE_TRACK);
+
+        consumer.close();
 
     }
 
@@ -395,6 +473,7 @@ public class TrackControllerIT {
                     .andReturn().getResponse();
             return Optional.of(objectMapper.readValue(response.getContentAsString(), Track.class));
         }
+
         public Integer create(Track track) throws Exception {
 
             logger.debug("create({})", track);
@@ -435,7 +514,15 @@ public class TrackControllerIT {
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
 
-
     }
 
+    private Consumer<String, RepertoireEvent> configureConsumer() {
+        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("group_consumer_test", "false", embeddedKafkaBroker);
+        consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        ConsumerFactory<String, RepertoireEvent> consumerFactory = new DefaultKafkaConsumerFactory<>(consumerProps,
+                new StringDeserializer(), new JsonDeserializer<>(RepertoireEvent.class, false));
+        Consumer<String, RepertoireEvent> consumer = consumerFactory.createConsumer();
+        embeddedKafkaBroker.consumeFromAnEmbeddedTopic(consumer, TOPIC_NAME);
+        return consumer;
+    }
 }

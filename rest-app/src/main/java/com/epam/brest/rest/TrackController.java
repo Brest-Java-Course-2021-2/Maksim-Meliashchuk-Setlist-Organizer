@@ -1,5 +1,8 @@
 package com.epam.brest.rest;
 
+import com.epam.brest.kafka.model.EventType;
+import com.epam.brest.kafka.model.RepertoireEvent;
+import com.epam.brest.kafka.service.KafkaProducerService;
 import com.epam.brest.model.Track;
 import com.epam.brest.service.TrackService;
 import com.epam.brest.service.excel.TrackExportExcelService;
@@ -16,6 +19,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,22 +44,27 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @SecurityRequirement(name = "keycloakOAuth")
 public class TrackController {
 
+    @Value("${kafka.topics.repertoire-changed}")
+    private String repertoireChangedTopic;
     private final TrackService trackService;
     private final TrackFakerService trackFakerService;
     private final TrackExportExcelService trackExportExcelService;
     private final TrackImportExcelService trackImportExcelService;
     private final TrackXmlService trackXmlService;
 
+    private final KafkaProducerService producerService;
+
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, TrackFakerService trackFakerService,
                            TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService,
-                           TrackXmlService trackXmlService) {
+                           TrackXmlService trackXmlService, KafkaProducerService producerService) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
         this.trackXmlService = trackXmlService;
+        this.producerService = producerService;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -121,6 +130,7 @@ public class TrackController {
     public ResponseEntity<Integer> createTrack(@Valid @RequestBody Track track) {
         logger.debug("createTrack({})", track);
         Integer id = trackService.create(track);
+        producerService.sendRepertoireMessage(repertoireChangedTopic, new RepertoireEvent(EventType.CREATE_TRACK, track));
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
@@ -138,6 +148,7 @@ public class TrackController {
     public ResponseEntity<Integer> updateTrack(@Valid @RequestBody Track track) {
         logger.debug("updateTrack({})", track);
         int result = trackService.update(track);
+        producerService.sendRepertoireMessage(repertoireChangedTopic, new RepertoireEvent(EventType.UPDATE_TRACK, track));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -152,7 +163,10 @@ public class TrackController {
     @DeleteMapping(value = "/repertoire/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteTrack(@PathVariable Integer id) {
         logger.debug("delete({})", id);
+        var track = trackService.getTrackById(id);
         int result = trackService.delete(id);
+        producerService.sendRepertoireMessage(repertoireChangedTopic,
+                new RepertoireEvent(EventType.DELETE_TRACK, track));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

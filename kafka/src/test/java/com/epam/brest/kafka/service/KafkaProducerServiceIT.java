@@ -41,7 +41,7 @@ class KafkaProducerServiceIT {
     private KafkaProducerService producerService;
 
     @Test
-    void givenEmbeddedKafkaBroker_whenSendingWithSimpleProducer_thenSendRepertoireMessage() {
+    void givenEmbeddedKafkaBroker_whenSendingWithSimpleProducer_thenSendRepertoireMessage()  {
 
         log.debug("givenEmbeddedKafkaBroker_whenSendingWithSimpleProducer_thenSendRepertoireMessage()");
 

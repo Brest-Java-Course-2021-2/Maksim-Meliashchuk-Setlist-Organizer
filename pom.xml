@@ -175,6 +175,12 @@
 
             <dependency>
                 <groupId>com.epam.brest</groupId>
+                <artifactId>kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest</groupId>
                 <artifactId>service-swagger-client</artifactId>
                 <version>${project.version}</version>
             </dependency>

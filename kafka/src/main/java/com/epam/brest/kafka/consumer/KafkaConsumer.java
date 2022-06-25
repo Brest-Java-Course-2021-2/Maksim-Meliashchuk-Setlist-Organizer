@@ -6,6 +6,7 @@ import com.epam.brest.model.Track;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
+@ConditionalOnProperty(value="kafka.consumer.enabled", matchIfMissing = false)
 public class KafkaConsumer {
 
     private Track track;
     private EventType eventType;
 
     @KafkaListener(topics = "${kafka.topics.repertoire-changed}")
-    public void receive(RepertoireEvent repertoireEvent) {
+    public void receiveRepertoireEvent(RepertoireEvent repertoireEvent) {
         log.info("received repertoire changed message ='{}'", repertoireEvent.toString());
         eventType = repertoireEvent.getEventType();
         track = repertoireEvent.getTrack();

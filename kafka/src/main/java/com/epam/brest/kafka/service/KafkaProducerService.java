@@ -3,9 +3,9 @@ package com.epam.brest.kafka.service;
 import com.epam.brest.kafka.model.RepertoireEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -14,9 +14,13 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+//@ConditionalOnProperty(value = "kafka.enabled", matchIfMissing = true)
 public class KafkaProducerService {
 
     private final KafkaTemplate<Integer, RepertoireEvent> kafkaTemplate;
+
+    @Value("${kafka.topics.repertoire-changed}")
+    private String repertoireChangedTopic;
 
     public void sendRepertoireMessage(String topic, RepertoireEvent repertoireEvent) {
 
