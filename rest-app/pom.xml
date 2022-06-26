@@ -29,7 +29,7 @@
             <artifactId>kafka</artifactId>
         </dependency>
 
-         <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -141,16 +141,23 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <wait>1000</wait>
-                    <maxAttempts>180</maxAttempts>
+                    <maxAttempts>60</maxAttempts>
                     <profiles>
                         <profile>test</profile>
                         <profile>jdbc</profile>
+                        <profile>nokafka</profile>
                     </profiles>
                     <systemPropertyVariables>
                         <spring.cloud.config.fail-fast>false</spring.cloud.config.fail-fast>
                         <eureka.client.enabled>false</eureka.client.enabled>
                         <spring.kafka.listener.missing-topics-fatal>false</spring.kafka.listener.missing-topics-fatal>
                     </systemPropertyVariables>
+                    <excludes>
+                        <exclude>
+                            <groupId>com.epam.brest</groupId>
+                            <artifactId>kafka</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>

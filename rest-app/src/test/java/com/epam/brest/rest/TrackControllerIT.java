@@ -1,9 +1,9 @@
 package com.epam.brest.rest;
 
 import com.epam.brest.exception.CustomExceptionHandler;
-import com.epam.brest.kafka.model.EventType;
-import com.epam.brest.kafka.model.RepertoireEvent;
 import com.epam.brest.model.Track;
+import com.epam.brest.model.kafka.EventType;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -13,7 +13,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.common.errors.TopicExistsException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

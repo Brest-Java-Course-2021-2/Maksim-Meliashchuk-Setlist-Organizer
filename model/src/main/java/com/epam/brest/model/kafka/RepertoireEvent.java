@@ -1,4 +1,4 @@
-package com.epam.brest.kafka.model;
+package com.epam.brest.model.kafka;
 
 import com.epam.brest.model.Track;
 import lombok.*;

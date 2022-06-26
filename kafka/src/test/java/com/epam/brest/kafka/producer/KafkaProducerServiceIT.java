@@ -1,8 +1,8 @@
-package com.epam.brest.kafka.service;
+package com.epam.brest.kafka.producer;
 
-import com.epam.brest.kafka.model.EventType;
-import com.epam.brest.kafka.model.RepertoireEvent;
 import com.epam.brest.model.Track;
+import com.epam.brest.model.kafka.EventType;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import config.KafkaTestConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;

@@ -1,4 +1,4 @@
-package com.epam.brest.kafka.model;
+package com.epam.brest.model.kafka;
 
 public enum EventType {
     CREATE_TRACK,

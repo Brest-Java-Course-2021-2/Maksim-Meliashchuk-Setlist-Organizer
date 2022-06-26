@@ -1,6 +1,6 @@
 package com.epam.brest.kafka.config;
 
-import com.epam.brest.kafka.model.RepertoireEvent;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.springframework.beans.factory.annotation.Value;

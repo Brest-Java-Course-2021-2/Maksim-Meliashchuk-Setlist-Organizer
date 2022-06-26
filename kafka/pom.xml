@@ -23,6 +23,10 @@
             <artifactId>model</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.epam.brest</groupId>
+            <artifactId>service-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>

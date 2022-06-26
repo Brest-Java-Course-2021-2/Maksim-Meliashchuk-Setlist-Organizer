@@ -1,7 +1,7 @@
 package config;
 
-import com.epam.brest.kafka.model.RepertoireEvent;
-import com.epam.brest.kafka.service.KafkaProducerService;
+import com.epam.brest.kafka.producer.KafkaProducerService;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.springframework.boot.test.context.TestConfiguration;

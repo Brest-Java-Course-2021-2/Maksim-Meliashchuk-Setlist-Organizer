@@ -1,8 +1,8 @@
 package com.epam.brest.kafka.consumer;
 
-import com.epam.brest.kafka.model.EventType;
-import com.epam.brest.kafka.model.RepertoireEvent;
 import com.epam.brest.model.Track;
+import com.epam.brest.model.kafka.EventType;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

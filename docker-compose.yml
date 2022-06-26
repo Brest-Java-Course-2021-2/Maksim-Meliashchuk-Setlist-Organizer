@@ -116,6 +116,7 @@ services:
       - postgres
       - keycloak
       - configserver
+      - kafkaserver
     network_mode: host
 
   web-app:
@@ -132,7 +133,7 @@ services:
       KEYCLOAK_REALM_TOKEN_URL: "${KEYCLOAK_REALM_TOKEN_URL}"
     depends_on:
       - keycloak
-      - rest-app
+  #    - rest-app
       - configserver
     network_mode: host
 

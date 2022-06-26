@@ -1,6 +1,6 @@
 package com.epam.brest.kafka.config;
 
-import com.epam.brest.kafka.model.RepertoireEvent;
+import com.epam.brest.model.kafka.RepertoireEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -12,7 +12,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +34,9 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
+
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, RepertoireEvent> kakfaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, RepertoireEvent> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, RepertoireEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
