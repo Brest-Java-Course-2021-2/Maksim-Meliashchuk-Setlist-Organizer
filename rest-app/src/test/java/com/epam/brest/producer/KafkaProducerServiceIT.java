@@ -1,9 +1,10 @@
-package com.epam.brest.kafka.producer;
+package com.epam.brest.producer;
 
+
+import com.epam.brest.config.KafkaTestConfig;
 import com.epam.brest.model.Track;
 import com.epam.brest.model.kafka.EventType;
 import com.epam.brest.model.kafka.RepertoireEvent;
-import config.KafkaTestConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -69,3 +70,5 @@ class KafkaProducerServiceIT {
         consumerServiceTest.close();
     }
 }
+
+

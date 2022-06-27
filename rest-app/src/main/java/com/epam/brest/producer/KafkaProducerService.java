@@ -1,4 +1,4 @@
-package com.epam.brest.kafka.producer;
+package com.epam.brest.producer;
 
 import com.epam.brest.model.kafka.RepertoireEvent;
 import com.epam.brest.service.kafka.ProducerService;
@@ -11,7 +11,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-
 
 @Slf4j
 @Service
@@ -32,13 +31,15 @@ public class KafkaProducerService implements ProducerService {
 
             @Override
             public void onSuccess(SendResult<Integer, RepertoireEvent> result) {
-                log.info("sent repertoire message='{}' with offset={}", repertoireEvent, result.getRecordMetadata()
+                log.info("sent repertoire message='{}' with offset={}", repertoireEvent.getEventType() + " " +
+                        repertoireEvent.getTrack().getTrackName(), result.getRecordMetadata()
                         .offset());
             }
 
             @Override
             public void onFailure(Throwable ex) {
-                log.error("unable to send repertoire message='{}'", repertoireEvent, ex);
+                log.error("unable to send repertoire message='{}'", repertoireEvent.getEventType() + " " +
+                        repertoireEvent.getTrack().getTrackName(), ex);
             }
         });
     }
