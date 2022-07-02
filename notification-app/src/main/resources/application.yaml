@@ -1,1 +1,28 @@
+server:
+  port: 8099
 
+spring:
+  cloud:
+    function:
+      definition: consumer
+    stream:
+      kafka:
+        streams:
+        bindings:
+          consumer-in-0:
+            consumer:
+              configuration:
+                key.deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
+                value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+                spring:
+                  json:
+                    trusted:
+                      packages: com.epam.brest.model.kafka
+        binder:
+          brokers: localhost:9092
+
+      bindings:
+        consumer-in-0:
+          destination : repertoire_changed
+          consumer:
+            use-native-decoding: true
