@@ -8,6 +8,7 @@ import com.epam.brest.service.excel.TrackExportExcelService;
 import com.epam.brest.service.excel.TrackImportExcelService;
 import com.epam.brest.service.faker.TrackFakerService;
 import com.epam.brest.service.kafka.ProducerService;
+import com.epam.brest.service.mapper.TrackToDtoMapper;
 import com.epam.brest.service.xml.TrackXmlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -52,18 +53,20 @@ public class TrackController {
     private final TrackImportExcelService trackImportExcelService;
     private final TrackXmlService trackXmlService;
     private final ProducerService producerService;
+    private final TrackToDtoMapper dtoMapper;
 
     private final Logger logger = LogManager.getLogger(TrackController.class);
 
     public TrackController(TrackService trackService, TrackFakerService trackFakerService,
                            TrackExportExcelService trackExportExcelService, TrackImportExcelService trackImportExcelService,
-                           TrackXmlService trackXmlService, ProducerService producerService) {
+                           TrackXmlService trackXmlService, ProducerService producerService, TrackToDtoMapper dtoMapper) {
         this.trackService = trackService;
         this.trackFakerService = trackFakerService;
         this.trackExportExcelService = trackExportExcelService;
         this.trackImportExcelService = trackImportExcelService;
         this.trackXmlService = trackXmlService;
         this.producerService = producerService;
+        this.dtoMapper = dtoMapper;
     }
 
     @Operation(summary = "Get information for all tracks based on their IDs")
@@ -129,7 +132,8 @@ public class TrackController {
     public ResponseEntity<Integer> createTrack(@Valid @RequestBody Track track) {
         logger.debug("createTrack({})", track);
         Integer id = trackService.create(track);
-        producerService.sendRepertoireMessage(repertoireChangedTopic, new RepertoireEvent(EventType.CREATE_TRACK, track));
+        producerService.sendRepertoireMessage(repertoireChangedTopic,
+                new RepertoireEvent(EventType.CREATE_TRACK, dtoMapper.trackToDto(track)));
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
@@ -147,7 +151,8 @@ public class TrackController {
     public ResponseEntity<Integer> updateTrack(@Valid @RequestBody Track track) {
         logger.debug("updateTrack({})", track);
         int result = trackService.update(track);
-        producerService.sendRepertoireMessage(repertoireChangedTopic, new RepertoireEvent(EventType.UPDATE_TRACK, track));
+        producerService.sendRepertoireMessage(repertoireChangedTopic,
+                new RepertoireEvent(EventType.UPDATE_TRACK, dtoMapper.trackToDto(track)));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -165,7 +170,7 @@ public class TrackController {
         var track = trackService.getTrackById(id);
         int result = trackService.delete(id);
         producerService.sendRepertoireMessage(repertoireChangedTopic,
-                new RepertoireEvent(EventType.DELETE_TRACK, track));
+                new RepertoireEvent(EventType.DELETE_TRACK, dtoMapper.trackToDto(track)));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

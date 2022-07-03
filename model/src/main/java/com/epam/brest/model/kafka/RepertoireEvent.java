@@ -1,6 +1,6 @@
 package com.epam.brest.model.kafka;
 
-import com.epam.brest.model.Track;
+import com.epam.brest.model.TrackDto;
 import lombok.*;
 
 
@@ -12,5 +12,5 @@ import lombok.*;
 public class RepertoireEvent {
 
     private EventType eventType;
-    private Track track;
+    private TrackDto track;
 }

@@ -2,7 +2,7 @@ package com.epam.brest.producer;
 
 
 import com.epam.brest.config.KafkaTestConfig;
-import com.epam.brest.model.Track;
+import com.epam.brest.model.TrackDto;
 import com.epam.brest.model.kafka.EventType;
 import com.epam.brest.model.kafka.RepertoireEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ class KafkaProducerServiceIT {
 
         log.debug("givenEmbeddedKafkaBroker_whenSendingWithSimpleProducer_thenSendRepertoireMessage()");
 
-        var track = Track.builder().trackId(1).trackName("Track").build();
+        var track = TrackDto.builder().trackId(1).trackName("Track").build();
         var repertoireEvent = RepertoireEvent.builder()
                 .track(track)
                 .eventType(EventType.CREATE_TRACK)

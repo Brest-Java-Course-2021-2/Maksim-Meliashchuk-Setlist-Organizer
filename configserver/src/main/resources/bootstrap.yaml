@@ -12,7 +12,7 @@ spring:
           uri: https://github.com/Maxxx873/setlist-organizer-configuration.git
           default-label: main
 server:
-  port: 8071
+  port: ${PORT:8071}
 
 encrypt:
   key: setlist-organizer-secret-key

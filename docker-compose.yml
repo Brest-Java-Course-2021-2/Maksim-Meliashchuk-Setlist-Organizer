@@ -88,7 +88,7 @@ services:
     image: eurekaserver
     container_name: eurekaserver
     ports:
-      - 8070:8070
+      - 8761:8761
     environment:
       SPRING_CLOUD_CONFIG_FAIL_FAST: "${SPRING_CLOUD_CONFIG_FAIL_FAST}"
     depends_on:
@@ -139,7 +139,7 @@ services:
       - configserver
     network_mode: host
 
-  notification-app:
+   notification-app:
     build: ./notification-app
     image: docker-notification-app
     container_name: notification-app
