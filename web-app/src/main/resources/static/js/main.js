@@ -7,10 +7,8 @@ client.connect({}, (frame) => {
 	var path = window.location.pathname;
     var page = path.split("/").pop();
 	client.subscribe('/topic/repertoire', (payload) => {
-	    if (page == "bands" || page == "repertoire") {
-                console.log("Reloaded page name is: " + page);
-                updateContent();
-            }
+        console.log("Reloaded page name is: " + page);
+        reloadContent();
 	    var e = document.getElementById("toastNotice");
         var toast = new bootstrap.Toast(e, option);
         var body = document.getElementById("t-body")
@@ -19,9 +17,9 @@ client.connect({}, (frame) => {
 	});
 });
 
-function updateContent()
+function reloadContent()
 {
-    $("#reloaded-content").load(window.location.href + " #reloaded-content", function() {
+    $("#reloadable-content").load(window.location.href + " #reloadable-content", function() {
         secondsToTime();
         dateFormat();
     });

@@ -24,40 +24,38 @@
     <div th:insert="layouts :: offcanvas"></div>
 </div>
 
+<div id="reloadable-content">
+    <form class="form-group" th:action="@{/repertoire/band}">
+        <div class="main">
+            <div class="container">
+                <div class="row mb-3 mt-3">
+                    <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
+                        <div class="col-auto px-1">
+                            <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
+                        </div>
 
-<form class="form-group" th:action="@{/repertoire/band}">
-    <div class="main">
-        <div class="container">
-            <div class="row mb-3 mt-3">
-                <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
-
-                    <div class="col-auto px-1">
-                        <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
-                    </div>
-
-                    <div class="col-auto px-1">
-                        <span class="fs-6">Total duration:</span>
-                        <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
-                    </div>
-
-                    <div class="col-auto px-1 d-flex justify-content-end">
-                        <div class="d-flex align-content-end flex-wrap">
-                            <strong>
-                                <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark"
-                                   role="button">
-                                    <i class="bi bi-file-earmark-excel"></i> | Export</a>
-                                <a href="band.html" th:href="@{/track}" class="btn btn-dark" role="button">
-                                    <i class="bi bi-plus-square"></i> | Add</a>
-                            </strong>
+                        <div class="col-auto px-1">
+                            <span class="fs-6">Total duration:</span>
+                            <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
+                        </div>
+                        <div class="col-auto px-1 d-flex justify-content-end">
+                            <div class="d-flex align-content-end flex-wrap">
+                                <strong>
+                                    <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark"
+                                       role="button">
+                                        <i class="bi bi-file-earmark-excel"></i> | Export</a>
+                                    <a href="band.html" th:href="@{/track}" class="btn btn-dark" role="button">
+                                        <i class="bi bi-plus-square"></i> | Add</a>
+                                </strong>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<div id="reloaded-content">
+
     <div class="container">
         <div class="d-grid gap-3">
             <div id="card" class="p-2 bg-light border p-2" th:each="track: ${tracks}">
@@ -157,12 +155,10 @@
         document.getElementById('deleteUrl').href = '/track/' + target.data('id') + '/delete';
     })
 
-        window.onload = function(){
-        secondsToTime();
-        dateFormat();
+    window.onload = function(){
+            secondsToTime();
+            dateFormat();
     }
-
-
 
 </script>
 
