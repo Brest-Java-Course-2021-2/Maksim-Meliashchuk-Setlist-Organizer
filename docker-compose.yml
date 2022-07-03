@@ -139,7 +139,7 @@ services:
       - configserver
     network_mode: host
 
-   notification-app:
+  notification-app:
     build: ./notification-app
     image: docker-notification-app
     container_name: notification-app
