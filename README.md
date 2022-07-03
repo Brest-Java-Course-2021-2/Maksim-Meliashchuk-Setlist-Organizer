@@ -94,12 +94,14 @@ API documentation with Swagger UI:
   - [Spring Cloud](https://spring.io/projects/spring-cloud) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
     - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
     - [Spring Cloud](https://spring.io/projects/spring-cloud-netflix) <img height="10" width="40" src="documentation/img/icons/netflix.svg"/>
+    - [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
     <img height="20" width="20" src="documentation/img/icons/springdata.svg"/>
 - **Security:** [Spring Security](https://spring.io/projects/spring-security)  <img height="20" width="20" src="documentation/img/icons/springsecurity.svg"/>
+- **Message broker:** [Apache Kafka](https://kafka.apache.org/)  <img height="20" width="20" src="documentation/img/icons/apachekafka.svg"/>
 - **Identity Management:** [Keycloak](https://www.keycloak.org/) <img height="20" width="20" src="documentation/img/icons/keycloak.svg"/>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
 - **Annotation processor:**
@@ -125,7 +127,7 @@ API documentation with Swagger UI:
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/icons/h2.svg"/>
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
-- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
+- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="documentation/img/icons/flyway.svg"/>
 - **JSON library:** 
   - [Jackson](https://github.com/FasterXML/jackson)
   - [GSON](https://github.com/google/gson)
@@ -183,22 +185,22 @@ Clients that need to call a service will use Eureka to lookup the physical locat
 
 * A Spring Boot app (UI) that uses REST API. Uses Thymeleaf to render HTML pages and Bootstrap CSS framework.
 
+#### [NOTIFICATION service](/notification-app)
+
+* A Spring Boot app that reads messages from `Kafka` and sends notifications to a `WEB` application using a WebSocket.
+
 ## Rest app configure
 
-Setup [rest-app](/rest-app) in [application.yaml](/rest-app/src/main/resources/application.yaml):
 
-| Profile    | Description                                                                    |
-|------------|--------------------------------------------------------------------------------|
-| *dev*      | Run application with embedded H2 database in memory                            |
-| *postgres* | Run application with PostgreSQL database                                       |
-| *test*     | Run application with embedded H2 database in memory, Flyway migration disabled |
-| *jdbc*     | Interact with a database by using Spring JDBC                                  |
-| *jpa*      | Interact with a database by using Spring Data JPA                              |
+| Profile    | Description                                                                         |
+|------------|-------------------------------------------------------------------------------------|
+| *dev*      | Run application with embedded H2 database in memory                                 |
+| *postgres* | Run application with PostgreSQL database                                            |
+| *test*     | Run application with embedded H2 database in memory, Flyway migration disabled      |
+| *jdbc*     | Interact with a database by using Spring JDBC                                       |
+| *jpa*      | Interact with a database by using Spring Data JPA                                   |
+| *nokafka*  | Creating an empty ProducerService to run the application without using Apache Kafka |
 
-Example:
-```
-spring.profiles.active=dev, jpa
-```
 
 ## Web app configure
 
@@ -309,6 +311,8 @@ The `WEB` application will be accessible at [http://localhost:8080](http://local
 
 The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
 
+The `Notification` application will be accessible at [http://localhost:8099](http://localhost:8099)
+
 The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
 
 The `Config Server`will be accessible at [http://localhost:8071](http://localhost:8071)
@@ -329,6 +333,10 @@ Access the `Grafana` webUI with jvm-micrometer dashboard on  [http://localhost:3
 
 * Admin panel: [http://localhost:8484/auth](http://localhost:8484/auth) (log in as the Keycloak admin `admin:admin_password`)
 * As an admin you can see a list of users associated with the `setlist_organizer_realm` realm by clicking
+
+<img src="https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white"/>
+
+The `Kafka` is running at default [http://localhost:9090](http://localhost:9092), `Zookeeper`  is running at [http://localhost:2181](http://localhost:2181)
 
 To stop the containers:
 ```bash

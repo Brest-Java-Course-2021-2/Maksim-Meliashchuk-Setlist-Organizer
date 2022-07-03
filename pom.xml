@@ -31,7 +31,6 @@
         <module>configserver</module>
         <module>eurekaserver</module>
         <module>notification-app</module>
-        <module>kafka</module>
     </modules>
 
     <properties>
@@ -170,12 +169,6 @@
             <dependency>
                 <groupId>com.epam.brest</groupId>
                 <artifactId>service-webclient</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.epam.brest</groupId>
-                <artifactId>kafka</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -121,23 +121,31 @@ services:
       - kafkaserver
     network_mode: host
 
-#  web-app:
-#    build: ./web-app
-#    image: docker-web-app
-#    container_name: web-app
-#    ports:
-#      - 8080:8080
-#    environment:
-#      SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
-#      HOST_NAME: localhost
-##      KEYCLOAK_REALM_CERT_URL: "${KEYCLOAK_REALM_CERT_URL}"
-#      KEYCLOAK_REALM_ISSUER_URL: "${KEYCLOAK_REALM_ISSUER_URL}"
-#      KEYCLOAK_REALM_TOKEN_URL: "${KEYCLOAK_REALM_TOKEN_URL}"
-#    depends_on:
-##      - keycloak
-#      - rest-app
-#      - configserver
-#    network_mode: host
+  web-app:
+    build: ./web-app
+    image: docker-web-app
+    container_name: web-app
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
+      HOST_NAME: localhost
+      KEYCLOAK_REALM_CERT_URL: "${KEYCLOAK_REALM_CERT_URL}"
+      KEYCLOAK_REALM_ISSUER_URL: "${KEYCLOAK_REALM_ISSUER_URL}"
+      KEYCLOAK_REALM_TOKEN_URL: "${KEYCLOAK_REALM_TOKEN_URL}"
+    depends_on:
+      - keycloak
+      - rest-app
+      - configserver
+    network_mode: host
+
+  notification-app:
+    build: ./notification-app
+    image: docker-notification-app
+    container_name: notification-app
+    ports:
+      - 8099:8099
+    network_mode: host
 
   prometheus:
     image: prom/prometheus
