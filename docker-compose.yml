@@ -102,7 +102,7 @@ services:
     ports:
       - 8088:8088
     environment:
-      SPRING_PROFILES_ACTIVE: postgres, jpa
+      SPRING_PROFILES_ACTIVE: postgresql, jpa
       SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
       SPRING_CLOUD_CONFIG_FAIL_FAST: "${SPRING_CLOUD_CONFIG_FAIL_FAST}"
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:${PGPORT}/setlistOrganizer
