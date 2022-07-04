@@ -54,6 +54,25 @@
     <div class="container-fluid">
         <div class="d-grid justify-content-end">
 
+            <img src="../static/img/bell.svg"
+                 th:src="@{/img/bell.svg}" height="34" width="34" alt="bell" type="button" id="bellNotice">
+
+            <script>
+                var option= {
+                    animation :true,
+                    delay: 8000
+                }
+                    document.addEventListener("DOMContentLoaded", function(){
+                    var btn = document.getElementById("bellNotice")
+                    var e = document.getElementById("toastNotice");
+                    var toast = new bootstrap.Toast(e, option);
+                    btn.addEventListener("click", function(){
+                    toast.show();
+                    });
+                });
+                </script>
+        </div>
+
             <div id="loggedUser" class="dropdown text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -271,6 +290,19 @@
     </div>
 </div>
 
+<div th:fragment="notice">
+    <div class="toast-container" style="position: absolute; bottom: 70px; right: 10px;">
+        <div id="toastNotice" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto"><i class="bi bi-music-note-beamed"></i> Repertoire info</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div id="t-body" class="toast-body">
+                No messages.
+            </div>
+        </div>
+    </div>
+</div>
 
 <div th:fragment="footer">
     <span class="border-top"></span>

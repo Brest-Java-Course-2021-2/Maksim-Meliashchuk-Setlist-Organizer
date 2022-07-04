@@ -15,6 +15,7 @@
         <springdoc-openapi-maven-plugin.version>0.3</springdoc-openapi-maven-plugin.version>
         <springdoc-openapi-maven-plugin.apiDocsUrl>http://localhost:8088/v3/api-docs.yaml
         </springdoc-openapi-maven-plugin.apiDocsUrl>
+        <testcontainers.version>1.17.2</testcontainers.version>
     </properties>
 
     <dependencies>
@@ -22,6 +23,14 @@
         <dependency>
             <groupId>com.epam.brest</groupId>
             <artifactId>service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
         </dependency>
 
         <dependency>
@@ -58,6 +67,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -129,14 +144,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <wait>1000</wait>
+                    <maxAttempts>60</maxAttempts>
                     <profiles>
                         <profile>test</profile>
                         <profile>jdbc</profile>
+                        <profile>nokafka</profile>
                     </profiles>
                     <systemPropertyVariables>
                         <spring.cloud.config.fail-fast>false</spring.cloud.config.fail-fast>
                         <eureka.client.enabled>false</eureka.client.enabled>
+                        <spring.kafka.listener.missing-topics-fatal>false</spring.kafka.listener.missing-topics-fatal>
                     </systemPropertyVariables>
+                    <excludes>
+                        <exclude>
+                            <groupId>com.epam.brest</groupId>
+                            <artifactId>kafka</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>

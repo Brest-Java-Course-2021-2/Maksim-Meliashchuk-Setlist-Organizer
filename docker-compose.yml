@@ -2,6 +2,34 @@ version: "3"
 
 services:
 
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+
+  kafkaserver:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST_NAME}"
+      KAFKA_ADVERTISED_PORT: "${KAFKA_PORT}"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "notification:1:1:compact"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    depends_on:
+      - zookeeper
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - 1025:1025 # SMTP server ports
+      - 8025:8025 # Web UI ports
+
   postgres-keycloak:
     container_name: postgres-keycloak
     image: library/postgres
@@ -30,7 +58,7 @@ services:
     depends_on:
       - postgres-keycloak
     links:
-     - "postgres-keycloak:postgres-keycloak"
+      - "postgres-keycloak:postgres-keycloak"
 
   postgres:
     image: postgres:14
@@ -60,7 +88,7 @@ services:
     image: eurekaserver
     container_name: eurekaserver
     ports:
-      - 8070:8070
+      - 8761:8761
     environment:
       SPRING_CLOUD_CONFIG_FAIL_FAST: "${SPRING_CLOUD_CONFIG_FAIL_FAST}"
     depends_on:
@@ -74,7 +102,7 @@ services:
     ports:
       - 8088:8088
     environment:
-      SPRING_PROFILES_ACTIVE: postgres, jpa
+      SPRING_PROFILES_ACTIVE: postgresql, jpa
       SPRING_CLOUD_CONFIG_URI: "${SPRING_CLOUD_CONFIG_URI}"
       SPRING_CLOUD_CONFIG_FAIL_FAST: "${SPRING_CLOUD_CONFIG_FAIL_FAST}"
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:${PGPORT}/setlistOrganizer
@@ -84,10 +112,13 @@ services:
       KEYCLOAK_REALM_CERT_URL: "${KEYCLOAK_REALM_CERT_URL}"
       KEYCLOAK_REALM_ISSUER_URL: "${KEYCLOAK_REALM_ISSUER_URL}"
       KEYCLOAK_REALM_TOKEN_URL: "${KEYCLOAK_REALM_TOKEN_URL}"
+      KAFKA_HOST_NAME: "${KAFKA_HOST_NAME}"
+      KAFKA_PORT: "${KAFKA_PORT}"
     depends_on:
       - postgres
       - keycloak
       - configserver
+      - kafkaserver
     network_mode: host
 
   web-app:
@@ -108,22 +139,33 @@ services:
       - configserver
     network_mode: host
 
-  grafana:
-    build: ./rest-app/config
+  notification-app:
+    build: ./notification-app
+    image: docker-notification-app
+    container_name: notification-app
     ports:
-      - 3000:3000
-    volumes:
-      - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
-    environment:
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/var/lib/grafana/dashboards/jvm-micrometer_rev9.json"
+      - 8099:8099
     network_mode: host
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     user: root
     ports:
       - 9090:9090
     volumes:
       - ./rest-app/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
+    network_mode: host
+
+
+  grafana:
+    build: ./rest-app/config
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./rest-app/config/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+    environment:
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/var/lib/grafana/dashboards/jvm-micrometer_rev9.json"
     network_mode: host

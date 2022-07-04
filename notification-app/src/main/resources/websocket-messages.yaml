@@ -1,0 +1,6 @@
+websocket:
+  message:
+    track:
+      created: The track {0} of the {1} band has been created
+      updated: The track {0} of the {1} band has been updated
+      deleted: The track {0} of the {1} band has been deleted

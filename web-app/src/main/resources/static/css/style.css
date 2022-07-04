@@ -116,3 +116,8 @@ a:hover {
     right: 75px;
  }
 
+ #bellNotice {
+     position: fixed;
+     top: 128px;
+     right: 140px;
+  }

@@ -11,6 +11,7 @@
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6?action=collection%2Ffork&collection-url=entityId%3D18999675-2eae966d-2b48-4890-91ff-a0d7f181caa6%26entityType%3Dcollection%26workspaceId%3D56c614c7-7bb5-44fe-b171-746dba387b30)
 <img src="https://validator.swagger.io/validator?url=https://setlist-organizer-rest.herokuapp.com/v3/api-docs">
 ![Spring boot](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
+![Maven](https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 [![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black)](https://setlist-organizer-rest.herokuapp.com/swagger-ui/index.html)
 [![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://setlist-organizer-web.herokuapp.com/)
 
@@ -29,17 +30,14 @@
 - [Installation Information](#installation-information)
 - [Microservices](#microservices)
 - [Rest app configure](#rest-app-configure)
+- [Documenting a REST API](#documenting-a-rest-api)
 - [Web app configure](#web-app-configure)
 - [Security](#security)
-- [Run applications](#run-applications)
-- [Run application with PostgreSQL](#run-application-with-postgresql)
 - [Run with docker-compose](#run-with-docker-compose)
 - [Run mutation testing](#run-mutation-testing)
 - [Run load testing](#run-load-testing)
 - [Local tests with Postman](#local-tests-with-postman)
-- [Documenting a REST API](#documenting-a-rest-api)
 - [OpenAPI generated server](#openapi-generated-server)
-- [Swagger generated client](#swagger-generated-client)
 - [Excel Import and Export](#excel-import-and-export)
 - [Generate test data](#generate-test-data)
 - [Create and restore database archive](#create-and-restore-database-archive)
@@ -68,6 +66,10 @@ See the following sections in this README for up-to-date project information.</a
 
 ![Setlist Organizer Demo](documentation/RunningExample.gif)
 
+The gif below shows a real-time updating of bands page when the repertoire changes.
+
+![Setlist Organizer Demo](documentation/RunningExample2.gif)
+
 ## Applications Demo
 
 Applications deployed on [Heroku](https://heroku.com/) <a href="https://heroku.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/heroku/heroku-icon.svg" alt="heroku" width="25" height="25"/> </a>
@@ -94,12 +96,14 @@ API documentation with Swagger UI:
   - [Spring Cloud](https://spring.io/projects/spring-cloud) <img height="25" width="25" src="documentation/img/icons/springcloud.svg"/>
     - [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
     - [Spring Cloud](https://spring.io/projects/spring-cloud-netflix) <img height="10" width="40" src="documentation/img/icons/netflix.svg"/>
+    - [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)
 - **Data Access:** 
   - [Spring JDBC](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)
    <a href="https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#jdbc)" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="18" height="18"/> </a>
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
     <img height="20" width="20" src="documentation/img/icons/springdata.svg"/>
 - **Security:** [Spring Security](https://spring.io/projects/spring-security)  <img height="20" width="20" src="documentation/img/icons/springsecurity.svg"/>
+- **Message broker:** [Apache Kafka](https://kafka.apache.org/)  <img height="20" width="20" src="documentation/img/icons/apachekafka.svg"/>
 - **Identity Management:** [Keycloak](https://www.keycloak.org/) <img height="20" width="20" src="documentation/img/icons/keycloak.svg"/>
 - **Validation Framework:** [Hibernate Validator](https://hibernate.org/validator/) <img height="20" width="20" src="https://www.vectorlogo.zone/logos/hibernate/hibernate-icon.svg"/>
 - **Annotation processor:**
@@ -125,7 +129,7 @@ API documentation with Swagger UI:
 - **Database:** 
   - [H2](http://www.h2database.com/html/main.html) <img height="20" width="20" src="documentation/img/icons/h2.svg"/>
   - [PostgreSQL](https://www.postgresql.org/) <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="20" height="20"/> </a>
-- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="https://upload.vectorlogo.zone/logos/flywaydb/images/b336d129-8bbb-48b4-bed0-55ddd690cef4.svg" />
+- **Database migration tool:** [Flyway](https://flywaydb.org/) <img height="20" width="20" src="documentation/img/icons/flyway.svg"/>
 - **JSON library:** 
   - [Jackson](https://github.com/FasterXML/jackson)
   - [GSON](https://github.com/google/gson)
@@ -166,7 +170,7 @@ The specified versions are the tested ones.
 #### [Config server](/configserver)
 
 * Stores [configs](/configserver/src/main/resources/config)  of all microservices. A Spring Cloud [Config server](/configserver)
-can manage a services configuration information using a file system/ classpath 
+can manage a services configuration information using a file system/classpath 
 or GitHub-based [repository](/https://github.com/Maxxx873/setlist-organizer-configuration).
 
 #### [Service discovery server](/eurekaserver)
@@ -183,30 +187,43 @@ Clients that need to call a service will use Eureka to lookup the physical locat
 
 * A Spring Boot app (UI) that uses REST API. Uses Thymeleaf to render HTML pages and Bootstrap CSS framework.
 
+#### [Notification service](/notification-app)
+
+* A Spring Boot app that reads messages from `Kafka` and sends notifications to a `WEB` application using a `WebSocket`.
+
 ## Rest app configure
 
-Setup [rest-app](/rest-app) in [application.yaml](/rest-app/src/main/resources/application.yaml):
 
-| Profile    | Description                                                                    |
-|------------|--------------------------------------------------------------------------------|
-| *dev*      | Run application with embedded H2 database in memory                            |
-| *postgres* | Run application with PostgreSQL database                                       |
-| *test*     | Run application with embedded H2 database in memory, Flyway migration disabled |
-| *jdbc*     | Interact with a database by using Spring JDBC                                  |
-| *jpa*      | Interact with a database by using Spring Data JPA                              |
+| Profile    | Description                                                                         |
+|------------|-------------------------------------------------------------------------------------|
+| *dev*      | Run application with embedded H2 database in memory                                 |
+| *postgres* | Run application with PostgreSQL database                                            |
+| *test*     | Run application with embedded H2 database in memory, Flyway migration disabled      |
+| *jdbc*     | Interact with a database by using Spring JDBC                                       |
+| *jpa*      | Interact with a database by using Spring Data JPA                                   |
+| *nokafka*  | Creating an empty ProducerService to run the application without using Apache Kafka |
 
-Example:
-```
-spring.profiles.active=dev, jpa
-```
+## Documenting a REST API
+<img src="https://img.shields.io/badge/openapi-%236BA539.svg?&style=for-the-badge&logo=openapiinitiative&logoColor=black" />
+
+Using OpenAPI 3.0
+
+The OpenAPI descriptions in JSON format will be available at the path:
+[http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
+
+The [OpenAPI spec](./documentation/openapi.yaml) will be available at the path:
+[http://localhost:8088/v3/api-docs.yaml](http://localhost:8088/v3/api-docs.yaml)
+
+API documentation with Swagger UI:
+[http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)
+
+Click the `Authorize` button and log in as an example user (available usernames `admin1`, `user1`, password `123`) of the `setlist_organizer_client` client to test secured
+endpoints, the client is `public` so you don't need to fill the `client_secret` field.
 
 ## Web app configure
 
 The web application has three web client implementations for making HTTP calls to 
-REST application services - RestTemplate, a new WebClient alternative and automatically generated by the 
-[Swagger Codegen](https://github.com/swagger-api/swagger-codegen) client API - 
-[ApiClient](service-swagger-client/README.md).
-Setup web-app in [application.yaml](/web-app/src/main/resources/application.yaml).
+REST application services - RestTemplate, a WebClient alternative and automatically generated [ApiClient](service-swagger-client/README.md). 
 
 Using **RestTemplate** (is deprecated since Spring 5):
 ```bash
@@ -221,7 +238,11 @@ Using **ApiClient** ([OkHttpClient](https://square.github.io/okhttp/) and [GSON]
 app.httpClient = ApiClient
 ```
 
-**ApiClient** is a preferable choice.
+**ApiClient** is a preferable choice. This client API is automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
+[swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
+
+
+*Refer to the module [service-swagger-client](service-swagger-client/README.md) for more information.*
 
 :warning: _<sub>Note: this Web application has endpoints for using create and import Excel, XML, ZIP files, Security support with 
 the 'ApiClient' property only.</a>_ :warning:
@@ -256,30 +277,26 @@ For example users of this project:
 
 `admin1` has the `admin` realm role that is required to call the POST and DELETE.
 
-## Run applications
+## Run with docker-compose
+<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
 
-Embedded H2 in memory.
-
-:warning: _<sub>Note: before launching the applications with Security support, the `Keycloak` service must be started </a>_ :warning:
-
-In the root directory of the project:
+In the root directory of the project, run all microservices in one go:
 ```bash
-$ java -jar -Dspring.profiles.active=dev,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
+$ sudo docker-compose up --build
 ```
-To start the OpenAPI generated server:
-```bash
-$ java -jar -Dspring.profiles.active=dev,jpa rest-app-openapi/target/rest-app-openapi-1.0-SNAPSHOT.jar
-```
-The rest application will be accessible at [http://localhost:8088](http://localhost:8088).
-```bash
-$ java -jar web-app/target/web-app-1.0-SNAPSHOT.jar 
-```
-The web application will be accessible at [http://localhost:8080](http://localhost:8080).
+The `WEB` application will be accessible at [http://localhost:8080](http://localhost:8080)
 
-## Run application with PostgreSQL
+The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
+
+The `Notification` application will be accessible at [http://localhost:8099](http://localhost:8099)
+
+The `Config Server`will be accessible at [http://localhost:8071](http://localhost:8071)
+
+The `Service Discovery Server`will be accessible at [http://localhost:8761](http://localhost:8761)
+
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
 
-:warning: _<sub>Note: before launching the application with `PostgreSQL`, the `PostgreSQL` and the `Keycloak` service must be started </a>_ :warning:
+The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
 
 You can run the `PostgreSQL` container with the following commands in the root directory of the project:
 
@@ -292,43 +309,25 @@ PostgreSQL require(can be customized in application-postgres.yaml file in prod-d
 * `url` - jdbc:postgresql://localhost:5433/setlistOrganizer
 * `user` - postgres
 * `password` - password
-  
-Run rest-app with PostgreSQL:
-```bash
-$ java -jar -Dspring.profiles.active=postgres,jpa rest-app/target/rest-app-1.0-SNAPSHOT.jar
-```
-
-## Run with docker-compose
-<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
-
-In the root directory of the project, run the rest-app with monitoring and web-app in one go:
-```bash
-$ sudo docker-compose up --build
-```
-The `WEB` application will be accessible at [http://localhost:8080](http://localhost:8080)
-
-The `REST` application will be accessible at [http://localhost:8088](http://localhost:8088)
-
-The `PostgreSQL` database can be accessed in docker at: [http://localhost:5431](http://localhost:5431)
-
-The `Config Server`will be accessible at [http://localhost:8071](http://localhost:8071)
-
-The `Service Discovery Server`will be accessible at [http://localhost:8761](http://localhost:8761)
-
-`Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
 
 <img src="https://img.shields.io/badge/Prometheus-000000?style=for-the-badge&logo=prometheus&labelColor=000000"/>
 
 Access the `Prometheus` webUI on  [http://localhost:9090](http://localhost:9090)
 
+`Micrometer` by default shows jvm metrics at [http://localhost:8088/actuator/prometheus](http://localhost:8088/actuator/prometheus)
+
 <img src="https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9"/>
 
-Access the `Grafana` webUI with jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
+Access the `Grafana` webUI (log in as `admin`:`admin`) with configured `Prometheus` datasource and added jvm-micrometer dashboard on  [http://localhost:3000](http://localhost:3000)
 
 <img height="25" width="125" src="documentation/img/icons/keycloak_logo.svg"/>
 
 * Admin panel: [http://localhost:8484/auth](http://localhost:8484/auth) (log in as the Keycloak admin `admin:admin_password`)
 * As an admin you can see a list of users associated with the `setlist_organizer_realm` realm by clicking
+
+<img src="https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white"/>
+
+The `Kafka` is running at default [http://localhost:9090](http://localhost:9092), `Zookeeper`  is running at [http://localhost:2181](http://localhost:2181)
 
 To stop the containers:
 ```bash
@@ -382,47 +381,19 @@ To test the REST API, you can use the Postman collection to access the API endpo
 
 See the Postman [online documentation](https://learning.postman.com/docs/getting-started/installation-and-updates/).
 
-## Documenting a REST API
-
-Using OpenAPI 3.0
-
-The OpenAPI descriptions in JSON format will be available at the path: 
-[http://localhost:8088/v3/api-docs](http://localhost:8088/v3/api-docs)
-
-The [OpenAPI spec](./documentation/openapi.yaml) will be available at the path:
-[http://localhost:8088/v3/api-docs.yaml](http://localhost:8088/v3/api-docs.yaml)
-
-API documentation with Swagger UI: 
-[http://localhost:8088/swagger-ui/index.html](http://localhost:8088/swagger-ui/index.html)
-
-Click the `Authorize` button and log in as an example user of the `setlist_organizer_client` client to test secured
-endpoints, the client is `public` so you don't need to fill the `client_secret` field.
-
 ## OpenAPI generated server
-<img src="https://img.shields.io/badge/openapi-%236BA539.svg?&style=for-the-badge&logo=openapiinitiative&logoColor=black" />
+
+:warning: _<sub>Note: This application is deprecated. New features not included.</a>_ :warning:
 
 Automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project
 by using the [OpenAPI-Spec](https://openapis.org) and the [openapi-generator-maven-plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin/README.md).
+API Controllers generated automatically and implementation moved to delegates. 
 
 An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](./documentation/openapi.yaml)
 has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
 in the module [rest-app](rest-app).
 
 *Refer to the module [rest-app-openapi](rest-app-openapi/README.md) for more information.*
-
-:warning: _<sub>Note: Security not supported in rest-app-openapi app</a>_ :warning:
-
-## Swagger generated client
-<img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black"/>
-
-Automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) by using the
-[swagger-codegen-maven-plugin](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md).
-
-An OpenAPI document that conforms to the OpenAPI Specification [openapi.yaml](./documentation/openapi.yaml)
-has been generated automatically by using [springdoc-openapi-maven-plugin](https://github.com/springdoc/springdoc-openapi-maven-plugin)
-in the module [rest-app](rest-app).
-
-*Refer to the module [service-swagger-client](service-swagger-client/README.md) for more information.*
 
 ## Excel Import and Export
 <img src="https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white"/>

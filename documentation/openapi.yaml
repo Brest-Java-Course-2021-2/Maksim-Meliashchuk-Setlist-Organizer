@@ -36,8 +36,8 @@ paths:
       summary: Get information for all tracks based on their IDs
       operationId: tracks
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -48,8 +48,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -76,18 +76,18 @@ paths:
               $ref: '#/components/schemas/Track'
         required: true
       responses:
-        "404":
-          description: Trying to update a non-existent track
-          content: {}
-        "400":
-          description: Trying to update track with invalid fields
-          content: {}
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Trying to update track with invalid fields
+          content: {}
+        "404":
+          description: Trying to update a non-existent track
+          content: {}
         "200":
           description: Track(s) have been updated. Returns the number of tracks affected
           content:
@@ -109,8 +109,8 @@ paths:
               $ref: '#/components/schemas/Track'
         required: true
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -118,8 +118,8 @@ paths:
         "400":
           description: An attempt to create track with invalid fields
           content: {}
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -140,8 +140,8 @@ paths:
       summary: Get information for all bands based on their IDs
       operationId: bands
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -152,8 +152,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -180,14 +180,14 @@ paths:
               $ref: '#/components/schemas/Band'
         required: true
       responses:
-        "404":
-          description: Trying to update a non-existent band
+        "422":
+          description: An attempt to create a non-unique band
           content: {}
         "400":
           description: An attempt to create band with invalid fields
           content: {}
-        "422":
-          description: An attempt to create a non-unique band
+        "404":
+          description: Trying to update a non-existent band
           content: {}
         "200":
           description: Band(s) have been updated. Returns the number of bands affected
@@ -210,18 +210,18 @@ paths:
               $ref: '#/components/schemas/Band'
         required: true
       responses:
+        "422":
+          description: An attempt to create a non-unique band
+          content: {}
+        "400":
+          description: An attempt to create band with invalid fields
+          content: {}
         "404":
           description: Not Found
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        "400":
-          description: An attempt to create band with invalid fields
-          content: {}
-        "422":
-          description: An attempt to create a non-unique band
-          content: {}
         "200":
           description: Band have been created. Returns the ID of the new band
           content:
@@ -249,8 +249,8 @@ paths:
                   type: string
                   format: binary
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -261,8 +261,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -291,8 +291,8 @@ paths:
                   type: string
                   format: binary
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -303,8 +303,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -336,8 +336,8 @@ paths:
                   type: string
                   format: binary
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -348,8 +348,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -370,8 +370,8 @@ paths:
       summary: Get information for the API version
       operationId: version
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -382,8 +382,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -401,8 +401,8 @@ paths:
       summary: Get information for all tracks with their band names
       operationId: findAllTracksWithBandName
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -413,8 +413,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -450,8 +450,8 @@ paths:
           type: string
           default: EN
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -462,8 +462,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -485,8 +485,8 @@ paths:
       summary: Export information for all tracks with their band names to Excel
       operationId: exportToExcelAllTracksWithBandName
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -497,8 +497,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -526,21 +526,21 @@ paths:
           type: integer
           format: int32
       responses:
-        "404":
-          description: Trying to get a non-existent track
-          content: {}
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                type: object
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Trying to get a non-existent track
+          content: {}
         "200":
           description: A track
           content:
@@ -562,21 +562,21 @@ paths:
           type: integer
           format: int32
       responses:
-        "404":
-          description: Trying to delete a non-existent track
-          content: {}
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                type: object
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Trying to delete a non-existent track
+          content: {}
         "200":
           description: Track(s) have been removed. Returns the number of tracks affected
           content:
@@ -607,8 +607,8 @@ paths:
           type: string
           format: date
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -619,8 +619,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -649,18 +649,18 @@ paths:
           type: integer
           format: int32
       responses:
-        "404":
-          description: Band not found
-          content: {}
-        "400":
-          description: Invalid band id supplied
-          content: {}
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Invalid band id supplied
+          content: {}
+        "404":
+          description: Band not found
+          content: {}
         "200":
           description: A set of tracks
           content:
@@ -692,8 +692,8 @@ paths:
           type: string
           default: EN
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -704,8 +704,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -727,8 +727,8 @@ paths:
       summary: Export information for all tracks based on their IDs to XML
       operationId: exportToXmlAlTracks
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -739,8 +739,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -761,8 +761,8 @@ paths:
       summary: Export information for all tracks based on their IDs to Excel
       operationId: exportToExcelAllTracks
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -773,8 +773,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -795,8 +795,8 @@ paths:
       summary: Exporting the database as XML and stored as ZIP archive
       operationId: downloadZipFile
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -807,8 +807,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -830,8 +830,8 @@ paths:
         count
       operationId: bandsDto
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -842,8 +842,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -879,8 +879,8 @@ paths:
           type: string
           default: EN
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -891,8 +891,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -915,8 +915,8 @@ paths:
         track count to Excel
       operationId: exportToExcelAllBandsDto
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -927,8 +927,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -956,21 +956,21 @@ paths:
           type: integer
           format: int32
       responses:
-        "404":
-          description: Trying to get a non-existent band
-          content: {}
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                type: object
         "422":
           description: Unprocessable Entity
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Trying to get a non-existent band
+          content: {}
         "200":
           description: A band
           content:
@@ -992,8 +992,8 @@ paths:
           type: integer
           format: int32
       responses:
-        "404":
-          description: Trying to delete a non-existent band
+        "422":
+          description: Attempting to delete a band with linked tracks
           content: {}
         "400":
           description: Bad Request
@@ -1001,8 +1001,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Attempting to delete a band with linked tracks
+        "404":
+          description: Trying to delete a non-existent band
           content: {}
         "200":
           description: Band(s) have been removed. Returns the number of bands affected
@@ -1034,8 +1034,8 @@ paths:
           type: string
           default: EN
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -1046,8 +1046,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -1069,8 +1069,8 @@ paths:
       summary: Export information for all bands based on their IDs to XML
       operationId: exportToXmlAllBands
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -1081,8 +1081,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:
@@ -1103,8 +1103,8 @@ paths:
       summary: Export information for all bands based on their IDs to Excel
       operationId: exportToExcelAllBands
       responses:
-        "404":
-          description: Not Found
+        "422":
+          description: Unprocessable Entity
           content:
             '*/*':
               schema:
@@ -1115,8 +1115,8 @@ paths:
             '*/*':
               schema:
                 type: object
-        "422":
-          description: Unprocessable Entity
+        "404":
+          description: Not Found
           content:
             '*/*':
               schema:

@@ -1,6 +1,3 @@
-example:
-  property: example property heroku
-
 app:
   httpClient: ApiClient
 

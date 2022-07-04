@@ -8,8 +8,11 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/action-functions.js}"></script>
+    <script type="text/javascript" th:src="@{/js/time-functions.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <link rel="stylesheet" href="../static/css/style.css"
           th:href="@{/css/style.css}">
     <title>Setlist Organizer</title>
@@ -21,92 +24,91 @@
     <div th:insert="layouts :: offcanvas"></div>
 </div>
 
+<div id="reloadable-content">
+    <form class="form-group" th:action="@{/repertoire/band}">
+        <div class="main">
+            <div class="container">
+                <div class="row mb-3 mt-3">
+                    <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
+                        <div class="col-auto px-1">
+                            <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
+                        </div>
 
-<form class="form-group" th:action="@{/repertoire/band}">
-    <div class="main">
-        <div class="container">
-            <div class="row mb-3 mt-3">
-                <div class="row gap-6 d-flex justify-content-end d-flex align-items-center">
-
-                    <div class="col-auto px-1">
-                        <span class="fs-6 px-1" th:text="'Track count: ' + ${tracksCount}">Track count: 1</span>
-                    </div>
-
-                    <div class="col-auto px-1">
-                        <span class="fs-6">Total duration:</span>
-                        <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
-                    </div>
-
-                    <div class="col-auto px-1 d-flex justify-content-end">
-                        <div class="d-flex align-content-end flex-wrap">
-                            <strong>
-                                <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark"
-                                   role="button">
-                                    <i class="bi bi-file-earmark-excel"></i> | Export</a>
-                                <a href="band.html" th:href="@{/track}" class="btn btn-dark" role="button">
-                                    <i class="bi bi-plus-square"></i> | Add</a>
-                            </strong>
+                        <div class="col-auto px-1">
+                            <span class="fs-6">Total duration:</span>
+                            <span name="timeDuration" class="fs-6 px-1 " th:text="${tracksDuration}">1</span>
+                        </div>
+                        <div class="col-auto px-1 d-flex justify-content-end">
+                            <div class="d-flex align-content-end flex-wrap">
+                                <strong>
+                                    <a href="track.html" th:href="@{/repertoire/export/excel}" class="btn btn-dark"
+                                       role="button">
+                                        <i class="bi bi-file-earmark-excel"></i> | Export</a>
+                                    <a href="band.html" th:href="@{/track}" class="btn btn-dark" role="button">
+                                        <i class="bi bi-plus-square"></i> | Add</a>
+                                </strong>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<div class="container">
-    <div class="d-grid gap-3">
-        <div id="card" class="p-2 bg-light border p-2" th:each="track: ${tracks}">
-            <div class="row align-items-center">
 
-                <div class="col-7 col-lg-2 text-break">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src="../static/img/music.svg" th:src="@{/img/music.svg}" height="25" width="25"
-                                 alt="music">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <strong>
-                                <p th:text="${track.trackName}">My track</p>
-                            </strong>
-                            <p th:text="${track.trackBandName}">My band</p>
-                            <small>
-                                <span name="timeDuration" th:text="${track.trackDuration}">00:15:15</span>
-                                <span th:text="${track.trackTempo} != null ? ' &#8901; ' + ${track.trackTempo} + ' bpm'">120 bpm</span>
-                            </small>
+    <div class="container">
+        <div class="d-grid gap-3">
+            <div id="card" class="p-2 bg-light border p-2" th:each="track: ${tracks}">
+                <div class="row align-items-center">
+
+                    <div class="col-7 col-lg-2 text-break">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <img src="../static/img/music.svg" th:src="@{/img/music.svg}" height="25" width="25"
+                                     alt="music">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <strong>
+                                    <p th:text="${track.trackName}">My track</p>
+                                </strong>
+                                <p th:text="${track.trackBandName}">My band</p>
+                                <small>
+                                    <span name="timeDuration" th:text="${track.trackDuration}">00:15:15</span>
+                                    <span th:text="${track.trackTempo} != null ? ' &#8901; ' + ${track.trackTempo} + ' bpm'">120 bpm</span>
+                                </small>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-5 col-lg-2">
-                    <div class="d-flex justify-content-center">
-                        <p class="p-1" name="releaseDate" th:text="${track.trackReleaseDate}">2020-03-20</p>
+                    <div class="col-5 col-lg-2">
+                        <div class="d-flex justify-content-center">
+                            <p class="p-1" name="releaseDate" th:text="${track.trackReleaseDate}">2020-03-20</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-12 col-lg-3">
-                    <p class="p-2 text-break" th:text="${track.trackDetails}">super track1</p>
-                </div>
+                    <div class="col-12 col-lg-3">
+                        <p class="p-2 text-break" th:text="${track.trackDetails}">super track1</p>
+                    </div>
 
-                <div class="col-12 col-lg-3">
-                    <a th:href="${track.trackLink}" class="link-primary">
-                        <p class="p-1 text-break" th:text="${track.trackLink}">Link1</p>
-                    </a>
-                </div>
+                    <div class="col-12 col-lg-3">
+                        <a th:href="${track.trackLink}" class="link-primary">
+                            <p class="p-1 text-break" th:text="${track.trackLink}">Link1</p>
+                        </a>
+                    </div>
 
-                <div class="col col-sm col-lg col-xl-2">
-                    <div class="d-flex justify-content-end">
+                    <div class="col col-sm col-lg col-xl-2">
+                        <div class="d-flex justify-content-end">
 
-                        <a href="track.html"
-                           th:href="@{|/track/${track.trackId}|}"
-                           class="btn-sm btn-outline-secondary"
-                           title="Edit track">
-                            <img src="../static/img/edit.svg" th:src="@{/img/edit.svg}" height="20" width="20"
-                                 alt="Band edit">
-                            <span class="d-none d-md-inline">Edit</span></a>
+                            <a href="track.html"
+                               th:href="@{|/track/${track.trackId}|}"
+                               class="btn-sm btn-outline-secondary"
+                               title="Edit track">
+                                <img src="../static/img/edit.svg" th:src="@{/img/edit.svg}" height="20" width="20"
+                                     alt="Band edit">
+                                <span class="d-none d-md-inline">Edit</span></a>
 
-                        <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
-                              th:attr="data-id=${track.trackId},data-name=${track.trackName}">
+                            <span data-bs-toggle="modal" data-bs-target="#deleteDialog"
+                                  th:attr="data-id=${track.trackId},data-name=${track.trackName}">
                                     <a href="#" class="btn-sm btn-outline-secondary" title="Delete track">
                                         <img src="../static/img/delete.svg" th:src="@{/img/delete.svg}" height="20"
                                              width="20"
@@ -114,14 +116,14 @@
                                         <span class="d-none d-md-inline">Delete</span>
                                     </a>
                         </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -143,7 +145,7 @@
     </div>
 </div>
 
-
+<div th:insert="layouts :: notice"></div>
 <div th:insert="layouts :: footer"></div>
 
 <script>
@@ -153,12 +155,10 @@
         document.getElementById('deleteUrl').href = '/track/' + target.data('id') + '/delete';
     })
 
-        window.onload = function(){
-        secondsToTime();
-        dateFormat();
+    window.onload = function(){
+            secondsToTime();
+            dateFormat();
     }
-
-
 
 </script>
 

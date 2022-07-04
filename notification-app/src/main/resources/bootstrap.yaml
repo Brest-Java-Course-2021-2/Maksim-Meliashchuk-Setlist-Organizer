@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: notification-service
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_URI:http://localhost:8071}
+      fail-fast: ${SPRING_CLOUD_CONFIG_FAIL_FAST:true}
+      retry:
+        initial-interval: 1000
+        max-attempts: 10
+        max-interval: 3000
+        multiplier: 1.1
